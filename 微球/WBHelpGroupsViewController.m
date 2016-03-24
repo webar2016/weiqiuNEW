@@ -45,20 +45,6 @@
     [self setUpNavgationItem];
     [self initVcArr];
     [self initPageVc];
-<<<<<<< HEAD
-  }
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    int unread = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]];
-    if (unread == 0) {
-        _tip.hidden = YES;
-    }else{
-        _tip.hidden = NO;
-    }
-}
-
-=======
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(unReadTip:)
@@ -66,7 +52,6 @@
                                                object:nil];
   }
 
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 -(void)popBack{
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -170,8 +155,6 @@
     
 }
 
-<<<<<<< HEAD
-=======
 #pragma mark - 小红点提醒
 
 -(void)unReadTip:(NSNotification*)sender{
@@ -184,6 +167,5 @@
         }
     });
 }
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 
 @end

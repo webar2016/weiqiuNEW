@@ -8,14 +8,10 @@
 
 #import "WBIndividualIncomeViewController.h"
 #import <StoreKit/StoreKit.h>
-<<<<<<< HEAD
 #import "MyDownLoadManager.h"
 
 @interface WBIndividualIncomeViewController ()<SKProductsRequestDelegate,SKPaymentTransactionObserver>
-=======
 
-@interface WBIndividualIncomeViewController ()<SKProductsRequestDelegate>
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 {
     UILabel *_moneyLabel;
     UILabel *_scorelabel;
@@ -140,12 +136,9 @@
 #pragma mark --------应用内支付------------
 // 下面的ProductId应该是事先在itunesConnect中添加好的，已存在的付费项目。否则查询会失败。
 - (void)getProductInfo {
-<<<<<<< HEAD
     NSArray *product = [[NSArray alloc] initWithObjects:@"qiupiao_ID", nil];//qiupiao_ID
     NSSet * set = [NSSet setWithArray:product];
-=======
     NSSet * set = [NSSet setWithArray:@[@"ProductId"]];
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     SKProductsRequest * request = [[SKProductsRequest alloc] initWithProductIdentifiers:set];
     request.delegate = self;
     [request start];
@@ -195,18 +188,16 @@
     NSString * productIdentifier = transaction.payment.productIdentifier;
     NSString * receipt = [transaction.transactionReceipt base64EncodedStringWithOptions:0];
     if ([productIdentifier length] > 0) {
-<<<<<<< HEAD
+
         NSDictionary *dic = @{@"receipt":receipt,@"userId":[WBUserDefaults userId]};
-                [MyDownLoadManager postUrl:@"http://121.40.132.44:92/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
-                    
+                [MyDownLoadManager postUrl:@"http://121.40.132.44:92/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {        
                 } andSuccess:^(id representData) {
                     NSLog(@"------success-----");
                 } andFailure:^(NSString *error) {
                     NSLog(@"------failure-----");
                 }];
-=======
+
         // 向自己的服务器验证购买凭证
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     }
     // Remove the transaction from the payment queue.
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];

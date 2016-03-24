@@ -14,10 +14,7 @@
 #import "WBCollectionViewModel.h"
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
-<<<<<<< HEAD
-=======
 #import <RongIMLib/RCIMClient.h>
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 
 #define MEMBER_ICON @"http://121.40.132.44:92/hg/hgUsers?groupId=%d"
 #define GROUP_DETAIL @"http://121.40.132.44:92/hg/oneHG?groupId=%d"
@@ -121,11 +118,7 @@
         return 241;
     }
     if (indexPath.section == 2) {
-<<<<<<< HEAD
-        return 81;
-=======
         return 40;
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     }
     if (indexPath.section == 3) {
         return 70;
@@ -204,14 +197,6 @@
 }
 
 -(void)messagePush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
-<<<<<<< HEAD
-    NSLog(@"messagePush");
-}
-
--(void)QAPush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
-    NSLog(@"QAPush");
-}
-=======
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     BOOL push;
     data[@"userId"] = @"29";
@@ -241,6 +226,5 @@
 //-(void)QAPush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
 //    NSLog(@"QAPush");
 //}
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 
 @end

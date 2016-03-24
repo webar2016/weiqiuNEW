@@ -26,11 +26,8 @@
 
 @property (nonatomic, strong) CreateHelpGroupViewController *createHelpGroupViewController;
 
-<<<<<<< HEAD
-=======
 @property (nonatomic, strong) UIView *badgeView;
 
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 @end
 
 @implementation WBMainTabBarController
@@ -39,10 +36,7 @@
     [super viewDidLoad];
     self.delegate = self;
     self.isGroup = NO;
-<<<<<<< HEAD
-=======
     
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     //发现界面
     WBFindViewController *findController = [[WBFindViewController alloc] init];
     WBNavigationController *findNavController = [[WBNavigationController alloc]initWithRootViewController:findController];
@@ -75,20 +69,6 @@
     bgView.backgroundColor = [UIColor initWithLightGray];
     [self.tabBar insertSubview:bgView atIndex:0];
     
-<<<<<<< HEAD
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(unReadTip:)
-                                                 name:@"unReadTip"
-                                               object:nil];
-}
-
--(void)unReadTip:(NSNotification*)sender{
-    if ([sender.userInfo[@"unReadGroup"] isEqualToString:@"0"]) {
-        self.tabBar.items[2].badgeValue = nil;
-    }else{
-        self.tabBar.items[2].badgeValue = sender.userInfo[@"unReadGroup"];
-    }
-=======
     //提示小红点
     self.badgeView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.88, 5, 6, 6)];
     self.badgeView.layer.masksToBounds = YES;
@@ -112,7 +92,6 @@
             __weakSelf.badgeView.hidden = YES;
         }
     });
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 }
 
 #pragma mark - 设置tabbaritem

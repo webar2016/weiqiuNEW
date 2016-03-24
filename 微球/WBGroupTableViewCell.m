@@ -93,10 +93,7 @@
 }
 
 -(void)setDataModel:(RCConversationModel *)model{
-<<<<<<< HEAD
-=======
     [super setDataModel:model];
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     [_iconsView sd_setImageWithURL:((WBMyGroupModel *)model.extend).dir placeholderImage:[UIImage imageNamed:@"placeholder-17"]];
     _groupName.text = model.conversationTitle;
     if (_isMaster) {

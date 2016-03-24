@@ -11,11 +11,7 @@
 #import "WBHomepageViewController.h"
 #import "WBGuessViewController.h"
 #import "CreateHelpGroupViewController.h"
-<<<<<<< HEAD
-#import "WBSettingTableViewController.h"
-=======
 #import "WBSettingViewController.h"
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 #import "WBIndividualIncomeViewController.h"
 
 
@@ -186,12 +182,7 @@
         }
             
         case 3:{
-<<<<<<< HEAD
-            WBSettingTableViewController *settingVC = [[WBSettingTableViewController alloc] init];
-            settingVC.view.backgroundColor = [UIColor yellowColor];
-=======
             WBSettingViewController *settingVC = [[WBSettingViewController alloc] init];
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
             settingVC.hidesBottomBarWhenPushed = YES;
             [self pushViewControllerWithController:settingVC];
             break;

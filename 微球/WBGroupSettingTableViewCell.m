@@ -21,11 +21,7 @@
     UILabel         *_totalScore;
     
     UISwitch        *_messagePush;
-<<<<<<< HEAD
-    UISwitch        *_QAPush;
-=======
 //    UISwitch        *_QAPush;
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     
     UIView          *_cutLine;
     
@@ -132,27 +128,11 @@
 }
 
 -(void)setUpPushChoice{
-<<<<<<< HEAD
-    UIView *pushWraper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 81)];
-=======
     UIView *pushWraper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 40)];
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     
     UILabel *messagePush = [[UILabel alloc] initWithFrame:CGRectMake(22, 13, 70, 14)];
     messagePush.font = MAINFONTSIZE;
     messagePush.textColor = [UIColor initWithNormalGray];
-<<<<<<< HEAD
-    messagePush.text = @"消息推送";
-    
-    UILabel *QAPush= [[UILabel alloc] initWithFrame:CGRectMake(22, 54, 70, 14)];
-    QAPush.font = MAINFONTSIZE;
-    QAPush.textColor = [UIColor initWithNormalGray];
-    if (self.isMaster) {
-        QAPush.text = @"答案推送";
-    }else{
-        QAPush.text = @"问题推送";
-    }
-=======
     messagePush.text = @"消息免打扰";
     
 //    UILabel *QAPush= [[UILabel alloc] initWithFrame:CGRectMake(22, 54, 70, 14)];
@@ -163,30 +143,11 @@
 //    }else{
 //        QAPush.text = @"问题推送";
 //    }
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     
     _messagePush = [[UISwitch alloc] init];
     _messagePush.center = CGPointMake(SCREENWIDTH - 45, 20);
     _messagePush.onTintColor = [UIColor initWithGreen];
     [_messagePush addTarget:self action:@selector(messagePush) forControlEvents:UIControlEventValueChanged];
-<<<<<<< HEAD
-    _messagePush.on = YES;
-    
-    _QAPush = [[UISwitch alloc] init];
-    _QAPush.center = CGPointMake(SCREENWIDTH - 45, 61);
-    _QAPush.onTintColor = [UIColor initWithGreen];
-    [_QAPush addTarget:self action:@selector(QAPush) forControlEvents:UIControlEventValueChanged];
-    _QAPush.on = YES;
-    if (!_isPush) {
-        _QAPush.on = NO;
-    }
-    _cutLine.frame = CGRectMake(10, 41, SCREENWIDTH - 10, 1);
-    
-    [pushWraper addSubview:messagePush];
-    [pushWraper addSubview:QAPush];
-    [pushWraper addSubview:_messagePush];
-    [pushWraper addSubview:_QAPush];
-=======
     
     if (!_isPush) {
         _messagePush.on = NO;
@@ -208,7 +169,6 @@
 //    [pushWraper addSubview:QAPush];
     [pushWraper addSubview:_messagePush];
 //    [pushWraper addSubview:_QAPush];
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     [pushWraper addSubview:_cutLine];
     [self addSubview:pushWraper];
 }
@@ -263,19 +223,11 @@
     }
 }
 
-<<<<<<< HEAD
--(void)QAPush{
-    if (_delegate && [_delegate respondsToSelector:@selector(QAPush:isOn:)]) {
-            [_delegate QAPush:self isOn:_QAPush.on];
-    }
-}
-=======
 //-(void)QAPush{
 //    if (_delegate && [_delegate respondsToSelector:@selector(QAPush:isOn:)]) {
 //            [_delegate QAPush:self isOn:_QAPush.on];
 //    }
 //}
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 
 
 @end

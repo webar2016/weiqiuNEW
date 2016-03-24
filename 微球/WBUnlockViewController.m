@@ -21,11 +21,7 @@
     UIDatePicker    *_datePicker;
     UIView          *_datePickerView;
     
-<<<<<<< HEAD
-    CGFloat         _imageScale;
-=======
     NSNumber        *_imageScale;
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     NSData          *_fileData;
     NSString        *_imageName;
     
@@ -167,12 +163,8 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
     
-<<<<<<< HEAD
-    _imageScale = image.size.height / image.size.width;
-=======
     CGFloat scale = image.size.height / image.size.width;
     _imageScale = [NSNumber numberWithFloat:scale];
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
     _imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
@@ -180,13 +172,8 @@
     
     [picker dismissViewControllerAnimated:YES completion:^{
         [_imagePicker setBackgroundImage:image forState:UIControlStateNormal];
-<<<<<<< HEAD
-        _imagePicker.frame = CGRectMake(SCREENWIDTH / 2 - 145, 500, 290, 290 * _imageScale);
-        _tip.frame = CGRectMake(SCREENWIDTH / 2 - 50, 510 + 290 * _imageScale, 100, 16);
-=======
         _imagePicker.frame = CGRectMake(SCREENWIDTH / 2 - 145, 500, 290, 290 * scale);
         _tip.frame = CGRectMake(SCREENWIDTH / 2 - 50, 510 + 290 * scale, 100, 16);
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
         CGFloat maxHegiht = CGRectGetMaxY(_tip.frame);
         
         _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 80);
@@ -220,10 +207,7 @@
     data[@"provinceId"] = self.provinceId;
     data[@"cityId"] = self.cityId;
     data[@"content"] = _contentview.text;
-<<<<<<< HEAD
-=======
     data[@"imgRate"] = _imageScale;
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     
     [MyDownLoadManager postUrl:UNLOCK_URL withParameters:data fileData:_fileData name:_imageName fileName:_imageName mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
         

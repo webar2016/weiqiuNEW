@@ -15,11 +15,7 @@
 
 @required
 
-<<<<<<< HEAD
-- (void)QAPush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL) isOn;
-=======
 //- (void)QAPush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL) isOn;
->>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 - (void)messagePush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL) isOn;
 
 - (void)quitGroup:(WBGroupSettingTableViewCell *)cell;
