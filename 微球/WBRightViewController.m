@@ -44,10 +44,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
 }
 
-- (void)didTapCellPortrait:(RCConversationModel *)model{
-    
-}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.sideMenuViewController hideMenuViewController];
     [self onSelectedTableRow:RC_CONVERSATION_MODEL_TYPE_NORMAL

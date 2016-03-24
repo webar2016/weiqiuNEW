@@ -137,8 +137,7 @@
 // 下面的ProductId应该是事先在itunesConnect中添加好的，已存在的付费项目。否则查询会失败。
 - (void)getProductInfo {
     NSArray *product = [[NSArray alloc] initWithObjects:@"qiupiao_ID", nil];//qiupiao_ID
-    NSSet * set = [NSSet setWithArray:product];
-    NSSet * set = [NSSet setWithArray:@[@"ProductId"]];
+    NSSet *set = [NSSet setWithArray:@[@"ProductId"]];
     SKProductsRequest * request = [[SKProductsRequest alloc] initWithProductIdentifiers:set];
     request.delegate = self;
     [request start];

@@ -105,6 +105,10 @@
     
 }
 
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return NO;
+}
+
 - (CGFloat)rcConversationListTableView:(UITableView *)tableView
                heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 67.0f;

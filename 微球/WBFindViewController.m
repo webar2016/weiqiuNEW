@@ -70,6 +70,7 @@
     _tip.backgroundColor = [UIColor redColor];
     _tip.layer.masksToBounds = YES;
     _tip.layer.cornerRadius = 3;
+    _tip.hidden = YES;
     [rightBarButton addSubview:_tip];
     [rightBarButton addTarget:self action:@selector(presentRightMenuViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBarButton];

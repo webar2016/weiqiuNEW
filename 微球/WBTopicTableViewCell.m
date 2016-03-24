@@ -48,7 +48,7 @@
         [_rightImageView setImage:[UIImage imageNamed:@"icon_topic.png"]];
         [_backgroungImage addSubview:_rightImageView];
         
-        
+        self.contentView.backgroundColor = [UIColor initWithBackgroundGray];
     }
     return self;
 }
