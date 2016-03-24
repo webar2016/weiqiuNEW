@@ -1,0 +1,228 @@
+//
+//  WBUnlockViewController.m
+//  微球
+//
+//  Created by 徐亮 on 16/3/9.
+//  Copyright © 2016年 weiqiuwang. All rights reserved.
+//
+
+#import "WBUnlockViewController.h"
+#import "MyDownLoadManager.h"
+
+#define UNLOCK_URL @"http://121.40.132.44:92/album/unlockApplication"
+
+@interface WBUnlockViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
+    UIScrollView *_scrollView;
+    UILabel         *_unlockInfo;
+    UIButton        *_imagePicker;
+    UITextView      *_contentview;
+    UIButton        *_dateButton;
+    UILabel         *_tip;
+    UIDatePicker    *_datePicker;
+    UIView          *_datePickerView;
+    
+    NSNumber        *_imageScale;
+    NSData          *_fileData;
+    NSString        *_imageName;
+    
+    UIImagePickerController *_imagePickerController;
+}
+
+@end
+
+@implementation WBUnlockViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor initWithBackgroundGray];
+    self.navigationItem.title = @"上传照片";
+    UIButton *rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBtton.frame = CGRectMake(0, 0, 48, 22) ;
+    rightBtton.backgroundColor = [UIColor initWithGreen];
+    rightBtton.titleLabel.font = MAINFONTSIZE;
+    rightBtton.layer.cornerRadius = 5;
+    [rightBtton setTitle:@"确认" forState:UIControlStateNormal];
+    [rightBtton addTarget:self action:@selector(unlockCity) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]initWithCustomView:rightBtton];
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    
+    [self setUpUI];
+    [self setUpDatePicker];
+    [self setUpImagePicker];
+    
+}
+
+-(void)setUpUI{
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    [self.view addSubview:_scrollView];
+    
+    UILabel *titleOne = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 44, 64, 16)];
+    titleOne.font = FONTSIZE16;
+    titleOne.textColor = [UIColor initWithNormalGray];
+    titleOne.text = @"解锁城市";
+    
+    _unlockInfo = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 80, 290, 60)];
+    _unlockInfo.backgroundColor = [UIColor whiteColor];
+    _unlockInfo.textColor = [UIColor initWithNormalGray];
+    _unlockInfo.font = FONTSIZE16;
+    _unlockInfo.textAlignment = NSTextAlignmentCenter;
+    _unlockInfo.text = self.cityName;
+    
+    UILabel *titleTwo = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 184, 64, 16)];
+    titleTwo.font = FONTSIZE16;
+    titleTwo.textColor = [UIColor initWithNormalGray];
+    titleTwo.text = @"拍摄时间";
+    
+    _dateButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 220, 290, 60)];
+    _dateButton.backgroundColor = [UIColor initWithNormalGray];
+    _dateButton.titleLabel.font = FONTSIZE16;
+    [_dateButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_dateButton setTitle:@"请选择" forState:UIControlStateNormal];
+    [_dateButton addTarget:self action:@selector(showDatePicker) forControlEvents:UIControlEventTouchUpInside];
+    
+    UILabel *titleThree = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 324, 96, 16)];
+    titleThree.font = FONTSIZE16;
+    titleThree.textColor = [UIColor initWithNormalGray];
+    titleThree.text = @"说些什么";
+    
+    UILabel *tip = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 + 32, 328, 48, 12)];
+    tip.textAlignment = NSTextAlignmentCenter;
+    tip.textColor = [UIColor initWithNormalGray];
+    tip.font = FONTSIZE12;
+    tip.text = @"（选填）";
+    
+    _contentview = [[UITextView alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 360, 290, 60)];
+    _contentview.backgroundColor = [UIColor whiteColor];
+    _contentview.font = FONTSIZE16;
+    _contentview.textColor = [UIColor initWithNormalGray];
+    
+    UILabel *titleFour = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 464, 64, 16)];
+    titleFour.font = FONTSIZE16;
+    titleFour.textColor = [UIColor initWithNormalGray];
+    titleFour.text = @"上传照片";
+    
+    _imagePicker = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 500, 290, 60)];
+    [_imagePicker setBackgroundImage:[UIImage imageNamed:@"btn_uploadimg"] forState:UIControlStateNormal];
+    [_imagePicker addTarget:self action:@selector(imagePicker) forControlEvents:UIControlEventTouchUpInside];
+    
+    _tip = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 50, 570, 100, 16)];
+    _tip.font = FONTSIZE12;
+    _tip.textColor = [UIColor initWithNormalGray];
+    _tip.textAlignment = NSTextAlignmentCenter;
+    _tip.text = @"24小时认证解锁";
+    
+    [_scrollView addSubview:titleOne];
+    [_scrollView addSubview:_unlockInfo];
+    [_scrollView addSubview:titleTwo];
+    [_scrollView addSubview:_dateButton];
+    [_scrollView addSubview:titleThree];
+    [_scrollView addSubview:tip];
+    [_scrollView addSubview:_contentview];
+    [_scrollView addSubview:titleFour];
+    [_scrollView addSubview:_imagePicker];
+    [_scrollView addSubview:_tip];
+    
+    CGFloat maxHegiht = CGRectGetMaxY(_tip.frame);
+    
+    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 80);
+}
+
+-(void)setUpImagePicker{
+    _imagePickerController = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.allowsEditing = YES;
+}
+
+-(void)setUpDatePicker{
+    _datePickerView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT / 3 * 2, SCREENWIDTH, SCREENHEIGHT / 3)];
+    _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 40, SCREENWIDTH, SCREENHEIGHT / 3 - 40)];
+    _datePicker.datePickerMode = UIDatePickerModeDate;
+    _datePicker.backgroundColor = [UIColor whiteColor];
+    _datePicker.maximumDate = [[NSDate alloc] init];
+    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 40)];
+    toolBar.backgroundColor = [UIColor initWithLightGray];
+    UIBarButtonItem *ensureButton = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStylePlain target:self action:@selector(ensureDatePicker)];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelDatePicker)];
+    UIBarButtonItem *flexibleButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    ensureButton.tintColor = [UIColor whiteColor];
+    toolBar.items = @[flexibleButton,cancelButton,ensureButton];
+    _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 7);
+    [_datePickerView addSubview:toolBar];
+    [_datePickerView addSubview:_datePicker];
+    [self.view addSubview:_datePickerView];
+}
+
+-(void)imagePicker{
+    _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    [self presentViewController:_imagePickerController animated:YES completion:nil];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    
+    CGFloat scale = image.size.height / image.size.width;
+    _imageScale = [NSNumber numberWithFloat:scale];
+    NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
+    NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
+    _imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
+    _fileData = UIImageJPEGRepresentation(image, 1.0);
+    
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [_imagePicker setBackgroundImage:image forState:UIControlStateNormal];
+        _imagePicker.frame = CGRectMake(SCREENWIDTH / 2 - 145, 500, 290, 290 * scale);
+        _tip.frame = CGRectMake(SCREENWIDTH / 2 - 50, 510 + 290 * scale, 100, 16);
+        CGFloat maxHegiht = CGRectGetMaxY(_tip.frame);
+        
+        _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 80);
+    }];
+}
+
+-(void)ensureDatePicker{
+    NSDateFormatter *dateformatter = [[NSDateFormatter alloc]init];
+    [dateformatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *date = [dateformatter stringFromDate:_datePicker.date];
+    [_dateButton setTitle:date forState:UIControlStateNormal];
+    [self cancelDatePicker];
+}
+
+-(void)cancelDatePicker{
+    [UIView animateWithDuration:0.3 animations:^{
+        _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 7);
+    }];
+}
+
+-(void)showDatePicker{
+    [UIView animateWithDuration:0.3 animations:^{
+        _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4.4);
+    }];
+}
+
+-(void)unlockCity{
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    data[@"userId"] = @"29";
+    data[@"photoDate"] = _dateButton.currentTitle;
+    data[@"provinceId"] = self.provinceId;
+    data[@"cityId"] = self.cityId;
+    data[@"content"] = _contentview.text;
+    data[@"imgRate"] = _imageScale;
+    
+    [MyDownLoadManager postUrl:UNLOCK_URL withParameters:data fileData:_fileData name:_imageName fileName:_imageName mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
+        
+    } andSuccess:^(id representData) {
+        NSLog(@"unlock---success");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } andFailure:^(NSString *error) {
+        NSLog(@"unlock---failure-------%@",error);
+    }];
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end
