@@ -1,0 +1,53 @@
+//
+//  WBPrefixHeader.pch
+//  微球
+//
+//  Created by 徐亮 on 16/3/3.
+//  Copyright © 2016年 weiqiuwang. All rights reserved.
+//
+
+#ifndef WBPrefixHeader_pch
+#define WBPrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* WBPrefixHeader_pch */
+
+#ifndef DEBUG_MODE
+#define WBLog(...) NSLog(__VA_ARGS__)
+#else //RELEASE_MODE
+#define WBLog(...) {}
+#endif
+
+//import files
+#import "WBUserDefaults.h"
+#import "UIColor+color.h"
+#import "WBPositionList.h"
+//导入CoreData
+#import <CoreData/CoreData.h>
+
+
+//width and margin
+#define SCREENWIDTH [[UIScreen mainScreen] bounds].size.width
+#define SCREENHEIGHT [[UIScreen mainScreen] bounds].size.height
+#define CELLWIDTH SCREENWIDTH * 0.96
+#define MARGINLEFT SCREENWIDTH * 0.02
+#define MARGININSIDE 14
+#define MARGINOUTSIDE 8
+
+//font size
+#define BIGFONTSIZE [UIFont systemFontOfSize:18]
+#define MAINFONTSIZE [UIFont systemFontOfSize:14]
+#define SMALLFONTSIZE [UIFont systemFontOfSize:10]
+#define FONTSIZE16 [UIFont systemFontOfSize:16]
+#define FONTSIZE12 [UIFont systemFontOfSize:12]
+
+//line space
+#define LINESPACE 4
+
+//page size
+#define PAGESIZE 5
+
+//image sign
+#define IMAGE @"[aa1b1d19893e48dc6c3c7688]"
