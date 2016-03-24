@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WBSettingTableViewController : UITableViewController
+@interface WBSettingViewController : UIViewController
 
 @end

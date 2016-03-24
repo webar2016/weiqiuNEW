@@ -36,11 +36,7 @@
     [self registerClass:[WBUnlockMsgCell class] forCellWithReuseIdentifier:WBUnlockMessageIdentifier];
     
     NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
-    NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
-    NSMutableDictionary *unReadDic = [NSMutableDictionary dictionary];
-    unReadDic[@"unRead"] = [NSString stringWithFormat:@"%@",unRead];
-    unReadDic[@"unReadGroup"] = [NSString stringWithFormat:@"%@",unReadGroup];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:unReadDic];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
 }
 
 -(void)viewWillAppear:(BOOL)animated{

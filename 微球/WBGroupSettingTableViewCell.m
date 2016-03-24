@@ -21,7 +21,7 @@
     UILabel         *_totalScore;
     
     UISwitch        *_messagePush;
-    UISwitch        *_QAPush;
+//    UISwitch        *_QAPush;
     
     UIView          *_cutLine;
     
@@ -128,42 +128,47 @@
 }
 
 -(void)setUpPushChoice{
-    UIView *pushWraper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 81)];
+    UIView *pushWraper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 40)];
     
     UILabel *messagePush = [[UILabel alloc] initWithFrame:CGRectMake(22, 13, 70, 14)];
     messagePush.font = MAINFONTSIZE;
     messagePush.textColor = [UIColor initWithNormalGray];
-    messagePush.text = @"消息推送";
+    messagePush.text = @"消息免打扰";
     
-    UILabel *QAPush= [[UILabel alloc] initWithFrame:CGRectMake(22, 54, 70, 14)];
-    QAPush.font = MAINFONTSIZE;
-    QAPush.textColor = [UIColor initWithNormalGray];
-    if (self.isMaster) {
-        QAPush.text = @"答案推送";
-    }else{
-        QAPush.text = @"问题推送";
-    }
+//    UILabel *QAPush= [[UILabel alloc] initWithFrame:CGRectMake(22, 54, 70, 14)];
+//    QAPush.font = MAINFONTSIZE;
+//    QAPush.textColor = [UIColor initWithNormalGray];
+//    if (self.isMaster) {
+//        QAPush.text = @"答案推送";
+//    }else{
+//        QAPush.text = @"问题推送";
+//    }
     
     _messagePush = [[UISwitch alloc] init];
     _messagePush.center = CGPointMake(SCREENWIDTH - 45, 20);
     _messagePush.onTintColor = [UIColor initWithGreen];
     [_messagePush addTarget:self action:@selector(messagePush) forControlEvents:UIControlEventValueChanged];
-    _messagePush.on = YES;
     
-    _QAPush = [[UISwitch alloc] init];
-    _QAPush.center = CGPointMake(SCREENWIDTH - 45, 61);
-    _QAPush.onTintColor = [UIColor initWithGreen];
-    [_QAPush addTarget:self action:@selector(QAPush) forControlEvents:UIControlEventValueChanged];
-    _QAPush.on = YES;
     if (!_isPush) {
-        _QAPush.on = NO;
+        _messagePush.on = NO;
+    } else {
+        _messagePush.on = YES;
     }
-    _cutLine.frame = CGRectMake(10, 41, SCREENWIDTH - 10, 1);
+    
+//    _QAPush = [[UISwitch alloc] init];
+//    _QAPush.center = CGPointMake(SCREENWIDTH - 45, 61);
+//    _QAPush.onTintColor = [UIColor initWithGreen];
+//    [_QAPush addTarget:self action:@selector(QAPush) forControlEvents:UIControlEventValueChanged];
+//    _QAPush.on = YES;
+//    if (!_isPush) {
+//        _QAPush.on = NO;
+//    }
+//    _cutLine.frame = CGRectMake(10, 41, SCREENWIDTH - 10, 1);
     
     [pushWraper addSubview:messagePush];
-    [pushWraper addSubview:QAPush];
+//    [pushWraper addSubview:QAPush];
     [pushWraper addSubview:_messagePush];
-    [pushWraper addSubview:_QAPush];
+//    [pushWraper addSubview:_QAPush];
     [pushWraper addSubview:_cutLine];
     [self addSubview:pushWraper];
 }
@@ -218,11 +223,11 @@
     }
 }
 
--(void)QAPush{
-    if (_delegate && [_delegate respondsToSelector:@selector(QAPush:isOn:)]) {
-            [_delegate QAPush:self isOn:_QAPush.on];
-    }
-}
+//-(void)QAPush{
+//    if (_delegate && [_delegate respondsToSelector:@selector(QAPush:isOn:)]) {
+//            [_delegate QAPush:self isOn:_QAPush.on];
+//    }
+//}
 
 
 @end

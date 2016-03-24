@@ -158,12 +158,14 @@
 #pragma mark - 小红点提醒
 
 -(void)unReadTip:(NSNotification*)sender{
-    NSLog(@"%@",sender.userInfo[@"unRead"]);
-    if ([sender.userInfo[@"unRead"] isEqualToString:@"0"]) {
-        _tip.hidden = YES;
-    }else{
-        _tip.hidden = NO;
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int count = [sender.userInfo[@"unRead"] intValue];
+        if (count > 0 && _tip.hidden) {
+            _tip.hidden = NO;
+        } else if (count == 0 && !_tip.hidden) {
+            _tip.hidden = YES;
+        }
+    });
 }
 
 @end

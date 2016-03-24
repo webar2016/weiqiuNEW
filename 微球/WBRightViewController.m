@@ -30,17 +30,18 @@
     self.conversationListTableView.backgroundColor = [UIColor initWithBackgroundGray];
     self.conversationListTableView.separatorColor = [UIColor whiteColor];
     self.conversationListTableView.frame = CGRectMake((self.view.frame.size.width * 0.2), 20, (self.view.frame.size.width * 0.8), (self.view.frame.size.height - 20));
-    
+    [self notifyUpdateUnreadMessageCount];
     [self setConversationAvatarStyle:RC_USER_AVATAR_CYCLE];
     
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+-(void)notifyUpdateUnreadMessageCount{
+    NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
 }
 
 - (void)didTapCellPortrait:(RCConversationModel *)model{

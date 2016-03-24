@@ -67,7 +67,7 @@
 		05D1F9401C8FBE1A0049D3EC /* WBHomepageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F93F1C8FBE1A0049D3EC /* WBHomepageViewController.m */; };
 		05D1F9441C8FBE510049D3EC /* WBGuessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9431C8FBE510049D3EC /* WBGuessViewController.m */; };
 		05D1F9481C8FBE720049D3EC /* WBUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9471C8FBE720049D3EC /* WBUnlockViewController.m */; };
-		05D1F94C1C8FBE9E0049D3EC /* WBSettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F94B1C8FBE9E0049D3EC /* WBSettingTableViewController.m */; };
+		05D1F94C1C8FBE9E0049D3EC /* WBSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F94B1C8FBE9E0049D3EC /* WBSettingViewController.m */; };
 		05D1F94F1C8FC9C60049D3EC /* WBGroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F94E1C8FC9C60049D3EC /* WBGroupTableViewCell.m */; };
 		05D6EB7D1C7D414F002D48FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D6EB7C1C7D414F002D48FF /* main.m */; };
 		05D6EB801C7D414F002D48FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D6EB7F1C7D414F002D48FF /* AppDelegate.m */; };
@@ -281,8 +281,8 @@
 		05D1F9431C8FBE510049D3EC /* WBGuessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGuessViewController.m; sourceTree = "<group>"; };
 		05D1F9461C8FBE720049D3EC /* WBUnlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUnlockViewController.h; sourceTree = "<group>"; };
 		05D1F9471C8FBE720049D3EC /* WBUnlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUnlockViewController.m; sourceTree = "<group>"; };
-		05D1F94A1C8FBE9E0049D3EC /* WBSettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSettingTableViewController.h; sourceTree = "<group>"; };
-		05D1F94B1C8FBE9E0049D3EC /* WBSettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSettingTableViewController.m; sourceTree = "<group>"; };
+		05D1F94A1C8FBE9E0049D3EC /* WBSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSettingViewController.h; sourceTree = "<group>"; };
+		05D1F94B1C8FBE9E0049D3EC /* WBSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSettingViewController.m; sourceTree = "<group>"; };
 		05D1F94D1C8FC9C60049D3EC /* WBGroupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGroupTableViewCell.h; sourceTree = "<group>"; };
 		05D1F94E1C8FC9C60049D3EC /* WBGroupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGroupTableViewCell.m; sourceTree = "<group>"; };
 		05D6EB781C7D414F002D48FF /* 微球.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微球.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -784,8 +784,8 @@
 		05D1F9491C8FBE780049D3EC /* setting */ = {
 			isa = PBXGroup;
 			children = (
-				05D1F94A1C8FBE9E0049D3EC /* WBSettingTableViewController.h */,
-				05D1F94B1C8FBE9E0049D3EC /* WBSettingTableViewController.m */,
+				05D1F94A1C8FBE9E0049D3EC /* WBSettingViewController.h */,
+				05D1F94B1C8FBE9E0049D3EC /* WBSettingViewController.m */,
 			);
 			name = setting;
 			sourceTree = "<group>";
@@ -1516,7 +1516,7 @@
 				05DB3F7D1C88264000CBCC54 /* NSString+string.m in Sources */,
 				05DB3F5F1C857E9D00CBCC54 /* WBQuestionsListModel.m in Sources */,
 				2D02B6941C81987F00FADFFB /* WBLeftViewController.m in Sources */,
-				05D1F94C1C8FBE9E0049D3EC /* WBSettingTableViewController.m in Sources */,
+				05D1F94C1C8FBE9E0049D3EC /* WBSettingViewController.m in Sources */,
 				2D16EF4F1C8407E4002D5F90 /* WBMyCreateViewController.m in Sources */,
 				05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */,
 				05DB3F701C87E18800CBCC54 /* WBAnswerListController.m in Sources */,

@@ -14,6 +14,7 @@
 #import "WBCollectionViewModel.h"
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
+#import <RongIMLib/RCIMClient.h>
 
 #define MEMBER_ICON @"http://121.40.132.44:92/hg/hgUsers?groupId=%d"
 #define GROUP_DETAIL @"http://121.40.132.44:92/hg/oneHG?groupId=%d"
@@ -117,7 +118,7 @@
         return 241;
     }
     if (indexPath.section == 2) {
-        return 81;
+        return 40;
     }
     if (indexPath.section == 3) {
         return 70;
@@ -196,11 +197,34 @@
 }
 
 -(void)messagePush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
-    NSLog(@"messagePush");
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    BOOL push;
+    data[@"userId"] = @"29";
+    data[@"groupId"] = [NSString stringWithFormat:@"%d",self.groupId];
+    
+    if (isOn) {
+        data[@"type"] = @"1";
+        push = YES;
+    } else {
+        data[@"type"] = @"0";
+        push = NO;
+    }
+    
+    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/hg/setNotice" withParameters:data whenProgress:^(NSProgress *FieldDataBlock) {
+    } andSuccess:^(id representData) {
+        NSLog(@"设置成功");
+        [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"userId"] isBlocked:push success:^(RCConversationNotificationStatus nStatus) {
+            NSLog(@"免打扰设置成功");
+        } error:^(RCErrorCode status) {
+            NSLog(@"免打扰设置失败---%ld",(long)status);
+        }];
+    } andFailure:^(NSString *error) {
+        NSLog(@"设置失败");
+    }];
 }
 
--(void)QAPush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
-    NSLog(@"QAPush");
-}
+//-(void)QAPush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
+//    NSLog(@"QAPush");
+//}
 
 @end

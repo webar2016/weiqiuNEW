@@ -287,18 +287,12 @@ didRegisterUserNotificationSettings:
     }];
 }
 
-- (void)sideMenu:(RESideMenu *)sideMenu willHideMenuViewController:(UIViewController *)menuViewController{
-    [self getUnreadMsgNumber];
-}
-
 //获取未读消息数量
 -(void)getUnreadMsgNumber{
     NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
     NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
-    NSMutableDictionary *unReadDic = [NSMutableDictionary dictionary];
-    unReadDic[@"unRead"] = [NSString stringWithFormat:@"%@",unRead];
-    unReadDic[@"unReadGroup"] = [NSString stringWithFormat:@"%@",unReadGroup];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:unReadDic];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTipGroup" object:self userInfo:@{@"unReadGroup":[NSString stringWithFormat:@"%@",unReadGroup]}];
 }
 
 #pragma mark - 分享设置
@@ -378,7 +372,7 @@ didRegisterUserNotificationSettings:
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    [self getUnreadMsgNumber];
+//    [self getUnreadMsgNumber];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
