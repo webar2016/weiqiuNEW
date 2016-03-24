@@ -105,15 +105,25 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithOriginal:@"icon_share"] style:UIBarButtonItemStylePlain target:self action:@selector(shareThisAnswer)];
     
+<<<<<<< HEAD
     self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH * 0.7, 44)];
     
     UILabel *quesLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 12, SCREENWIDTH * 0.7, 20)];
+=======
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH * 0.5, 44)];
+    
+    UILabel *quesLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 12, SCREENWIDTH * 0.5, 20)];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     quesLabel.font = BIGFONTSIZE;
     quesLabel.textColor = [UIColor initWithNormalGray];
     quesLabel.text = self.questionText;
     quesLabel.textAlignment = NSTextAlignmentCenter;
     
+<<<<<<< HEAD
     _narrow = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.35 - 4, 34, 8, 8)];
+=======
+    _narrow = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.25 - 4, 34, 8, 8)];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     _narrow.image = [UIImage imageNamed:@"icon_spread1"];
     
     [self.titleView addSubview:quesLabel];

@@ -51,6 +51,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+<<<<<<< HEAD
+=======
+    NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTipGroup" object:self userInfo:@{@"unReadGroup":[NSString stringWithFormat:@"%@",unReadGroup]}];
+    
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     self.displayUserNameInCell = YES;
     self.enableContinuousReadUnreadVoice = YES;
     self.groupId = [self.targetId intValue];

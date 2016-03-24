@@ -15,17 +15,30 @@
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
 #import "WBUserInfosModel.h"
+<<<<<<< HEAD
+=======
+#import "WBSystemMessage.h"
+#import "WBUnlockMessage.h"
+#import "WBFollowMessage.h"
+#import "WBCommentMessage.h"
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 
 #import <RongIMKit/RongIMKit.h>
 #import <RongIMLib/RCIMClient.h>
 #import <RongIMLib/RCUserInfo.h>
 #import <AudioToolbox/AudioToolbox.h>
 
+<<<<<<< HEAD
 #import "UIColor+color.h"
 
 #define SELECTED_INDEX ((UITabBarController *)self.window.rootViewController.childViewControllers.lastObject).selectedIndex
 
 @interface AppDelegate () <RCIMUserInfoDataSource,RCIMGroupInfoDataSource>
+=======
+#define SELECTED_INDEX ((UITabBarController *)self.window.rootViewController.childViewControllers.lastObject).selectedIndex
+
+@interface AppDelegate () <RCIMUserInfoDataSource,RCIMGroupInfoDataSource,RESideMenuDelegate>
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 
 @property (strong,nonatomic) WBLeftViewController *leftViewController;
 @property (strong,nonatomic) WBRightViewController *rightViewController;
@@ -58,7 +71,10 @@
 //        [[NSUserDefaults standardUserDefaults] removeObjectForKey:str];
 //        [[NSUserDefaults standardUserDefaults] synchronize];
 //    }
+<<<<<<< HEAD
     
+=======
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     return YES;
 }
 
@@ -88,6 +104,10 @@
     sideMenuViewController.contentViewShadowRadius = 5.0f;
     sideMenuViewController.panGestureEnabled = NO;
     sideMenuViewController.contentViewInPortraitOffsetCenterX = 100;
+<<<<<<< HEAD
+=======
+    sideMenuViewController.delegate = self;
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     self.window.rootViewController = sideMenuViewController;
     
     [self.window makeKeyAndVisible];
@@ -133,8 +153,12 @@ didRegisterUserNotificationSettings:
 /**
  * 推送处理3
  */
+<<<<<<< HEAD
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+=======
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     NSString *token =
     [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"
                                                            withString:@""]
@@ -185,14 +209,18 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     if ([type isEqualToString:@"GRP"]) {
         SELECTED_INDEX = 2;
     }
+<<<<<<< HEAD
     
     
+=======
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 }
 
 #pragma mark - 实时通讯相关操作
 
 -(void)getRCToken{
     [[RCIM sharedRCIM] initWithAppKey:@"z3v5yqkbvtkt0"];
+<<<<<<< HEAD
     [RCIM sharedRCIM].showUnkownMessage = YES;
     [RCIM sharedRCIM].showUnkownMessageNotificaiton = YES;
     [RCIM sharedRCIM].enableTypingStatus=YES;
@@ -201,6 +229,24 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[RCIM sharedRCIM] setGroupInfoDataSource:self];
     
     [MyDownLoadManager getNsurl:@"http://121.40.132.44:92/ry/getToken?userId=633" whenSuccess:^(id representData) {
+=======
+    //设置未注册消息显示方式
+    [RCIM sharedRCIM].showUnkownMessage = YES;
+    [RCIM sharedRCIM].showUnkownMessageNotificaiton = YES;
+    //开启输入监听，已读回执
+    [RCIM sharedRCIM].enableTypingStatus=YES;
+    [RCIM sharedRCIM].enableReadReceipt = YES;
+    //用户、群组信息源
+    [[RCIM sharedRCIM] setUserInfoDataSource:self];
+    [[RCIM sharedRCIM] setGroupInfoDataSource:self];
+    //注册自定义消息
+    [[RCIM sharedRCIM] registerMessageType:[WBSystemMessage class]];
+    [[RCIM sharedRCIM] registerMessageType:[WBUnlockMessage class]];
+    [[RCIM sharedRCIM] registerMessageType:[WBFollowMessage class]];
+    [[RCIM sharedRCIM] registerMessageType:[WBCommentMessage class]];
+    
+    [MyDownLoadManager getNsurl:@"http://121.40.132.44:92/ry/getToken?userId=29" whenSuccess:^(id representData) {
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if ([result isKindOfClass:[NSDictionary class]]){
@@ -209,6 +255,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
             
             [[RCIM sharedRCIM] connectWithToken:token[@"token"] success:^(NSString *userId) {
                 
+<<<<<<< HEAD
                 NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
                 NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
                 NSMutableDictionary *unReadDic = [NSMutableDictionary dictionary];
@@ -216,6 +263,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
                 unReadDic[@"unReadGroup"] = [NSString stringWithFormat:@"%@",unReadGroup];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:unReadDic];
                 NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
+=======
+                NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
+                [self getUnreadMsgNumber];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
                 
             } error:^(RCConnectErrorCode status) {
                 NSLog(@"登陆的错误码为:%ld", (long)status);
@@ -231,8 +282,17 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 - (void)getUserInfoWithUserId:(NSString *)userId
                    completion:(void (^)(RCUserInfo *userInfo))completion{
+<<<<<<< HEAD
     if ([userId isEqualToString:@"633"]) {
         RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:@"633" name:@"最厉害" portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/disk/29/20160309052704808oanpp.jpg"];
+=======
+    //更新icon badge value
+    int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = unreadMsgCount;
+    
+    if ([userId isEqualToString:@"29"]) {
+        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:@"29" name:@"最厉害" portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/disk/29/20160309052704808oanpp.jpg"];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
         return completion(userInfo);
     }
     
@@ -253,7 +313,11 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]){
             WBUserInfosModel *model = [WBUserInfosModel mj_objectWithKeyValues:result[@"user"]];
+<<<<<<< HEAD
             RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:[NSString stringWithFormat:@"%ld",model.userId] name:model.nickname portrait:[model.dir absoluteString]];
+=======
+            RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:[NSString stringWithFormat:@"%ld",(long)model.userId] name:model.nickname portrait:[model.dir absoluteString]];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
             return completion(userInfo);
         }
     } andFailure:^(NSString *error) {
@@ -264,7 +328,14 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 - (void)getGroupInfoWithGroupId:(NSString *)groupId
                      completion:(void (^)(RCGroup *groupInfo))completion{
+<<<<<<< HEAD
 
+=======
+    //更新icon badge value
+    int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = unreadMsgCount;
+    
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHgStr?groupId=%@",groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -276,7 +347,18 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     } andFailure:^(NSString *error) {
         NSLog(@"群组信息加载失败");
     }];
+<<<<<<< HEAD
     
+=======
+}
+
+//获取未读消息数量
+-(void)getUnreadMsgNumber{
+    NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
+    NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTipGroup" object:self userInfo:@{@"unReadGroup":[NSString stringWithFormat:@"%@",unReadGroup]}];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 }
 
 #pragma mark - 分享设置
@@ -356,8 +438,12 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+<<<<<<< HEAD
     NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
+=======
+//    [self getUnreadMsgNumber];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

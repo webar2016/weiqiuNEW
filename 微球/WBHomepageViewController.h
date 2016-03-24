@@ -12,6 +12,9 @@
 
 @property (nonatomic,copy)NSString *friendId;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 @end

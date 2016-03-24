@@ -10,6 +10,10 @@
 #import "WBFindViewController.h"
 #import "WBLeftViewController.h"
 #import "WBPrivateViewController.h"
+<<<<<<< HEAD
+=======
+#import "WBSystemViewController.h"
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 
 #import "UIColor+color.h"
 
@@ -29,19 +33,34 @@
     self.conversationListTableView.backgroundColor = [UIColor initWithBackgroundGray];
     self.conversationListTableView.separatorColor = [UIColor whiteColor];
     self.conversationListTableView.frame = CGRectMake((self.view.frame.size.width * 0.2), 20, (self.view.frame.size.width * 0.8), (self.view.frame.size.height - 20));
+<<<<<<< HEAD
     
+=======
+    [self notifyUpdateUnreadMessageCount];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     [self setConversationAvatarStyle:RC_USER_AVATAR_CYCLE];
     
 }
 
+<<<<<<< HEAD
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
 }
 
+=======
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+<<<<<<< HEAD
+=======
+-(void)notifyUpdateUnreadMessageCount{
+    NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
+}
+
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 - (void)didTapCellPortrait:(RCConversationModel *)model{
     
 }
@@ -56,7 +75,18 @@
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType
          conversationModel:(RCConversationModel *)model
                atIndexPath:(NSIndexPath *)indexPath{
+<<<<<<< HEAD
     WBPrivateViewController *talkView = [[WBPrivateViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:model.targetId];
+=======
+    if (![model.targetId isEqualToString:@"weiqiu"] && ![model.targetId isEqualToString:@"unlock_notice"]) {
+        WBPrivateViewController *talkView = [[WBPrivateViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:model.targetId];
+        talkView.hidesBottomBarWhenPushed = YES;
+        talkView.title = model.conversationTitle;
+        [self pushViewControllerWithController:talkView];
+        return;
+    }
+    WBSystemViewController *talkView = [[WBSystemViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:model.targetId];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     talkView.hidesBottomBarWhenPushed = YES;
     talkView.title = model.conversationTitle;
     [self pushViewControllerWithController:talkView];

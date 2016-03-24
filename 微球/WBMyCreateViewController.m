@@ -47,13 +47,18 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
+<<<<<<< HEAD
     
+=======
+    [self notifyUpdateUnreadMessageCount];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     _emptyView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"1.pic.jpg"]];
     _emptyView.frame = CGRectMake(0, 40, SCREENWIDTH, SCREENWIDTH);
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+<<<<<<< HEAD
     int unRead = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]];
     if (unRead == 0) {
         self.tabBarController.tabBar.items[2].badgeValue = nil;
@@ -63,6 +68,16 @@
     [self loadData];
 }
 
+=======
+    [self loadData];
+}
+
+-(void)notifyUpdateUnreadMessageCount{
+    NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTipGroup" object:self userInfo:@{@"unReadGroup":[NSString stringWithFormat:@"%@",unReadGroup]}];
+}
+
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

@@ -26,6 +26,11 @@
 
 @property (nonatomic, strong) CreateHelpGroupViewController *createHelpGroupViewController;
 
+<<<<<<< HEAD
+=======
+@property (nonatomic, strong) UIView *badgeView;
+
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 @end
 
 @implementation WBMainTabBarController
@@ -34,6 +39,10 @@
     [super viewDidLoad];
     self.delegate = self;
     self.isGroup = NO;
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     //发现界面
     WBFindViewController *findController = [[WBFindViewController alloc] init];
     WBNavigationController *findNavController = [[WBNavigationController alloc]initWithRootViewController:findController];
@@ -66,6 +75,7 @@
     bgView.backgroundColor = [UIColor initWithLightGray];
     [self.tabBar insertSubview:bgView atIndex:0];
     
+<<<<<<< HEAD
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(unReadTip:)
                                                  name:@"unReadTip"
@@ -78,6 +88,31 @@
     }else{
         self.tabBar.items[2].badgeValue = sender.userInfo[@"unReadGroup"];
     }
+=======
+    //提示小红点
+    self.badgeView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.88, 5, 6, 6)];
+    self.badgeView.layer.masksToBounds = YES;
+    self.badgeView.layer.cornerRadius = 3;
+    self.badgeView.backgroundColor = [UIColor redColor];
+    [self.tabBar addSubview:self.badgeView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(unReadGroup:)
+                                                 name:@"unReadTipGroup"
+                                               object:nil];
+}
+
+-(void)unReadGroup:(NSNotification*)sender{
+    __weak typeof(self) __weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int count = [sender.userInfo[@"unReadGroup"] intValue];
+        if (count > 0 && __weakSelf.badgeView.hidden) {
+            __weakSelf.badgeView.hidden = NO;
+        } else if (count == 0 && !__weakSelf.badgeView.hidden) {
+            __weakSelf.badgeView.hidden = YES;
+        }
+    });
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 }
 
 #pragma mark - 设置tabbaritem

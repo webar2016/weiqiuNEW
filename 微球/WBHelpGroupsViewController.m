@@ -45,6 +45,7 @@
     [self setUpNavgationItem];
     [self initVcArr];
     [self initPageVc];
+<<<<<<< HEAD
   }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -57,6 +58,15 @@
     }
 }
 
+=======
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(unReadTip:)
+                                                 name:@"unReadTip"
+                                               object:nil];
+  }
+
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 -(void)popBack{
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -160,5 +170,20 @@
     
 }
 
+<<<<<<< HEAD
+=======
+#pragma mark - 小红点提醒
+
+-(void)unReadTip:(NSNotification*)sender{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int count = [sender.userInfo[@"unRead"] intValue];
+        if (count > 0 && _tip.hidden) {
+            _tip.hidden = NO;
+        } else if (count == 0 && !_tip.hidden) {
+            _tip.hidden = YES;
+        }
+    });
+}
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 
 @end

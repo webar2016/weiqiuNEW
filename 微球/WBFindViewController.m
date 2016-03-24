@@ -34,10 +34,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(unReadTip:)
                                                  name:@"unReadTip"
                                                object:nil];
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     self.view.backgroundColor = [UIColor initWithGreen];
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
@@ -48,6 +56,7 @@
     [self initPageVc];
 }
 
+<<<<<<< HEAD
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     
@@ -61,6 +70,8 @@
     
 }
 
+=======
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 -(void)popBack{
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -131,10 +142,15 @@
     
 }
 
+<<<<<<< HEAD
 
 
 
 #pragma  mark - navigation两边按钮点击事件
+=======
+#pragma  mark - navigation两边按钮点击事件
+
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 -(void)changeCurrentController:(UISegmentedControl *)segMent{
     NSInteger index=segMent.selectedSegmentIndex;
     
@@ -145,6 +161,7 @@
     }
 }
 
+<<<<<<< HEAD
 -(void)unReadTip:(NSNotification*)sender{
     if ([sender.userInfo[@"unRead"] isEqualToString:@"0"]) {
         _tip.hidden = YES;
@@ -155,6 +172,21 @@
 
 
 
+=======
+#pragma mark - 小红点提醒
+
+-(void)unReadTip:(NSNotification*)sender{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int count = [sender.userInfo[@"unRead"] intValue];
+        if (count > 0 && _tip.hidden) {
+            _tip.hidden = NO;
+        } else if (count == 0 && !_tip.hidden) {
+            _tip.hidden = YES;
+        }
+    });
+}
+
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

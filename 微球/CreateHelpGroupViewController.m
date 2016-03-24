@@ -81,10 +81,14 @@
         return;
     }
     if (self.fromNextPage) {
+<<<<<<< HEAD
         [self dismissViewControllerAnimated:YES completion:^{
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"choosePlace" object:self userInfo:@{@"startPlaceId":[NSString stringWithFormat:@"%@",_cityId]}];
         }];
+=======
+        [self dismissViewControllerAnimated:YES completion:nil];
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     }if (self.fromSlidePage) {
         WBUnlockViewController *unlockVC = [[WBUnlockViewController alloc] init];
         unlockVC.cityName = [self.positionList cityNameWithCityId:_cityId];
@@ -149,6 +153,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_chooseCity) {
         _cityId = [self.positionList getCityIdWithRow:indexPath.row byProvinceId:_provinceId];
+<<<<<<< HEAD
+=======
+        if (self.fromNextPage) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"choosePlace" object:self userInfo:@{@"startPlaceId":[NSString stringWithFormat:@"%@",_cityId]}];
+        }
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
         return;
     }
     _provinceId = [self.positionList getProvinceIdWithRow:indexPath.row];

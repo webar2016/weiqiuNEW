@@ -42,6 +42,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+<<<<<<< HEAD
+=======
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeStartPlace:)
+                                                 name:@"choosePlace"
+                                               object:nil];
+    
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
     self.navigationItem.title = @"行程信息";
     
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
@@ -55,6 +63,7 @@
     [self setUpDatePicker];
 }
 
+<<<<<<< HEAD
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -63,6 +72,8 @@
                              object:nil];
 }
 
+=======
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 #pragma mark - navigation button
 
 -(void)lastStep{

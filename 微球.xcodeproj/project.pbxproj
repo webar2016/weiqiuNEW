@@ -51,6 +51,18 @@
 		0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0545505C1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m */; };
 		0559DD0A1C9287D00062D1BE /* WBMyGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD091C9287D00062D1BE /* WBMyGroupModel.m */; };
 		0559DD0D1C92BFD80062D1BE /* NSAttributedString + attributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD0C1C92BFD80062D1BE /* NSAttributedString + attributedString.m */; };
+<<<<<<< HEAD
+=======
+		05794C7F1CA225FF00F32837 /* WBSystemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C7E1CA225FF00F32837 /* WBSystemViewController.m */; };
+		05794C821CA2299900F32837 /* WBSystemMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C811CA2299900F32837 /* WBSystemMessage.m */; };
+		05794C851CA229B300F32837 /* WBUnlockMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C841CA229B300F32837 /* WBUnlockMessage.m */; };
+		05794C881CA2321A00F32837 /* WBSystemMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C871CA2321A00F32837 /* WBSystemMsgCell.m */; };
+		05794C8B1CA2322C00F32837 /* WBUnlockMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C8A1CA2322C00F32837 /* WBUnlockMsgCell.m */; };
+		05794C8E1CA263C200F32837 /* WBFollowMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C8D1CA263C200F32837 /* WBFollowMessage.m */; };
+		05794C911CA2641300F32837 /* WBCommentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C901CA2641300F32837 /* WBCommentMessage.m */; };
+		05794C941CA27B0400F32837 /* WBFollowMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C931CA27B0400F32837 /* WBFollowMsgCell.m */; };
+		05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C961CA27B1600F32837 /* WBCommentMsgCell.m */; };
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 		05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE278B1C8038AA00B916FB /* WBTopicsTableViewController.m */; };
 		05BE27911C8038F100B916FB /* WBQuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE27901C8038F100B916FB /* WBQuestionsViewController.m */; };
 		05D1F9361C8E78960049D3EC /* WBUpdateIntegral.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9351C8E78960049D3EC /* WBUpdateIntegral.m */; };
@@ -58,7 +70,11 @@
 		05D1F9401C8FBE1A0049D3EC /* WBHomepageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F93F1C8FBE1A0049D3EC /* WBHomepageViewController.m */; };
 		05D1F9441C8FBE510049D3EC /* WBGuessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9431C8FBE510049D3EC /* WBGuessViewController.m */; };
 		05D1F9481C8FBE720049D3EC /* WBUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9471C8FBE720049D3EC /* WBUnlockViewController.m */; };
+<<<<<<< HEAD
 		05D1F94C1C8FBE9E0049D3EC /* WBSettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F94B1C8FBE9E0049D3EC /* WBSettingTableViewController.m */; };
+=======
+		05D1F94C1C8FBE9E0049D3EC /* WBSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F94B1C8FBE9E0049D3EC /* WBSettingViewController.m */; };
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 		05D1F94F1C8FC9C60049D3EC /* WBGroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F94E1C8FC9C60049D3EC /* WBGroupTableViewCell.m */; };
 		05D6EB7D1C7D414F002D48FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D6EB7C1C7D414F002D48FF /* main.m */; };
 		05D6EB801C7D414F002D48FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D6EB7F1C7D414F002D48FF /* AppDelegate.m */; };
@@ -240,6 +256,27 @@
 		0559DD091C9287D00062D1BE /* WBMyGroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyGroupModel.m; sourceTree = "<group>"; };
 		0559DD0B1C92BFD80062D1BE /* NSAttributedString + attributedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString + attributedString.h"; sourceTree = "<group>"; };
 		0559DD0C1C92BFD80062D1BE /* NSAttributedString + attributedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString + attributedString.m"; sourceTree = "<group>"; };
+<<<<<<< HEAD
+=======
+		05794C7D1CA225FF00F32837 /* WBSystemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSystemViewController.h; sourceTree = "<group>"; };
+		05794C7E1CA225FF00F32837 /* WBSystemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSystemViewController.m; sourceTree = "<group>"; };
+		05794C801CA2299900F32837 /* WBSystemMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSystemMessage.h; sourceTree = "<group>"; };
+		05794C811CA2299900F32837 /* WBSystemMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSystemMessage.m; sourceTree = "<group>"; };
+		05794C831CA229B300F32837 /* WBUnlockMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUnlockMessage.h; sourceTree = "<group>"; };
+		05794C841CA229B300F32837 /* WBUnlockMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUnlockMessage.m; sourceTree = "<group>"; };
+		05794C861CA2321A00F32837 /* WBSystemMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSystemMsgCell.h; sourceTree = "<group>"; };
+		05794C871CA2321A00F32837 /* WBSystemMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSystemMsgCell.m; sourceTree = "<group>"; };
+		05794C891CA2322C00F32837 /* WBUnlockMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUnlockMsgCell.h; sourceTree = "<group>"; };
+		05794C8A1CA2322C00F32837 /* WBUnlockMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUnlockMsgCell.m; sourceTree = "<group>"; };
+		05794C8C1CA263C200F32837 /* WBFollowMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFollowMessage.h; sourceTree = "<group>"; };
+		05794C8D1CA263C200F32837 /* WBFollowMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFollowMessage.m; sourceTree = "<group>"; };
+		05794C8F1CA2641300F32837 /* WBCommentMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCommentMessage.h; sourceTree = "<group>"; };
+		05794C901CA2641300F32837 /* WBCommentMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBCommentMessage.m; sourceTree = "<group>"; };
+		05794C921CA27B0400F32837 /* WBFollowMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFollowMsgCell.h; sourceTree = "<group>"; };
+		05794C931CA27B0400F32837 /* WBFollowMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFollowMsgCell.m; sourceTree = "<group>"; };
+		05794C951CA27B1600F32837 /* WBCommentMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCommentMsgCell.h; sourceTree = "<group>"; };
+		05794C961CA27B1600F32837 /* WBCommentMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBCommentMsgCell.m; sourceTree = "<group>"; };
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 		05BE278A1C8038AA00B916FB /* WBTopicsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicsTableViewController.h; sourceTree = "<group>"; };
 		05BE278B1C8038AA00B916FB /* WBTopicsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicsTableViewController.m; sourceTree = "<group>"; };
 		05BE278F1C8038F100B916FB /* WBQuestionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBQuestionsViewController.h; sourceTree = "<group>"; };
@@ -254,8 +291,13 @@
 		05D1F9431C8FBE510049D3EC /* WBGuessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGuessViewController.m; sourceTree = "<group>"; };
 		05D1F9461C8FBE720049D3EC /* WBUnlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUnlockViewController.h; sourceTree = "<group>"; };
 		05D1F9471C8FBE720049D3EC /* WBUnlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUnlockViewController.m; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		05D1F94A1C8FBE9E0049D3EC /* WBSettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSettingTableViewController.h; sourceTree = "<group>"; };
 		05D1F94B1C8FBE9E0049D3EC /* WBSettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSettingTableViewController.m; sourceTree = "<group>"; };
+=======
+		05D1F94A1C8FBE9E0049D3EC /* WBSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSettingViewController.h; sourceTree = "<group>"; };
+		05D1F94B1C8FBE9E0049D3EC /* WBSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSettingViewController.m; sourceTree = "<group>"; };
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 		05D1F94D1C8FC9C60049D3EC /* WBGroupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGroupTableViewCell.h; sourceTree = "<group>"; };
 		05D1F94E1C8FC9C60049D3EC /* WBGroupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGroupTableViewCell.m; sourceTree = "<group>"; };
 		05D6EB781C7D414F002D48FF /* 微球.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微球.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -530,6 +572,27 @@
 			children = (
 				050B02081C9FE82900344611 /* WBPrivateViewController.h */,
 				050B02091C9FE82900344611 /* WBPrivateViewController.m */,
+<<<<<<< HEAD
+=======
+				05794C7D1CA225FF00F32837 /* WBSystemViewController.h */,
+				05794C7E1CA225FF00F32837 /* WBSystemViewController.m */,
+				05794C801CA2299900F32837 /* WBSystemMessage.h */,
+				05794C811CA2299900F32837 /* WBSystemMessage.m */,
+				05794C8C1CA263C200F32837 /* WBFollowMessage.h */,
+				05794C8D1CA263C200F32837 /* WBFollowMessage.m */,
+				05794C8F1CA2641300F32837 /* WBCommentMessage.h */,
+				05794C901CA2641300F32837 /* WBCommentMessage.m */,
+				05794C831CA229B300F32837 /* WBUnlockMessage.h */,
+				05794C841CA229B300F32837 /* WBUnlockMessage.m */,
+				05794C861CA2321A00F32837 /* WBSystemMsgCell.h */,
+				05794C871CA2321A00F32837 /* WBSystemMsgCell.m */,
+				05794C921CA27B0400F32837 /* WBFollowMsgCell.h */,
+				05794C931CA27B0400F32837 /* WBFollowMsgCell.m */,
+				05794C951CA27B1600F32837 /* WBCommentMsgCell.h */,
+				05794C961CA27B1600F32837 /* WBCommentMsgCell.m */,
+				05794C891CA2322C00F32837 /* WBUnlockMsgCell.h */,
+				05794C8A1CA2322C00F32837 /* WBUnlockMsgCell.m */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 			);
 			name = talkView;
 			sourceTree = "<group>";
@@ -739,8 +802,13 @@
 		05D1F9491C8FBE780049D3EC /* setting */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				05D1F94A1C8FBE9E0049D3EC /* WBSettingTableViewController.h */,
 				05D1F94B1C8FBE9E0049D3EC /* WBSettingTableViewController.m */,
+=======
+				05D1F94A1C8FBE9E0049D3EC /* WBSettingViewController.h */,
+				05D1F94B1C8FBE9E0049D3EC /* WBSettingViewController.m */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 			);
 			name = setting;
 			sourceTree = "<group>";
@@ -1448,6 +1516,10 @@
 			files = (
 				052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */,
 				05DB3F791C87F33E00CBCC54 /* WBNavigationController.m in Sources */,
+<<<<<<< HEAD
+=======
+				05794C8B1CA2322C00F32837 /* WBUnlockMsgCell.m in Sources */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				2D62D67F1C89632700E4D05E /* WBtopicCommentDetilListModel.m in Sources */,
 				054452BD1C9ADFEC00F8969E /* WBUserDefaults.m in Sources */,
 				2D6B53D01C8E6D6300E3009C /* WBPostIamgeViewController.m in Sources */,
@@ -1464,12 +1536,20 @@
 				050B020A1C9FE82900344611 /* WBPrivateViewController.m in Sources */,
 				052F30C81C93DAB500D15322 /* WBGroupDetailController.m in Sources */,
 				054452C91C9CFC4E00F8969E /* WBUserListTableViewCell.m in Sources */,
+<<<<<<< HEAD
+=======
+				05794C941CA27B0400F32837 /* WBFollowMsgCell.m in Sources */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				2D16EF5D1C8416AF002D5F90 /* TopCell.m in Sources */,
 				05D6EB801C7D414F002D48FF /* AppDelegate.m in Sources */,
 				05DB3F7D1C88264000CBCC54 /* NSString+string.m in Sources */,
 				05DB3F5F1C857E9D00CBCC54 /* WBQuestionsListModel.m in Sources */,
 				2D02B6941C81987F00FADFFB /* WBLeftViewController.m in Sources */,
+<<<<<<< HEAD
 				05D1F94C1C8FBE9E0049D3EC /* WBSettingTableViewController.m in Sources */,
+=======
+				05D1F94C1C8FBE9E0049D3EC /* WBSettingViewController.m in Sources */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				2D16EF4F1C8407E4002D5F90 /* WBMyCreateViewController.m in Sources */,
 				05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */,
 				05DB3F701C87E18800CBCC54 /* WBAnswerListController.m in Sources */,
@@ -1487,6 +1567,10 @@
 				052F30D31C93EEB200D15322 /* WBPositionList.m in Sources */,
 				05D1F9401C8FBE1A0049D3EC /* WBHomepageViewController.m in Sources */,
 				2D49D6241C86F232008EE96B /* TopicDetailModel.m in Sources */,
+<<<<<<< HEAD
+=======
+				05794C911CA2641300F32837 /* WBCommentMessage.m in Sources */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				2D02B6971C81989200FADFFB /* WBRightViewController.m in Sources */,
 				2DFF687F1C969C95000DCDDA /* WBRegisterViewController.m in Sources */,
 				2D6047E91C93DCEC00A88BAA /* MyDBmanager.m in Sources */,
@@ -1517,17 +1601,30 @@
 				2DF26B671CA1925E00B7ED10 /* WBIndividualIncomeViewController.m in Sources */,
 				2DF0499E1C9D835A00E92B9E /* WBFansView.m in Sources */,
 				052944DB1C7FF2AF0098159F /* BROptionsButton.m in Sources */,
+<<<<<<< HEAD
+=======
+				05794C7F1CA225FF00F32837 /* WBSystemViewController.m in Sources */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				05D1F9391C8EC0520049D3EC /* WBPostArticleViewController.m in Sources */,
 				2D5D73051C926F4C00F8C2AE /* WBAllocateScoreTableViewCell.m in Sources */,
 				05D6EBC01C7D4BA5002D48FF /* WBFindViewController.m in Sources */,
 				2D5D73021C926CB700F8C2AE /* WBAllocateScoreModel.m in Sources */,
 				05DB3F681C8587A900CBCC54 /* WBQuestionTableViewCell.m in Sources */,
+<<<<<<< HEAD
+=======
+				05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				054550531C90165100A6F0E8 /* WBGroupSettingViewController.m in Sources */,
 				2DF2A9381C9FC0FC002C3A2A /* WBAttentionTableViewCell.m in Sources */,
 				2D5D72FF1C925C2B00F8C2AE /* WBAllocateScoreViewController.m in Sources */,
 				2D1DE0041C92D03F0059CD89 /* DBManager.m in Sources */,
 				2D6958681C991B2E009DBAB3 /* WBSexViewController.m in Sources */,
 				2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */,
+<<<<<<< HEAD
+=======
+				05794C851CA229B300F32837 /* WBUnlockMessage.m in Sources */,
+				05794C881CA2321A00F32837 /* WBSystemMsgCell.m in Sources */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				05BE27911C8038F100B916FB /* WBQuestionsViewController.m in Sources */,
 				0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */,
 				05DB3F641C857EAB00CBCC54 /* WBSingleAnswerModel.m in Sources */,
@@ -1537,11 +1634,19 @@
 				2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */,
 				2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */,
 				2DF2A9411C9FCD44002C3A2A /* WBAttentionModel.m in Sources */,
+<<<<<<< HEAD
+=======
+				05794C8E1CA263C200F32837 /* WBFollowMessage.m in Sources */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				054550501C8FEF6F00A6F0E8 /* WBTalkViewController.m in Sources */,
 				05DB3F731C87E25600CBCC54 /* WBAnswerDetailController.m in Sources */,
 				2D4F50C71C8FBCE0001E017C /* WBCollectionViewModel.m in Sources */,
 				2D4C95341C8A772E000F02B3 /* WBTopicDetailTableViewCell.m in Sources */,
 				2D02B6A11C8198C300FADFFB /* UIViewController+RESideMenu.m in Sources */,
+<<<<<<< HEAD
+=======
+				05794C821CA2299900F32837 /* WBSystemMessage.m in Sources */,
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1725,7 +1830,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = weiqiuwang.weiqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+<<<<<<< HEAD
 				PROVISIONING_PROFILE = "";
+=======
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 			};
@@ -1778,7 +1886,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = weiqiuwang.weiqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+<<<<<<< HEAD
 				PROVISIONING_PROFILE = "";
+=======
+>>>>>>> 3a56be99fafa2afbb6fe41e9f2975a5c09f4e6f5
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 			};
