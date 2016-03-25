@@ -54,9 +54,6 @@
 }
 
 -(void)createUI{
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource= self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor initWithBackgroundGray];
     
@@ -246,14 +243,12 @@
         //往下滑
         [UIView animateWithDuration:0.3
                          animations:^{
-                             self.tabBarController.tabBar.hidden = YES;
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT,self.view.frame.size.width,49)];
                          }];
-        // setFrame:CGRectMake(0.0f,self.view.frame.size.height,self.view.frame.size.width,49.0f)
     }else {
         [UIView animateWithDuration:0.3
                          animations:^{
-                             self.tabBarController.tabBar.hidden = NO;
-                             //[self.tabBarController.tabBar setFrame:CGRectMake(0.0f,self.view.frame.size.height-49.0f,self.view.frame.size.width,49.0f)];
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT - 49,self.view.frame.size.width,49)];
                          }];
     }
 }

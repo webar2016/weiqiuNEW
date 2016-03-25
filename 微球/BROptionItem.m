@@ -8,7 +8,7 @@
 
 #import "BROptionItem.h"
 
-const CGFloat kBROptionsItemDefaultItemHeight = 40;
+const CGFloat kBROptionsItemDefaultItemHeight = 200;
 
 @interface BROptionItem ()
 @end

@@ -61,7 +61,7 @@
     BROptionsButton *brOption = [[BROptionsButton alloc] initWithTabBar:self.tabBar forItemIndex:1 delegate:self];
     
     self.brOptionsButton = brOption;
-    brOption.backgroundColor = [UIColor clearColor];
+//    brOption.backgroundColor = [UIColor clearColor];
     [brOption setImage:[UIImage imageNamed:@"btn_add"] forBROptionsButtonState:BROptionsButtonStateNormal];
     [brOption setImage:[UIImage imageNamed:@"btn_cancel"] forBROptionsButtonState:BROptionsButtonStateOpened];
     

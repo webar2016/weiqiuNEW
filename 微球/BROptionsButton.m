@@ -6,7 +6,6 @@
 @property (nonatomic, weak)   UIImageView *closedStateImage;
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, strong) UIView *blackView;
-
 @end
 
 @implementation BROptionsButton
@@ -23,7 +22,7 @@
         _frequecny = 4;
         _currentState = BROptionsButtonStateNormal;
         _items = [NSMutableArray new];
-        
+
         [self installTheButton];
         
     }
@@ -43,10 +42,9 @@
         [[self.tabBar.items objectAtIndex:self.locationIndexInTabBar] setEnabled:NO];
         
         CGPoint buttonLocation = [self buttonLocaitonForIndex:self.locationIndexInTabBar];
-        CGRect myRect = CGRectMake(0.0, 0.0, 52, 52);
+        CGRect myRect = CGRectMake(0, 0, 50, 50);
         self.frame = myRect;
         self.center = buttonLocation;
-        self.backgroundColor = [UIColor blackColor];
         self.layer.cornerRadius = 6;
         self.clipsToBounds = YES;
         self.layer.zPosition = MAXFLOAT;
@@ -104,7 +102,7 @@
     
     UITabBarItem *item = [self.tabBar.items objectAtIndex:index];
     UIView *view = [item valueForKey:@"view"];
-    CGPoint center = CGPointMake(view.center.x, view.center.y-25);
+    CGPoint center = CGPointMake(view.center.x, view.center.y - 25);
     return center;
 }
 
@@ -204,7 +202,7 @@
             self.openedStateImage.center = openedCenter;
             
         } completion:^(BOOL finished) {
-            NSLog(@"finished");
+//            NSLog(@"finished");
             self.enabled = YES;
         }];
         
@@ -297,7 +295,7 @@
         BROptionItem *brOptionItem = [self createButtonItemAtIndex:i];
         CGPoint mypoint = [self.tabBar.superview convertPoint:self.center fromView:self.superview];
         CGPoint buttonPoint = CGPointMake(mypoint.x + buttonX,
-                                          (mypoint.y -  buttonY) - self.tabBar.frame.size.height);
+                                          (mypoint.y -  buttonY) - self.tabBar.frame.size.height * 2.5);
         
         brOptionItem.layer.anchorPoint = self.layer.anchorPoint;
         brOptionItem.center = mypoint;
