@@ -147,9 +147,7 @@
     switch (indexPath.row) {
         case 0:{
             if ([WBUserDefaults userId]) {
-               // NSLog(@"---------userId = %@",[WBUserDefaults userId]);
                 WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
-                homepageVC.friendId =[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"];
                 [homepageVC setHidesBottomBarWhenPushed:YES];
                 
                 [self pushViewControllerWithController:homepageVC];
@@ -160,7 +158,6 @@
                 [self presentViewController:loadView animated:YES completion:^{
                     
                 }];
-                //[self pushViewControllerWithController:loadView];
             }
             
             break;
