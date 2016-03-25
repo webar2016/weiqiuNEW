@@ -137,7 +137,7 @@
 // 下面的ProductId应该是事先在itunesConnect中添加好的，已存在的付费项目。否则查询会失败。
 - (void)getProductInfo {
     NSArray *product = [[NSArray alloc] initWithObjects:@"qiupiao_ID", nil];//qiupiao_ID
-    NSSet *set = [NSSet setWithArray:@[@"ProductId"]];
+    NSSet *set = [NSSet setWithArray:product];
     SKProductsRequest * request = [[SKProductsRequest alloc] initWithProductIdentifiers:set];
     request.delegate = self;
     [request start];
@@ -151,6 +151,18 @@
     }
     SKPayment * payment = [SKPayment paymentWithProduct:myProduct[0]];
     [[SKPaymentQueue defaultQueue] addPayment:payment];
+}
+
+//请求失败
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+    NSLog(@"商品信息请求错误:%@", error);
+    
+    }
+
+- (void)requestDidFinish:(SKRequest *)request {
+    NSLog(@"请求结束");
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -186,10 +198,22 @@
     // Your application should implement these two methods.
     NSString * productIdentifier = transaction.payment.productIdentifier;
     NSString * receipt = [transaction.transactionReceipt base64EncodedStringWithOptions:0];
+    
+    NSString *receiptData = [[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] base64EncodedStringWithOptions:0];
+
+    
+//    NSString * productIdentifier = [[NSString alloc] initWithData:transaction.transactionReceipt encoding:NSUTF8StringEncoding];
+//    NSString * receipt = [[productIdentifier dataUsingEncoding:NSUTF8StringEncoding] base64EncodedString];
+    
+    
+    NSLog(@"receipt = %@",receipt);
+    
+    NSLog(@"receiptData = %@",receiptData);
     if ([productIdentifier length] > 0) {
 
         NSDictionary *dic = @{@"receipt":receipt,@"userId":[WBUserDefaults userId]};
-                [MyDownLoadManager postUrl:@"http://121.40.132.44:92/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {        
+        NSLog(@"dic = %@",dic);
+                [MyDownLoadManager postUrl:@"http://192.168.1.135/mbapp/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
                 } andSuccess:^(id representData) {
                     NSLog(@"------success-----");
                 } andFailure:^(NSString *error) {
@@ -197,6 +221,7 @@
                 }];
 
         // 向自己的服务器验证购买凭证
+        
     }
     // Remove the transaction from the payment queue.
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
@@ -204,6 +229,7 @@
 }
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
     if(transaction.error.code != SKErrorPaymentCancelled) {
+        NSLog(@"%@",transaction.error);
         NSLog(@"购买失败");
     } else {
         NSLog(@"用户取消交易");
