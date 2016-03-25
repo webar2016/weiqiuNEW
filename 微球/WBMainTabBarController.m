@@ -74,6 +74,7 @@
     self.badgeView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.88, 5, 6, 6)];
     self.badgeView.layer.masksToBounds = YES;
     self.badgeView.layer.cornerRadius = 3;
+    self.badgeView.hidden = YES;
     self.badgeView.backgroundColor = [UIColor redColor];
     [self.tabBar addSubview:self.badgeView];
     

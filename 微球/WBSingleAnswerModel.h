@@ -23,4 +23,8 @@
 
 @property (nonatomic, copy) NSString *timeStr;
 
+@property (nonatomic, assign) NSInteger questionId;
+
+@property (nonatomic, copy) NSString *questionText;
+
 @end

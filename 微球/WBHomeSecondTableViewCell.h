@@ -8,14 +8,13 @@
 
 
 #import <UIKit/UIKit.h>
-#import "WBQuestionsListModel.h"
+#import "WBSingleAnswerModel.h"
 
-@class WBQuestionTableViewCell;
+@class WBHomeSecondTableViewCell;
 @protocol WBHomeSecondTableViewCell <NSObject>
 @optional
-- (void)questionView:(WBQuestionTableViewCell *)cell;
-- (void)answerView:(WBQuestionTableViewCell *)cell;
-- (void)iconView:(WBQuestionTableViewCell *)cell;
+- (void)questionView:(WBHomeSecondTableViewCell *)cell;
+- (void)answerView:(WBHomeSecondTableViewCell *)cell;
 @end
 
 @interface WBHomeSecondTableViewCell : UITableViewCell
@@ -34,8 +33,8 @@
 @property (nonatomic, strong) UILabel *scoreLabel;
 @property (nonatomic, strong) UILabel *unitLabel;
 
-@property (nonatomic, retain) WBQuestionsListModel *model;
+@property (nonatomic, retain) WBSingleAnswerModel *model;
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(WBQuestionsListModel *)model;
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(WBSingleAnswerModel *)model;
 
 @end

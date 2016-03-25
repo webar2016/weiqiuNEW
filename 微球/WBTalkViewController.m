@@ -273,7 +273,7 @@
     questionListVC.fromFindView = NO;
     questionListVC.isMaster = self.isMaster;
     questionListVC.viewTitle = self.title;
-    questionListVC.groupId = [self.groupId intValue];;
+    questionListVC.groupId = [self.groupId intValue];
     [self.navigationController pushViewController:questionListVC animated:YES];
 }
 
