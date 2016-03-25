@@ -132,6 +132,19 @@
 }
 
 
+-(void)loadData{
+    NSString *url = @"http://121.40.132.44:92/integral/getUserIntegral?userId=29";
+    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+        
+    } andFailure:^(NSString *error) {
+        
+    }];
+
+
+
+}
+
+
 
 #pragma mark --------应用内支付------------
 // 下面的ProductId应该是事先在itunesConnect中添加好的，已存在的付费项目。否则查询会失败。
