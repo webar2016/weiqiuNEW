@@ -21,8 +21,8 @@
 
 #import "UILabel+label.h"
 
-#define QUESTION_NUMBER @"http://121.40.132.44:92/hg/noSolveNum?groupId=%d"
-#define QUESTION_IN_GROUP @"http://121.40.132.44:92/tq/getHGQuestion?groupId=%d&p=1&ps=1"
+#define QUESTION_NUMBER @"http://121.40.132.44:92/hg/noSolveNum?groupId=%@"
+#define QUESTION_IN_GROUP @"http://121.40.132.44:92/tq/getHGQuestion?groupId=%@&p=1&ps=1"
 
 @interface WBTalkViewController () {
     UIView      *_questionView;
@@ -31,7 +31,7 @@
     UIButton    *_lookAll;
 }
 
-@property (nonatomic, assign) int groupId;
+@property (nonatomic, assign) NSString *groupId;
 @property (nonatomic, assign) int questionNumber;
 @property (nonatomic, strong) NSMutableArray *model;
 @property (nonatomic, assign) NSUInteger firstLoadQuestion;
@@ -51,12 +51,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(msgPush:)
+                                                 name:@"msgPush"
+                                               object:nil];
+    
     NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTipGroup" object:self userInfo:@{@"unReadGroup":[NSString stringWithFormat:@"%@",unReadGroup]}];
     
     self.displayUserNameInCell = YES;
     self.enableContinuousReadUnreadVoice = YES;
-    self.groupId = [self.targetId intValue];
+    self.groupId = self.targetId;
     [self setMessageAvatarStyle:RC_USER_AVATAR_CYCLE];
     [self showHUD:@"正在努力加载..." isDim:NO];
     [self getQuestionTotalNumber];
@@ -68,6 +74,16 @@
     self.navigationItem.rightBarButtonItem = setting;
     
     self.chatSessionInputBarControl.inputTextView.textColor = [UIColor initWithNormalGray];
+}
+
+-(void)msgPush:(NSNotification*)sender{
+    if ([sender.userInfo[@"groupId"] isEqualToString:self.targetId]) {
+        if ([sender.userInfo[@"msgPush"] isEqualToString: @"1"]) {
+            self.isPush = YES;
+        } else {
+            self.isPush = NO;
+        }
+    }
 }
 
 -(void)popBack{
@@ -257,7 +273,7 @@
     questionListVC.fromFindView = NO;
     questionListVC.isMaster = self.isMaster;
     questionListVC.viewTitle = self.title;
-    questionListVC.groupId = self.groupId;
+    questionListVC.groupId = [self.groupId intValue];;
     [self.navigationController pushViewController:questionListVC animated:YES];
 }
 

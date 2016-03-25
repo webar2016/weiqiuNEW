@@ -178,8 +178,10 @@
     talkView.conversationType =model.conversationType;
     talkView.targetId = model.targetId;
     talkView.title = model.conversationTitle;
-    if ([((WBMyGroupModel *)model.extend).isPush isEqual: @"Y"]) {
+    if ([((WBMyGroupModel *)model.extend).isPush isEqualToString: @"Y"]) {
         talkView.isPush = YES;
+    } else {
+        talkView.isPush = NO;
     }
     talkView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:talkView animated:YES];
