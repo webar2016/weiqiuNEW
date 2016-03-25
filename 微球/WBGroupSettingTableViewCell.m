@@ -33,7 +33,6 @@
     self.isMaster = isMaster;
     self.detail = detail;
     _isPush = isPush;
-    
     if (self) {
         _cutLine = [[UIView alloc] init];
         _cutLine.backgroundColor = [UIColor initWithBackgroundGray];
@@ -133,7 +132,7 @@
     UILabel *messagePush = [[UILabel alloc] initWithFrame:CGRectMake(22, 13, 70, 14)];
     messagePush.font = MAINFONTSIZE;
     messagePush.textColor = [UIColor initWithNormalGray];
-    messagePush.text = @"消息免打扰";
+    messagePush.text = @"消息提醒";
     
 //    UILabel *QAPush= [[UILabel alloc] initWithFrame:CGRectMake(22, 54, 70, 14)];
 //    QAPush.font = MAINFONTSIZE;
@@ -149,10 +148,10 @@
     _messagePush.onTintColor = [UIColor initWithGreen];
     [_messagePush addTarget:self action:@selector(messagePush) forControlEvents:UIControlEventValueChanged];
     
-    if (!_isPush) {
-        _messagePush.on = NO;
-    } else {
+    if (_isPush) {
         _messagePush.on = YES;
+    } else {
+        _messagePush.on = NO;
     }
     
 //    _QAPush = [[UISwitch alloc] init];

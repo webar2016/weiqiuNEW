@@ -16,8 +16,8 @@
 #import "MJExtension.h"
 #import <RongIMLib/RCIMClient.h>
 
-#define MEMBER_ICON @"http://121.40.132.44:92/hg/hgUsers?groupId=%d"
-#define GROUP_DETAIL @"http://121.40.132.44:92/hg/oneHG?groupId=%d"
+#define MEMBER_ICON @"http://121.40.132.44:92/hg/hgUsers?groupId=%@"
+#define GROUP_DETAIL @"http://121.40.132.44:92/hg/oneHG?groupId=%@"
 
 @interface WBGroupSettingViewController () <WBGroupSettingTableViewCellDelegate> {
     UILabel     *_totalMembers;
@@ -40,7 +40,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.bounces = NO;
@@ -48,7 +47,6 @@
     [self loadHeadIcon];
     
     [self loadData];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -141,9 +139,9 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section == 0) {
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 31)];
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 20)];
 
-        _totalMembers = [[UILabel alloc] initWithFrame:CGRectMake(22, 1, SCREENWIDTH, 30)];
+        _totalMembers = [[UILabel alloc] initWithFrame:CGRectMake(22, 1, SCREENWIDTH, 20)];
         _totalMembers.font = MAINFONTSIZE;
         _totalMembers.textColor = [UIColor initWithNormalGray];
         _totalMembers.text = [NSString stringWithFormat:@"%lu个团员",(unsigned long)self.headIconArray.count];
@@ -198,28 +196,37 @@
 
 -(void)messagePush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
-    BOOL push;
+    BOOL noPush;
     data[@"userId"] = @"29";
-    data[@"groupId"] = [NSString stringWithFormat:@"%d",self.groupId];
+    data[@"groupId"] = self.groupId;
     
     if (isOn) {
         data[@"type"] = @"1";
-        push = YES;
+        noPush = YES;
     } else {
         data[@"type"] = @"0";
-        push = NO;
+        noPush = NO;
     }
-    
-    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/hg/setNotice" withParameters:data whenProgress:^(NSProgress *FieldDataBlock) {
-    } andSuccess:^(id representData) {
-        NSLog(@"设置成功");
-        [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"userId"] isBlocked:push success:^(RCConversationNotificationStatus nStatus) {
+    //设置SDK提醒
+    [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"userId"] isBlocked:noPush success:^(RCConversationNotificationStatus nStatus) {
+        //消息提醒同步到服务器
+        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/hg/setPush" withParameters:data whenProgress:^(NSProgress *FieldDataBlock) {
+        } andSuccess:^(id representData) {
+            
+            //向聊天页面发送免提醒通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"msgPush" object:self userInfo:@{@"msgPush":data[@"type"],@"groupId":data[@"userId"]}];
             NSLog(@"免打扰设置成功");
-        } error:^(RCErrorCode status) {
-            NSLog(@"免打扰设置失败---%ld",(long)status);
+            
+        } andFailure:^(NSString *error) {
+            
+            //同步失败则将SDK的提醒方式改回原来的方式
+            [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"userId"] isBlocked:!noPush success:nil error:nil];
+            [self.tableView reloadSections:[[NSIndexSet alloc]initWithIndex:2] withRowAnimation:UITableViewRowAnimationAutomatic];
+            NSLog(@"免打扰设置失败");
         }];
-    } andFailure:^(NSString *error) {
-        NSLog(@"设置失败");
+        
+    } error:^(RCErrorCode status) {
+        NSLog(@"免打扰设置失败---%ld",(long)status);
     }];
 }
 

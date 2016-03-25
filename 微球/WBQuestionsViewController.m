@@ -20,7 +20,9 @@
 #define QUESTION_IN_FIND @"http://121.40.132.44:92/tq/getQuestion?p=%d&ps=%d"
 #define QUESTION_IN_GROUP @"http://121.40.132.44:92/tq/getHGQuestion?groupId=%d&p=%d&ps=%d"
 
-@interface WBQuestionsViewController ()<WBQuestionTableViewCellDelegate>
+@interface WBQuestionsViewController () <WBQuestionTableViewCellDelegate,UITableViewDelegate> {
+    CGFloat _beginScoller;
+}
 
 @property (nonatomic, strong) NSMutableArray *questionsList;
 
@@ -44,7 +46,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     if (!self.fromFindView) {
         self.navigationItem.title = self.viewTitle;
     }
@@ -52,8 +53,6 @@
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
-    
-    //    _scrollPosition = 0;
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor initWithBackgroundGray];
@@ -307,6 +306,30 @@
     answerListController.allAnswers = [sender.userInfo[@"allAnswers"] integerValue];
     answerListController.allIntegral = [sender.userInfo[@"allIntegral"] integerValue];
     [self.parentViewController.navigationController pushViewController:answerListController animated:YES];
+}
+
+#pragma mark -- UIScrollViewDelegate Methods
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    _beginScoller = scrollViewOffset.y;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    if (scrollViewOffset.y - _beginScoller >= 0) {
+        //往下滑
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT,self.view.frame.size.width,49)];
+                         }];
+    }else {
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT - 49,self.view.frame.size.width,49)];
+                         }];
+    }
 }
 
 #pragma mark - MBprogress

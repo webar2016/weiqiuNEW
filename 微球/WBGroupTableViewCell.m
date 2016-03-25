@@ -90,6 +90,8 @@
 -(void)disturbSign{
     _disturbSign = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_nodistubance"]];
     _disturbSign.center = CGPointMake(SCREENWIDTH - 20, 47);
+    _disturbSign.hidden = YES;
+    [self addSubview:_disturbSign];
 }
 
 -(void)setDataModel:(RCConversationModel *)model{
@@ -102,7 +104,9 @@
         _totalNumber.text = [NSString stringWithFormat:@"%ld个问题",(long)((WBMyGroupModel *)model.extend).questions];
     }
     if ([((WBMyGroupModel *)model.extend).isPush isEqual: @"N"]) {
-        [self addSubview:_disturbSign];
+        _disturbSign.hidden = NO;
+    } else {
+        _disturbSign.hidden = YES;
     }
     if (model.unreadMessageCount > 0) {
         _unReadTip.text = [NSString stringWithFormat:@"%ld",model.unreadMessageCount];

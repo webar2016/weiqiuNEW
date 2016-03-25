@@ -30,12 +30,12 @@
 #define kCellReuseId @"collectionViewCellId"
 #define CollectionCellWidth (SCREENWIDTH-30)/2
 
-@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate>
 {
     UICollectionView *_collectionView;
     NSInteger _page;
     NSInteger _loadImageCount;
-    
+    CGFloat _beginScoller;
     //每个cell的高度
     NSMutableArray *_cellHeightArray;
 
@@ -238,6 +238,31 @@
     
 }
 
+#pragma mark -- UIScrollViewDelegate Methods
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    _beginScoller = scrollViewOffset.y;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    if (scrollViewOffset.y - _beginScoller >= 0) {
+        //往下滑
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT,self.view.frame.size.width,49)];
+                         }];
+    }else {
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT - 49,self.view.frame.size.width,49)];
+                         }];
+    }
+}
+
+#pragma mark - HUD
 
 -(void)showHUD:(NSString *)title isDim:(BOOL)isDim
 {
@@ -264,15 +289,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
