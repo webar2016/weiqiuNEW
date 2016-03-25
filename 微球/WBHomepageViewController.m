@@ -20,7 +20,7 @@
 #import "WBAttentionView.h"
 
 #import "TopicDetailModel.h"
-#import "WBQuestionsListModel.h"
+#import "WBSingleAnswerModel.h"
 
 @interface WBHomepageViewController ()<UITableViewDataSource,UITableViewDelegate,HeadDelegate,ModefyData,WBHomeSecondTableViewCell>
 {
@@ -76,11 +76,6 @@
 }
 
 -(void)createNavi{
-    self.navigationItem.title =@"南京帮帮团";
-    
-    //设置标题
-    
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     //设置返回按钮
     UIBarButtonItem *item = (UIBarButtonItem *)self.navigationController.navigationBar.topItem;
     item.title = @"返回";
@@ -92,8 +87,6 @@
     
     UIBarButtonItem *button = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = button;
-    
-    
 }
 
 -(void)createUI{
@@ -101,6 +94,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = [UIColor initWithBackgroundGray];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
     
@@ -122,7 +116,7 @@
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSDictionary *userInfo = [result objectForKey:@"userInfo"];
             _userInfo = userInfo;
-            
+            self.navigationItem.title = userInfo[@"nickname"];
             [self loadOtherData];
         }
     } andFailure:^(NSString *error) {
@@ -152,7 +146,7 @@
         NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/tq/getUserAnswer?userId=%@",@"29"];
         [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-            _dataArrayListTwo = [WBQuestionsListModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
+            _dataArrayListTwo = [WBSingleAnswerModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
             [_dataSource removeAllObjects];
             _dataSource = _dataArrayListTwo;
            // NSLog(@"_dataSource = %@",_dataArrayListOne);
@@ -300,6 +294,7 @@
 
 
 - (void)changeTableViewBody:(NSInteger)Number{
+    NSLog(@"%ld",(long)Number);
     _selectPage = Number;
     [self loadOtherData];
 

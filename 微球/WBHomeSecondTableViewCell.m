@@ -23,13 +23,13 @@
 
 #pragma mark - 自定义cell
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(WBQuestionsListModel *)model{
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(WBSingleAnswerModel *)model{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
         [self setUpQuestionByText:model.questionText];
         
-        [self setUpAnswerByText:model.hga.answerText];
+        [self setUpAnswerByText:model.answerText];
         
         [self addGestureRecognizer];
         
@@ -78,7 +78,6 @@
     _userIcon.layer.borderColor = [UIColor initWithGreen].CGColor;
     _userIcon.layer.borderWidth = 1;
     _userIcon.layer.cornerRadius = 13;
-    _userIcon.userInteractionEnabled = YES;
     
     _scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(MARGININSIDE - 2, MARGININSIDE + 30, 26 + MARGINOUTSIDE, 14)];
     _scoreLabel.font = SMALLFONTSIZE;
@@ -128,9 +127,6 @@
     
     UITapGestureRecognizer *answerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(answerTap)];
     [_answerView addGestureRecognizer:answerTap];
-    
-    UITapGestureRecognizer *iconTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iconTap)];
-    [_userIcon addGestureRecognizer:iconTap];
 }
 
 -(void)questionTap{
@@ -145,26 +141,20 @@
     }
 }
 
--(void)iconTap{
-    if (_delegate && [_delegate respondsToSelector:@selector(iconView:)]) {
-        [_delegate iconView:self];
-    }
-}
-
 #pragma mark - 添加数据
 
--(void)setModel:(WBQuestionsListModel *)model{
+-(void)setModel:(WBSingleAnswerModel *)model{
     _model = model;
     _questionLabel.text = model.questionText;
     _questionLabel.numberOfLines = 0;
     [_questionLabel setLineSpace:LINESPACE withContent:model.questionText];
     
-    _answerLabel.text = [model.hga.answerText replaceImageSign];
+    _answerLabel.text = [model.answerText replaceImageSign];
     _answerLabel.numberOfLines = 3;
     
-    [_userIcon sd_setImageWithURL:model.hga.tblUser.dir];
+    [_userIcon sd_setImageWithURL:model.tblUser.dir];
     
-    float score = (float)model.hga.getIntegral;
+    float score = (float)model.getIntegral;
     if (score >= 1000) {
         score = score / 1000;
         _scoreLabel.text = [NSString stringWithFormat:@"%.1fk",score];
