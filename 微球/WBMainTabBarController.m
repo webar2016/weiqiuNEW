@@ -21,7 +21,8 @@
 
 
 
-@interface WBMainTabBarController ()<BROptionButtonDelegate, CommonDelegate, UITabBarControllerDelegate>
+@interface WBMainTabBarController () <BROptionButtonDelegate, CommonDelegate, UITabBarControllerDelegate>
+
 @property (nonatomic, strong) BROptionsButton *brOptionsButton;
 
 @property (nonatomic, strong) CreateHelpGroupViewController *createHelpGroupViewController;

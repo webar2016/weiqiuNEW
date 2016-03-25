@@ -25,7 +25,7 @@
 #define CellURL @"http://121.40.132.44:92/tq/getTopic?p=%ld&ps=%d"
 
 
-@interface WBTopicsTableViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface WBTopicsTableViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 {
         //cell的数据
     NSMutableArray *_dataList;
@@ -33,7 +33,7 @@
     NSMutableArray *_dataTopList;
     //当前的页数
     NSInteger _page;
-
+    CGFloat _beginScoller;
     
 }
 @end
@@ -54,7 +54,7 @@
 }
 
 -(void)createUI{
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
     self.tableView.delegate = self;
     self.tableView.dataSource= self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -230,6 +230,32 @@
     
     //[self.view.window.rootViewController presentViewController:DVC animated:YES completion:nil];
 
+}
+
+#pragma mark -- UIScrollViewDelegate Methods
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    _beginScoller = scrollViewOffset.y;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    if (scrollViewOffset.y - _beginScoller >= 0) {
+        //往下滑
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             self.tabBarController.tabBar.hidden = YES;
+                         }];
+        // setFrame:CGRectMake(0.0f,self.view.frame.size.height,self.view.frame.size.width,49.0f)
+    }else {
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             self.tabBarController.tabBar.hidden = NO;
+                             //[self.tabBarController.tabBar setFrame:CGRectMake(0.0f,self.view.frame.size.height-49.0f,self.view.frame.size.width,49.0f)];
+                         }];
+    }
 }
 
 
