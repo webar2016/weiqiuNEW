@@ -294,7 +294,6 @@
 
 
 - (void)changeTableViewBody:(NSInteger)Number{
-    NSLog(@"%ld",(long)Number);
     _selectPage = Number;
     [self loadOtherData];
 
