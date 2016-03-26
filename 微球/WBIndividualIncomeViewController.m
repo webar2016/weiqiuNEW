@@ -31,6 +31,7 @@
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     [self createNavi];
     [self createUI];
+    [self loadData];
 }
 
 - (void)viewDidUnload {
@@ -81,13 +82,12 @@
     
     _scorelabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 42+63+37+40+42+15+13, SCREENWIDTH/2, 15)];
     _scorelabel.textColor = [UIColor initWithLightGray];
-    _scorelabel.text = @"1234";
     _scorelabel.font =[UIFont systemFontOfSize:18];
     _scorelabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_scorelabel];
     
     _withdrawMoneylabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREENWIDTH/2, 42+63+37+40+42+15+13, SCREENWIDTH/2, 15)];
-    _withdrawMoneylabel.textColor = [UIColor initWithBackgroundGray];
+    _withdrawMoneylabel.textColor = [UIColor initWithLightGray];
     _withdrawMoneylabel.textAlignment = NSTextAlignmentCenter;
     _withdrawMoneylabel.font = [UIFont systemFontOfSize:18];
     [self.view addSubview:_withdrawMoneylabel];
@@ -133,8 +133,17 @@
 
 
 -(void)loadData{
-    NSString *url = @"http://121.40.132.44:92/integral/getUserIntegral?userId=29";
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/integral/getUserIntegral?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        NSDictionary *userIntegral = result[@"userIntegral"];
+        NSString *integral = [userIntegral objectForKey:@"integral"];
+        
+        _moneyLabel.text = [NSString stringWithFormat:@"¥%.1f",[integral floatValue]/10];
+        _scorelabel.text =[NSString stringWithFormat:@"%.0f",[integral floatValue] ];
+        _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%.1f",[integral floatValue]/10];
+        
+        
         
     } andFailure:^(NSString *error) {
         
@@ -254,14 +263,6 @@
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

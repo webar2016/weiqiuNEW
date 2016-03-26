@@ -7,10 +7,18 @@
 //
 
 #import "WBUserDefaults.h"
+#import "LoadViewController.h"
 
 @implementation WBUserDefaults
 
 +(NSString *)userId{
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]) {
+        LoadViewController *loadView = [[LoadViewController alloc]init];
+        UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+        [rootViewController presentViewController:loadView animated:YES completion:nil];
+        return nil;
+    }
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
 }
 +(void)setUserId:(NSString *)userId{
@@ -27,6 +35,7 @@
     [self setUserDefaultsArrayWithKey:@"dir"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 
 +(UIImage *)headIcon{
     return [UIImage imageWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"headIcon"]];

@@ -42,12 +42,13 @@
     [self setUpSelections];
     
     
-    
 }
 
 #pragma mark - setUpSubviews
 
 -(void)setUpUserInfos{
+    
+    [WBUserDefaults userId];
     self.userInfosView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.size.width, 110)];
     self.userInfosView.backgroundColor = [UIColor initWithDarkGray];
     [self.view addSubview:self.userInfosView];
