@@ -120,11 +120,23 @@
         //[self.navigationController pushViewController:registerView animated:YES];
     }else{
     
-        [self dismissViewControllerAnimated:YES completion:nil];
+               
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
     
     }
 }
 
+
+//- (void)hideViewController:(UIViewController *)viewController
+//{
+//    [viewController willMoveToParentViewController:nil];
+//    [viewController.view removeFromSuperview];
+//    [viewController removeFromParentViewController];
+//}
+//
+//- (void)hideMenuViewControllerAnimated:(BOOL)animated
 #pragma mark   ----存本地数据----
 
 -(void)saveToUserDefault{

@@ -16,7 +16,9 @@
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]) {
         LoadViewController *loadView = [[LoadViewController alloc]init];
         UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-        [rootViewController presentViewController:loadView animated:YES completion:nil];
+        [rootViewController presentViewController:loadView animated:YES completion:^{
+            NSLog(@"%@",rootViewController);
+        }];
         return nil;
     }
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];

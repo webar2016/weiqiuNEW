@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBFindAndHelpViewController.h"
 
-@interface WBHelpGroupsViewController : UIViewController
+@interface WBHelpGroupsViewController : WBFindAndHelpViewController
 
 @end

@@ -113,6 +113,7 @@
 		2D1DE00D1C92E32B0059CD89 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */; };
 		2D26AEC11CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */; };
 		2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */; };
+		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
 		2D29EBDE1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29EBDD1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m */; };
 		2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */; };
 		2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE61C8840B000555532 /* MyModel.xcdatamodeld */; };
@@ -372,6 +373,8 @@
 		2D26AEBF1CA2230C003D5DAE /* WBTopicDetailTableViewCell3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicDetailTableViewCell3.h; sourceTree = "<group>"; };
 		2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailTableViewCell3.m; sourceTree = "<group>"; };
 		2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindAndHelpViewController.h; sourceTree = "<group>"; };
+		2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindAndHelpViewController.m; sourceTree = "<group>"; };
 		2D29EBDC1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHomeHeadTableViewCell.h; sourceTree = "<group>"; };
 		2D29EBDD1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHomeHeadTableViewCell.m; sourceTree = "<group>"; };
 		2D465FE31C88316000555532 /* WBTopicCommentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicCommentTableViewController.h; sourceTree = "<group>"; };
@@ -596,6 +599,8 @@
 		052944D01C7FF2040098159F /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */,
+				2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */,
 				05D6EBD51C7EDE52002D48FF /* WBMainTabBarController.h */,
 				05D6EBD61C7EDE52002D48FF /* WBMainTabBarController.m */,
 				05DB3F771C87F33E00CBCC54 /* WBNavigationController.h */,
@@ -1572,6 +1577,7 @@
 				05D6EBC01C7D4BA5002D48FF /* WBFindViewController.m in Sources */,
 				2D5D73021C926CB700F8C2AE /* WBAllocateScoreModel.m in Sources */,
 				05DB3F681C8587A900CBCC54 /* WBQuestionTableViewCell.m in Sources */,
+				2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */,
 				05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */,
 				054550531C90165100A6F0E8 /* WBGroupSettingViewController.m in Sources */,
 				2DF2A9381C9FC0FC002C3A2A /* WBAttentionTableViewCell.m in Sources */,
