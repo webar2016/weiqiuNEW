@@ -213,6 +213,13 @@
     [userDefaults synchronize];
 }
 
++(void)deleteUserDefaults{
+    for (NSString *key in [[NSUserDefaults standardUserDefaults] dictionaryRepresentation].allKeys) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
 +(void)deleteAllUserDefaults{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     for (NSString *oneKey in [self keysInUserDefaults]) {

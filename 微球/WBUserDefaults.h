@@ -120,6 +120,8 @@ username = 15001125798;
 
 /**
  *删除数据
+ @ deleteUserDefaults - 删除所有数据
+ 
  *@ deleteAllUserDefaults - 删除所有自定义数据
  *
  *@ deleteSingleUserDefaults: - 删除一条数据，传入key
@@ -127,6 +129,7 @@ username = 15001125798;
  *@ deleteMutableUserDefaults: - 删除多条数据，传入key array
  */
 
++(void)deleteUserDefaults;
 +(void)deleteAllUserDefaults;
 +(void)deleteSingleUserDefaults:(NSString *)userDefaultsKey;
 +(void)deleteMutableUserDefaults:(NSArray *)userDefaultsKeyArray;

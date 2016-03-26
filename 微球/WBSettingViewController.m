@@ -53,6 +53,8 @@
 
 -(void)loginOut{
     NSLog(@"退出微球");
+    [WBUserDefaults deleteUserDefaults];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void)dontDisturb{

@@ -34,28 +34,19 @@
     return [[UIScreen mainScreen] bounds].size;
 }
 
-
-//-(void)viewDidAppear:(BOOL)animated{
-//    [super viewDidAppear:YES];
-//    [WBUserDefaults userId];
-//
-//}
-
-
-//-(void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:YES];
-//    [WBUserDefaults userId];
-//
-//}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor initWithLightGray];
     [self setUpUserInfos];
     [self setUpScores];
     [self setUpSelections];
-    
-    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _userIcon.image = [WBUserDefaults headIcon];
+    _nickName.text = [WBUserDefaults nickname];
+    _profile.text = [WBUserDefaults profile];
 }
 
 #pragma mark - setUpSubviews
@@ -69,20 +60,17 @@
     _userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30, 30, 50, 50)];
     _userIcon.layer.masksToBounds = YES;
     _userIcon.layer.cornerRadius = 25.0;
-    _userIcon.image = [WBUserDefaults headIcon];
     _userIcon.contentMode = UIViewContentModeScaleAspectFill;
     [self.userInfosView addSubview:_userIcon];
     
     _nickName = [[UILabel alloc] initWithFrame:CGRectMake(100, 30, (self.size.width*0.7-100), 15)];
     _nickName.textColor = [UIColor whiteColor];
-    _nickName.text = [WBUserDefaults nickname];
     _nickName.font = MAINFONTSIZE;
     [self.userInfosView addSubview:_nickName];
     
     _profile = [[UITextView alloc] initWithFrame:CGRectMake(95, 45, (self.size.width*0.7-100), 60)];
     _profile.backgroundColor = [UIColor clearColor];
     _profile.textColor = [UIColor whiteColor];
-    _profile.text = [WBUserDefaults profile];
     _profile.font = MAINFONTSIZE;
     [self.userInfosView addSubview:_profile];
 }
@@ -202,6 +190,7 @@
 }
 
 -(void)pushViewControllerWithController:(UIViewController *)vc{
+    NSLog(@"%d",IS_FIND_PAGE);
     if (IS_FIND_PAGE == YES) {
         [NAVIGATION_CONTROLLERS.firstObject pushViewController:vc animated:YES];
     }else{

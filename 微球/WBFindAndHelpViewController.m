@@ -7,6 +7,7 @@
 //
 
 #import "WBFindAndHelpViewController.h"
+#import "RCIMClient.h"
 
 @interface WBFindAndHelpViewController ()
 {
@@ -20,8 +21,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(unReadTip:)
+                                                 name:@"unReadTip"
+                                               object:nil];
     [self createNavi];
     
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
 }
 
 
@@ -52,21 +63,40 @@
 
 - (void)presentLeftMenuViewController
 {
-    
-    
     if ([WBUserDefaults userId]) {
-        self.sideMenuViewController.isFindPage = YES;
+        
+        [self isFromFindView];
         [self.sideMenuViewController presentLeftMenuViewController];
     }
 }
 
 - (void)presentRightMenuViewController
 {
-    self.sideMenuViewController.isFindPage = YES;
+    [self isFromFindView];
     [self.sideMenuViewController presentRightMenuViewController];
 }
 
+-(void)isFromFindView{
+    NSLog(@"%lu",self.tabBarController.selectedIndex);
+    if (self.tabBarController.selectedIndex == 0) {
+        self.sideMenuViewController.isFindPage = YES;
+    } else if (self.tabBarController.selectedIndex == 2) {
+        self.sideMenuViewController.isFindPage = NO;
+    }
+}
 
+#pragma mark - 小红点提醒
+
+-(void)unReadTip:(NSNotification*)sender{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int count = [sender.userInfo[@"unRead"] intValue];
+        if (count > 0 && _tip.hidden) {
+            _tip.hidden = NO;
+        } else if (count == 0 && !_tip.hidden) {
+            _tip.hidden = YES;
+        }
+    });
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
