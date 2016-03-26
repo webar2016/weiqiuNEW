@@ -60,6 +60,7 @@
 		05794C911CA2641300F32837 /* WBCommentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C901CA2641300F32837 /* WBCommentMessage.m */; };
 		05794C941CA27B0400F32837 /* WBFollowMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C931CA27B0400F32837 /* WBFollowMsgCell.m */; };
 		05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C961CA27B1600F32837 /* WBCommentMsgCell.m */; };
+		05992B2D1CA58D7B007906B4 /* WBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05992B2C1CA58D7B007906B4 /* WBMapViewController.m */; };
 		05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE278B1C8038AA00B916FB /* WBTopicsTableViewController.m */; };
 		05BE27911C8038F100B916FB /* WBQuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE27901C8038F100B916FB /* WBQuestionsViewController.m */; };
 		05D1F9361C8E78960049D3EC /* WBUpdateIntegral.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9351C8E78960049D3EC /* WBUpdateIntegral.m */; };
@@ -111,7 +112,6 @@
 		2D1DE00B1C92D2BE0059CD89 /* WBTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1DE00A1C92D2BE0059CD89 /* WBTestViewController.m */; };
 		2D1DE00D1C92E32B0059CD89 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */; };
 		2D26AEC11CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */; };
-		2D26AEC41CA22E1D003D5DAE /* WBHomeSecondTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26AEC31CA22E1D003D5DAE /* WBHomeSecondTableViewCell.m */; };
 		2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */; };
 		2D29EBDE1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29EBDD1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m */; };
 		2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */; };
@@ -267,6 +267,8 @@
 		05794C931CA27B0400F32837 /* WBFollowMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFollowMsgCell.m; sourceTree = "<group>"; };
 		05794C951CA27B1600F32837 /* WBCommentMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCommentMsgCell.h; sourceTree = "<group>"; };
 		05794C961CA27B1600F32837 /* WBCommentMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBCommentMsgCell.m; sourceTree = "<group>"; };
+		05992B2B1CA58D7B007906B4 /* WBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMapViewController.h; sourceTree = "<group>"; };
+		05992B2C1CA58D7B007906B4 /* WBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMapViewController.m; sourceTree = "<group>"; };
 		05BE278A1C8038AA00B916FB /* WBTopicsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicsTableViewController.h; sourceTree = "<group>"; };
 		05BE278B1C8038AA00B916FB /* WBTopicsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicsTableViewController.m; sourceTree = "<group>"; };
 		05BE278F1C8038F100B916FB /* WBQuestionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBQuestionsViewController.h; sourceTree = "<group>"; };
@@ -369,8 +371,6 @@
 		2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		2D26AEBF1CA2230C003D5DAE /* WBTopicDetailTableViewCell3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicDetailTableViewCell3.h; sourceTree = "<group>"; };
 		2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailTableViewCell3.m; sourceTree = "<group>"; };
-		2D26AEC21CA22E1D003D5DAE /* WBHomeSecondTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHomeSecondTableViewCell.h; sourceTree = "<group>"; };
-		2D26AEC31CA22E1D003D5DAE /* WBHomeSecondTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHomeSecondTableViewCell.m; sourceTree = "<group>"; };
 		2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2D29EBDC1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHomeHeadTableViewCell.h; sourceTree = "<group>"; };
 		2D29EBDD1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHomeHeadTableViewCell.m; sourceTree = "<group>"; };
@@ -755,8 +755,8 @@
 				2D29EBDD1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m */,
 				2DF26B681CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.h */,
 				2DF26B691CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.m */,
-				2D26AEC21CA22E1D003D5DAE /* WBHomeSecondTableViewCell.h */,
-				2D26AEC31CA22E1D003D5DAE /* WBHomeSecondTableViewCell.m */,
+				05992B2B1CA58D7B007906B4 /* WBMapViewController.h */,
+				05992B2C1CA58D7B007906B4 /* WBMapViewController.m */,
 				2DF0499F1C9D842500E92B9E /* 关注 */,
 				2DF049A01C9D843400E92B9E /* 粉丝 */,
 			);
@@ -1505,6 +1505,7 @@
 				05D1F9361C8E78960049D3EC /* WBUpdateIntegral.m in Sources */,
 				2D69586B1C99389E009DBAB3 /* WBPlaceChooseViewController.m in Sources */,
 				052F30D01C93EB5B00D15322 /* WBPositionModel.m in Sources */,
+				05992B2D1CA58D7B007906B4 /* WBMapViewController.m in Sources */,
 				05DB3F521C8444A400CBCC54 /* UIImage+image.m in Sources */,
 				0559DD0A1C9287D00062D1BE /* WBMyGroupModel.m in Sources */,
 				050B020A1C9FE82900344611 /* WBPrivateViewController.m in Sources */,
@@ -1585,7 +1586,6 @@
 				05DB3F641C857EAB00CBCC54 /* WBSingleAnswerModel.m in Sources */,
 				05D6EBC31C7D4BCF002D48FF /* WBHelpGroupsViewController.m in Sources */,
 				2D5005581C800BCC00DB8BF3 /* CreateHelpGroupViewController.m in Sources */,
-				2D26AEC41CA22E1D003D5DAE /* WBHomeSecondTableViewCell.m in Sources */,
 				2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */,
 				2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */,
 				2DF2A9411C9FCD44002C3A2A /* WBAttentionModel.m in Sources */,

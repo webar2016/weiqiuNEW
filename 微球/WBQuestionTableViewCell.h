@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WBQuestionsListModel.h"
 
 @class WBQuestionTableViewCell;
 @protocol WBQuestionTableViewCellDelegate <NSObject>
@@ -33,8 +32,8 @@
 @property (nonatomic, strong) UILabel *scoreLabel;
 @property (nonatomic, strong) UILabel *unitLabel;
 
-@property (nonatomic, retain) WBQuestionsListModel *model;
+@property (nonatomic, retain) id model;
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(WBQuestionsListModel *)model;
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(id)model;
 
 @end

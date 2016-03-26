@@ -7,6 +7,8 @@
 //
 
 #import "WBQuestionTableViewCell.h"
+#import "WBQuestionsListModel.h"
+#import "WBSingleAnswerModel.h"
 
 #import "UIImageView+WebCache.h"
 #import "UILabel+label.h"
@@ -22,13 +24,25 @@
 
 #pragma mark - 自定义cell
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(WBQuestionsListModel *)model{
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(id)model{
+    if (![model isKindOfClass:[WBQuestionsListModel class]] && ![model isKindOfClass:[WBSingleAnswerModel class]]) {
+        NSLog(@"数据错误");
+        return nil;
+    }
+    
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
     if (self) {
         
-        [self setUpQuestionByText:model.questionText];
-        
-        [self setUpAnswerByText:model.hga.answerText];
+        if ([model isKindOfClass:[WBQuestionsListModel class]]) {
+            [self setUpQuestionByText:((WBQuestionsListModel *)model).questionText];
+            
+            [self setUpAnswerByText:((WBQuestionsListModel *)model).hga.answerText];
+        } else {
+            [self setUpQuestionByText:((WBSingleAnswerModel *)model).questionText];
+            
+            [self setUpAnswerByText:((WBSingleAnswerModel *)model).answerText];
+        }
         
         [self addGestureRecognizer];
         
@@ -152,24 +166,46 @@
 
 #pragma mark - 添加数据
 
--(void)setModel:(WBQuestionsListModel *)model{
+-(void)setModel:(id)model{
     _model = model;
-    _questionLabel.text = model.questionText;
-    _questionLabel.numberOfLines = 0;
-    [_questionLabel setLineSpace:LINESPACE withContent:model.questionText];
-    
-    _answerLabel.text = [model.hga.answerText replaceImageSign];
-    _answerLabel.numberOfLines = 3;
-    
-    [_userIcon sd_setImageWithURL:model.hga.tblUser.dir];
-    
-    float score = (float)model.hga.getIntegral;
-    if (score >= 1000) {
-        score = score / 1000;
-        _scoreLabel.text = [NSString stringWithFormat:@"%.1fk",score];
-    }else{
-        _scoreLabel.text = [NSString stringWithFormat: @"%ld", (long)score];
+    if ([model isKindOfClass:[WBQuestionsListModel class]]) {
+        
+        _questionLabel.text = ((WBQuestionsListModel *)model).questionText;
+        _questionLabel.numberOfLines = 0;
+        [_questionLabel setLineSpace:LINESPACE withContent:((WBQuestionsListModel *)model).questionText];
+        
+        _answerLabel.text = [((WBQuestionsListModel *)model).hga.answerText replaceImageSign];
+        _answerLabel.numberOfLines = 3;
+        
+        [_userIcon sd_setImageWithURL:((WBQuestionsListModel *)model).hga.tblUser.dir];
+        
+        float score = (float)((WBQuestionsListModel *)model).hga.getIntegral;
+        if (score >= 1000) {
+            score = score / 1000;
+            _scoreLabel.text = [NSString stringWithFormat:@"%.1fk",score];
+        }else{
+            _scoreLabel.text = [NSString stringWithFormat: @"%ld", (long)score];
+        }
+        
+    } else if ([model isKindOfClass:[WBSingleAnswerModel class]]) {
+        _questionLabel.text = ((WBSingleAnswerModel *)model).questionText;
+        _questionLabel.numberOfLines = 0;
+        [_questionLabel setLineSpace:LINESPACE withContent:((WBSingleAnswerModel *)model).questionText];
+        
+        _answerLabel.text = [((WBSingleAnswerModel *)model).answerText replaceImageSign];
+        _answerLabel.numberOfLines = 3;
+        
+        [_userIcon sd_setImageWithURL:((WBSingleAnswerModel *)model).tblUser.dir];
+        
+        float score = (float)((WBSingleAnswerModel *)model).getIntegral;
+        if (score >= 1000) {
+            score = score / 1000;
+            _scoreLabel.text = [NSString stringWithFormat:@"%.1fk",score];
+        }else{
+            _scoreLabel.text = [NSString stringWithFormat: @"%ld", (long)score];
+        }
+    } else {
+        NSLog(@"数据错误");
     }
-    
 }
 @end
