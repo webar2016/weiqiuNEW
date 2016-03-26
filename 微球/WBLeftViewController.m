@@ -35,19 +35,6 @@
 }
 
 
-//-(void)viewDidAppear:(BOOL)animated{
-//    [super viewDidAppear:YES];
-//    [WBUserDefaults userId];
-//
-//}
-
-
-//-(void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:YES];
-//    [WBUserDefaults userId];
-//
-//}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor initWithLightGray];
