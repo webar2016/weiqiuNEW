@@ -54,12 +54,12 @@
     [self setAVOSCloud];
 //    [WBUserDefaults deleteAllUserDefaults];
     
-//    NSArray *array = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation].allKeys;
-//    
-//    for (NSString *str in array) {
-//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:str];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//    }
+    NSArray *array = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation].allKeys;
+    
+    for (NSString *str in array) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:str];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 
     return YES;
 }

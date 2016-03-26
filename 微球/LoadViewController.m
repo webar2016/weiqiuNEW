@@ -32,6 +32,8 @@
     self.view.backgroundColor = [UIColor grayColor];
     [self createUI];
     
+    
+    
 }
 
 
