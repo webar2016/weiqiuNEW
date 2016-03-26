@@ -197,7 +197,7 @@
 -(void)messagePush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     BOOL noPush;
-    data[@"userId"] = @"29";
+    data[@"userId"] = [WBUserDefaults userId];
     data[@"groupId"] = self.groupId;
     
     if (isOn) {

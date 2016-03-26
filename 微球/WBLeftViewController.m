@@ -48,7 +48,6 @@
 
 -(void)setUpUserInfos{
     
-    [WBUserDefaults userId];
     self.userInfosView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.size.width, 110)];
     self.userInfosView.backgroundColor = [UIColor initWithDarkGray];
     [self.view addSubview:self.userInfosView];
@@ -56,20 +55,20 @@
     _userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30, 30, 50, 50)];
     _userIcon.layer.masksToBounds = YES;
     _userIcon.layer.cornerRadius = 25.0;
-    _userIcon.image = [UIImage imageNamed:@"0.pic.jpg"];
+    _userIcon.image = [WBUserDefaults headIcon];
     _userIcon.contentMode = UIViewContentModeScaleAspectFill;
     [self.userInfosView addSubview:_userIcon];
     
     _nickName = [[UILabel alloc] initWithFrame:CGRectMake(100, 30, (self.size.width*0.7-100), 15)];
     _nickName.textColor = [UIColor whiteColor];
-    _nickName.text = @"微球君";
+    _nickName.text = [WBUserDefaults nickname];
     _nickName.font = MAINFONTSIZE;
     [self.userInfosView addSubview:_nickName];
     
     _profile = [[UITextView alloc] initWithFrame:CGRectMake(95, 45, (self.size.width*0.7-100), 60)];
     _profile.backgroundColor = [UIColor clearColor];
     _profile.textColor = [UIColor whiteColor];
-    _profile.text = @"微球君微球君微球君微球君微球君微球君微球君微球君微球君微球君微球君微球君";
+    _profile.text = [WBUserDefaults profile];
     _profile.font = MAINFONTSIZE;
     [self.userInfosView addSubview:_profile];
 }

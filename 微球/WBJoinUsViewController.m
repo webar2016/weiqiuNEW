@@ -16,7 +16,7 @@
 #import "WBMyGroupModel.h"
 #import <RongIMLib/RCIMClient.h>
 
-#define MY_JOIN_GROUPS @"http://121.40.132.44:92/hg/getMyJion?userId=29"
+#define MY_JOIN_GROUPS @"http://121.40.132.44:92/hg/getMyJion?userId=%@"
 
 @interface WBJoinUsViewController () <UIScrollViewDelegate> {
     UIImageView *_emptyView;
@@ -72,7 +72,7 @@
 #pragma mark - 加载数据
 
 -(void)loadData{
-    NSString *url = [NSString stringWithFormat:MY_JOIN_GROUPS];
+    NSString *url = [NSString stringWithFormat:MY_JOIN_GROUPS,[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -92,19 +92,23 @@
 #pragma mark - 重写会话列表相关方法
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.models.count == 0 || self.conversationListDataSource.count == 0) {
-        [self.conversationListTableView addSubview:_emptyView];
-        return 0;
+    NSInteger count = 0;
+    for (RCConversationModel *model in self.conversationListDataSource) {
+        for (WBMyGroupModel *myModel in self.models) {
+            NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
+            if ([model.targetId isEqualToString:groupId]) {
+                count += 1;
+            }
+        }
     }
     
-    if (self.models.count < self.conversationListDataSource.count) {
+    if (count > 0) {
         [_emptyView removeFromSuperview];
-        return self.models.count;
     } else {
         [_emptyView removeFromSuperview];
-        return self.conversationListDataSource.count;
     }
     
+    return count;
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{

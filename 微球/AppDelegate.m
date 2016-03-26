@@ -61,7 +61,7 @@
     [self setAVOSCloud];
     
     [self shareSDK];
-
+    
     return YES;
 }
 
@@ -69,7 +69,7 @@
 
 -(void)setRootView{
     self.window= [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor initWithGreen];
+    self.window.backgroundColor = [UIColor initWithDarkGray];
     self.mainTabBarController = [[WBMainTabBarController alloc] init];
     self.leftViewController = [[WBLeftViewController alloc]init];
     self.rightViewController = [[WBRightViewController alloc]initWithDisplayConversationTypes:@[@(ConversationType_PRIVATE)] collectionConversationType:nil];

@@ -114,7 +114,7 @@
 
 -(void)createWithQuestion:(NSString *)question{
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
-    data[@"userId"] = @"29";
+    data[@"userId"] = [WBUserDefaults userId];
     data[@"groupId"] = self.targetId;
     data[@"questionText"] = question;
     

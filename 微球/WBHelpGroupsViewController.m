@@ -115,8 +115,8 @@
     _allListView = [[WBAllListViewController alloc]init];
     _joinUsView = [[WBJoinUsViewController alloc]init];
     _myCreateView = [[WBMyCreateViewController alloc]init];
-    [_vcArray addObject:_joinUsView];
     [_vcArray addObject:_allListView];
+    [_vcArray addObject:_joinUsView];
     [_vcArray addObject:_myCreateView];
         
 }
