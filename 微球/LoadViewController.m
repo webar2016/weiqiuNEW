@@ -43,7 +43,6 @@
     if ([WBUserDefaults userId]) {
         NSLog(@"-----12345----");
         [self saveToUserDefault];
-      //  [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -99,7 +98,6 @@
             
         } andSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-         //   NSLog(@"id = %@",result);
             [WBUserDefaults    setUserId:[result objectForKey:@"userId"]];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
           // [WBUserDefaults :[result objectForKey:@"token"]];
@@ -129,15 +127,6 @@
     }
 }
 
-
-//- (void)hideViewController:(UIViewController *)viewController
-//{
-//    [viewController willMoveToParentViewController:nil];
-//    [viewController.view removeFromSuperview];
-//    [viewController removeFromParentViewController];
-//}
-//
-//- (void)hideMenuViewControllerAnimated:(BOOL)animated
 #pragma mark   ----存本地数据----
 
 -(void)saveToUserDefault{

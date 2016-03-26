@@ -92,8 +92,6 @@
 
 - (void)setModel:(WBCollectionViewModel *)model imageHeight:(CGFloat)imageHeight{
     [self createUI:imageHeight];
-    
-    
     //大图
     
 

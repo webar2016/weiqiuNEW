@@ -23,7 +23,7 @@
 #import "TopicDetailModel.h"
 #import "WBSingleAnswerModel.h"
 
-@interface WBHomepageViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,WBQuestionTableViewCellDelegate,ModefyData> {
+@interface WBHomepageViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,WBQuestionTableViewCellDelegate,ModefyData,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     
     UIView              *_headView;//头部视图
     UITableView         *_topicTableView;
@@ -52,6 +52,8 @@
     NSDictionary        *_userInfo;
     
     WBMapViewController *_mapVC;
+    
+    UIImagePickerController *_imagePicker;
 }
 @end
 
@@ -81,6 +83,7 @@
     [self loadTopics];
     [self loadAnswers];
     
+    [self setConfigHeadView];
     
 }
 
@@ -103,6 +106,9 @@
     _coverImage.contentMode = UIViewContentModeScaleAspectFill;
     _coverImage.image = [UIImage imageNamed:@"1.pic.jpg"];
     _coverImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(changeCoverImage)];
+    _coverImage.userInteractionEnabled = YES;
+    [_coverImage addGestureRecognizer:tap];
     [_headView addSubview:_coverImage];
     
     _headicon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 64, 64)];
@@ -185,6 +191,15 @@
     
     _headView.frame = CGRectMake(0, 0, SCREENWIDTH, _headHeight);
 }
+
+-(void)setConfigHeadView{
+    if ([WBUserDefaults coverImage]) {
+        _coverImage.image = [WBUserDefaults coverImage];
+    }
+
+
+}
+
 
 -(void)setUpTopicTable{
     _topicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 64)];
@@ -373,8 +388,70 @@
     ((UIImageView *)[self.view viewWithTag:102]).image = [WBUserDefaults headIcon];
     
     ((UILabel *)[self.view viewWithTag:402]).text = [WBUserDefaults nickname];
-    
-    
 }
+
+
+#pragma mark -----   改变背景图  -------
+-(void)changeCoverImage{
+    _imagePicker = [[UIImagePickerController alloc]init];
+    //相机类型（拍照、录像...）字符串需要做相应的类型转换
+    _imagePicker.delegate = self;
+    _imagePicker.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePicker.allowsEditing = YES;
+    _imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
+    
+    UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    //拍照：
+    UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //打开相机
+    }];
+    //相册
+    UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:_imagePicker animated:YES completion:^{
+            
+        }];
+        
+    }];
+    
+    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"提示" message:@"选择图片" preferredStyle:UIAlertControllerStyleActionSheet];
+    [aleVC addAction:act1];
+    [aleVC addAction:act2];
+    [aleVC addAction:act3];
+    [self presentViewController:aleVC animated:YES completion:nil];
+}
+#pragma mark UIImagePickerControllerDelegate
+//该代理方法仅适用于只选取图片时
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    NSLog(@"选择完毕----image:%@-----info:%@",image,editingInfo);
+}
+
+
+//适用获取所有媒体资源，只需判断资源类型
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
+    //判断资源类型
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        [_coverImage setImage:info[UIImagePickerControllerEditedImage]];
+        
+        NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
+        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 1.0);
+        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/user/updateCover" withParameters:parameters fileData:imageData name:[WBUserDefaults userId] fileName:[NSString stringWithFormat:@"%@.jpg",[WBUserDefaults userId]] mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
+            
+        } andSuccess:^(id representData) {
+            
+            [WBUserDefaults setCoverImage:_coverImage.image];
+            NSLog(@"----success---");
+        } andFailure:^(NSString *error) {
+            
+        }];
+        
+    }else{
+        
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end

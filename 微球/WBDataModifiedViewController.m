@@ -21,7 +21,7 @@
     UIImageView *_bigImageView;
     UIImageView *_headImageView;
     //性别复选框
-    UIMenuController *_sexController;
+    
     UITableView *_tableView;
     NSArray *_leftLabelName;
     

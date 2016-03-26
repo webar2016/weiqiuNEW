@@ -35,6 +35,7 @@
     return [[UIScreen mainScreen] bounds].size;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor initWithLightGray];
