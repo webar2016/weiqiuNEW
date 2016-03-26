@@ -56,25 +56,6 @@
 #pragma mark - 创建navigation头部
 
 -(void)setUpNavgationItem{
-    CGSize itemSize = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"btn_mesg"]].frame.size;
-    
-    UIButton *leftBarButtonItem = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, itemSize.width, itemSize.height)];
-    [leftBarButtonItem setBackgroundImage:[UIImage imageWithOriginal:@"icon_webar"] forState:UIControlStateNormal];
-    [leftBarButtonItem addTarget:self action:@selector(presentLeftMenuViewController) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBarButtonItem];
-    
-    UIButton *rightBarButton = [[UIButton alloc] initWithFrame:(CGRect){0,0,itemSize}];
-    [rightBarButton setImage:[UIImage imageWithOriginal:@"btn_mesg"] forState:UIControlStateNormal];
-    _tip = [[UIView alloc] initWithFrame:CGRectMake(itemSize.width - 6, 0, 6, 6)];
-    _tip.backgroundColor = [UIColor redColor];
-    _tip.layer.masksToBounds = YES;
-    _tip.layer.cornerRadius = 3;
-    _tip.hidden = YES;
-    [rightBarButton addSubview:_tip];
-    [rightBarButton addTarget:self action:@selector(presentRightMenuViewController) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBarButton];
-    
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     
     self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"话题",@"问题"]];
     self.segmentedControl.selectedSegmentIndex = 0;
@@ -84,17 +65,6 @@
     self.navigationItem.titleView = self.segmentedControl;
 }
 
-- (void)presentLeftMenuViewController
-{
-    self.sideMenuViewController.isFindPage = YES;
-    [self.sideMenuViewController presentLeftMenuViewController];
-}
-
-- (void)presentRightMenuViewController
-{
-    self.sideMenuViewController.isFindPage = YES;
-    [self.sideMenuViewController presentRightMenuViewController];
-}
 
 #pragma mark - 创建topics和questions控制器
 
