@@ -46,6 +46,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
     [self setUpNavgationItem];
 }
 
