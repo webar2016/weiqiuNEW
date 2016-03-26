@@ -51,17 +51,19 @@
 }
 
 -(void)setUpNavgationItem{
-
-    
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     
-    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"所有列表",@"我加入的",@"我创建的"]];
-    self.segmentedControl.selectedSegmentIndex = 0;
-    _prevPage = 0;
-    [self.segmentedControl addTarget:self action:@selector(changeCurrentController:) forControlEvents:UIControlEventValueChanged];
-    self.segmentedControl.tintColor = [UIColor initWithGreen];
-    self.segmentedControl.frame = CGRectMake(0, 0, self.view.frame.size.width*0.5, 30);
-    self.navigationItem.titleView = self.segmentedControl;
+    if ([WBUserDefaults userId]) {
+        self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"所有列表",@"我加入的",@"我创建的"]];
+        self.segmentedControl.selectedSegmentIndex = 0;
+        _prevPage = 0;
+        [self.segmentedControl addTarget:self action:@selector(changeCurrentController:) forControlEvents:UIControlEventValueChanged];
+        self.segmentedControl.tintColor = [UIColor initWithGreen];
+        self.segmentedControl.frame = CGRectMake(0, 0, self.view.frame.size.width*0.5, 30);
+        self.navigationItem.titleView = self.segmentedControl;
+    } else {
+        self.navigationItem.title = @"所有列表";
+    }
 }
 
 

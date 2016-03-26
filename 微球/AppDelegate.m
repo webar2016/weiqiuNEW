@@ -242,10 +242,10 @@ didRegisterUserNotificationSettings:
     int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
     [UIApplication sharedApplication].applicationIconBadgeNumber = unreadMsgCount;
     
-    if ([userId isEqualToString:[WBUserDefaults userId]]) {
-        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:userId name:[WBUserDefaults nickname] portrait:[WBUserDefaults dir]];
-        return completion(userInfo);
-    }
+//    if ([userId isEqualToString:[WBUserDefaults userId]]) {
+//        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:userId name:[WBUserDefaults nickname] portrait:[WBUserDefaults dir]];
+//        return completion(userInfo);
+//    }
     
     if ([userId isEqualToString:@"weiqiu"]) {
         RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:@"weiqiu" name:@"微球小助手" portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/845777126469043105.jpg"];

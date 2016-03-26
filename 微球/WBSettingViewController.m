@@ -55,6 +55,7 @@
     NSLog(@"退出微球");
     [WBUserDefaults deleteUserDefaults];
     [self.navigationController popToRootViewControllerAnimated:YES];
+    self.tabBarController.selectedIndex = 0;
 }
 
 -(void)dontDisturb{

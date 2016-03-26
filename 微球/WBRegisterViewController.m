@@ -99,7 +99,7 @@
                     [WBUserDefaults setUserId:[result objectForKey:@"userId"]];
                     
                     [self dismissViewControllerAnimated:YES completion:^{
-                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
                     }];
                     
                     
