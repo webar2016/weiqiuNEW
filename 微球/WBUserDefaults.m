@@ -12,7 +12,6 @@
 @implementation WBUserDefaults
 
 +(NSString *)userId{
-    
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]) {
         LoadViewController *loadView = [[LoadViewController alloc]init];
         UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
@@ -36,7 +35,6 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-
 +(UIImage *)headIcon{
     return [UIImage imageWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"headIcon"]];
 }
@@ -45,6 +43,16 @@
     [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"headIcon"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self setUserDefaultsArrayWithKey:@"headIcon"];
+}
+
++(UIImage *)coverImage{
+    return [UIImage imageWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"coverImage"]];
+}
++(void)setCoverImage:(UIImage *)coverImage{
+    NSData *imageData = UIImageJPEGRepresentation(coverImage, 1.0);
+    [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"coverImage"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self setUserDefaultsArrayWithKey:@"coverImage"];
 }
 
 +(NSString *)nickname{

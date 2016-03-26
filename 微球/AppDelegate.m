@@ -243,7 +243,7 @@ didRegisterUserNotificationSettings:
     [UIApplication sharedApplication].applicationIconBadgeNumber = unreadMsgCount;
     
     if ([userId isEqualToString:[WBUserDefaults userId]]) {
-        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:userId name:[WBUserDefaults nickname] portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/disk/29/20160309052704808oanpp.jpg"];
+        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:userId name:[WBUserDefaults nickname] portrait:[WBUserDefaults dir]];
         return completion(userInfo);
     }
     

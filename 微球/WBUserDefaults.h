@@ -64,6 +64,9 @@ username = 15001125798;
 +(UIImage *)headIcon;
 +(void)setHeadIcon:(UIImage *)headIcon;
 
++(UIImage *)coverImage;
++(void)setCoverImage:(UIImage *)coverImage;
+
 +(NSString *)nickname;
 +(void)setNickname:(NSString *)nickname;
 
