@@ -12,13 +12,6 @@
 @implementation WBUserDefaults
 
 +(NSString *)userId{
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]) {
-        LoadViewController *loadView = [[LoadViewController alloc]init];
-        UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-        [rootViewController presentViewController:loadView animated:YES completion:^{
-                   }];
-        return nil;
-    }
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
 }
 +(void)setUserId:(NSString *)userId{

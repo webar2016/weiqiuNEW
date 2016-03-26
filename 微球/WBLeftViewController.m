@@ -22,6 +22,7 @@
 @property (strong, readwrite, nonatomic) UIView *userInfosView;
 @property (strong, readwrite, nonatomic) UIView *userScoreView;
 @property (strong, readwrite, nonatomic) UITableView *tableView;
+@property (strong, readwrite, nonatomic) UIButton *loginBtn;
 
 @property (nonatomic, assign) CGSize size;
 
@@ -40,13 +41,25 @@
     [self setUpUserInfos];
     [self setUpScores];
     [self setUpSelections];
+    [self setUpLogin];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    _userIcon.image = [WBUserDefaults headIcon];
-    _nickName.text = [WBUserDefaults nickname];
-    _profile.text = [WBUserDefaults profile];
+    if ([WBUserDefaults userId]) {
+        [self.loginBtn removeFromSuperview];
+        [self.view addSubview:self.userInfosView];
+        [self.view addSubview:self.userScoreView];
+        [self.view addSubview:self.tableView];
+        _userIcon.image = [WBUserDefaults headIcon];
+        _nickName.text = [WBUserDefaults nickname];
+        _profile.text = [WBUserDefaults profile];
+    } else {
+        [self.view addSubview:self.loginBtn];
+        [self.userInfosView removeFromSuperview];
+        [self.userScoreView removeFromSuperview];
+        [self.tableView removeFromSuperview];
+    }
 }
 
 #pragma mark - setUpSubviews
@@ -55,7 +68,6 @@
     
     self.userInfosView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.size.width, 110)];
     self.userInfosView.backgroundColor = [UIColor initWithDarkGray];
-    [self.view addSubview:self.userInfosView];
     
     _userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30, 30, 50, 50)];
     _userIcon.layer.masksToBounds = YES;
@@ -81,7 +93,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(IncomeBtnClicked)];
     [_userScoreView addGestureRecognizer:tap];
     self.userScoreView.backgroundColor = [UIColor initWithDarkGray];
-    [self.view addSubview:self.userScoreView];
+    
     UILabel *totalScore = [[UILabel alloc] initWithFrame:CGRectMake(30, self.size.height * 0.02, 60, self.size.height * 0.04)];
     totalScore.textColor = [UIColor whiteColor];
     totalScore.text = @"总收益";
@@ -109,16 +121,6 @@
     [self.userScoreView addSubview:_todayScoreNumber];
 }
 
-#pragma mark -----Income -------
--(void)IncomeBtnClicked{
-    //NSLog(@"------income------");
-    [self.sideMenuViewController hideMenuViewController];
-    WBIndividualIncomeViewController *IVC = [[WBIndividualIncomeViewController alloc]init];
-    [IVC setHidesBottomBarWhenPushed:YES];
-    [self pushViewControllerWithController:IVC];
-    
-}
-
 -(void)setUpSelections{
     self.tableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, self.size.height * 0.14 + 140, self.view.frame.size.width, 45 * 5) style:UITableViewStylePlain];
@@ -132,7 +134,29 @@
         tableView.bounces = NO;
         tableView;
     });
-    [self.view addSubview:self.tableView];
+    
+}
+
+-(void)setUpLogin{
+    self.loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 200, 150, 80)];
+    [self.loginBtn setBackgroundColor:[UIColor initWithGreen]];
+    [self.loginBtn setTitle:@"登陆/注册" forState:UIControlStateNormal];
+    [self.loginBtn addTarget:self action:@selector(loginWeiQiu) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(void)loginWeiQiu{
+    LoadViewController *loadView = [[LoadViewController alloc]init];
+    [self presentViewController:loadView animated:YES completion:nil];
+}
+
+#pragma mark -----Income -------
+-(void)IncomeBtnClicked{
+    //NSLog(@"------income------");
+    [self.sideMenuViewController hideMenuViewController];
+    WBIndividualIncomeViewController *IVC = [[WBIndividualIncomeViewController alloc]init];
+    [IVC setHidesBottomBarWhenPushed:YES];
+    [self pushViewControllerWithController:IVC];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -148,20 +172,9 @@
     [self.sideMenuViewController hideMenuViewController];
     switch (indexPath.row) {
         case 0:{
-            if ([WBUserDefaults userId]) {
-                WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
-                [homepageVC setHidesBottomBarWhenPushed:YES];
-                
-                [self pushViewControllerWithController:homepageVC];
-            }else{
-                LoadViewController *loadView = [[LoadViewController alloc]init];
-                loadView.delegate = self;
-                [loadView setHidesBottomBarWhenPushed:YES];
-                [self presentViewController:loadView animated:YES completion:^{
-                    
-                }];
-            }
-            
+            WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
+            [homepageVC setHidesBottomBarWhenPushed:YES];
+            [self pushViewControllerWithController:homepageVC];
             break;
         }
             
@@ -205,11 +218,6 @@
     return 45;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
     return 4;
@@ -240,7 +248,6 @@
 
 #pragma mark  -----loadView delegate -----
 - (void)loadBack{
-    
     if ([WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]) {
         WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
         homepageVC.friendId =[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"];
@@ -248,7 +255,6 @@
         
         [self pushViewControllerWithController:homepageVC];
     }
-
-
 }
+
 @end

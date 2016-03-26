@@ -12,7 +12,9 @@
 @interface WBFindAndHelpViewController ()
 {
     UIView *_tip;//小红点
-
+    UIImage *_headIcon;
+    UIButton *_leftBarButton;
+    UIButton *_rightBarButton;
 }
 @end
 
@@ -20,54 +22,71 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self createNavi];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(unReadTip:)
                                                  name:@"unReadTip"
                                                object:nil];
-    [self createNavi];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeNav)
+                                                 name:@"changeNavIcon"
+                                               object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+    [self changeNav];
     NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
 }
 
 
 -(void)createNavi{
-
     CGSize itemSize = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"btn_mesg"]].frame.size;
     
-    UIButton *leftBarButtonItem = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, itemSize.width, itemSize.height)];
-    [leftBarButtonItem setBackgroundImage:[UIImage imageWithOriginal:@"icon_webar"] forState:UIControlStateNormal];
-    [leftBarButtonItem addTarget:self action:@selector(presentLeftMenuViewController) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBarButtonItem];
-    
-    UIButton *rightBarButton = [[UIButton alloc] initWithFrame:(CGRect){0,0,itemSize}];
-    [rightBarButton setImage:[UIImage imageWithOriginal:@"btn_mesg"] forState:UIControlStateNormal];
+    _leftBarButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, itemSize.width, itemSize.height)];
+    _leftBarButton.layer.masksToBounds = YES;
+    _leftBarButton.layer.cornerRadius = itemSize.width / 2;
+    _headIcon = [[UIImage alloc] init];
+    if ([WBUserDefaults userId]) {
+        _headIcon = [[WBUserDefaults headIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    } else {
+        _headIcon = [UIImage imageWithOriginal:@"icon_webar"];
+    }
+    [_leftBarButton setBackgroundImage:_headIcon forState:UIControlStateNormal];
+    [_leftBarButton addTarget:self action:@selector(presentLeftMenuViewController) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_leftBarButton];
+    _rightBarButton = [[UIButton alloc] initWithFrame:(CGRect){0,0,itemSize}];
+    [_rightBarButton setImage:[UIImage imageWithOriginal:@"btn_mesg"] forState:UIControlStateNormal];
     _tip = [[UIView alloc] initWithFrame:CGRectMake(itemSize.width - 6, 0, 6, 6)];
     _tip.backgroundColor = [UIColor redColor];
     _tip.layer.masksToBounds = YES;
     _tip.layer.cornerRadius = 3;
     _tip.hidden = YES;
-    [rightBarButton addSubview:_tip];
-    [rightBarButton addTarget:self action:@selector(presentRightMenuViewController) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBarButton];
-    
+    [_rightBarButton addSubview:_tip];
+    [_rightBarButton addTarget:self action:@selector(presentRightMenuViewController) forControlEvents:UIControlEventTouchUpInside];
+    if ([WBUserDefaults userId]) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightBarButton];
+    }
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+}
 
-
+-(void)changeNav{
+    if ([WBUserDefaults userId]) {
+        _headIcon = [[WBUserDefaults headIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        [_leftBarButton setBackgroundImage:_headIcon forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightBarButton];
+    } else {
+        _headIcon = [UIImage imageWithOriginal:@"icon_webar"];
+        [_leftBarButton setBackgroundImage:_headIcon forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 }
 
 - (void)presentLeftMenuViewController
 {
-    if ([WBUserDefaults userId]) {
-        
-        [self isFromFindView];
-        [self.sideMenuViewController presentLeftMenuViewController];
-    }
+    [self isFromFindView];
+    [self.sideMenuViewController presentLeftMenuViewController];
 }
 
 - (void)presentRightMenuViewController
@@ -102,15 +121,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
