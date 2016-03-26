@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"征服地球";
+    self.view.backgroundColor = [UIColor initWithBackgroundGray];
     UIWebView *mapPage = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height)];
     [mapPage loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://121.40.132.44:92/map/m?userId=636"]]];
     [self.view addSubview:mapPage];

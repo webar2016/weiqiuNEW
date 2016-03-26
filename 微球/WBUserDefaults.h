@@ -58,6 +58,9 @@ username = 15001125798;
 +(NSString *)userId;
 +(void)setUserId:(NSString *)userId;
 
++(NSString *)dir;
++(void)setDir:(NSString *)dir;
+
 +(UIImage *)headIcon;
 +(void)setHeadIcon:(UIImage *)headIcon;
 
@@ -90,6 +93,9 @@ username = 15001125798;
 
 +(NSString *)experience;
 +(void)setExperience:(NSString *)experience;
+
++(NSString *)token;
++(void)setToken:(NSString *)token;
 
 /**
  *存取数据

@@ -17,7 +17,15 @@
     [[NSUserDefaults standardUserDefaults] setObject:userId forKey:@"userId"];
     [self setUserDefaultsArrayWithKey:@"userId"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+}
+
++(NSString *)dir{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"dir"];
+}
++(void)setDir:(NSString *)dir{
+    [[NSUserDefaults standardUserDefaults] setObject:dir forKey:@"dir"];
+    [self setUserDefaultsArrayWithKey:@"dir"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(UIImage *)headIcon{
@@ -119,6 +127,15 @@
     [[NSUserDefaults standardUserDefaults] setObject:experience forKey:@"experience"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self setUserDefaultsArrayWithKey:@"experience"];
+}
+
++(NSString *)token{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+}
++(void)setToken:(NSString *)token{
+    [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self setUserDefaultsArrayWithKey:@"token"];
 }
 
 +(id)getSingleUserDefaultsWithUserDefaultsKey:(NSString *)key{
