@@ -211,7 +211,7 @@ didRegisterUserNotificationSettings:
     [[RCIM sharedRCIM] registerMessageType:[WBFollowMessage class]];
     [[RCIM sharedRCIM] registerMessageType:[WBCommentMessage class]];
     
-    [MyDownLoadManager getNsurl:@"http://121.40.132.44:92/ry/getToken?userId=29" whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:@"http://121.40.132.44:92/ry/getToken?userId=633" whenSuccess:^(id representData) {
 
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -240,8 +240,8 @@ didRegisterUserNotificationSettings:
     int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
     [UIApplication sharedApplication].applicationIconBadgeNumber = unreadMsgCount;
     
-    if ([userId isEqualToString:@"29"]) {
-        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:@"29" name:@"最厉害" portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/disk/29/20160309052704808oanpp.jpg"];
+    if ([userId isEqualToString:@"633"]) {
+        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:@"633" name:@"最厉害" portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/disk/29/20160309052704808oanpp.jpg"];
         return completion(userInfo);
     }
     
