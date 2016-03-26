@@ -7,6 +7,7 @@
 //
 
 #import "WBFindAndHelpViewController.h"
+#import "LoadViewController.h"
 #import "RCIMClient.h"
 
 @interface WBFindAndHelpViewController ()
@@ -85,8 +86,14 @@
 
 - (void)presentLeftMenuViewController
 {
-    [self isFromFindView];
-    [self.sideMenuViewController presentLeftMenuViewController];
+    if ([WBUserDefaults userId]) {
+        [self isFromFindView];
+        [self.sideMenuViewController presentLeftMenuViewController];
+    } else {
+        LoadViewController *loadView = [[LoadViewController alloc]init];
+        [self presentViewController:loadView animated:YES completion:nil];
+    }
+    
 }
 
 - (void)presentRightMenuViewController

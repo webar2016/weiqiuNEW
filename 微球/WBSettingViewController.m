@@ -61,14 +61,14 @@
 -(void)dontDisturb{
     if (_switch.on) {
         [[RCIMClient sharedRCIMClient]setNotificationQuietHours:@"22:00:00" spanMins:540 success:^{
-            [WBUserDefaults setMutableUserDefaults:@{@"dontDisturb":@1}];
+            [WBUserDefaults setUserDefaultsValue:YES withKey:@"dontDisturb"];
             NSLog(@"免打扰设置成功");
         } error:^(RCErrorCode status) {
             NSLog(@"免打扰设置失败---%ld",(long)status);
         }];
     } else {
         [[RCIMClient sharedRCIMClient] removeNotificationQuietHours:^{
-            [WBUserDefaults setMutableUserDefaults:@{@"dontDisturb":@0}];
+            [WBUserDefaults setUserDefaultsValue:NO withKey:@"dontDisturb"];
             NSLog(@"打开提醒设置成功");
         } error:^(RCErrorCode status) {
             NSLog(@"打开提醒设置失败---%ld",(long)status);
@@ -107,14 +107,9 @@
         [_switch addTarget:self action:@selector(dontDisturb) forControlEvents:UIControlEventValueChanged];
         if (![WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dontDisturb"]) {
             _switch.on = NO;
-            [WBUserDefaults addUserDefaultsWithDictionary:@{@"dontDisturb":@0}];
+            [WBUserDefaults addUserDefaultsValue:NO withKey:@"dontDisturb"];
         } else {
-            NSNumber *isOn = [WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dontDisturb"];
-            if ([isOn isEqualToNumber: @1]) {
-                _switch.on = YES;
-            } else {
-                _switch.on = NO;
-            }
+            _switch.on = [WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dontDisturb"];
         }
         [cell.contentView addSubview:_switch];
     } else {

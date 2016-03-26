@@ -41,13 +41,13 @@
     self.navigationController.navigationBar.translucent = NO;
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
+    [self setUpNavgationItem];
     [self initVcArr];
     [self initPageVc];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
-    [self setUpNavgationItem];
 }
 
 -(void)popBack{
@@ -56,8 +56,6 @@
 
 -(void)setUpNavgationItem{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    
-    if ([WBUserDefaults userId]) {
         self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"所有列表",@"我加入的",@"我创建的"]];
         self.segmentedControl.selectedSegmentIndex = 0;
         _prevPage = 0;
@@ -65,9 +63,6 @@
         self.segmentedControl.tintColor = [UIColor initWithGreen];
         self.segmentedControl.frame = CGRectMake(0, 0, self.view.frame.size.width*0.5, 30);
         self.navigationItem.titleView = self.segmentedControl;
-    } else {
-        self.navigationItem.title = @"所有列表";
-    }
 }
 
 
