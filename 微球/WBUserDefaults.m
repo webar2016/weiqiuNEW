@@ -16,8 +16,8 @@
         LoadViewController *loadView = [[LoadViewController alloc]init];
         UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
         [rootViewController presentViewController:loadView animated:YES completion:^{
-            NSLog(@"%@",rootViewController);
-        }];
+                   }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
         return nil;
     }
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
