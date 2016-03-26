@@ -83,6 +83,7 @@
     [self loadTopics];
     [self loadAnswers];
     
+    [self setConfigHeadView];
     
 }
 
@@ -190,6 +191,15 @@
     
     _headView.frame = CGRectMake(0, 0, SCREENWIDTH, _headHeight);
 }
+
+-(void)setConfigHeadView{
+    if ([WBUserDefaults coverImage]) {
+        _coverImage.image = [WBUserDefaults coverImage];
+    }
+
+
+}
+
 
 -(void)setUpTopicTable{
     _topicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 64)];
