@@ -49,6 +49,17 @@
     }
 }
 
+- (void)willDisplayMessageCell:(RCMessageBaseCell *)cell
+                   atIndexPath:(NSIndexPath *)indexPath{
+    if ([cell isKindOfClass:[RCTextMessageCell class]]) {
+        if (cell.messageDirection == 1) {
+            ((RCTextMessageCell *)cell).textLabel.textColor = [UIColor whiteColor];
+        }else{
+            ((RCTextMessageCell *)cell).textLabel.textColor = [UIColor initWithNormalGray];
+        }
+    }
+}
+
 #pragma mark - 自定义消息cell展示
 
 - (RCMessageBaseCell *)rcConversationCollectionView:(UICollectionView *)collectionView

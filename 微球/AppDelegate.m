@@ -40,42 +40,36 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
     [self setPushMessageWith:(UIApplication *)application];
     
-    [self getRCToken];
+    [self setRongCloud];
+    
+    if ([WBUserDefaults userId]) {
+        [self getRCToken];
+    } else {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(getRCToken)
+                                                     name:@"getRCToken"
+                                                   object:nil];
+    }
     
     [self setRootView];
     
     [self showRemotePushMessageWithOptions:launchOptions];
     
+    [self setAVOSCloud];
+    
     [self shareSDK];
     
-    [self setAVOSCloud];
-//    [WBUserDefaults deleteAllUserDefaults];
-    
-    NSArray *array = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation].allKeys;
-    
-    for (NSString *str in array) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:str];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-
     return YES;
-}
-
--(void)setAVOSCloud{
-
-    [AVOSCloud setApplicationId:@"sIlqbrQJ9bJYs40UYF6MjOUG"
-                      clientKey:@"EmA5l51bsV67447EHbr6BYGw"];
-
 }
 
 #pragma mark - 设置根窗口
 
 -(void)setRootView{
     self.window= [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor initWithGreen];
+    self.window.backgroundColor = [UIColor initWithDarkGray];
     self.mainTabBarController = [[WBMainTabBarController alloc] init];
     self.leftViewController = [[WBLeftViewController alloc]init];
     self.rightViewController = [[WBRightViewController alloc]initWithDisplayConversationTypes:@[@(ConversationType_PRIVATE)] collectionConversationType:nil];
@@ -91,7 +85,6 @@
     sideMenuViewController.panGestureEnabled = NO;
     sideMenuViewController.contentViewInPortraitOffsetCenterX = 100;
     self.window.rootViewController = sideMenuViewController;
-    
     [self.window makeKeyAndVisible];
 }
 
@@ -193,9 +186,9 @@ didRegisterUserNotificationSettings:
 
 #pragma mark - 实时通讯相关操作
 
--(void)getRCToken{
+-(void)setRongCloud{
     [[RCIM sharedRCIM] initWithAppKey:@"z3v5yqkbvtkt0"];
-
+    
     //设置未注册消息显示方式
     [RCIM sharedRCIM].showUnkownMessage = YES;
     [RCIM sharedRCIM].showUnkownMessageNotificaiton = YES;
@@ -210,27 +203,36 @@ didRegisterUserNotificationSettings:
     [[RCIM sharedRCIM] registerMessageType:[WBUnlockMessage class]];
     [[RCIM sharedRCIM] registerMessageType:[WBFollowMessage class]];
     [[RCIM sharedRCIM] registerMessageType:[WBCommentMessage class]];
-    
-    [MyDownLoadManager getNsurl:@"http://121.40.132.44:92/ry/getToken?userId=633" whenSuccess:^(id representData) {
+}
 
-        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        
-        if ([result isKindOfClass:[NSDictionary class]]){
+-(void)getRCToken{
+    if ([WBUserDefaults token]) {
+        [self loginRongCloudWithToken:[WBUserDefaults token]];
+    } else {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/ry/getToken?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
             
-            NSDictionary *token = [NSDictionary dictionaryWithDictionary:result];
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             
-            [[RCIM sharedRCIM] connectWithToken:token[@"token"] success:^(NSString *userId) {
-                NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
-                [self getUnreadMsgNumber];            
-            } error:^(RCConnectErrorCode status) {
-                NSLog(@"登陆的错误码为:%ld", (long)status);
-            } tokenIncorrect:^{
-                NSLog(@"token错误");
-            }];
+            if ([result isKindOfClass:[NSDictionary class]]){
+                NSDictionary *token = [NSDictionary dictionaryWithDictionary:result];
+                [WBUserDefaults setToken:token[@"token"]];
+                [self loginRongCloudWithToken:token[@"token"]];
+            }
             
-        }
-    } andFailure:^(NSString *error) {
-        NSLog(@"获取token错误");
+        } andFailure:^(NSString *error) {
+            NSLog(@"获取token错误");
+        }];
+    }
+}
+
+-(void)loginRongCloudWithToken:(NSString *)token{
+    [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
+        NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
+        [self getUnreadMsgNumber];
+    } error:^(RCConnectErrorCode status) {
+        NSLog(@"登陆的错误码为:%ld", (long)status);
+    } tokenIncorrect:^{
+        NSLog(@"token错误");
     }];
 }
 
@@ -240,10 +242,10 @@ didRegisterUserNotificationSettings:
     int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
     [UIApplication sharedApplication].applicationIconBadgeNumber = unreadMsgCount;
     
-    if ([userId isEqualToString:@"633"]) {
-        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:@"633" name:@"最厉害" portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/disk/29/20160309052704808oanpp.jpg"];
-        return completion(userInfo);
-    }
+//    if ([userId isEqualToString:[WBUserDefaults userId]]) {
+//        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:userId name:[WBUserDefaults nickname] portrait:[WBUserDefaults dir]];
+//        return completion(userInfo);
+//    }
     
     if ([userId isEqualToString:@"weiqiu"]) {
         RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:@"weiqiu" name:@"微球小助手" portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/845777126469043105.jpg"];
@@ -290,12 +292,18 @@ didRegisterUserNotificationSettings:
     }];
 }
 
-//获取未读消息数量
 -(void)getUnreadMsgNumber{
     NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
     NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTipGroup" object:self userInfo:@{@"unReadGroup":[NSString stringWithFormat:@"%@",unReadGroup]}];
+}
+
+#pragma mark - 短信验证码
+
+-(void)setAVOSCloud{
+    [AVOSCloud setApplicationId:@"sIlqbrQJ9bJYs40UYF6MjOUG"
+                      clientKey:@"EmA5l51bsV67447EHbr6BYGw"];
 }
 
 #pragma mark - 分享设置
@@ -375,7 +383,6 @@ didRegisterUserNotificationSettings:
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-//    [self getUnreadMsgNumber];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

@@ -99,6 +99,7 @@
         } andSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             [WBUserDefaults    setUserId:[result objectForKey:@"userId"]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
           // [WBUserDefaults :[result objectForKey:@"token"]];
           //  [WBUserDefaults printUserDefaults];
             [self saveToUserDefault];

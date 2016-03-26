@@ -58,8 +58,14 @@ username = 15001125798;
 +(NSString *)userId;
 +(void)setUserId:(NSString *)userId;
 
++(NSString *)dir;
++(void)setDir:(NSString *)dir;
+
 +(UIImage *)headIcon;
 +(void)setHeadIcon:(UIImage *)headIcon;
+
++(UIImage *)coverImage;
++(void)setCoverImage:(UIImage *)coverImage;
 
 +(NSString *)nickname;
 +(void)setNickname:(NSString *)nickname;
@@ -91,6 +97,9 @@ username = 15001125798;
 +(NSString *)experience;
 +(void)setExperience:(NSString *)experience;
 
++(NSString *)token;
++(void)setToken:(NSString *)token;
+
 /**
  *存取数据
  *@ getSingleUserDefaultsWithUserDefaultsKey - 取出单条数据，传入key
@@ -111,6 +120,8 @@ username = 15001125798;
 
 /**
  *删除数据
+ @ deleteUserDefaults - 删除所有数据
+ 
  *@ deleteAllUserDefaults - 删除所有自定义数据
  *
  *@ deleteSingleUserDefaults: - 删除一条数据，传入key
@@ -118,6 +129,7 @@ username = 15001125798;
  *@ deleteMutableUserDefaults: - 删除多条数据，传入key array
  */
 
++(void)deleteUserDefaults;
 +(void)deleteAllUserDefaults;
 +(void)deleteSingleUserDefaults:(NSString *)userDefaultsKey;
 +(void)deleteMutableUserDefaults:(NSArray *)userDefaultsKeyArray;

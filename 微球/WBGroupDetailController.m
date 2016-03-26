@@ -85,8 +85,7 @@
     self.dataDic[@"imgRate"] = [NSString stringWithFormat:@"%.2f",_imageScale];
     self.dataDic[@"groupSign"] = @"吃喝玩乐嫖赌毒";
     self.dataDic[@"rewardIntegral"] = _scoreLable.text;
-    
-    self.dataDic[@"userId"] = @"29";
+    self.dataDic[@"userId"] = [WBUserDefaults userId];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -101,13 +100,7 @@
         NSLog(@"create---success");
         if ([responseObject isKindOfClass:[NSDictionary class]]){
             NSLog(@"%@",responseObject[@"msg"]);
-        }
-        [[RCIMClient sharedRCIMClient] sendMessage:ConversationType_GROUP targetId:responseObject[@"msg"] content:[RCInformationNotificationMessage notificationWithMessage:@"句首输入 ?:\n就可以直接提问啦！" extra:nil] pushContent:nil success:^(long messageId) {
-            NSLog(@"message---success");
-        } error:^(RCErrorCode nErrorCode, long messageId) {
-            NSLog(@"message---failure");
-        }];
-        
+        }      
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"create---failure");

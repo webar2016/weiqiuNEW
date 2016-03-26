@@ -183,11 +183,6 @@
     }else{
     
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=633",_model.groupId] whenSuccess:^(id representData) {
-            [[RCIMClient sharedRCIMClient] sendMessage:ConversationType_GROUP targetId:[NSString stringWithFormat:@"%ld",_model.groupId] content:[RCInformationNotificationMessage notificationWithMessage:[NSString stringWithFormat:@"%@加入了帮帮团",_model.tblUser.nickname] extra:nil] pushContent:nil success:^(long messageId) {
-                NSLog(@"message---success");
-            } error:^(RCErrorCode nErrorCode, long messageId) {
-                NSLog(@"message---failure");
-            }];
             
         } andFailure:^(NSString *error) {
             

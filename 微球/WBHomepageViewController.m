@@ -69,6 +69,7 @@
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, 19, 19);
     [rightButton setImage:[UIImage imageNamed:@"icon_share-2"] forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
     
@@ -98,7 +99,8 @@
     _headView.backgroundColor = [UIColor whiteColor];
     
     _coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 168)];
-    _coverImage.contentMode = UIViewContentModeScaleToFill;
+    _coverImage.layer.masksToBounds = YES;
+    _coverImage.contentMode = UIViewContentModeScaleAspectFill;
     _coverImage.image = [UIImage imageNamed:@"1.pic.jpg"];
     _coverImage.userInteractionEnabled = YES;
     [_headView addSubview:_coverImage];
@@ -135,7 +137,7 @@
     followAndCare.font = MAINFONTSIZE;
     followAndCare.textColor = [UIColor initWithNormalGray];
     followAndCare.textAlignment = NSTextAlignmentCenter;
-    followAndCare.text = @"*";
+    followAndCare.text = @"·";
     [_headView addSubview:followAndCare];
     
     CGSize buttonSize = CGSizeMake(SCREENWIDTH / 3, 44);
@@ -352,7 +354,7 @@
             
             break;
         case 333:{
-            [self.navigationController pushViewController:_mapVC animated:NO];
+            [self.navigationController pushViewController:_mapVC animated:YES];
         }
             
             break;

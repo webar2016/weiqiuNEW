@@ -15,7 +15,7 @@
 #import "MJRefresh.h"
 #import "WBMyGroupModel.h"
 
-#define MY_CREATE_GROUPS @"http://121.40.132.44:92/hg/getMyCreate?userId=29"
+#define MY_CREATE_GROUPS @"http://121.40.132.44:92/hg/getMyCreate?userId=%@"
 
 @interface WBMyCreateViewController () <UIScrollViewDelegate> {
     UIImageView *_emptyView;
@@ -70,7 +70,7 @@
 #pragma mark - 加载数据
 
 -(void)loadData{
-    NSString *url = [NSString stringWithFormat:MY_CREATE_GROUPS];
+    NSString *url = [NSString stringWithFormat:MY_CREATE_GROUPS,[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -122,7 +122,7 @@
 //    }
 //    
 //    for (WBMyGroupModel *myModel in self.models) {
-//        if ([[NSString stringWithFormat:@"%lu",(unsigned long)myModel.userId] isEqualToString:@"29"]) {
+//        if ([[NSString stringWithFormat:@"%lu",(unsigned long)myModel.userId] isEqualToString:[WBUserDefaults userId]]) {
 //            NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
 //            for (RCConversationModel *model in dataSource) {
 //                if ([model.targetId isEqualToString:groupId]) {

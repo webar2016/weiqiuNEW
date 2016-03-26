@@ -12,13 +12,11 @@
 @implementation WBUserDefaults
 
 +(NSString *)userId{
-    
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]) {
         LoadViewController *loadView = [[LoadViewController alloc]init];
         UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
         [rootViewController presentViewController:loadView animated:YES completion:^{
                    }];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
         return nil;
     }
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
@@ -27,9 +25,16 @@
     [[NSUserDefaults standardUserDefaults] setObject:userId forKey:@"userId"];
     [self setUserDefaultsArrayWithKey:@"userId"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
 }
 
++(NSString *)dir{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"dir"];
+}
++(void)setDir:(NSString *)dir{
+    [[NSUserDefaults standardUserDefaults] setObject:dir forKey:@"dir"];
+    [self setUserDefaultsArrayWithKey:@"dir"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 +(UIImage *)headIcon{
     return [UIImage imageWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"headIcon"]];
@@ -39,6 +44,16 @@
     [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"headIcon"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self setUserDefaultsArrayWithKey:@"headIcon"];
+}
+
++(UIImage *)coverImage{
+    return [UIImage imageWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"coverImage"]];
+}
++(void)setCoverImage:(UIImage *)coverImage{
+    NSData *imageData = UIImageJPEGRepresentation(coverImage, 1.0);
+    [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"coverImage"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self setUserDefaultsArrayWithKey:@"coverImage"];
 }
 
 +(NSString *)nickname{
@@ -132,6 +147,15 @@
     [self setUserDefaultsArrayWithKey:@"experience"];
 }
 
++(NSString *)token{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+}
++(void)setToken:(NSString *)token{
+    [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self setUserDefaultsArrayWithKey:@"token"];
+}
+
 +(id)getSingleUserDefaultsWithUserDefaultsKey:(NSString *)key{
     if (![[self keysInUserDefaults] containsObject:key]) {
         NSLog(@"输入的键不存在------%@",key);
@@ -186,6 +210,13 @@
         [userDefaults setObject:userInfos[oneKey] forKey:oneKey];
     }
     [userDefaults synchronize];
+}
+
++(void)deleteUserDefaults{
+    for (NSString *key in [[NSUserDefaults standardUserDefaults] dictionaryRepresentation].allKeys) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 +(void)deleteAllUserDefaults{

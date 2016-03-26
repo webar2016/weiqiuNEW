@@ -34,12 +34,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(unReadTip:)
-                                                 name:@"unReadTip"
-                                               object:nil];
-    
     self.view.backgroundColor = [UIColor initWithGreen];
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
@@ -100,19 +94,6 @@
     }else{
         [_pageViewController setViewControllers:@[_vcArray[1]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];;
     }
-}
-
-#pragma mark - 小红点提醒
-
--(void)unReadTip:(NSNotification*)sender{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        int count = [sender.userInfo[@"unRead"] intValue];
-        if (count > 0 && _tip.hidden) {
-            _tip.hidden = NO;
-        } else if (count == 0 && !_tip.hidden) {
-            _tip.hidden = YES;
-        }
-    });
 }
 
 - (void)didReceiveMemoryWarning {
