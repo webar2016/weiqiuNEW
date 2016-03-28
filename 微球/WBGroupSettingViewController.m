@@ -187,10 +187,14 @@
 
 -(void)quitGroup:(WBGroupSettingTableViewCell *)cell{
     NSLog(@"quitGroup");
+    
+    
+    
 }
 
 -(void)closeGroup:(WBGroupSettingTableViewCell *)cell{
     WBAllocateScoreViewController *AVC = [[WBAllocateScoreViewController alloc]init];
+    AVC.groupId = _groupId;
     [self.navigationController pushViewController:AVC animated:YES];
 }
 
