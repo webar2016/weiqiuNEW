@@ -121,6 +121,7 @@
     _password.layer.masksToBounds=YES;
     [[_password layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
     _password.layer.borderWidth= 1.0f;
+    [_password setSecureTextEntry:YES];
     _password.tag = 51;
     
     UIButton *loadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -224,7 +225,7 @@
        // NSLog(@"userInfo = %@",userInfo);
         [WBUserDefaults addUserDefaultsWithDictionary:userInfo];
        // NSLog(@"-----------------------");
-        [WBUserDefaults printUserDefaults];
+      //  [WBUserDefaults printUserDefaults];
         
         if ([[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dir"] rangeOfString:@"http://"].location != NSNotFound) {
             SDWebImageManager *manager = [SDWebImageManager sharedManager];
