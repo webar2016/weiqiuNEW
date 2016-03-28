@@ -5,7 +5,7 @@
 //  Created by 贾玉斌 on 16/2/26.
 //  Copyright © 2016年 weiqiuwang. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "LoadViewController.h"
 #import "RESideMenu.h"
 #import "WBMainTabBarController.h"
@@ -29,13 +29,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self createUI];
     
+    self.view.userInteractionEnabled = YES;
+  //  [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewClicked)]];
     
     
 }
-
 
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -53,33 +54,93 @@
 }
 
 - (void)createUI{
+    //取消按钮
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    cancelBtn.frame = CGRectMake(10, 20, 44, 44);
+    [self.view addSubview:cancelBtn];
+    cancelBtn.tag = 110;
+    [cancelBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
+    //再逛逛按钮
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+    rightBtn.frame = CGRectMake(SCREENWIDTH-60, 20, 50, 44);
+    [self.view addSubview:rightBtn];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"先逛逛"];
+    NSRange strRange = {0,[str length]};
+    rightBtn.tag = 111;
+    [rightBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [str addAttribute:NSForegroundColorAttributeName value:[UIColor initWithGreen] range:strRange];
+    [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
+    [rightBtn setAttributedTitle:str forState:UIControlStateNormal];
     //登陆界面
-    [self.view setBackgroundColor:[UIColor colorWithRed:51/255.0 green:204/255.0 blue:255/255.0 alpha:1]];
-    _account=[[UITextField alloc] initWithFrame:CGRectMake(20, 150, self.view.frame.size.width-40, 50)];
-    _account.backgroundColor=[UIColor whiteColor];
-    _account.placeholder=[NSString stringWithFormat:@"电话号码"];
-    _account.layer.cornerRadius = 5.0f;
+    
+    UILabel *titleLabel = [[UILabel alloc]init];
+    titleLabel.text = @"微球，\n旅游从未如此轻松";
+    titleLabel.textColor = [UIColor initWithGreen];
+    titleLabel.font = [UIFont systemFontOfSize:32];
+    titleLabel.numberOfLines = 0;
+    CGSize titleLabelSize = [titleLabel sizeThatFits:CGSizeMake(SCREENWIDTH-80, MAXFLOAT)];
+    [self.view addSubview:titleLabel];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:titleLabel.text];;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    [paragraphStyle setLineSpacing:20];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, titleLabel.text.length)];
+    titleLabel.attributedText = attributedString;
+    //调节高度
+    CGSize labelSize = [titleLabel sizeThatFits:titleLabelSize];
+    titleLabel.frame = CGRectMake(40, 77+20, SCREENWIDTH-80, labelSize.height);
+    
+    
+    
+    
+    
+    
+    _account=[[UITextField alloc] initWithFrame:CGRectMake(30, 77+20+labelSize.height+39, SCREENWIDTH-60, 40)];
+    _account.backgroundColor=[UIColor initWithBackgroundGray];
+    _account.placeholder=[NSString stringWithFormat:@"手机号"];
+    _account.font = MAINFONTSIZE;
+    _account.layer.cornerRadius = 2.0f;
+    _account.borderStyle = UITextBorderStyleNone;
     _account.delegate = self;
     [self.view addSubview:_account];
+    _account.layer.masksToBounds=YES;
+    [[_account layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
+    _account.layer.borderWidth= 1.0f;
     _account.tag = 50;
-    
-    _password=[[UITextField alloc] initWithFrame:CGRectMake(20, 210, self.view.frame.size.width-40, 50)];
-    _password.backgroundColor=[UIColor whiteColor];
+
+    _password=[[UITextField alloc] initWithFrame:CGRectMake(30, _account.frame.origin.y+50, SCREENWIDTH-60, 40)];
+    _password.backgroundColor=[UIColor initWithBackgroundGray];
     _password.placeholder=[NSString stringWithFormat:@"密码"];
-    _password.layer.cornerRadius = 5.0f;
+    _password.layer.cornerRadius = 2.0f;
+    _password.font = MAINFONTSIZE;
     _password.delegate = self;
     [self.view addSubview:_password];
+    _password.layer.masksToBounds=YES;
+    [[_password layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
+    _password.layer.borderWidth= 1.0f;
     _password.tag = 51;
     
-    NSArray *nameArray = @[@"登陆",@"忘记密码?",@"注册",@"返回"];
-    for (NSInteger i =0; i<4; i++) {
+    UIButton *loadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    loadBtn.backgroundColor = [UIColor initWithGreen];
+    [loadBtn setTitle:@"登陆" forState:UIControlStateNormal];
+    loadBtn.frame = CGRectMake(30, _password.frame.origin.y+60, SCREENWIDTH-60, 40);
+    loadBtn.titleLabel.font = MAINFONTSIZE;
+    loadBtn.tag = 102;
+    [loadBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:loadBtn];
+    
+
+    NSArray *nameArray = @[@"注册账号",@"忘记密码"];
+    for (NSInteger i =0; i<2; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(20, 270+i*60, SCREENWIDTH-40, 50);
+        button.frame = CGRectMake(30+i*(SCREENWIDTH-60)/2, loadBtn.frame.origin.y+58, (SCREENWIDTH-60)/2, 40);
         [button setTitle:nameArray[i] forState:UIControlStateNormal];
-        [button setBackgroundColor:[UIColor colorWithRed:51/255.0 green:102/255.0 blue:255/255.0 alpha:1]];
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        button.layer.cornerRadius = 5.0f;
+        [button setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
         button.tag = 100+i;
+        button.titleLabel.font = MAINFONTSIZE;
         [button addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:button];
     }
@@ -89,7 +150,7 @@
 #pragma mark ---按钮点击事件－－－
 - (void)btnClicked:(UIButton *)btn{
    //登陆
-    if (btn.tag==100) {
+    if (btn.tag==102) {
        // NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
         [parameters setValue:_account.text forKey:@"username"];
@@ -98,31 +159,56 @@
             
         } andSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-            [WBUserDefaults    setUserId:[result objectForKey:@"userId"]];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
-          // [WBUserDefaults :[result objectForKey:@"token"]];
-          //  [WBUserDefaults printUserDefaults];
-            [self saveToUserDefault];
+            NSLog(@"%@",result);
+            if ([result objectForKey:@"userId"]) {
+                [WBUserDefaults    setUserId:[result objectForKey:@"userId"]];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
+                [self saveToUserDefault];
+            }else{
+            
+                //初始化提示框；
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号或密码错误" preferredStyle: UIAlertControllerStyleAlert];
+                
+                [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    //点击按钮的响应事件；
+                }]];
+                
+                //弹出提示框； 
+                [self presentViewController:alert animated:true completion:nil];
+            }
         } andFailure:^(NSString *error) {
+            //初始化提示框；
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号或密码错误" preferredStyle: UIAlertControllerStyleAlert];
+            
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //点击按钮的响应事件；
+            }]];
+            
+            //弹出提示框； 
+            [self presentViewController:alert animated:true completion:nil];
             
         }];
         
        //忘记密码
-    }else if (btn.tag == 101){
-        
-        WBDataModifiedViewController *DVC = [[WBDataModifiedViewController alloc]init];
-        [self.navigationController pushViewController:DVC animated:YES];
-    //注册
-    }else if(btn.tag == 102){
+    }else if (btn.tag == 100){
         WBRegisterViewController *registerView = [[WBRegisterViewController alloc]init];
         [self presentViewController:registerView animated:YES completion:nil];
-        //[self.navigationController pushViewController:registerView animated:YES];
-    }else{
+
+       
+    //注册
+    }else if(btn.tag == 101){
+                //[self.navigationController pushViewController:registerView animated:YES];
+        WBDataModifiedViewController *DVC = [[WBDataModifiedViewController alloc]init];
+        [self.navigationController pushViewController:DVC animated:YES];
+    }else if(btn.tag == 110){
     
                
         [self dismissViewControllerAnimated:YES completion:^{
             
         }];
+    
+    }else if (btn.tag == 111){
+    
     
     }
 }
