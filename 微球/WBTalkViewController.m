@@ -148,7 +148,7 @@
 #pragma mark - 数据加载
 
 -(void)getQuestionTotalNumber{
-    
+    NSLog(@"%@",self.groupId);
     NSString *url = [NSString stringWithFormat:QUESTION_NUMBER,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         

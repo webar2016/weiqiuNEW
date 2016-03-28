@@ -117,6 +117,7 @@ username = 15001125798;
 +(NSDictionary *)getAllUserDefaults;
 +(NSDictionary *)getNeededUserDefaults:(NSArray *)userDefaultsKeyArray;
 +(void)setMutableUserDefaults:(NSDictionary *)userInfos;
++(void)setUserDefaultsValue:(BOOL)value withKey:(NSString *)key;
 
 /**
  *删除数据
@@ -140,6 +141,7 @@ username = 15001125798;
  */
 
 +(void)addUserDefaultsWithDictionary:(NSDictionary *)dictionary;
++(void)addUserDefaultsValue:(BOOL)value withKey:(NSString *)key;
 
 /**
  *打印数据

@@ -199,9 +199,20 @@
     for (NSString *oneKey in userInfos.allKeys) {
         if ([oneKey isEqualToString:@"headIcon"]) {
             [userDefaults setObject:UIImageJPEGRepresentation(userInfos[@"headIcon"], 1.0) forKey:@"headIcon"];
+        } else {
+            [userDefaults setObject:userInfos[oneKey] forKey:oneKey];
         }
-        [userDefaults setObject:userInfos[oneKey] forKey:oneKey];
     }
+    [userDefaults synchronize];
+}
+
++(void)setUserDefaultsValue:(BOOL)value withKey:(NSString *)key{
+    if (![[self keysInUserDefaults] containsObject:key]) {
+        NSLog(@"输入的键不存在------%@",key);
+        return;
+    }
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:value forKey:key];
     [userDefaults synchronize];
 }
 
@@ -262,8 +273,21 @@
             [userDefaults setObject:dictionary[oneKey] forKey:oneKey];
         } else {
             NSLog(@"%@------已存在",oneKey);
+            return;
         }
         
+    }
+    [userDefaults synchronize];
+}
+
++(void)addUserDefaultsValue:(BOOL)value withKey:(NSString *)key{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (![[self keysInUserDefaults] containsObject:key]) {
+        [self setUserDefaultsArrayWithKey:key];
+        [userDefaults setBool:value forKey:key];
+    } else {
+        NSLog(@"%@------已存在",key);
+        return;
     }
     [userDefaults synchronize];
 }

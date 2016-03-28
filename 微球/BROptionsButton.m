@@ -42,7 +42,7 @@
         [[self.tabBar.items objectAtIndex:self.locationIndexInTabBar] setEnabled:NO];
         
         CGPoint buttonLocation = [self buttonLocaitonForIndex:self.locationIndexInTabBar];
-        CGRect myRect = CGRectMake(0, 0, 50, 50);
+        CGRect myRect = CGRectMake(0, 0, 49, 49);
         self.frame = myRect;
         self.center = buttonLocation;
         self.layer.cornerRadius = 6;
@@ -102,7 +102,7 @@
     
     UITabBarItem *item = [self.tabBar.items objectAtIndex:index];
     UIView *view = [item valueForKey:@"view"];
-    CGPoint center = CGPointMake(view.center.x, view.center.y - 25);
+    CGPoint center = CGPointMake(view.center.x, view.center.y);
     return center;
 }
 

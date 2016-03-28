@@ -42,25 +42,6 @@
     [self setUpUserInfos];
     [self setUpScores];
     [self setUpSelections];
-    [self setUpLogin];
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    if ([WBUserDefaults userId]) {
-        [self.loginBtn removeFromSuperview];
-        [self.view addSubview:self.userInfosView];
-        [self.view addSubview:self.userScoreView];
-        [self.view addSubview:self.tableView];
-        _userIcon.image = [WBUserDefaults headIcon];
-        _nickName.text = [WBUserDefaults nickname];
-        _profile.text = [WBUserDefaults profile];
-    } else {
-        [self.view addSubview:self.loginBtn];
-        [self.userInfosView removeFromSuperview];
-        [self.userScoreView removeFromSuperview];
-        [self.tableView removeFromSuperview];
-    }
 }
 
 #pragma mark - setUpSubviews
@@ -74,18 +55,23 @@
     _userIcon.layer.masksToBounds = YES;
     _userIcon.layer.cornerRadius = 25.0;
     _userIcon.contentMode = UIViewContentModeScaleAspectFill;
+    _userIcon.image = [WBUserDefaults headIcon];
     [self.userInfosView addSubview:_userIcon];
     
     _nickName = [[UILabel alloc] initWithFrame:CGRectMake(100, 30, (self.size.width*0.7-100), 15)];
     _nickName.textColor = [UIColor whiteColor];
     _nickName.font = MAINFONTSIZE;
+    _nickName.text = [WBUserDefaults nickname];
     [self.userInfosView addSubview:_nickName];
     
     _profile = [[UITextView alloc] initWithFrame:CGRectMake(95, 45, (self.size.width*0.7-100), 60)];
     _profile.backgroundColor = [UIColor clearColor];
     _profile.textColor = [UIColor whiteColor];
     _profile.font = MAINFONTSIZE;
+    _profile.text = [WBUserDefaults profile];
     [self.userInfosView addSubview:_profile];
+    
+    [self.view addSubview:self.userInfosView];
 }
 
 -(void)setUpScores{
@@ -120,6 +106,8 @@
 
     [self.userScoreView addSubview:todayScore];
     [self.userScoreView addSubview:_todayScoreNumber];
+    
+    [self.view addSubview:self.userScoreView];
 }
 
 -(void)setUpSelections{
@@ -135,19 +123,7 @@
         tableView.bounces = NO;
         tableView;
     });
-    
-}
-
--(void)setUpLogin{
-    self.loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(100, 200, 150, 80)];
-    [self.loginBtn setBackgroundColor:[UIColor initWithGreen]];
-    [self.loginBtn setTitle:@"登陆/注册" forState:UIControlStateNormal];
-    [self.loginBtn addTarget:self action:@selector(loginWeiQiu) forControlEvents:UIControlEventTouchUpInside];
-}
-
--(void)loginWeiQiu{
-    LoadViewController *loadView = [[LoadViewController alloc]init];
-    [self presentViewController:loadView animated:YES completion:nil];
+    [self.view addSubview:self.tableView];
 }
 
 #pragma mark -----Income -------
