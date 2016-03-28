@@ -29,6 +29,9 @@
     UILabel     *_question;
     UIButton    *_questionButton;
     UIButton    *_lookAll;
+    
+    BOOL        _isGettingQues;
+    NSString    *_currentQuestionId;
 }
 
 @property (nonatomic, assign) NSString *groupId;
@@ -50,7 +53,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"%@",self.targetId);
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(msgPush:)
@@ -124,7 +127,10 @@
     [manager POST:url parameters:data progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"create---success");
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            _currentQuestionId = responseObject[@"msg"];
+            NSLog(@"%@",_currentQuestionId);
+        }
         [self getQuestionTotalNumber];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"create---failure");
@@ -148,7 +154,11 @@
 #pragma mark - 数据加载
 
 -(void)getQuestionTotalNumber{
-    NSLog(@"%@",self.groupId);
+//    NSLog(@"%@",self.groupId);
+    if (_isGettingQues) {
+        return;
+    }
+    _isGettingQues = YES;
     NSString *url = [NSString stringWithFormat:QUESTION_NUMBER,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         
@@ -161,9 +171,11 @@
         }else{
             [self hideHUD];
         }
+        _isGettingQues = NO;
         
     } andFailure:^(NSString *error) {
         NSLog(@"%@------",error);
+        _isGettingQues = NO;
     }];
 }
 
@@ -175,6 +187,10 @@
         if ([result isKindOfClass:[NSDictionary class]]){
             self.model = [WBQuestionsListModel mj_objectArrayWithKeyValuesArray:result[@"question"]];
         }
+        if (self.model.count > 0) {
+            _currentQuestionId = [NSString stringWithFormat:@"%ld",(long)((WBQuestionsListModel *)self.model[0]).questionId];
+        }
+        
         [self hideHUD];
         [self setUpQuestionView];
         
@@ -236,12 +252,6 @@
         [_questionButton addTarget:self action:@selector(writeAnswer) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    
-    
-//    CGFloat talkHeight = self.conversationMessageCollectionView.frame.size.height;
-//    self.conversationMessageCollectionView.frame = CGRectMake(0, 170, SCREENWIDTH, talkHeight - 105);
-//    self.conversationMessageCollectionView.backgroundColor = [UIColor initWithBackgroundGray];
-    
 }
 
 #pragma mark - 页面跳转
@@ -279,6 +289,9 @@
 
 -(void)writeAnswer{
     WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
+    writeAnswerVC.isQuestionAnswer = YES;
+    writeAnswerVC.groupId = self.targetId;
+    writeAnswerVC.qusetionId = _currentQuestionId;
     [self.navigationController pushViewController:writeAnswerVC animated:YES];
 }
 

@@ -34,6 +34,7 @@
     if (self) {
         [self setDisplayConversationTypes:@[@(ConversationType_GROUP)]];
     }
+    [self loadData];
     return self;
 }
 
@@ -47,17 +48,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%lu",(unsigned long)self.conversationListDataSource.count);
     self.view.backgroundColor = [UIColor whiteColor];
     [self notifyUpdateUnreadMessageCount];
     _emptyView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"1.pic.jpg"]];
-    _emptyView.frame = CGRectMake(0, 40, SCREENWIDTH, SCREENWIDTH);
+    _emptyView.frame = CGRectMake(0, 40, SCREENWIDTH, SCREENWIDTH);    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [self loadData];
-    
 }
 
 -(void)notifyUpdateUnreadMessageCount{
@@ -91,25 +90,19 @@
 
 #pragma mark - 重写会话列表相关方法
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    NSInteger count = 0;
-    for (RCConversationModel *model in self.conversationListDataSource) {
+-(NSMutableArray *)willReloadTableData:(NSMutableArray *)dataSource{
+    NSMutableArray *array = [NSMutableArray array];
+    for (RCConversationModel *model in dataSource) {
         for (WBMyGroupModel *myModel in self.models) {
             NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
             if ([model.targetId isEqualToString:groupId]) {
-                count += 1;
+                model.extend = myModel;
+                model.conversationTitle = [NSString stringWithFormat:@"%@的帮帮团",myModel.nickName];
+                [array addObject:model];
             }
         }
     }
-    
-    if (count > 0) {
-        [_emptyView removeFromSuperview];
-    } else {
-        [_emptyView removeFromSuperview];
-    }
-    
-    return count;
+    return array;
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -134,18 +127,7 @@
         cell = [[WBGroupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID isMater:NO];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    RCConversationModel *model = self.conversationListDataSource[indexPath.row];
-    for (WBMyGroupModel *myModel in self.models) {
-        NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
-        if ([model.targetId isEqualToString:groupId]) {
-            model.extend = myModel;
-            model.targetId = groupId;
-            model.conversationTitle = [NSString stringWithFormat:@"%@的帮帮团",myModel.nickName];
-        }
-    }
     [cell setDataModel:self.conversationListDataSource[indexPath.row]];
-    
     return cell;
 }
 
