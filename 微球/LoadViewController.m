@@ -15,6 +15,8 @@
 #import "MyDownLoadManager.h"
 #import "UIImageView+WebCache.h"
 
+#import "WBSetInformationViewController.h"
+
 @interface LoadViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong) UITextField *account;
 @property (nonatomic,strong) UITextField *password;
@@ -192,15 +194,21 @@
         
        //忘记密码
     }else if (btn.tag == 100){
+        
+       
+        
+        
         WBRegisterViewController *registerView = [[WBRegisterViewController alloc]init];
         [self presentViewController:registerView animated:YES completion:nil];
 
        
     //注册
     }else if(btn.tag == 101){
-                //[self.navigationController pushViewController:registerView animated:YES];
-        WBDataModifiedViewController *DVC = [[WBDataModifiedViewController alloc]init];
-        [self.navigationController pushViewController:DVC animated:YES];
+        WBSetInformationViewController *SVC  = [[WBSetInformationViewController alloc]init];
+        [self presentViewController:SVC animated:YES completion:nil];
+        
+      //  WBDataModifiedViewController *DVC = [[WBDataModifiedViewController alloc]init];
+      //  [self.navigationController pushViewController:DVC animated:YES];
     }else if(btn.tag == 110){
     
                

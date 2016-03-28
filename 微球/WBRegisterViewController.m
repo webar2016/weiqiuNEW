@@ -149,10 +149,7 @@
 }
 
 #pragma mark ---------btnClick----------
--(void)btnClicked{
-    
-   
-}
+
 
 -(void)btnClickedConfirm{
     if (_telephoneUsed == NO) {
@@ -185,9 +182,12 @@
 -(void)btnClicked:(UIButton *)btn{
     if (btn.tag==100) {
         //取消
+        
         [self dismissViewControllerAnimated:YES completion:nil];
     }else if (btn.tag ==101){
     //先逛逛
+        NSLog(@"------");
+        
     
     }else if (btn.tag == 103){
         //短信验证
@@ -223,10 +223,6 @@
         } andFailure:^(NSString *error) {
             
         }];
-    }else if (btn.tag == 106){
-    
-    
-    
     }
 }
 
@@ -235,7 +231,7 @@
 - (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     //  NSLog(@"%ld",textField.text.length);
     
-    if (textField.tag ==50) {
+    if (textField.tag ==104) {
         NSInteger strLength = textField.text.length - range.length + string.length;
         
        
