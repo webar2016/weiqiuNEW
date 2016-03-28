@@ -14,6 +14,6 @@
 
 @property (nonatomic, assign) BOOL isPush;
 
-@property (nonatomic, assign) NSString *groupId;
+@property (nonatomic, copy) NSString *groupId;
 
 @end

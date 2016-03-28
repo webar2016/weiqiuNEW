@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface WBAllocateScoreViewController : UIViewController
-
+@property (nonatomic, copy) NSString *groupId;
 @end
