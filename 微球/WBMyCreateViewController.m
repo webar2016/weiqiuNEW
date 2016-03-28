@@ -46,7 +46,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"%lu",(unsigned long)self.conversationListDataSource.count);
     self.view.backgroundColor = [UIColor whiteColor];
     [self notifyUpdateUnreadMessageCount];
     _emptyView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"1.pic.jpg"]];
@@ -91,18 +91,23 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    if (self.models.count == 0 || self.conversationListDataSource.count == 0) {
-        [self.conversationListTableView addSubview:_emptyView];
-        return 0;
+    NSInteger count = 0;
+    for (RCConversationModel *model in self.conversationListDataSource) {
+        for (WBMyGroupModel *myModel in self.models) {
+            NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
+            if ([model.targetId isEqualToString:groupId]) {
+                count += 1;
+            }
+        }
     }
     
-    if (self.models.count < self.conversationListDataSource.count) {
+    if (count > 0) {
         [_emptyView removeFromSuperview];
-        return self.models.count;
     } else {
         [_emptyView removeFromSuperview];
-        return self.conversationListDataSource.count;
     }
+    
+    return count;
     
 }
 
