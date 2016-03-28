@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WBSetInformationViewController">
+            <connections>
+                <outlet property="birthdayBtn" destination="V2E-Vx-ITv" id="0U9-XY-x0r"/>
+                <outlet property="birthdayLabel" destination="AcY-Xp-GnS" id="dUj-Jg-Ce0"/>
+                <outlet property="confirmBtn" destination="bO7-e1-t79" id="ugt-za-WdR"/>
+                <outlet property="headImageView" destination="CrK-E4-y3U" id="twp-K4-QKC"/>
+                <outlet property="positionBtn" destination="peR-ml-civ" id="Sve-y0-IFX"/>
+                <outlet property="positionLabel" destination="dA8-Db-zcx" id="mK1-NR-6ic"/>
+                <outlet property="sexLabel" destination="lUQ-zI-3IR" id="0ZS-E7-84R"/>
+                <outlet property="sexManBtn" destination="l8j-ax-IhM" id="SWy-Vx-a9h"/>
+                <outlet property="sexWomenBtn" destination="rQk-8A-wEa" id="B3c-BA-bI2"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="选择性别" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lUQ-zI-3IR">
+                    <rect key="frame" x="30" y="129" width="121" height="25"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_sex" translatesAutoresizingMaskIntoConstraints="NO" id="jmh-lF-5jQ">
+                    <rect key="frame" x="30" y="168" width="57" height="57"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l8j-ax-IhM">
+                    <rect key="frame" x="134" y="182" width="30" height="30"/>
+                    <state key="normal" title="男"/>
+                    <connections>
+                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="YtE-5G-xw1"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQk-8A-wEa">
+                    <rect key="frame" x="200" y="182" width="30" height="30"/>
+                    <state key="normal" title="女"/>
+                    <connections>
+                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="9Dx-qc-zC7"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="选择生日" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AcY-Xp-GnS">
+                    <rect key="frame" x="30" y="267" width="68" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="选择所在地" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dA8-Db-zcx">
+                    <rect key="frame" x="30" y="398" width="85" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_ibirthday" translatesAutoresizingMaskIntoConstraints="NO" id="roy-S7-MRw">
+                    <rect key="frame" x="30" y="308" width="57" height="57"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_location" translatesAutoresizingMaskIntoConstraints="NO" id="EqW-NU-Q68">
+                    <rect key="frame" x="30" y="447" width="57" height="57"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="peR-ml-civ">
+                    <rect key="frame" x="103" y="456" width="168" height="39"/>
+                    <inset key="imageEdgeInsets" minX="150" minY="0.0" maxX="1" maxY="0.0"/>
+                    <state key="normal" image="icon_gps">
+                        <attributedString key="attributedTitle">
+                            <fragment content="点击自动定位">
+                                <attributes>
+                                    <font key="NSFont" size="18" name="PingFangSC-Regular"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
+                    <connections>
+                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="ISR-Ge-37K"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bO7-e1-t79">
+                    <rect key="frame" x="97" y="505" width="104" height="30"/>
+                    <state key="normal" title="Button"/>
+                    <connections>
+                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="zSE-No-Tln"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_upload" translatesAutoresizingMaskIntoConstraints="NO" id="CrK-E4-y3U">
+                    <rect key="frame" x="125" y="28" width="70" height="70"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V2E-Vx-ITv">
+                    <rect key="frame" x="119" y="322" width="152" height="30"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                    <connections>
+                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="MKs-Nl-RPS"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="l8j-ax-IhM" firstAttribute="centerY" secondItem="jmh-lF-5jQ" secondAttribute="centerY" id="8vX-Y2-vAh"/>
+                <constraint firstItem="rQk-8A-wEa" firstAttribute="centerY" secondItem="l8j-ax-IhM" secondAttribute="centerY" id="FJh-u1-1SD"/>
+                <constraint firstItem="AcY-Xp-GnS" firstAttribute="top" secondItem="jmh-lF-5jQ" secondAttribute="bottom" constant="59" id="FRt-aR-mSd"/>
+                <constraint firstItem="dA8-Db-zcx" firstAttribute="top" secondItem="roy-S7-MRw" secondAttribute="bottom" constant="59" id="LS4-yj-AzY"/>
+                <constraint firstItem="EqW-NU-Q68" firstAttribute="top" secondItem="dA8-Db-zcx" secondAttribute="bottom" constant="7" id="LdE-wN-NNM"/>
+                <constraint firstItem="roy-S7-MRw" firstAttribute="top" secondItem="AcY-Xp-GnS" secondAttribute="bottom" constant="7" id="Qx6-2F-8FL"/>
+                <constraint firstItem="lUQ-zI-3IR" firstAttribute="top" secondItem="CrK-E4-y3U" secondAttribute="bottom" constant="36" id="cVW-NO-Wln"/>
+                <constraint firstItem="peR-ml-civ" firstAttribute="centerY" secondItem="EqW-NU-Q68" secondAttribute="centerY" id="dsb-q9-fJx"/>
+                <constraint firstItem="CrK-E4-y3U" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="gED-pt-pSe"/>
+                <constraint firstItem="V2E-Vx-ITv" firstAttribute="centerY" secondItem="roy-S7-MRw" secondAttribute="centerY" id="goM-ut-EKP"/>
+                <constraint firstItem="bO7-e1-t79" firstAttribute="top" secondItem="EqW-NU-Q68" secondAttribute="bottom" constant="41" id="iaI-ea-toO"/>
+                <constraint firstItem="l8j-ax-IhM" firstAttribute="height" secondItem="rQk-8A-wEa" secondAttribute="height" id="ppV-Jo-PpB"/>
+                <constraint firstItem="CrK-E4-y3U" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="rki-tC-6fo"/>
+                <constraint firstItem="jmh-lF-5jQ" firstAttribute="top" secondItem="lUQ-zI-3IR" secondAttribute="bottom" constant="7" id="sYm-Qu-Y6d"/>
+            </constraints>
+            <point key="canvasLocation" x="595" y="296"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="icon_gps" width="15" height="15"/>
+        <image name="icon_ibirthday" width="57" height="57"/>
+        <image name="icon_location" width="57" height="57"/>
+        <image name="icon_sex" width="57" height="57"/>
+        <image name="icon_upload" width="70" height="70"/>
+    </resources>
+</document>
