@@ -163,6 +163,13 @@
 
 #pragma mark - operations
 
+-(void)changeStartPlace:(NSNotification*)sender{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"showSearchResultView" object:nil];
+    WBPositionList *list = [[WBPositionList alloc] init];
+    [_placeButton setTitle:[list cityNameWithCityId:[NSNumber numberWithInt:[sender.userInfo[@"startPlaceId"] intValue]]] forState:UIControlStateNormal];
+    self.dataDic[@"startPlaceId"] = sender.userInfo[@"startPlaceId"];
+}
+
 -(void)choosePlace{
     CreateHelpGroupViewController *createVC = [[CreateHelpGroupViewController alloc] init];
     createVC.fromNextPage = YES;
@@ -179,13 +186,6 @@
 -(void)choosePlanEnd{
     _choosePlanBegin = NO;
     [self showDatePicker];
-}
-
--(void)changeStartPlace:(NSNotification*)sender{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"showSearchResultView" object:nil];
-    WBPositionList *list = [[WBPositionList alloc] init];
-    [_placeButton setTitle:[list cityNameWithCityId:[NSNumber numberWithInt:[sender.userInfo[@"startPlaceId"] intValue]]] forState:UIControlStateNormal];
-    self.dataDic[@"startPlaceId"] = sender.userInfo[@"startPlaceId"];
 }
 
 -(void)ensureDatePicker{

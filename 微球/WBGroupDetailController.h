@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
 
 @interface WBGroupDetailController : UIViewController
 
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
+
+@property (nonatomic,strong)MBProgressHUD *hud;
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
+-(void)showHUDComplete:(NSString *)title;
+-(void)hideHUD;
 
 @end

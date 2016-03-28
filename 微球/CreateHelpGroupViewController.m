@@ -21,6 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(createSuccess)
+                                                 name:@"createSuccess"
+                                               object:nil];
+    
     self.positionList = [[WBPositionList alloc] init];
     
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
@@ -29,7 +34,7 @@
         self.navigationItem.title = @"选择始发地";
         UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)];
         self.navigationItem.leftBarButtonItem = leftButton;
-    }if (self.fromSlidePage) {
+    }else if (self.fromSlidePage) {
         self.navigationItem.title = @"解锁城市";
         UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(backToLastView)];
         self.navigationItem.leftBarButtonItem = leftButton;
@@ -126,7 +131,13 @@
     _selectedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 44)];
     UIImageView *nike = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_markcross"]];
     nike.center = CGPointMake(SCREENWIDTH - 40, 22);
+    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(15, 0, SCREENWIDTH, 0.5)];
+    topLine.backgroundColor = [UIColor initWithBackgroundGray];
+    UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(15, 43.5, SCREENWIDTH, 0.5)];
+    underLine.backgroundColor = [UIColor initWithBackgroundGray];
     [_selectedView addSubview:nike];
+    [_selectedView addSubview:topLine];
+    [_selectedView addSubview:underLine];
 }
 
 #pragma mark - table view delegate datasource
@@ -187,6 +198,16 @@
     
     return cell;
     
+}
+
+#pragma mark - notification center
+
+-(void)createSuccess{
+    self.fromNextPage = NO;
+    self.fromSlidePage = NO;
+    _chooseCity = NO;
+    _cityId = nil;
+    [_tableView reloadData];
 }
 
 @end

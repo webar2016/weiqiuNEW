@@ -20,4 +20,9 @@
  */
 -(NSString *)replaceImageSign;
 
+/**
+ *随机产生32位字符串
+ */
++(NSString *)ret32bitString;
+
 @end
