@@ -212,7 +212,7 @@ didRegisterUserNotificationSettings:
     [[RCIM sharedRCIM] registerMessageType:[WBFollowMessage class]];
     [[RCIM sharedRCIM] registerMessageType:[WBCommentMessage class]];
     
-    [[RCIMClient sharedRCIMClient] clearConversations:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
+ //   [[RCIMClient sharedRCIMClient] clearConversations:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
 }
 
 -(void)getRCToken{
