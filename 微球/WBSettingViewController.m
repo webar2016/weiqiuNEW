@@ -11,8 +11,10 @@
 
 @interface WBSettingViewController () <UITableViewDelegate,UITableViewDataSource> {
     UITableView     *_tableView;
-    UISwitch        *_switch;
+    UISwitch        *_disturbSwitch;
+    UISwitch        *_weiqiuSwitch;
     UIButton        *_loginOut;
+    UIAlertController   *_alert;
 }
 
 @end
@@ -43,6 +45,14 @@
     [_loginOut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_loginOut addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_loginOut];
+    
+    _alert = [UIAlertController alertControllerWithTitle:@"设置失败，请重试" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [_alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self dismissViewControllerAnimated:_alert completion:nil];
+        }];
+        action;
+    })];
 }
 
 #pragma mark - operations
@@ -59,19 +69,35 @@
 }
 
 -(void)dontDisturb{
-    if (_switch.on) {
+    if (_disturbSwitch.on) {
         [[RCIMClient sharedRCIMClient]setNotificationQuietHours:@"22:00:00" spanMins:540 success:^{
             [WBUserDefaults setUserDefaultsValue:YES withKey:@"dontDisturb"];
-            NSLog(@"免打扰设置成功");
         } error:^(RCErrorCode status) {
-            NSLog(@"免打扰设置失败---%ld",(long)status);
+            [self presentViewController:_alert animated:YES completion:nil];
+            _disturbSwitch.on = NO;
         }];
     } else {
         [[RCIMClient sharedRCIMClient] removeNotificationQuietHours:^{
             [WBUserDefaults setUserDefaultsValue:NO withKey:@"dontDisturb"];
-            NSLog(@"打开提醒设置成功");
         } error:^(RCErrorCode status) {
-            NSLog(@"打开提醒设置失败---%ld",(long)status);
+            [self presentViewController:_alert animated:YES completion:nil];
+            _disturbSwitch.on = YES;
+        }];
+    }
+}
+
+-(void)weiqiuDisturb{
+    if (_weiqiuSwitch.on) {
+        [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_PRIVATE targetId:@"weiqiu" isBlocked:YES success:^(RCConversationNotificationStatus nStatus) {
+            [WBUserDefaults setUserDefaultsValue:YES withKey:@"weiqiuDisturb"];
+        } error:^(RCErrorCode status) {
+            _weiqiuSwitch.on = NO;
+        }];
+    } else {
+        [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_PRIVATE targetId:@"weiqiu" isBlocked:NO success:^(RCConversationNotificationStatus nStatus) {
+            [WBUserDefaults setUserDefaultsValue:NO withKey:@"weiqiuDisturb"];
+        } error:^(RCErrorCode status) {
+            _weiqiuSwitch.on = YES;
         }];
     }
 }
@@ -79,7 +105,7 @@
 #pragma mark - table view delegate datasource
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return 4;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -96,22 +122,34 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"给我们鼓励！",@"关于微球"];
+    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"屏蔽微球小助手",@"给我们鼓励！",@"关于微球"];
     cell.textLabel.text = title[indexPath.row];
     cell.textLabel.textColor = [UIColor initWithNormalGray];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.row == 0) {
-        _switch = [[UISwitch alloc] init];
-        _switch.onTintColor = [UIColor initWithGreen];
-        _switch.center = CGPointMake(SCREENWIDTH * 0.9, 22);
-        [_switch addTarget:self action:@selector(dontDisturb) forControlEvents:UIControlEventValueChanged];
+        _disturbSwitch = [[UISwitch alloc] init];
+        _disturbSwitch.onTintColor = [UIColor initWithGreen];
+        _disturbSwitch.center = CGPointMake(SCREENWIDTH * 0.9, 22);
+        [_disturbSwitch addTarget:self action:@selector(dontDisturb) forControlEvents:UIControlEventValueChanged];
         if (![WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dontDisturb"]) {
-            _switch.on = NO;
+            _disturbSwitch.on = NO;
             [WBUserDefaults addUserDefaultsValue:NO withKey:@"dontDisturb"];
         } else {
-            _switch.on = [WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dontDisturb"];
+            _disturbSwitch.on = [WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dontDisturb"];
         }
-        [cell.contentView addSubview:_switch];
+        [cell.contentView addSubview:_disturbSwitch];
+    } else if (indexPath.row == 1) {
+        _weiqiuSwitch = [[UISwitch alloc] init];
+        _weiqiuSwitch.onTintColor = [UIColor initWithGreen];
+        _weiqiuSwitch.center = CGPointMake(SCREENWIDTH * 0.9, 22);
+        [_weiqiuSwitch addTarget:self action:@selector(weiqiuDisturb) forControlEvents:UIControlEventValueChanged];
+        if (![WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"weiqiuDisturb"]) {
+            _weiqiuSwitch.on = NO;
+            [WBUserDefaults addUserDefaultsValue:NO withKey:@"weiqiuDisturb"];
+        } else {
+            _weiqiuSwitch.on = [WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"weiqiuDisturb"];
+        }
+        [cell.contentView addSubview:_weiqiuSwitch];
     } else {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }

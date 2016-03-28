@@ -12,6 +12,8 @@
 #import "WBPrivateViewController.h"
 #import "WBSystemViewController.h"
 
+#import "RCIMClient.h"
+
 #import "UIColor+color.h"
 
 #define NAVIGATION_CONTROLLERS self.parentViewController.childViewControllers.lastObject.childViewControllers
@@ -82,6 +84,11 @@
     }else{
         [NAVIGATION_CONTROLLERS.lastObject pushViewController:vc animated:YES];
     }
+}
+
+- (void)didDeleteConversationCell:(RCConversationModel *)model{
+    [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_PRIVATE targetId:model.targetId];
+    [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_PRIVATE targetId:model.targetId];
 }
 
 @end

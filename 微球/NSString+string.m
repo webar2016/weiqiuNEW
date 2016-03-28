@@ -34,4 +34,10 @@
     return currentString;
 }
 
++(NSString *)ret32bitString{
+    char data[32];
+    for (int x=0;x<32;data[x++] = (char)('A' + (arc4random_uniform(26))));
+    return [[NSString alloc] initWithBytes:data length:32 encoding:NSUTF8StringEncoding];
+}
+
 @end

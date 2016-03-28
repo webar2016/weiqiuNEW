@@ -33,21 +33,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    [self creatNavi];
     [self createUI];
-}
-
--(void)creatNavi{
-        //设置标题
-        self.navigationItem.title = @"帮帮团详情";
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
-        //设置返回按钮
-        UIBarButtonItem *item = (UIBarButtonItem *)self.navigationController.navigationBar.topItem;
-        item.title = @"返回";
-        self.navigationController.navigationBar.tintColor = [UIColor initWithGreen];
 }
 
 -(void)createUI{
