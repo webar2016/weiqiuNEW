@@ -47,7 +47,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"%lu",(unsigned long)self.conversationListDataSource.count);
     self.view.backgroundColor = [UIColor whiteColor];
     [self notifyUpdateUnreadMessageCount];
     _emptyView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"1.pic.jpg"]];
@@ -92,6 +92,7 @@
 #pragma mark - 重写会话列表相关方法
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
     NSInteger count = 0;
     for (RCConversationModel *model in self.conversationListDataSource) {
         for (WBMyGroupModel *myModel in self.models) {
