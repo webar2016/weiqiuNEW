@@ -99,7 +99,7 @@
     [_iconsView sd_setImageWithURL:((WBMyGroupModel *)model.extend).dir placeholderImage:[UIImage imageNamed:@"placeholder-17"]];
     _groupName.text = model.conversationTitle;
     if (_isMaster) {
-        _totalNumber.text = [NSString stringWithFormat:@"%ld个问题",(long)((WBMyGroupModel *)model.extend).answers];
+        _totalNumber.text = [NSString stringWithFormat:@"%ld个回答",(long)((WBMyGroupModel *)model.extend).answers];
     }else {
         _totalNumber.text = [NSString stringWithFormat:@"%ld个问题",(long)((WBMyGroupModel *)model.extend).questions];
     }

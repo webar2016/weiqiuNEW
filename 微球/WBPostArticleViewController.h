@@ -10,4 +10,9 @@
 
 @interface WBPostArticleViewController : UIViewController
 
+@property (nonatomic, assign) BOOL isQuestionAnswer;
+
+@property (nonatomic, copy) NSString *groupId;
+@property (nonatomic, copy) NSString *qusetionId;
+
 @end

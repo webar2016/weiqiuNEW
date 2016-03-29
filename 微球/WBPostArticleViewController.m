@@ -166,10 +166,13 @@
     NSUInteger count = self.imageArray.count;
     
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
-    [parameters setObject:@"29" forKey:@"userId"];
+    [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
     [parameters setObject:plainString forKey:@"answerText"];
-    [parameters setObject:@"1" forKey:@"groupId"];
-    [parameters setObject:@"1" forKey:@"questionId"];
+    
+    if (self.isQuestionAnswer) {
+        [parameters setObject:self.groupId forKey:@"groupId"];
+        [parameters setObject:self.qusetionId forKey:@"questionId"];
+    }
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
