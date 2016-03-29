@@ -102,9 +102,9 @@
     float score = (float)self.allIntegral;
     if (score >= 1000) {
         score = score / 1000;
-        scoreLabel.text = [NSString stringWithFormat:@"该问题已聚集%.1fk球票",score];
+        scoreLabel.text = [NSString stringWithFormat:@"该问题已聚集%.1fk球币",score];
     }else{
-        scoreLabel.text = [NSString stringWithFormat:@"该问题已聚集%d球票",(int)score];
+        scoreLabel.text = [NSString stringWithFormat:@"该问题已聚集%d球币",(int)score];
     }
     
     //按钮
@@ -141,24 +141,18 @@
     NSString *url = [NSString stringWithFormat:ANSWERLISTURL,(int)self.questionId,page,PAGESIZE];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        
+        NSLog(@"%d",page);
         if ([result isKindOfClass:[NSDictionary class]]){
             NSMutableArray *tempArray = [NSMutableArray array];
             tempArray = [WBSingleAnswerModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
-            if (page == 1) {
-                for (WBSingleAnswerModel *temp in tempArray) {
-                    int index = 0;
-                    if (self.answerList.count) {
-                        [self.answerList containsObject:temp] ? [self.answerList insertObject:temp atIndex:index] : self.answerList;
-                        index ++;
-                    }else{
-                        [self.answerList addObject:temp];
-                        self.currentPage ++;
-                    }
+            if (tempArray.count > 0) {
+                if (page == 1) {
+                    self.answerList = tempArray;
+                    self.currentPage ++;
+                }else{
+                    [self.answerList addObjectsFromArray:tempArray];
+                    self.currentPage ++;
                 }
-            }else{
-                [self.answerList addObjectsFromArray:tempArray];
-                self.currentPage ++;
             }
             
             [self.tableView reloadData];
@@ -188,7 +182,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source

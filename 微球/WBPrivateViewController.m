@@ -7,6 +7,7 @@
 //
 
 #import "WBPrivateViewController.h"
+#import "WBHomepageViewController.h"
 
 @interface WBPrivateViewController ()
 
@@ -29,6 +30,12 @@
             ((RCTextMessageCell *)cell).textLabel.textColor = [UIColor initWithNormalGray];
         }
     }
+}
+
+- (void)didTapCellPortrait:(NSString *)userId{
+    WBHomepageViewController *friendPage = [[WBHomepageViewController alloc] init];
+    friendPage.friendId = userId;
+    [self.navigationController pushViewController:friendPage animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

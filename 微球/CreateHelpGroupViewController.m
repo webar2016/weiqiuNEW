@@ -3,13 +3,18 @@
 #import "WBUnlockViewController.h"
 
 #import "WBPositionList.h"
+#import "WBPositionModel.h"
 
-@interface CreateHelpGroupViewController () <UITableViewDelegate,UITableViewDataSource> {
+@interface CreateHelpGroupViewController () <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate> {
     UITableView *_tableView;
-    BOOL        _chooseCity;
     NSNumber    *_provinceId;
     NSNumber    *_cityId;
+    NSArray     *_searchCityInfos;
     UIView      *_selectedView;
+    UISearchBar *_searchBox;
+    UIView      *_overlay;
+    
+    BOOL        _chooseCity;
 }
 
 @property (nonatomic, strong) WBPositionList *positionList;
@@ -119,11 +124,12 @@
     CGFloat viewSize = self.view.frame.size.width;
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewSize, 40)];
     CGFloat searchBoxWidth = viewSize * 0.98;
-    UISearchBar *searchBox = [[UISearchBar alloc] initWithFrame:CGRectMake(viewSize * 0.01, 5, searchBoxWidth, 30)];
-    searchBox.placeholder = @"搜索城市";
-    searchBox.searchBarStyle = UISearchBarStyleMinimal;
-    searchBox.barTintColor = [UIColor whiteColor];
-    [searchView addSubview:searchBox];
+    _searchBox = [[UISearchBar alloc] initWithFrame:CGRectMake(viewSize * 0.01, 5, searchBoxWidth, 30)];
+    _searchBox.placeholder = @"搜索城市";
+    _searchBox.searchBarStyle = UISearchBarStyleMinimal;
+    _searchBox.barTintColor = [UIColor whiteColor];
+    _searchBox.delegate = self;
+    [searchView addSubview:_searchBox];
     _tableView.tableHeaderView = searchView;
 }
 
@@ -147,7 +153,6 @@
     }else{
         return [self.positionList getCitiesCountWithProvinceId:_provinceId];
     }
-    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -174,9 +179,6 @@
         UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"下一步" style:UIBarButtonItemStylePlain target:self action:@selector(nextStep)];
         self.navigationItem.rightBarButtonItem = rightButton;
     }
-    
-    
-    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -195,9 +197,55 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = [self.positionList getCityInfomationAtIndex:indexPath.row WithProvinceId:_provinceId][0];
     }
-    
     return cell;
-    
+}
+
+#pragma mark - search box delegate
+
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    _tableView.scrollEnabled = NO;
+    _tableView.scrollsToTop = YES;
+    if (!_overlay) {
+        _overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 104, SCREENWIDTH, SCREENHEIGHT - 104)];
+        _overlay.backgroundColor = [UIColor blackColor];
+        _overlay.alpha = 0.2;
+    }
+    [self.view addSubview:_overlay];
+    UITapGestureRecognizer *searchCancel = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchCancel)];
+    [_overlay addGestureRecognizer:searchCancel];
+    return YES;
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    NSString *cityName = _searchBox.text;
+    _searchCityInfos = [self.positionList searchCityWithCithName:cityName];
+    for (int i = 0; i < _searchCityInfos.count; i ++) {
+        UIButton *cityButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 44 * i + 1, SCREENWIDTH, 44)];
+        cityButton.backgroundColor = [UIColor whiteColor];
+        cityButton.tag = i;
+        [cityButton setTitle:((WBCityModel *)_searchCityInfos[i]).cityName forState:UIControlStateNormal];
+        if (i != _searchCityInfos.count) {
+            UIView *underLine = [[UIView alloc] initWithFrame:CGRectMake(15, 43.5, SCREENWIDTH, 0.5)];
+            underLine.backgroundColor = [UIColor initWithBackgroundGray];
+            [cityButton addSubview:underLine];
+        }
+        [cityButton addTarget:self action:@selector(searchNextStep:) forControlEvents:UIControlEventTouchUpInside];
+        [_overlay addSubview:cityButton];
+    }
+}
+
+-(void)searchCancel{
+    _tableView.scrollEnabled = YES;
+    [_searchBox resignFirstResponder];
+    [_overlay removeFromSuperview];
+}
+
+-(void)searchNextStep:(UIButton *)sender{
+    _cityId = ((WBCityModel *)_searchCityInfos[sender.tag]).cityId;
+    if (self.fromNextPage) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"choosePlace" object:self userInfo:@{@"startPlaceId":[NSString stringWithFormat:@"%@",_cityId]}];
+    }
+    [self nextStep];
 }
 
 #pragma mark - notification center

@@ -12,6 +12,7 @@
 #import "WBAllListViewController.h"
 #import "WBJoinUsViewController.h"
 #import "WBMyCreateViewController.h"
+#import "LoadViewController.h"
 
 #import "UIImage+image.h"
 #import "UIColor+color.h"
@@ -34,6 +35,13 @@
 @end
 
 @implementation WBHelpGroupsViewController
+
+//-(instancetype)init{
+//    if (self = [super init]) {
+//        <#statements#>
+//    }
+//    return self;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,7 +76,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - 创建topics和questions控制器
@@ -84,43 +91,39 @@
         
 }
 
-
 -(void)initPageVc{
-    
-    
     _pageViewController = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     _pageViewController.delegate = self;
     //设置
     [_pageViewController setViewControllers:@[_vcArray[0]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];
-    
 }
 
-#pragma  mark - navigation两边按钮点击事件
 -(void)changeCurrentController:(UISegmentedControl *)segMent{
     NSInteger index=segMent.selectedSegmentIndex;
-    
     if (index==0) {
         _prevPage = 0;
         [_pageViewController setViewControllers:@[_vcArray[0]] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
-    }else if(index==1){
-        
-         if(index > _prevPage){
-             [_pageViewController setViewControllers:@[_vcArray[1]] direction:
-             UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-         }else{
-             [_pageViewController setViewControllers:@[_vcArray[1]] direction:
-             UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
-         }
-         
-    }else{
-        _prevPage = 2;
-       [_pageViewController setViewControllers:@[_vcArray[2]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-    
-    
+    } else if (![WBUserDefaults userId] && index!=0) {
+        LoadViewController *loadView = [[LoadViewController alloc]init];
+        [self presentViewController:loadView animated:YES completion:nil];
+        segMent.selectedSegmentIndex = 0;
+    } else {
+        if(index==1){
+            
+            if(index > _prevPage){
+                [_pageViewController setViewControllers:@[_vcArray[1]] direction:
+                 UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+            }else{
+                [_pageViewController setViewControllers:@[_vcArray[1]] direction:
+                 UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
+            }
+        }else{
+            _prevPage = 2;
+            [_pageViewController setViewControllers:@[_vcArray[2]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+        }
     }
-    
     
 }
 

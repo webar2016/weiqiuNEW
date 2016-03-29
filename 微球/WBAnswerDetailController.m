@@ -189,9 +189,9 @@
     self.likeButton.titleLabel.font = MAINFONTSIZE;
     _score = self.getIntegral;
     if (self.getIntegral > 1000) {
-        [self.likeButton setTitle:[NSString stringWithFormat:@" %.1fk球票",_score/1000] forState:UIControlStateNormal];
+        [self.likeButton setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
     }else{
-        [self.likeButton setTitle:[NSString stringWithFormat:@" %ld球票",(long)_score] forState:UIControlStateNormal];
+        [self.likeButton setTitle:[NSString stringWithFormat:@" %ld球币",(long)_score] forState:UIControlStateNormal];
     }
     [self.likeButton addTarget:self action:@selector(likeTap) forControlEvents:UIControlEventTouchUpInside];
     
@@ -345,9 +345,9 @@
         self.likeTip.alpha = 1;
         _score += 5;
         if (self.getIntegral > 1000) {
-            [self.likeButton setTitle:[NSString stringWithFormat:@" %.1fk球票",_score/1000] forState:UIControlStateNormal];
+            [self.likeButton setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
         }else{
-            [self.likeButton setTitle:[NSString stringWithFormat:@" %ld球票",(long)_score] forState:UIControlStateNormal];
+            [self.likeButton setTitle:[NSString stringWithFormat:@" %ld球币",(long)_score] forState:UIControlStateNormal];
         }
     } completion:^(BOOL finished) {
         [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0];

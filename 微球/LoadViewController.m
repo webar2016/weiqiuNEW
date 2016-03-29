@@ -164,8 +164,9 @@
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"%@",result);
             if ([result objectForKey:@"userId"]) {
-                [WBUserDefaults    setUserId:[result objectForKey:@"userId"]];
+                [WBUserDefaults setUserId:[result objectForKey:@"userId"]];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
                 [self saveToUserDefault];
             }else{
             
@@ -228,12 +229,12 @@
      NSLog(@"userInfo = %@",[WBUserDefaults userId]);
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/user/myInfo?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-       [WBUserDefaults printUserDefaults];
+       [WBUserDefaults printAllKeysInUserDefaults];
         NSDictionary *userInfo = [result objectForKey:@"userInfo"];
-       // NSLog(@"userInfo = %@",userInfo);
+        
+        NSLog(@"userInfo = %@",userInfo);
         [WBUserDefaults addUserDefaultsWithDictionary:userInfo];
-       // NSLog(@"-----------------------");
-      //  [WBUserDefaults printUserDefaults];
+        [WBUserDefaults printAllKeysInUserDefaults];
         
         if ([[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dir"] rangeOfString:@"http://"].location != NSNotFound) {
             SDWebImageManager *manager = [SDWebImageManager sharedManager];

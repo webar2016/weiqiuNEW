@@ -34,6 +34,7 @@
         [self setDisplayConversationTypes:@[@(ConversationType_GROUP)]];
     }
     [self loadData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"getGroupInfo" object:nil];
     return self;
 }
 

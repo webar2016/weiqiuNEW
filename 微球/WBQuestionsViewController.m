@@ -145,6 +145,7 @@
             if (tempArray.count > 0) {
                 if (page == 1) {
                     self.questionsList = tempArray;
+                    self.currentPage ++;
                 }else{
                     [self.questionsList addObjectsFromArray:tempArray];
                     self.currentPage ++;
@@ -278,19 +279,6 @@
     NSLog(@"进入个人主页");
 }
 
-//#pragma mark - 检测手指滑动，收起/放出tabbar
-//
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    if (_scrollPosition - scrollView.contentOffset.y < -5) {
-//        self.tabBarController.tabBar.hidden = YES;
-//        _scrollPosition = scrollView.contentOffset.y;
-//    }
-//    if (_scrollPosition - scrollView.contentOffset.y > 5){
-//        self.tabBarController.tabBar.hidden = NO;
-//        _scrollPosition = scrollView.contentOffset.y;
-//    }
-//
-//}
 -(void)showSearchView{
     WBSearchViewController *searchVC = [[WBSearchViewController alloc] init];
     [self presentViewController:searchVC animated:YES completion:nil];

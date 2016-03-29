@@ -12,6 +12,7 @@
 #import "WBAnswerDetailController.h"
 #import "WBPostArticleViewController.h"
 #import "WBQuestionsViewController.h"
+#import "WBHomepageViewController.h"
 
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
@@ -293,6 +294,12 @@
     writeAnswerVC.groupId = self.targetId;
     writeAnswerVC.qusetionId = _currentQuestionId;
     [self.navigationController pushViewController:writeAnswerVC animated:YES];
+}
+
+- (void)didTapCellPortrait:(NSString *)userId{
+    WBHomepageViewController *friendPage = [[WBHomepageViewController alloc] init];
+    friendPage.friendId = userId;
+    [self.navigationController pushViewController:friendPage animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
