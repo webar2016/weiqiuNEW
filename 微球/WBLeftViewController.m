@@ -14,11 +14,19 @@
 #import "WBSettingViewController.h"
 #import "WBIndividualIncomeViewController.h"
 
+#import "MyDownLoadManager.h"
+
 
 #define NAVIGATION_CONTROLLERS self.parentViewController.childViewControllers.lastObject.childViewControllers
 #define IS_FIND_PAGE self.sideMenuViewController.isFindPage
 
-@interface WBLeftViewController ()<BackDelegate>
+@interface WBLeftViewController () <UITableViewDataSource,UITableViewDelegate,UITextInputTraits,UITextViewDelegate,BackDelegate> {
+    UIImageView     *_userIcon;
+    UILabel         *_nickName;
+    UITextView      *_profile;
+    UILabel         *_totalScoreNumber;
+    UILabel         *_todayScoreNumber;
+}
 @property (strong, readwrite, nonatomic) UIView *userInfosView;
 @property (strong, readwrite, nonatomic) UIView *userScoreView;
 @property (strong, readwrite, nonatomic) UITableView *tableView;
@@ -73,6 +81,8 @@
     _profile.backgroundColor = [UIColor clearColor];
     _profile.textColor = [UIColor whiteColor];
     _profile.font = MAINFONTSIZE;
+    _profile.returnKeyType = UIReturnKeyDone;
+    _profile.delegate = self;
     [self.userInfosView addSubview:_profile];
     
     [self.view addSubview:self.userInfosView];
@@ -227,7 +237,31 @@
     return cell;
 }
 
+#pragma mark - profile
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]) {
+        [_profile resignFirstResponder];
+        [self postCurrentProfile];
+        return NO;
+    }
+    return YES;
+}
+- (void)postCurrentProfile{
+    NSString *string = _profile.text;
+    if (![string isEqualToString:[WBUserDefaults profile]]) {
+        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/user/updateUser" withParameters:@{@"columType":@"profile",@"userId":[WBUserDefaults userId],@"value":string} whenProgress:^(NSProgress *FieldDataBlock) {
+        } andSuccess:^(id representData) {
+            NSLog(@"成功");
+            [WBUserDefaults setProfile:string];
+        } andFailure:^(NSString *error) {
+            NSLog(@"失败");
+        }];
+    }
+}
+
 #pragma mark  -----loadView delegate -----
+
 - (void)loadBack{
     if ([WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]) {
         WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];

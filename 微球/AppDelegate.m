@@ -27,7 +27,9 @@
 
 #define SELECTED_INDEX ((UITabBarController *)self.window.rootViewController.childViewControllers.lastObject).selectedIndex
 
-@interface AppDelegate () <RCIMUserInfoDataSource,RCIMGroupInfoDataSource>
+@interface AppDelegate () <RCIMUserInfoDataSource,RCIMGroupInfoDataSource> {
+    BOOL    _tokenOutOfTime;
+}
 
 @property (strong,nonatomic) WBLeftViewController *leftViewController;
 @property (strong,nonatomic) WBRightViewController *rightViewController;
@@ -44,6 +46,8 @@
     [self setPushMessageWith:(UIApplication *)application];
     
     [self setRongCloud];
+    
+    _tokenOutOfTime = NO;
     
     if ([WBUserDefaults userId]) {
         [self getRCToken];
@@ -91,7 +95,7 @@
     sideMenuViewController.contentViewShadowOpacity = 0.4f;
     sideMenuViewController.contentViewShadowRadius = 5.0f;
     sideMenuViewController.panGestureEnabled = NO;
-    sideMenuViewController.contentViewInPortraitOffsetCenterX = 100;
+    sideMenuViewController.contentViewInPortraitOffsetCenterX = 120;
     self.window.rootViewController = sideMenuViewController;
     [self.window makeKeyAndVisible];
 }
@@ -216,7 +220,7 @@ didRegisterUserNotificationSettings:
 }
 
 -(void)getRCToken{
-    if ([WBUserDefaults token]) {
+    if ([WBUserDefaults token] && !_tokenOutOfTime) {
         [self loginRongCloudWithToken:[WBUserDefaults token]];
     } else {
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/ry/getToken?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
@@ -226,6 +230,7 @@ didRegisterUserNotificationSettings:
             if ([result isKindOfClass:[NSDictionary class]]){
                 NSDictionary *token = [NSDictionary dictionaryWithDictionary:result];
                 [WBUserDefaults setToken:token[@"token"]];
+                _tokenOutOfTime = NO;
                 [self loginRongCloudWithToken:token[@"token"]];
             }
         } andFailure:^(NSString *error) {
@@ -242,7 +247,9 @@ didRegisterUserNotificationSettings:
     } error:^(RCConnectErrorCode status) {
         NSLog(@"登陆的错误码为:%ld", (long)status);
     } tokenIncorrect:^{
-        NSLog(@"token错误");
+        _tokenOutOfTime = YES;
+        [self getRCToken];
+        NSLog(@"token错误，重新获取");
     }];
 }
 

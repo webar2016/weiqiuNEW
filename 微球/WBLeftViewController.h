@@ -9,12 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "RESideMenu.h"
 
-@interface WBLeftViewController : UIViewController<UITableViewDataSource,UITableViewDelegate> {
-    UIImageView     *_userIcon;
-    UILabel         *_nickName;
-    UITextView      *_profile;
-    UILabel         *_totalScoreNumber;
-    UILabel         *_todayScoreNumber;
-}
+@interface WBLeftViewController : UIViewController
 
 @end
