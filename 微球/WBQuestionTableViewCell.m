@@ -103,7 +103,7 @@
     _scoreLabel.layer.cornerRadius = 3;
     
     _unitLabel = [[UILabel alloc] initWithFrame:CGRectMake(MARGININSIDE, MARGININSIDE + 500, 20, 14)];
-    _unitLabel.text = @"球票";
+    _unitLabel.text = @"球币";
     _unitLabel.font = SMALLFONTSIZE;
     _unitLabel.textAlignment = NSTextAlignmentCenter;
     _unitLabel.textColor = [UIColor initWithNormalGray];

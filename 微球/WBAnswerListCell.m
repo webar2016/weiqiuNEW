@@ -82,7 +82,7 @@
 
 -(void)setUpUnit{
     _unit = [[UILabel alloc] initWithFrame:CGRectMake(MARGINOUTSIDE, MARGINOUTSIDE * 2 + 43, 20, 14)];
-    _unit.text = @"球票";
+    _unit.text = @"球币";
     _unit.font = SMALLFONTSIZE;
     _unit.textAlignment = NSTextAlignmentCenter;
     _unit.textColor = [UIColor initWithNormalGray];

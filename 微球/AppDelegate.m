@@ -228,7 +228,6 @@ didRegisterUserNotificationSettings:
                 [WBUserDefaults setToken:token[@"token"]];
                 [self loginRongCloudWithToken:token[@"token"]];
             }
-            
         } andFailure:^(NSString *error) {
             NSLog(@"获取token错误");
         }];
@@ -239,6 +238,7 @@ didRegisterUserNotificationSettings:
     [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
         NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
         [self getUnreadMsgNumber];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"setGroupPage" object:self];
     } error:^(RCConnectErrorCode status) {
         NSLog(@"登陆的错误码为:%ld", (long)status);
     } tokenIncorrect:^{

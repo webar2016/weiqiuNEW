@@ -104,13 +104,9 @@
     for (WBCityModel *city in self.cityArray) {
         if ([city.cityName containsString:cityName]) {
             
-            cityArr = (NSMutableArray *)@[city.cityName,city.cityId,city.provinceId];
+            [cityArr addObject:@[city.cityName,city.cityId,city.provinceId]];
         }
-    }
-    if (!cityArr) {
-        NSLog(@"该城市不存在");
-    }
-    
+    }    
     return cityArr;
 }
 

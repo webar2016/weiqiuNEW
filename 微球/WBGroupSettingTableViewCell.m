@@ -74,7 +74,7 @@
     UIView *detailWraper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 181)];
     
     NSArray *icons = @[@"icon_destination",@"icon_cuttime",@"icon_traveldate",@"icon_tag2",@"icon_grouplimit",@"icon_qiupiao2"];
-    NSArray *titles = @[@"目的地",@"闭团日期",@"行程日期",@"标签",@"人数上限",@"悬赏球票"];
+    NSArray *titles = @[@"目的地",@"闭团日期",@"行程日期",@"标签",@"人数上限",@"悬赏球币"];
     
     NSMutableArray *infos = [NSMutableArray array];
     if (self.detail) {
@@ -89,7 +89,7 @@
         
         infos = (NSMutableArray *)@[self.detail.destination,self.detail.beginTime,travelTime,self.detail.groupSignStr,memberLimit,rewardIntegral];
     }else{
-        infos = (NSMutableArray *)@[@"目的地",@"闭团日期",@"行程日期",@"标签",@"人数上限",@"悬赏球票"];
+        infos = (NSMutableArray *)@[@"目的地",@"闭团日期",@"行程日期",@"标签",@"人数上限",@"悬赏球币"];
     }
     
     for (int i = 0; i < 6 ; i ++) {

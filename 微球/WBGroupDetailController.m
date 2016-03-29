@@ -139,7 +139,7 @@
     UILabel *titleOne = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 44, 64, 16)];
     titleOne.font = FONTSIZE16;
     titleOne.textColor = [UIColor initWithNormalGray];
-    titleOne.text = @"悬赏球票";
+    titleOne.text = @"悬赏球币";
     
     _scoreLable = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 90, 80, 180, 60)];
     _scoreLable.backgroundColor = [UIColor whiteColor];

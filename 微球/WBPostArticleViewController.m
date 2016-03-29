@@ -84,16 +84,19 @@
     
     //工具条
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 40)];
-    [toolbar setBackgroundImage:[UIImage imageNamed:@"bg-11"] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    toolbar.backgroundColor = [UIColor whiteColor];
     
-    UIButton *imagePicker = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH / 2, 40)];
+    UIButton *imagePicker = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH / 2 + 1, 40)];
     [imagePicker setImage:[UIImage imageNamed:@"icon_img"] forState:UIControlStateNormal];
     [imagePicker setTitle:@"插入图片" forState:UIControlStateNormal];
     [imagePicker addTarget:self action:@selector(imagePicker) forControlEvents:UIControlEventTouchUpInside];
     [imagePicker setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     imagePicker.titleLabel.font = MAINFONTSIZE;
+    UIView *breakLine = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2, 5, 1, 30)];
+    breakLine.backgroundColor = [UIColor initWithBackgroundGray];
+    [imagePicker addSubview:breakLine];
     
-    UIButton *preview = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2, 0, SCREENWIDTH / 2, 40)];
+    UIButton *preview = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2, 0, SCREENWIDTH / 2 - 1, 40)];
     [preview setImage:[UIImage imageNamed:@"icon_overview"] forState:UIControlStateNormal];
     [preview setTitle:@"预览" forState:UIControlStateNormal];
     [preview addTarget:self action:@selector(contentPreview) forControlEvents:UIControlEventTouchUpInside];
@@ -129,7 +132,12 @@
 
 -(void)contentPreview{
     if (_textView.textStorage.length == 0) {
-        NSLog(@"写点东西再预览吧！");
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"写点内容再预览吧！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
         return;
     }
     
@@ -156,9 +164,19 @@
 
 -(void)releaseArticle{
     if (_textView.textStorage.length == 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"写点内容再发布吧！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
         return;
     }
     
+    [self showHUD:@"努力发布中…" isDim:YES];
+    [_textView resignFirstResponder];
+    _textView.editable = NO;
+    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
     [self.imageArray removeAllObjects];
     [self.nameArray removeAllObjects];
     NSString *plainString = [_textView.textStorage getPlainStringWithImageArray: self.imageArray byNameArray:self.nameArray];
@@ -188,8 +206,27 @@
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self hideHUD];
         NSLog(@"success");
+        [self.navigationController popViewControllerAnimated:NO];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideHUD];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳\n是否保存草稿稍后发布？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"重新发布" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self releaseArticle];
+            }];
+            action;
+        })];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //保存草稿操作
+                NSLog(@"保存草稿操作");
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
         NSLog(@"failure");
     }];
 }
@@ -197,7 +234,6 @@
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-//    NSLog(@"选择完毕----image:%@-----info:%@",image,editingInfo);
     NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
     NSString *imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
@@ -208,22 +244,20 @@
         attacment.name = imageName;
         attacment.maxSize = CGSizeMake(SCREENWIDTH - MARGININSIDE * 3, 300);
         if (_textView.textStorage.length != 0) {
-//            [_textView.textStorage insertAttributedString:_breakLine atIndex:_textView.selectedRange.location];
-            [_textView.textStorage insertAttributedString:[NSAttributedString attributedStringWithAttachment:attacment] atIndex:_textView.selectedRange.location];//location+1
-            [_textView.textStorage insertAttributedString:_breakLine atIndex:_textView.selectedRange.location + 1];//location+2
-            _textView.selectedRange = NSMakeRange(_textView.selectedRange.location + 2,0);//location+3
+            [_textView.textStorage insertAttributedString:[NSAttributedString attributedStringWithAttachment:attacment] atIndex:_textView.selectedRange.location];
+            [_textView.textStorage insertAttributedString:_breakLine atIndex:_textView.selectedRange.location + 1];
+            _textView.selectedRange = NSMakeRange(_textView.selectedRange.location + 2,0);
         }else{
             [_textView.textStorage appendAttributedString:[NSAttributedString attributedStringWithAttachment:attacment]];
             [_textView.textStorage appendAttributedString:_breakLine];
             _textView.selectedRange = NSMakeRange(_textView.textStorage.length,0);
         }
-        
         [_textView becomeFirstResponder];
-        
     }];
 }
 
 #pragma mark - textview delegate
+
 - (void)textViewDidChange:(UITextView *)textView{
     _textView.textColor = [UIColor initWithNormalGray];
     _paragraphStyle.lineSpacing = MARGINOUTSIDE;
@@ -232,6 +266,28 @@
     
     [_textView.textStorage addAttributes:attributes range:NSMakeRange(0, _textView.textStorage.length)];
 }
+
+#pragma mark - MBprogress
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim
+{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.dimBackground = isDim;
+    self.hud.labelText = title;
+}
+-(void)showHUDComplete:(NSString *)title
+{
+    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.labelText = title;
+    [self hideHUD];
+}
+
+-(void)hideHUD
+{
+    [self.hud hide:YES afterDelay:0.3];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

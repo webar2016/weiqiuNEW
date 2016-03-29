@@ -98,7 +98,7 @@
 
 -(void)createGroupOne{
     NSArray *imageNameArray = @[@"icon_destination.png",@"icon_cuttime.png",@"icon_traveldate.png",@"icon_tag2.png",@"icon_grouplimit.png",@"icon_qiupiao2.png"];
-    NSArray *labelNameArray = @[@"目的地",@"闭团日期",@"行程日起",@"标签",@"闭团团员人数限制",@"悬赏球票"];
+    NSArray *labelNameArray = @[@"目的地",@"闭团日期",@"行程日起",@"标签",@"闭团团员人数限制",@"悬赏球币"];
     
     NSArray *cellHeightyArray = @[@13,@51,@89,@131,@173,@211];
     
@@ -110,7 +110,7 @@
     }
     
     
-    NSArray *rightLabelNameArray = @[_model.tblUser.position,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%ld人",_model.maxMembers],[NSString stringWithFormat:@"%ld球票",_model.rewardIntegral]];
+    NSArray *rightLabelNameArray = @[_model.tblUser.position,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%ld人",_model.maxMembers],[NSString stringWithFormat:@"%ld球币",_model.rewardIntegral]];
     
     
     

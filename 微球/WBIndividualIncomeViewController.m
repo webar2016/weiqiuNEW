@@ -68,7 +68,7 @@
     
     UILabel *scoreHeadLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 42+63+37+40+42, SCREENWIDTH/2, 15)];
     scoreHeadLabel.textAlignment = NSTextAlignmentCenter;
-    scoreHeadLabel.text = @"球票";
+    scoreHeadLabel.text = @"球币";
     scoreHeadLabel.font = [UIFont systemFontOfSize:18];
     scoreHeadLabel.textColor = [UIColor initWithGreen];
     [self.view addSubview:scoreHeadLabel];

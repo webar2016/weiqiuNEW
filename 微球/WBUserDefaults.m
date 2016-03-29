@@ -189,15 +189,13 @@
 }
 
 +(void)setMutableUserDefaults:(NSDictionary *)userInfos{
-    for (NSString *oneKey in userInfos.allKeys) {
-        if (![[self keysInUserDefaults] containsObject:oneKey]) {
-            NSLog(@"输入的键不存在------%@",oneKey);
-            return;
-        }
-    }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     for (NSString *oneKey in userInfos.allKeys) {
-        if ([oneKey isEqualToString:@"headIcon"]) {
+        if (![[self keysInUserDefaults] containsObject:oneKey]) {
+            NSLog(@"输入的键不存在,已创建------%@",oneKey);
+            [self setUserDefaultsArrayWithKey:oneKey];
+            [userDefaults setObject:userInfos[oneKey] forKey:oneKey];
+        } else if ([oneKey isEqualToString:@"headIcon"]) {
             [userDefaults setObject:UIImageJPEGRepresentation(userInfos[@"headIcon"], 1.0) forKey:@"headIcon"];
         } else {
             [userDefaults setObject:userInfos[oneKey] forKey:oneKey];
@@ -208,7 +206,7 @@
 
 +(void)setUserDefaultsValue:(BOOL)value withKey:(NSString *)key{
     if (![[self keysInUserDefaults] containsObject:key]) {
-        NSLog(@"输入的键不存在------%@",key);
+        [[self class] addUserDefaultsValue:value withKey:key];
         return;
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -236,7 +234,6 @@
     NSMutableArray *defaultsArray = (NSMutableArray *)[self keysInUserDefaults];
     if (!defaultsArray || ![defaultsArray containsObject:userDefaultsKey]) {
         NSLog(@"%@------不存在，无法删除",userDefaultsKey);
-        return;
     }
     [defaultsArray removeObject:userDefaultsKey];
     [defaultsArray removeObject:userDefaultsKey];
@@ -249,7 +246,6 @@
     for (NSString *oneKey in userDefaultsKeyArray) {
         if (![defaultsArray containsObject:oneKey]) {
             NSLog(@"输入的键不存在------%@",oneKey);
-            return;
         }
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -264,18 +260,11 @@
 +(void)addUserDefaultsWithDictionary:(NSDictionary *)dictionary{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *defaultsArray = [self keysInUserDefaults];
-    
-    
     for (NSString *oneKey in dictionary.allKeys) {
-        [defaultsArray containsObject:oneKey];
         if (![defaultsArray containsObject:oneKey]) {
             [self setUserDefaultsArrayWithKey:oneKey];
-            [userDefaults setObject:dictionary[oneKey] forKey:oneKey];
-        } else {
-            NSLog(@"%@------已存在",oneKey);
-            return;
         }
-        
+        [userDefaults setObject:dictionary[oneKey] forKey:oneKey];
     }
     [userDefaults synchronize];
 }
@@ -284,11 +273,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![[self keysInUserDefaults] containsObject:key]) {
         [self setUserDefaultsArrayWithKey:key];
-        [userDefaults setBool:value forKey:key];
-    } else {
-        NSLog(@"%@------已存在",key);
-        return;
     }
+    [userDefaults setBool:value forKey:key];
     [userDefaults synchronize];
 }
 

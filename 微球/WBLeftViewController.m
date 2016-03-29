@@ -44,6 +44,13 @@
     [self setUpSelections];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _userIcon.image = [WBUserDefaults headIcon];
+    _nickName.text = [WBUserDefaults nickname];
+    _profile.text = [WBUserDefaults profile];
+}
+
 #pragma mark - setUpSubviews
 
 -(void)setUpUserInfos{
@@ -55,20 +62,17 @@
     _userIcon.layer.masksToBounds = YES;
     _userIcon.layer.cornerRadius = 25.0;
     _userIcon.contentMode = UIViewContentModeScaleAspectFill;
-    _userIcon.image = [WBUserDefaults headIcon];
     [self.userInfosView addSubview:_userIcon];
     
     _nickName = [[UILabel alloc] initWithFrame:CGRectMake(100, 30, (self.size.width*0.7-100), 15)];
     _nickName.textColor = [UIColor whiteColor];
     _nickName.font = MAINFONTSIZE;
-    _nickName.text = [WBUserDefaults nickname];
     [self.userInfosView addSubview:_nickName];
     
     _profile = [[UITextView alloc] initWithFrame:CGRectMake(95, 45, (self.size.width*0.7-100), 60)];
     _profile.backgroundColor = [UIColor clearColor];
     _profile.textColor = [UIColor whiteColor];
     _profile.font = MAINFONTSIZE;
-    _profile.text = [WBUserDefaults profile];
     [self.userInfosView addSubview:_profile];
     
     [self.view addSubview:self.userInfosView];
@@ -88,7 +92,7 @@
     
     _totalScoreNumber = [[UILabel alloc] initWithFrame:CGRectMake(100, self.size.height * 0.02, (self.size.width*0.7-100), self.size.height * 0.04)];
     _totalScoreNumber.textColor = [UIColor whiteColor];
-    _totalScoreNumber.text = @"22222球票";
+    _totalScoreNumber.text = @"22222球币";
     _totalScoreNumber.font = MAINFONTSIZE;
     
     [self.userScoreView addSubview:totalScore];
@@ -101,7 +105,7 @@
     
     _todayScoreNumber = [[UILabel alloc] initWithFrame:CGRectMake(100, self.size.height * 0.08, (self.size.width*0.7-100), self.size.height * 0.04)];
     _todayScoreNumber.textColor = [UIColor whiteColor];
-    _todayScoreNumber.text = @"22222球票";
+    _todayScoreNumber.text = @"22222球币";
     _todayScoreNumber.font = MAINFONTSIZE;
 
     [self.userScoreView addSubview:todayScore];
