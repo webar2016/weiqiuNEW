@@ -18,7 +18,7 @@
 
 
 @property (weak, nonatomic) IBOutlet UILabel *birthdayLabel;
-@property (weak, nonatomic) IBOutlet UIButton *birthdayBtn;
+@property (weak, nonatomic) IBOutlet UILabel *birthdayPickLabel;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *positionLabel;

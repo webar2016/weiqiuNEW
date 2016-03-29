@@ -49,14 +49,35 @@
     [_sexWomenBtn setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     _sexWomenBtn.tag = 201;
     
-    _birthdayBtn.tag = 300;
+   
+    _birthdayLabel.font = MAINFONTSIZE;
+    _birthdayLabel.textColor = [UIColor initWithLightGray];
+    
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *dateTime = [formatter stringFromDate:[NSDate date]];
-    [_birthdayBtn setTitle:dateTime forState:UIControlStateNormal];
-   
+    _birthdayPickLabel.text = dateTime;
+    _birthdayPickLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
+    [_birthdayPickLabel addGestureRecognizer:tap];
+    _birthdayPickLabel.font = MAINFONTSIZE;
+    _birthdayPickLabel.textColor = [UIColor initWithLightGray];
+    _birthdayPickLabel.tag = 300;
+    
+    
+    _positionLabel.font = MAINFONTSIZE;
+    _positionLabel.textColor = [UIColor initWithLightGray];
+    
+    _positionBtn.titleLabel.font = MAINFONTSIZE;
+    
+    [_positionBtn setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
+    
 
     _confirmBtn.tag = 500;
+    _confirmBtn.backgroundColor = [UIColor initWithBackgroundGray];
+    _confirmBtn.titleLabel.font = MAINFONTSIZE;
+    
+    
 
 }
 
@@ -81,7 +102,14 @@
     NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];//设置为中文显示3
     _datePicker.locale = locale;
 }
+#pragma mark -----点击事件-----
 
+-(void)tapClick:(UITapGestureRecognizer *)tap{
+
+
+    [self showDatePicker];
+
+}
 
 - (IBAction)btnClicked:(id)sender {
     if (((UIButton *)sender).tag == 200) {
@@ -96,7 +124,7 @@
         [_sexManBtn setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
 
     
-    }else if (((UIButton *)sender).tag == 300){
+    }else if (((UIButton *)sender).tag == 307){
         [self showDatePicker];
     
     
@@ -119,7 +147,7 @@
     NSDateFormatter *dateformatter = [[NSDateFormatter alloc]init];
     [dateformatter setDateFormat:@"yyyy-MM-dd"];
     NSString *date = [dateformatter stringFromDate:_datePicker.date];
-    ((UIButton *)[self.view viewWithTag:300]).titleLabel.text = date;
+    ((UILabel *)[self.view viewWithTag:300]).text = date;
     [self cancelDatePicker];
 }
 
