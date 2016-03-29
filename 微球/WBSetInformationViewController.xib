@@ -72,7 +72,7 @@
                         <attributedString key="attributedTitle">
                             <fragment content="点击自动定位">
                                 <attributes>
-                                    <font key="NSFont" size="18" name="PingFangSC-Regular"/>
+                                    <font key="NSFont" size="14" name="PingFangSC-Regular"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>
@@ -80,13 +80,6 @@
                     </state>
                     <connections>
                         <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="ISR-Ge-37K"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bO7-e1-t79">
-                    <rect key="frame" x="97" y="505" width="104" height="30"/>
-                    <state key="normal" title="Button"/>
-                    <connections>
-                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="zSE-No-Tln"/>
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_upload" translatesAutoresizingMaskIntoConstraints="NO" id="CrK-E4-y3U">
@@ -98,6 +91,16 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bO7-e1-t79">
+                    <rect key="frame" x="60" y="512" width="200" height="43"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="进入微球">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="zSE-No-Tln"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -112,11 +115,12 @@
                 <constraint firstItem="peR-ml-civ" firstAttribute="centerY" secondItem="EqW-NU-Q68" secondAttribute="centerY" id="dsb-q9-fJx"/>
                 <constraint firstItem="CrK-E4-y3U" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="gED-pt-pSe"/>
                 <constraint firstItem="bO7-e1-t79" firstAttribute="top" secondItem="EqW-NU-Q68" secondAttribute="bottom" constant="41" id="iaI-ea-toO"/>
+                <constraint firstItem="bO7-e1-t79" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jFW-Hu-ShT"/>
                 <constraint firstItem="l8j-ax-IhM" firstAttribute="height" secondItem="rQk-8A-wEa" secondAttribute="height" id="ppV-Jo-PpB"/>
                 <constraint firstItem="CrK-E4-y3U" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="rki-tC-6fo"/>
                 <constraint firstItem="jmh-lF-5jQ" firstAttribute="top" secondItem="lUQ-zI-3IR" secondAttribute="bottom" constant="7" id="sYm-Qu-Y6d"/>
             </constraints>
-            <point key="canvasLocation" x="595" y="296"/>
+            <point key="canvasLocation" x="556" y="265"/>
         </view>
     </objects>
     <resources>

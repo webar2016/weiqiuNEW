@@ -68,14 +68,16 @@
     _positionLabel.font = MAINFONTSIZE;
     _positionLabel.textColor = [UIColor initWithLightGray];
     
+    _positionBtn.titleLabel.textColor = [UIColor initWithLightGray];
     _positionBtn.titleLabel.font = MAINFONTSIZE;
     
-    [_positionBtn setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     
 
     _confirmBtn.tag = 500;
     _confirmBtn.backgroundColor = [UIColor initWithBackgroundGray];
     _confirmBtn.titleLabel.font = MAINFONTSIZE;
+    _confirmBtn.layer.cornerRadius = 3;
+    _confirmBtn.frame = CGRectMake(0, 0, 200, 43);
     
     
 
