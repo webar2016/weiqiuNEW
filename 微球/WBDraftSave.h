@@ -10,10 +10,14 @@
 
 @interface WBDraftSave : NSObject <NSCoding>
 
-@property (nonatomic, strong) NSTextStorage *draft;
-
 @property (nonatomic, copy) NSString *groupId;
 
 @property (nonatomic, copy) NSString *questionId;
+
+@property (nonatomic, copy) NSString *content;
+
+//@property (nonatomic, weak) NSData *imageArray;
+//
+//@property (nonatomic, weak) NSData *nameArray;
 
 @end

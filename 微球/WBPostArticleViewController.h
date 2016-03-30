@@ -14,7 +14,7 @@
 @property (nonatomic, assign) BOOL isQuestionAnswer;
 
 @property (nonatomic, copy) NSString *groupId;
-@property (nonatomic, copy) NSString *qusetionId;
+@property (nonatomic, copy) NSString *questionId;
 
 @property (nonatomic,strong)MBProgressHUD *hud;
 

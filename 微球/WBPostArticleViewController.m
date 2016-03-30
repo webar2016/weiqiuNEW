@@ -24,6 +24,12 @@
     
     NSAttributedString *_breakLine;
     NSMutableParagraphStyle *_paragraphStyle;
+    
+    BOOL _hasDraft;
+    WBDraftSave *_savedDraft;
+    NSString *_draftContentPath;
+    NSString *_draftImagePath;
+    NSString *_draftImgNamePath;
 }
 
 @property (nonatomic, strong) NSMutableArray *imageArray;
@@ -74,12 +80,27 @@
     
     //获取草稿
     NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
-    NSString *filePath = [path stringByAppendingPathComponent:@"draftSave.draft"];
-    WBDraftSave *readDraft = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    if (readDraft) {
-        NSLog(@"%@----%@", readDraft.groupId, readDraft.questionId);
-    } else {
-        NSLog(@"草稿不存在");
+    _draftContentPath = [path stringByAppendingPathComponent:@"draftContent.draft"];
+    _draftImagePath = [path stringByAppendingPathComponent:@"draftImage.draft"];
+    _draftImgNamePath = [path stringByAppendingPathComponent:@"draftImgName.draft"];
+    _savedDraft = [NSKeyedUnarchiver unarchiveObjectWithFile:_draftContentPath];
+    if (_savedDraft) {
+        _hasDraft = YES;
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"上次编辑的内容还未发布，是否重新发布？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self releaseArticle];
+            }];
+            action;
+        })];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                _hasDraft = NO;
+                
+            }];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -173,7 +194,7 @@
 }
 
 -(void)releaseArticle{
-    if (_textView.textStorage.length == 0) {
+    if (_textView.textStorage.length == 0 && !_hasDraft) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"写点内容再发布吧！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
@@ -189,7 +210,17 @@
     _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
     [self.imageArray removeAllObjects];
     [self.nameArray removeAllObjects];
-    NSString *plainString = [_textView.textStorage getPlainStringWithImageArray: self.imageArray byNameArray:self.nameArray];
+    
+    NSString *plainString = [[NSString alloc] init];
+    if (_hasDraft) {
+        plainString = _savedDraft.content;
+        self.imageArray = [NSKeyedUnarchiver unarchiveObjectWithFile:_draftImagePath];
+        self.nameArray = [NSKeyedUnarchiver unarchiveObjectWithFile:_draftImgNamePath];
+//        self.imageArray = [NSKeyedUnarchiver unarchiveObjectWithData:_savedDraft.imageArray];
+//        self.nameArray = [NSKeyedUnarchiver unarchiveObjectWithData:_savedDraft.nameArray];
+    } else {
+        plainString = [_textView.textStorage getPlainStringWithImageArray: self.imageArray byNameArray:self.nameArray];
+    }
     
     NSUInteger count = self.imageArray.count;
     
@@ -197,9 +228,12 @@
     [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
     [parameters setObject:plainString forKey:@"answerText"];
     
-    if (self.isQuestionAnswer) {
+    if (self.isQuestionAnswer && !_hasDraft) {
         [parameters setObject:self.groupId forKey:@"groupId"];
-        [parameters setObject:self.qusetionId forKey:@"questionId"];
+        [parameters setObject:self.questionId forKey:@"questionId"];
+    } else if (self.isQuestionAnswer && _hasDraft) {
+        [parameters setObject:_savedDraft.groupId forKey:@"groupId"];
+        [parameters setObject:_savedDraft.questionId forKey:@"questionId"];
     }
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -218,6 +252,13 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [self hideHUD];
         NSLog(@"success");
+        //删除现有草稿
+        if (_savedDraft) {
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            [fileManager removeItemAtPath:_draftContentPath error:NULL];
+            [fileManager removeItemAtPath:_draftImagePath error:NULL];
+            [fileManager removeItemAtPath:_draftImgNamePath error:NULL];
+        }
         [self.navigationController popViewControllerAnimated:NO];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideHUD];
@@ -232,22 +273,23 @@
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 //保存草稿
                 WBDraftSave *draft = [[WBDraftSave alloc] init];
-                draft.draft = _textView.textStorage;
+                draft.content = plainString;
+//                draft.imageArray = [NSKeyedArchiver archivedDataWithRootObject:self.imageArray];
+//                draft.nameArray = [NSKeyedArchiver archivedDataWithRootObject:self.nameArray];
                 if (self.isQuestionAnswer) {
                     draft.groupId = self.groupId;
-                    draft.questionId = self.qusetionId;
+                    draft.questionId = self.questionId;
                 }
-                NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
-                NSString *filePath = [path stringByAppendingPathComponent:@"draftSave.draft"];
-                //查询现有草稿
-                WBDraftSave *readDraft = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-                if (readDraft) {
+                //删除现有草稿
+                if (_savedDraft) {
                     NSFileManager *fileManager = [NSFileManager defaultManager];
-                    [fileManager removeItemAtPath:filePath error:NULL];
+                    [fileManager removeItemAtPath:_draftContentPath error:NULL];
+                    [fileManager removeItemAtPath:_draftImagePath error:NULL];
+                    [fileManager removeItemAtPath:_draftImgNamePath error:NULL];
                 }
-                [NSKeyedArchiver archiveRootObject:draft toFile:filePath];
-                
-                
+                [NSKeyedArchiver archiveRootObject:draft toFile:_draftContentPath];
+                [NSKeyedArchiver archiveRootObject:self.imageArray toFile:_draftImagePath];
+                [NSKeyedArchiver archiveRootObject:self.nameArray toFile:_draftImgNamePath];
                 [self.navigationController popViewControllerAnimated:YES];
             }];
             action;

@@ -190,7 +190,8 @@
         if ([result isEqualToString:@"true"]) {
             WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
             writeAnswerVC.groupId = self.groupId;
-            writeAnswerVC.qusetionId = [NSString stringWithFormat:@"%ld",self.questionId];
+            writeAnswerVC.questionId = [NSString stringWithFormat:@"%ld",self.questionId];
+            writeAnswerVC.isQuestionAnswer = YES;
             [self.navigationController pushViewController:writeAnswerVC animated:YES];
         } else {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你当前不在这个帮帮团中，加入后才可以回答问题，是否加入？" message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -200,7 +201,8 @@
                         NSLog(@"加入成功");
                         WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
                         writeAnswerVC.groupId = self.groupId;
-                        writeAnswerVC.qusetionId = [NSString stringWithFormat:@"%ld",self.questionId];
+                        writeAnswerVC.questionId = [NSString stringWithFormat:@"%ld",self.questionId];
+                        writeAnswerVC.isQuestionAnswer = YES;
                         [self.navigationController pushViewController:writeAnswerVC animated:YES];
                     } andFailure:^(NSString *error) {
                         NSLog(@"请检查网络后重试");
