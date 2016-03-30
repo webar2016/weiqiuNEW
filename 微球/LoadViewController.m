@@ -205,6 +205,8 @@
        
     //注册
     }else if(btn.tag == 101){
+        
+        //忘记密码
         WBSetInformationViewController *SVC  = [[WBSetInformationViewController alloc]init];
         [self presentViewController:SVC animated:YES completion:nil];
         

@@ -7,8 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBPositionList.h"
 
 @interface WBSetInformationViewController : UIViewController
+
+
+
+
+
+
+
+
+
 @property (weak, nonatomic) IBOutlet UIImageView *headImageView;
 
 
@@ -23,6 +33,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *positionLabel;
 @property (weak, nonatomic) IBOutlet UIButton *positionBtn;
+@property (weak, nonatomic) IBOutlet UILabel *cityLabel;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *confirmBtn;
