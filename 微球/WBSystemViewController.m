@@ -18,6 +18,9 @@
 #import "WBCommentMsgCell.h"
 #import "WBUnlockMsgCell.h"
 
+#import "MyDownLoadManager.h"
+#import "NSString+string.h"
+
 @interface WBSystemViewController () <RCMessageCellDelegate>
 
 @end
@@ -34,6 +37,9 @@
     [self registerClass:[WBFollowMsgCell class] forCellWithReuseIdentifier:WBFollowMessageIdentifier];
     [self registerClass:[WBCommentMsgCell class] forCellWithReuseIdentifier:WBCommentMessageIdentifier];
     [self registerClass:[WBUnlockMsgCell class] forCellWithReuseIdentifier:WBUnlockMessageIdentifier];
+    
+    [self.pluginBoardView.allItems removeObjectAtIndex:2];
+    [self.chatSessionInputBarControl setInputBarType:RCChatSessionInputBarControlDefaultType style:RC_CHAT_INPUT_BAR_STYLE_CONTAINER_EXTENTION];
     
     NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
@@ -58,6 +64,32 @@
             ((RCTextMessageCell *)cell).textLabel.textColor = [UIColor initWithNormalGray];
         }
     }
+}
+
+- (RCMessageContent *)willSendMessage:(RCMessageContent *)messageCotent{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    dic[@"userId"] = [WBUserDefaults userId];
+    if ([messageCotent isKindOfClass:[RCTextMessage class]]) {
+        dic[@"content"] = ((RCTextMessage *)messageCotent).content;
+        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/feedBack/talkToHelper" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
+        } andSuccess:^(id representData) {
+            NSLog(@"成功");
+        } andFailure:^(NSString *error) {
+            NSLog(@"失败");
+        }];
+    } else {
+        NSData *fileData = UIImageJPEGRepresentation(((RCImageMessage *)messageCotent).thumbnailImage, 1.0);
+        NSString *imageName = [[NSString ret32bitString] stringByAppendingString:@".JPG"];
+        [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/feedBack/talkToHelper" withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
+            [formData appendPartWithFileData:fileData name:imageName fileName:imageName mimeType:@"image/jpeg"];
+        } whenProgress:^(NSProgress *FieldDataBlock) {
+        } andSuccess:^(id representData) {
+            NSLog(@"成功");
+        } andFailure:^(NSString *error) {
+            NSLog(@"失败");
+        }];
+    }
+    return messageCotent;
 }
 
 #pragma mark - 自定义消息cell展示
