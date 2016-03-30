@@ -9,6 +9,7 @@
 #import "WBSystemViewController.h"
 #import "CreateHelpGroupViewController.h"
 #import "WBHomepageViewController.h"
+#import "WBWebViewController.h"
 
 #import "WBSystemMessage.h"
 #import "WBFollowMessage.h"
@@ -177,7 +178,8 @@
         }
     } else if ([model.content isKindOfClass:[WBSystemMessage class]]) {
         WBSystemMessage *message = (WBSystemMessage *)model.content;
-        NSLog(@"打开消息");//web view
+        WBWebViewController *webView = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:message.extra] andTitle:message.title];
+        [self.navigationController pushViewController:webView animated:YES];
     } else if ([model.content isKindOfClass:[WBFollowMessage class]]) {
         WBFollowMessage *message = (WBFollowMessage *)model.content;
         WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];

@@ -14,12 +14,18 @@
 
 @implementation WBGuessViewController
 
+-(instancetype)init{
+    if (self = [super init]) {
+        self.navigationItem.title = @"猜图签到";
+        UIWebView *guessPage = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+        [self.view addSubview:guessPage];
+        [guessPage loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/main/guess?userId=%@",[WBUserDefaults userId]]]]];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"猜图签到";
-    UIWebView *guessPage = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
-    [guessPage loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/main/guess?userId=%@",[WBUserDefaults userId]]]]];
-    [self.view addSubview:guessPage];
 }
 
 - (void)didReceiveMemoryWarning {
