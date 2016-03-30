@@ -31,7 +31,7 @@
 @property(nonatomic, strong) NSString *content;
 
 /*!
- 被评论状态id？我不清楚
+ 被评论状态id
  */
 @property(nonatomic, strong) NSString *extra;
 

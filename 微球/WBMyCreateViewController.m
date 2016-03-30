@@ -85,7 +85,7 @@
             NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
             [myCreate addObject:groupId];
         }
-        [WBUserDefaults setMutableUserDefaults:@{@"myJoin":myCreate}];
+//        [WBUserDefaults setMutableUserDefaults:@{@"myJoin":myCreate}];
         
         [self willReloadTableData:self.conversationListDataSource];
         [self.conversationListTableView reloadData];

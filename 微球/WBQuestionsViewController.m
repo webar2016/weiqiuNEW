@@ -11,6 +11,7 @@
 #import "WBAnswerListController.h"
 #import "WBAnswerDetailController.h"
 #import "WBSearchViewController.h"
+#import "WBHomepageViewController.h"
 
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
@@ -278,7 +279,15 @@
 }
 
 -(void)iconView:(WBQuestionTableViewCell *)cell{
-    NSLog(@"进入个人主页");
+    self.selectedRow = (int)cell.tag;
+    WBQuestionsListModel *data = self.questionsList[self.selectedRow];
+    WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
+    homepage.friendId = [NSString stringWithFormat:@"%ld",data.hga.tblUser.userId];
+    if (self.fromFindView) {
+        [self.parentViewController.navigationController pushViewController:homepage animated:YES];
+        return;
+    }
+    [(UINavigationController *)self.parentViewController pushViewController:homepage animated:YES];
 }
 
 -(void)showSearchView{

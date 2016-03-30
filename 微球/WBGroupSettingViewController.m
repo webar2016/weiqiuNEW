@@ -9,6 +9,7 @@
 #import "WBGroupSettingViewController.h"
 #import "WBGroupSettingTableViewCell.h"
 #import "WBAllocateScoreViewController.h"
+#import "WBHomepageViewController.h"
 
 #import "WBUserInfosModel.h"
 #import "WBCollectionViewModel.h"
@@ -108,6 +109,9 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 1) {
+        return 0;
+    }
     return 10;
 }
 
@@ -126,7 +130,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section == 0) {
-        return 31;
+        return 30;
     }
     return 0;
 }
@@ -139,9 +143,9 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section == 0) {
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 20)];
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 30)];
 
-        _totalMembers = [[UILabel alloc] initWithFrame:CGRectMake(22, 1, SCREENWIDTH, 20)];
+        _totalMembers = [[UILabel alloc] initWithFrame:CGRectMake(22, 0, SCREENWIDTH, 30)];
         _totalMembers.font = MAINFONTSIZE;
         _totalMembers.textColor = [UIColor initWithNormalGray];
         _totalMembers.text = [NSString stringWithFormat:@"%lu个团员",(unsigned long)self.headIconArray.count];
@@ -181,6 +185,14 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delegate = self;
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
+        homepage.friendId = [NSString stringWithFormat:@"%ld",((WBUserInfosModel *)self.headIconArray[indexPath.row]).userId];
+        [self.navigationController pushViewController:homepage animated:YES];
+    }
 }
 
 #pragma mark - WBGroupSettingTableViewCellDelegate
