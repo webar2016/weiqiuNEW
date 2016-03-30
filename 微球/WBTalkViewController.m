@@ -275,6 +275,8 @@
     answerDetailVC.questionId = data.questionId;
     answerDetailVC.allAnswers = data.allAnswers;
     answerDetailVC.allIntegral = data.allIntegral;
+    answerDetailVC.isSolved = data.isSolve;
+    answerDetailVC.groupId = data.groupId;
     [self.navigationController pushViewController:answerDetailVC animated:YES];
     
 }
@@ -289,6 +291,9 @@
 }
 
 -(void)writeAnswer{
+//    [MyDownLoadManager getNsurl:<#(NSString *)#> whenSuccess:<#^(id representData)success#> andFailure:<#^(NSString *error)failure#>]
+    
+    
     WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
     writeAnswerVC.isQuestionAnswer = YES;
     writeAnswerVC.groupId = self.targetId;

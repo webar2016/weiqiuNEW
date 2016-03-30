@@ -8,6 +8,7 @@
 
 #import "WBPostArticleViewController.h"
 #import "WBTextAttachment.h"
+#import "WBDraftSave.h"
 
 #import "AFHTTPSessionManager.h"
 
@@ -15,7 +16,7 @@
 
 #define POST_URL @"http://121.40.132.44:92/tq/setAnswer?userId=%d&answerText=%@&groupId=%d&questionId=%d"
 
-@interface WBPostArticleViewController () <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface WBPostArticleViewController () <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSKeyedArchiverDelegate>
 {
     UITextView *_textView;
     UIImagePickerController *_imagePickerController;
@@ -70,7 +71,16 @@
     [self setUpTextView];
     
     [self setUpImagePicker];
-    // Do any additional setup after loading the view.
+    
+    //获取草稿
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+    NSString *filePath = [path stringByAppendingPathComponent:@"draftSave.draft"];
+    WBDraftSave *readDraft = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    if (readDraft) {
+        NSLog(@"%@----%@", readDraft.groupId, readDraft.questionId);
+    } else {
+        NSLog(@"草稿不存在");
+    }
 }
 
 #pragma mark - 创建文本框
@@ -220,8 +230,24 @@
         })];
         [alert addAction:({
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                //保存草稿操作
-                NSLog(@"保存草稿操作");
+                //保存草稿
+                WBDraftSave *draft = [[WBDraftSave alloc] init];
+                draft.draft = _textView.textStorage;
+                if (self.isQuestionAnswer) {
+                    draft.groupId = self.groupId;
+                    draft.questionId = self.qusetionId;
+                }
+                NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+                NSString *filePath = [path stringByAppendingPathComponent:@"draftSave.draft"];
+                //查询现有草稿
+                WBDraftSave *readDraft = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+                if (readDraft) {
+                    NSFileManager *fileManager = [NSFileManager defaultManager];
+                    [fileManager removeItemAtPath:filePath error:NULL];
+                }
+                [NSKeyedArchiver archiveRootObject:draft toFile:filePath];
+                
+                
                 [self.navigationController popViewControllerAnimated:YES];
             }];
             action;

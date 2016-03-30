@@ -13,6 +13,8 @@
 @interface WBAnswerListController : UITableViewController
 
 @property (nonatomic, copy) NSString *questionText;
+@property (nonatomic, copy) NSString *isSolved;
+@property (nonatomic, copy) NSString *groupId;
 @property (nonatomic, assign) NSInteger questionId;
 @property (nonatomic, assign) NSInteger allAnswers;
 @property (nonatomic, assign) NSInteger allIntegral;

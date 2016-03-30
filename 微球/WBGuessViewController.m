@@ -17,8 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"猜图签到";
-    UIWebView *guessPage = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height)];
-    [guessPage loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://121.40.132.44:92/main/guess?userId=29"]]];
+    UIWebView *guessPage = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    [guessPage loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/main/guess?userId=%@",[WBUserDefaults userId]]]]];
     [self.view addSubview:guessPage];
 }
 

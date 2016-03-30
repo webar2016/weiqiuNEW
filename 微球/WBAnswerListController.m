@@ -23,7 +23,10 @@
 
 #define ANSWERLISTURL @"http://121.40.132.44:92/tq/getAnswers?questionId=%d&p=%d&ps=%d"
 
-@interface WBAnswerListController ()
+@interface WBAnswerListController () {
+    NSArray *_myJoin;
+    NSArray *_myCreate;
+}
 
 @property (nonatomic, strong) NSMutableArray *answerList;
 
@@ -61,6 +64,9 @@
     }
     
     [self loadDataWithPage:self.currentPage];
+    
+    _myJoin = [WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"myJoin"];
+    _myCreate = [WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"myCreate"];
 }
 
 -(void)popBack{
@@ -112,13 +118,21 @@
     joinButton.backgroundColor = [UIColor initWithGreen];
     joinButton.titleLabel.font = MAINFONTSIZE;
     joinButton.layer.cornerRadius = 5;
-    if (self.fromFindView) {
-        [joinButton setTitle:@"入团回答" forState:UIControlStateNormal];
-        [joinButton addTarget:self action:@selector(joinHelpGroup) forControlEvents:UIControlEventTouchUpInside];
-    }else if (!self.fromFindView && !self.isMaster) {
+    if ([self.isSolved isEqualToString:@"Y"]) {
+        joinButton.backgroundColor = [UIColor initWithNormalGray];
+        [joinButton setTitle:@"已关闭" forState:UIControlStateNormal];
+    }else if (!self.isMaster) {
         [joinButton setTitle:@"我要回答" forState:UIControlStateNormal];
         [joinButton addTarget:self action:@selector(writeAnswer) forControlEvents:UIControlEventTouchUpInside];
-    }else{
+    }
+//    if (self.fromFindView) {
+//        [joinButton setTitle:@"入团回答" forState:UIControlStateNormal];
+//        [joinButton addTarget:self action:@selector(joinHelpGroup) forControlEvents:UIControlEventTouchUpInside];
+//    }else if (!self.fromFindView && !self.isMaster) {
+//        [joinButton setTitle:@"我要回答" forState:UIControlStateNormal];
+//        [joinButton addTarget:self action:@selector(writeAnswer) forControlEvents:UIControlEventTouchUpInside];
+//    }
+    else{
         joinButton.backgroundColor = [UIColor initWithRed];
         [joinButton setTitle:@"关闭问题" forState:UIControlStateNormal];
         [joinButton addTarget:self action:@selector(closeQuestion) forControlEvents:UIControlEventTouchUpInside];
@@ -148,11 +162,10 @@
             if (tempArray.count > 0) {
                 if (page == 1) {
                     self.answerList = tempArray;
-                    self.currentPage ++;
                 }else{
                     [self.answerList addObjectsFromArray:tempArray];
-                    self.currentPage ++;
                 }
+                self.currentPage ++;
             }
             
             [self.tableView reloadData];
@@ -172,12 +185,58 @@
 }
 
 -(void)writeAnswer{
-    WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
-    [self.navigationController pushViewController:writeAnswerVC animated:YES];
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
+        NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
+        if ([result isEqualToString:@"true"]) {
+            WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
+            writeAnswerVC.groupId = self.groupId;
+            writeAnswerVC.qusetionId = [NSString stringWithFormat:@"%ld",self.questionId];
+            [self.navigationController pushViewController:writeAnswerVC animated:YES];
+        } else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你当前不在这个帮帮团中，加入后才可以回答问题，是否加入？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:({
+                UIAlertAction *action = [UIAlertAction actionWithTitle:@"加入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%@&userId=%@",self.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+                        NSLog(@"加入成功");
+                        WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
+                        writeAnswerVC.groupId = self.groupId;
+                        writeAnswerVC.qusetionId = [NSString stringWithFormat:@"%ld",self.questionId];
+                        [self.navigationController pushViewController:writeAnswerVC animated:YES];
+                    } andFailure:^(NSString *error) {
+                        NSLog(@"请检查网络后重试");
+                    }];
+                }];
+                action;
+            })];
+            [alert addAction:({
+                UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+                action;
+            })];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    } andFailure:^(NSString *error) {
+        NSLog(@"请检查网络后重试");
+    }];
 }
 
 -(void)closeQuestion{
-    NSLog(@"closeQuestion");
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"关闭问题，小伙伴将无法回答，是否确认关闭？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"关闭" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/closeQuestion?userId=%@&questionId=%ld",[WBUserDefaults userId],self.questionId] whenSuccess:^(id representData) {
+                NSLog(@"问题关闭成功");
+                [self.navigationController popToRootViewControllerAnimated:NO];
+            } andFailure:^(NSString *error) {
+                NSLog(@"问题关闭失败，请检查网络后重试");
+            }];
+        }];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
