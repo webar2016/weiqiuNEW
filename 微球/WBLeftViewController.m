@@ -49,7 +49,9 @@
     self.view.backgroundColor = [UIColor initWithLightGray];
     [self setUpUserInfos];
     [self setUpScores];
+    
     [self setUpSelections];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -122,6 +124,8 @@
     [self.userScoreView addSubview:_todayScoreNumber];
     
     [self.view addSubview:self.userScoreView];
+    
+    [self loadMoneyData];
 }
 
 -(void)setUpSelections{
@@ -138,6 +142,16 @@
         tableView;
     });
     [self.view addSubview:self.tableView];
+}
+
+-(void)loadMoneyData{
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/integral/getTodayIntegral?userId=%@",[WBUserDefaults userId]];
+    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        _totalScoreNumber.text =[NSString stringWithFormat:@"%.0f",[[result objectForKey:@"totleIntegral"] floatValue]];
+        _todayScoreNumber.text = [NSString stringWithFormat:@"%.0f",[[result objectForKey:@"todayIntegral"] floatValue]];
+    } andFailure:^(NSString *error) {
+    }];
 }
 
 #pragma mark -----Income -------
