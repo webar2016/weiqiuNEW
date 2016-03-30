@@ -17,7 +17,7 @@
 -(instancetype)initWithUrl:(NSURL *)url andTitle:(NSString *)title{
     if (self = [super init]) {
         self.navigationItem.title = title;
-        UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, SCREENWIDTH, SCREENHEIGHT - 64)];
+        UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 64)];
         [self.view addSubview:web];
         [web loadRequest:[NSURLRequest requestWithURL:url]];
     }
