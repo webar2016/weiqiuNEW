@@ -20,6 +20,9 @@
     UIView *_datePickerView;
     UIDatePicker    *_datePicker;
     BOOL            _datePickerIsHide;
+    
+    NSString *_sex;
+    NSArray *_cityArray;
     //定位
     NSNumber *_provinceId;
     NSNumber *_cityId;
@@ -34,6 +37,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
+
+    
+    _cityArray = [NSArray array];
+    
     [self createUI];
     [self setUpDatePicker];
 }
@@ -61,7 +68,6 @@
     _sexWomenBtn.titleLabel.font = MAINFONTSIZE;
     _sexWomenBtn.layer.masksToBounds = YES;
     _sexWomenBtn.layer.cornerRadius = 15;
-    [_sexWomenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [_sexWomenBtn setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     _sexWomenBtn.tag = 201;
     
@@ -240,6 +246,8 @@
 //            NSLog(@"%@", test);
 //            NSLog(@"%@", [test objectForKey:@"City"]);
             _cityLabel.text =[test objectForKey:@"City"];
+            WBPositionList *positionList =[[WBPositionList alloc] init];
+            _cityArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:_cityLabel.text] objectAtIndex:0]];
             [self finishBtn];
             
         }
@@ -304,11 +312,9 @@
 #pragma mark  ------确认按钮的禁用解锁------
 
 -(void)finishBtn{
+    NSLog(@"_cityArray = %@",_cityArray);
     
-    WBPositionList *positionList =[[WBPositionList alloc] init];
-    NSArray *positionArray =  [positionList searchCityWithCithName:_cityLabel.text];
-    
-    if (positionArray&&_headImageView.image ) {
+     if (_cityArray.count&&_headImageView.image ) {
         [_confirmBtn setEnabled:YES];
         _confirmBtn.backgroundColor = [UIColor initWithGreen];
     }
@@ -321,11 +327,41 @@
 
 -(void)sendDataToUp{
     
+    if ([_sexManBtn.backgroundColor isEqual:[UIColor initWithGreen]]) {
+        _sex = @"男";
+    }else{
+        _sex = @"女";
+    }
     
-
-   
-
-
+    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"sex":_sex,@"birthday":_birthdayPickLabel.text,@"sex":_sex,@"provinceId":_cityArray[2],@"homeCityId":_cityArray[1]};
+    //  NSLog(@"parameters = %@",parameters);
+    
+    NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 1.0);
+    [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+        if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
+            NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            NSString *dateTime = [formatter stringFromDate:[NSDate date]];
+            
+            [formData appendPartWithFileData:imageData name:dateTime fileName:[NSString stringWithFormat:@"%@head.jpg",dateTime] mimeType:@"image/jpeg"];
+            
+        }
+        
+    } whenProgress:^(NSProgress *FieldDataBlock) {
+        
+    } andSuccess:^(id representData) {
+        //  NSLog(@"%@",representData);
+        NSLog(@"success-------");
+        [WBUserDefaults setSex:_sex];
+        [WBUserDefaults setCity:_cityArray[0]];
+        [WBUserDefaults setHeadIcon:_headImageView.image];
+        [WBUserDefaults setBirthday:_birthdayPickLabel.text];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    } andFailure:^(NSString *error) {
+        NSLog(@"failure");
+        NSLog(@"%@",error.localizedCapitalizedString);
+    }];
 }
 
 

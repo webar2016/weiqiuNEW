@@ -231,7 +231,7 @@
     }
    
     
-        NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text};
+    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text};
       //  NSLog(@"parameters = %@",parameters);
     
      NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 1.0);

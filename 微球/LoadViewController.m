@@ -207,8 +207,8 @@
     }else if(btn.tag == 101){
         
         //忘记密码
-        WBSetInformationViewController *SVC  = [[WBSetInformationViewController alloc]init];
-        [self presentViewController:SVC animated:YES completion:nil];
+//        WBSetInformationViewController *SVC  = [[WBSetInformationViewController alloc]init];
+//        [self presentViewController:SVC animated:YES completion:nil];
         
       //  WBDataModifiedViewController *DVC = [[WBDataModifiedViewController alloc]init];
       //  [self.navigationController pushViewController:DVC animated:YES];
