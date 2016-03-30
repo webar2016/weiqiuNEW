@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="birthdayLabel" destination="AcY-Xp-GnS" id="dUj-Jg-Ce0"/>
                 <outlet property="birthdayPickLabel" destination="wUi-2l-8vI" id="Hhd-fB-zVM"/>
+                <outlet property="cityLabel" destination="eIK-nB-hA7" id="t9n-yB-3x9"/>
                 <outlet property="confirmBtn" destination="bO7-e1-t79" id="ugt-za-WdR"/>
                 <outlet property="headImageView" destination="CrK-E4-y3U" id="twp-K4-QKC"/>
                 <outlet property="positionBtn" destination="peR-ml-civ" id="Sve-y0-IFX"/>
@@ -65,25 +66,27 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_location" translatesAutoresizingMaskIntoConstraints="NO" id="EqW-NU-Q68">
                     <rect key="frame" x="30" y="447" width="57" height="57"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="peR-ml-civ">
-                    <rect key="frame" x="103" y="456" width="168" height="39"/>
-                    <inset key="imageEdgeInsets" minX="150" minY="0.0" maxX="1" maxY="0.0"/>
-                    <state key="normal" image="icon_gps">
-                        <attributedString key="attributedTitle">
-                            <fragment content="点击自动定位">
-                                <attributes>
-                                    <font key="NSFont" size="14" name="PingFangSC-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bO7-e1-t79">
+                    <rect key="frame" x="60" y="512" width="200" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="NjJ-9c-kQQ"/>
+                        <constraint firstAttribute="width" constant="200" id="ekk-Ko-BfE"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="进入微球">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="ISR-Ge-37K"/>
+                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="zSE-No-Tln"/>
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_upload" translatesAutoresizingMaskIntoConstraints="NO" id="CrK-E4-y3U">
                     <rect key="frame" x="125" y="28" width="70" height="70"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="AVm-pP-riU"/>
+                        <constraint firstAttribute="height" constant="70" id="Cnc-Ti-7Uk"/>
+                        <constraint firstAttribute="width" constant="70" id="UaO-AH-Q7j"/>
+                    </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUi-2l-8vI" userLabel="birthdayPickLabel">
                     <rect key="frame" x="134" y="326" width="143" height="21"/>
@@ -91,14 +94,18 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bO7-e1-t79">
-                    <rect key="frame" x="60" y="512" width="200" height="43"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <state key="normal" title="进入微球">
-                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="点击自动定位" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIK-nB-hA7">
+                    <rect key="frame" x="112" y="465" width="102" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="peR-ml-civ">
+                    <rect key="frame" x="227" y="456" width="33" height="39"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="1" maxY="0.0"/>
+                    <state key="normal" image="icon_gps"/>
                     <connections>
-                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="zSE-No-Tln"/>
+                        <action selector="btnClicked:" destination="-1" eventType="touchUpInside" id="ISR-Ge-37K"/>
                     </connections>
                 </button>
             </subviews>
@@ -111,6 +118,8 @@
                 <constraint firstItem="dA8-Db-zcx" firstAttribute="top" secondItem="roy-S7-MRw" secondAttribute="bottom" constant="59" id="LS4-yj-AzY"/>
                 <constraint firstItem="EqW-NU-Q68" firstAttribute="top" secondItem="dA8-Db-zcx" secondAttribute="bottom" constant="7" id="LdE-wN-NNM"/>
                 <constraint firstItem="roy-S7-MRw" firstAttribute="top" secondItem="AcY-Xp-GnS" secondAttribute="bottom" constant="7" id="Qx6-2F-8FL"/>
+                <constraint firstItem="eIK-nB-hA7" firstAttribute="centerY" secondItem="EqW-NU-Q68" secondAttribute="centerY" id="UWu-je-8hO"/>
+                <constraint firstItem="peR-ml-civ" firstAttribute="leading" secondItem="eIK-nB-hA7" secondAttribute="trailing" constant="5" id="aNm-Kr-8DK"/>
                 <constraint firstItem="lUQ-zI-3IR" firstAttribute="top" secondItem="CrK-E4-y3U" secondAttribute="bottom" constant="36" id="cVW-NO-Wln"/>
                 <constraint firstItem="peR-ml-civ" firstAttribute="centerY" secondItem="EqW-NU-Q68" secondAttribute="centerY" id="dsb-q9-fJx"/>
                 <constraint firstItem="CrK-E4-y3U" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="gED-pt-pSe"/>

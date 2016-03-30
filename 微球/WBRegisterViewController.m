@@ -9,6 +9,7 @@
 #import "WBRegisterViewController.h"
 #import "MyDownLoadManager.h"
 #import "WBDataModifiedViewController.h"
+#import "WBSetInformationViewController.h"
 
 @interface WBRegisterViewController ()<UITextFieldDelegate>
 {
@@ -24,6 +25,12 @@
 @end
 
 @implementation WBRegisterViewController
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -165,10 +172,14 @@
                     NSLog(@"success");
                     id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                     [WBUserDefaults setUserId:[result objectForKey:@"userId"]];
-                    [self dismissViewControllerAnimated:YES completion:^{
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
-                    }];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
+                    WBSetInformationViewController *SVC = [[WBSetInformationViewController alloc]init];
+                    [self presentViewController:SVC animated:YES completion:nil];
+//                    [self dismissViewControllerAnimated:YES completion:^{
+//                        [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
+//                        [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
+//                    }];
                     
                 } andFailure:^(NSString *error) {
                     NSLog(@"%@",error);

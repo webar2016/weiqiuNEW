@@ -231,7 +231,7 @@
     }
    
     
-        NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text};
+    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text};
       //  NSLog(@"parameters = %@",parameters);
     
      NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 1.0);
@@ -269,15 +269,13 @@
     _imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
 
     UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                
-        
     }];
     //拍照：
     UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        //打开相机
-        
-        
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:_imagePicker animated:YES completion:^{
+            
+        }];
     }];
     //相册
     UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -285,28 +283,19 @@
         [self presentViewController:_imagePicker animated:YES completion:^{
             
         }];
-
-        
-        
     }];
     
     UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"提示" message:@"选择图片" preferredStyle:UIAlertControllerStyleActionSheet];
     [aleVC addAction:act1];
     [aleVC addAction:act2];
     [aleVC addAction:act3];
-    
     [self presentViewController:aleVC animated:YES completion:nil];
 }
 
 #pragma mark UIImagePickerControllerDelegate
 //该代理方法仅适用于只选取图片时
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    
-    
     NSLog(@"选择完毕----image:%@-----info:%@",image,editingInfo);
-    
-    
-    
 }
 
 

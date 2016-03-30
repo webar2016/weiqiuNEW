@@ -161,7 +161,7 @@
 
 
 }
-
+// 加入帮帮团
 -(void)btnClicked:(UIButton *)btn{
 
     if (btn.tag ==100) {

@@ -405,6 +405,10 @@
     //拍照：
     UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         //打开相机
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:_imagePicker animated:YES completion:^{
+            
+        }];
     }];
     //相册
     UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

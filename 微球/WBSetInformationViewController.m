@@ -7,14 +7,28 @@
 //
 
 #import "WBSetInformationViewController.h"
+#import <CoreLocation/CoreLocation.h>
+#import "MyDownLoadManager.h"
 
-@interface WBSetInformationViewController ()
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
+
+@interface WBSetInformationViewController ()<CLLocationManagerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     UIImagePickerController *_imagePicker;
     UIView *_datePickerView;
     UIDatePicker    *_datePicker;
     BOOL            _datePickerIsHide;
+    
+    NSString *_sex;
+    NSArray *_cityArray;
+    //定位
+    NSNumber *_provinceId;
+    NSNumber *_cityId;
+    
 }
+@property (strong, nonatomic) CLLocationManager* locationManager;
 @end
 
 @implementation WBSetInformationViewController
@@ -23,6 +37,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
+
+    
+    _cityArray = [NSArray array];
+    
     [self createUI];
     [self setUpDatePicker];
 }
@@ -30,6 +48,11 @@
 -(void)createUI{
     
     _headImageView.tag = 100;
+    _headImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *headPick = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headImagePick)];
+    [_headImageView addGestureRecognizer:headPick];
+    _headImageView.layer.masksToBounds = YES;
+    _headImageView.layer.cornerRadius = 35;
 
     _sexLabel.font = MAINFONTSIZE;
     _sexLabel.textColor = [UIColor initWithLightGray];
@@ -45,7 +68,6 @@
     _sexWomenBtn.titleLabel.font = MAINFONTSIZE;
     _sexWomenBtn.layer.masksToBounds = YES;
     _sexWomenBtn.layer.cornerRadius = 15;
-    [_sexWomenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [_sexWomenBtn setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     _sexWomenBtn.tag = 201;
     
@@ -68,13 +90,22 @@
     _positionLabel.font = MAINFONTSIZE;
     _positionLabel.textColor = [UIColor initWithLightGray];
     
+    
+    _cityLabel.font = MAINFONTSIZE;
+    _cityLabel.textColor = [UIColor initWithLightGray];
+    _cityLabel.textAlignment = NSTextAlignmentRight;
+    
     _positionBtn.titleLabel.textColor = [UIColor initWithLightGray];
     _positionBtn.titleLabel.font = MAINFONTSIZE;
+    _positionBtn.tag = 400;
+    
     
     
 
     _confirmBtn.tag = 500;
     _confirmBtn.backgroundColor = [UIColor initWithBackgroundGray];
+    [_confirmBtn setEnabled:NO];
+    
     _confirmBtn.titleLabel.font = MAINFONTSIZE;
     _confirmBtn.layer.cornerRadius = 3;
     _confirmBtn.frame = CGRectMake(0, 0, 200, 43);
@@ -104,6 +135,14 @@
     NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];//设置为中文显示3
     _datePicker.locale = locale;
 }
+
+
+
+
+
+
+
+
 #pragma mark -----点击事件-----
 
 -(void)tapClick:(UITapGestureRecognizer *)tap{
@@ -130,11 +169,16 @@
         [self showDatePicker];
     
     
+    }else if (((UIButton *)sender).tag == 400){
+    
+        NSLog(@"---local----");
+        [self startLocation];
+    
     }
-    
-    
-    
     else if (((UIButton *)sender).tag ==500){
+        //确认保存按钮
+        // 保存数据到服务器
+        [self sendDataToUp];
     
         [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -179,20 +223,154 @@
 }
 
 
+#pragma mark -------定位-----------
+//开始定位
+-(void)startLocation{
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.distanceFilter = 10.0f;
+    [self.locationManager startUpdatingLocation];
+}
+
+//定位代理经纬度回调
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    [self.locationManager stopUpdatingLocation];
+   // NSLog(@"location ok");
+   // NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        for (CLPlacemark * placemark in placemarks) {
+            NSDictionary *test = [placemark addressDictionary];
+            //  Country(国家)  State(城市)  SubLocality(区)
+//            NSLog(@"%@", test);
+//            NSLog(@"%@", [test objectForKey:@"City"]);
+            _cityLabel.text =[test objectForKey:@"City"];
+            WBPositionList *positionList =[[WBPositionList alloc] init];
+            _cityArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:_cityLabel.text] objectAtIndex:0]];
+            [self finishBtn];
+            
+        }
+    }];
+}
+
+#pragma mark - === 提示框 图片选择===
+- (void)headImagePick
+{
+    _imagePicker = [[UIImagePickerController alloc]init];
+    //相机类型（拍照、录像...）字符串需要做相应的类型转换
+    _imagePicker.delegate = self;
+    _imagePicker.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePicker.allowsEditing = YES;
+    _imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
+    
+    UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    //拍照：
+    UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:_imagePicker animated:YES completion:^{
+            
+        }];
+    }];
+    //相册
+    UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:_imagePicker animated:YES completion:^{
+            
+        }];
+    }];
+    
+    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"提示" message:@"选择图片" preferredStyle:UIAlertControllerStyleActionSheet];
+    [aleVC addAction:act1];
+    [aleVC addAction:act2];
+    [aleVC addAction:act3];
+    [self presentViewController:aleVC animated:YES completion:nil];
+}
+
+#pragma mark UIImagePickerControllerDelegate
+//该代理方法仅适用于只选取图片时
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    NSLog(@"选择完毕----image:%@-----info:%@",image,editingInfo);
+}
+
+
+//适用获取所有媒体资源，只需判断资源类型
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
+    //判断资源类型
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        [_headImageView setImage:info[UIImagePickerControllerEditedImage]];
+        [self finishBtn];
+    }else{
+        
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+#pragma mark  ------确认按钮的禁用解锁------
+
+-(void)finishBtn{
+    NSLog(@"_cityArray = %@",_cityArray);
+    
+     if (_cityArray.count&&_headImageView.image ) {
+        [_confirmBtn setEnabled:YES];
+        _confirmBtn.backgroundColor = [UIColor initWithGreen];
+    }
+
+
+
+}
+
+#pragma mark ----保存数据到服务器------
+
+-(void)sendDataToUp{
+    
+    if ([_sexManBtn.backgroundColor isEqual:[UIColor initWithGreen]]) {
+        _sex = @"男";
+    }else{
+        _sex = @"女";
+    }
+    
+    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"sex":_sex,@"birthday":_birthdayPickLabel.text,@"sex":_sex,@"provinceId":_cityArray[2],@"homeCityId":_cityArray[1]};
+    //  NSLog(@"parameters = %@",parameters);
+    
+    NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 1.0);
+    [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+        if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
+            NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            NSString *dateTime = [formatter stringFromDate:[NSDate date]];
+            
+            [formData appendPartWithFileData:imageData name:dateTime fileName:[NSString stringWithFormat:@"%@head.jpg",dateTime] mimeType:@"image/jpeg"];
+            
+        }
+        
+    } whenProgress:^(NSProgress *FieldDataBlock) {
+        
+    } andSuccess:^(id representData) {
+        //  NSLog(@"%@",representData);
+        NSLog(@"success-------");
+        [WBUserDefaults setSex:_sex];
+        [WBUserDefaults setCity:_cityArray[0]];
+        [WBUserDefaults setHeadIcon:_headImageView.image];
+        [WBUserDefaults setBirthday:_birthdayPickLabel.text];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    } andFailure:^(NSString *error) {
+        NSLog(@"failure");
+        NSLog(@"%@",error.localizedCapitalizedString);
+    }];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
