@@ -22,6 +22,7 @@
 		052048D11C897ABB00175D14 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052048D01C897ABB00175D14 /* AddressBook.framework */; };
 		052944DA1C7FF2AF0098159F /* BROptionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 052944D61C7FF2AF0098159F /* BROptionItem.m */; };
 		052944DB1C7FF2AF0098159F /* BROptionsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 052944D81C7FF2AF0098159F /* BROptionsButton.m */; };
+		052E95D11CABA04700152FC8 /* WBDraftSave.m in Sources */ = {isa = PBXBuildFile; fileRef = 052E95D01CABA04700152FC8 /* WBDraftSave.m */; };
 		052F30C41C93BE6700D15322 /* WBGroupInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 052F30C21C93BE6700D15322 /* WBGroupInfoController.m */; };
 		052F30C81C93DAB500D15322 /* WBGroupDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 052F30C71C93DAB500D15322 /* WBGroupDetailController.m */; };
 		052F30D01C93EB5B00D15322 /* WBPositionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 052F30CF1C93EB5B00D15322 /* WBPositionModel.m */; };
@@ -211,6 +212,8 @@
 		052944D71C7FF2AF0098159F /* BROptionsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BROptionsButton.h; sourceTree = "<group>"; };
 		052944D81C7FF2AF0098159F /* BROptionsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BROptionsButton.m; sourceTree = "<group>"; };
 		052944D91C7FF2AF0098159F /* BROptionsButtonDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BROptionsButtonDemo-Prefix.pch"; sourceTree = "<group>"; };
+		052E95CF1CABA04700152FC8 /* WBDraftSave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDraftSave.h; sourceTree = "<group>"; };
+		052E95D01CABA04700152FC8 /* WBDraftSave.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBDraftSave.m; sourceTree = "<group>"; };
 		052F30C11C93BE6700D15322 /* WBGroupInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGroupInfoController.h; sourceTree = "<group>"; };
 		052F30C21C93BE6700D15322 /* WBGroupInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGroupInfoController.m; sourceTree = "<group>"; };
 		052F30C61C93DAB500D15322 /* WBGroupDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGroupDetailController.h; sourceTree = "<group>"; };
@@ -734,6 +737,8 @@
 				05F9E33D1C8D687300DC584F /* WBAttributeTextView.m */,
 				05F9E33E1C8D687300DC584F /* WBTextAttachment.h */,
 				05F9E33F1C8D687300DC584F /* WBTextAttachment.m */,
+				052E95CF1CABA04700152FC8 /* WBDraftSave.h */,
+				052E95D01CABA04700152FC8 /* WBDraftSave.m */,
 			);
 			name = "长图文";
 			sourceTree = "<group>";
@@ -1545,6 +1550,7 @@
 				052F30D31C93EEB200D15322 /* WBPositionList.m in Sources */,
 				05D1F9401C8FBE1A0049D3EC /* WBHomepageViewController.m in Sources */,
 				2D49D6241C86F232008EE96B /* TopicDetailModel.m in Sources */,
+				052E95D11CABA04700152FC8 /* WBDraftSave.m in Sources */,
 				05794C911CA2641300F32837 /* WBCommentMessage.m in Sources */,
 				2D02B6971C81989200FADFFB /* WBRightViewController.m in Sources */,
 				2DFF687F1C969C95000DCDDA /* WBRegisterViewController.m in Sources */,

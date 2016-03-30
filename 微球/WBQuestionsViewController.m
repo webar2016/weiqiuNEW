@@ -239,6 +239,8 @@
     answerListController.questionId = data.questionId;
     answerListController.allAnswers = data.allAnswers;
     answerListController.allIntegral = data.allIntegral;
+    answerListController.isSolved = data.isSolve;
+    answerListController.groupId = data.groupId;
     NSLog(@"%@",self.parentViewController.parentViewController.parentViewController.childViewControllers.lastObject.childViewControllers.lastObject);
     if (self.fromFindView) {
         [self.parentViewController.navigationController pushViewController:answerListController animated:YES];

@@ -19,6 +19,10 @@
 
 @property (nonatomic, copy) NSString *questionText;
 
+@property (nonatomic, copy) NSString *isSolve;
+
+@property (nonatomic, copy) NSString *groupId;
+
 @property (nonatomic, strong) WBSingleAnswerModel *hga;
 
 @end

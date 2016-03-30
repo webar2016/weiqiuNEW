@@ -13,7 +13,7 @@
 
 #import "MJExtension.h"
 
-#define  ScoreUrl @"http://121.40.132.44:92/hg/hgUsersQNum?groupId=1"
+#define ScoreUrl @"http://121.40.132.44:92/hg/hgUsersQNum?groupId=%@"
 
 @interface WBAllocateScoreViewController ()<UITableViewDataSource,UITableViewDelegate,ScoreClickedEnent>
 {
@@ -27,8 +27,6 @@
     NSMutableArray *_dataArray;
     NSMutableArray *_cellScoreArray;
     NSInteger _surplus;
-    
-
 }
 @end
 
@@ -36,7 +34,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     _dataArray = [NSMutableArray array];
     _cellScoreArray = [NSMutableArray array];
@@ -46,18 +43,18 @@
 }
 
 -(void)creatNavi{
-    //设置标题
     self.navigationItem.title = @"分配打赏";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
-    //设置返回按钮
-    UIBarButtonItem *item = (UIBarButtonItem *)self.navigationController.navigationBar.topItem;
-    item.title = @"返回";
-    self.navigationController.navigationBar.tintColor = [UIColor initWithGreen];
+    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
+    self.navigationItem.backBarButtonItem = back;
+}
+
+-(void)popBack{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
 -(void)createUI{
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 10, SCREENWIDTH, SCREENHEIGHT-19-49)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 10, SCREENWIDTH, SCREENHEIGHT - 123)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -90,12 +87,11 @@
     [_bottomView addSubview:_tipLabel];
     [_bottomView addSubview:_surplusScore];
     [self.view addSubview:_bottomView];
-
 }
 
 
 -(void)loadData{
-    NSString *url = [NSString stringWithFormat:ScoreUrl];
+    NSString *url = [NSString stringWithFormat:ScoreUrl,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         // NSLog(@"result = %@",result);
@@ -112,7 +108,14 @@
             for (NSInteger i = 0; i<_dataArray.count; i++) {
                 [_cellScoreArray addObject:[NSString stringWithFormat:@"%f",floor(100.0f/_dataArray.count)]];
             }
-            _surplus = 100 -[_cellScoreArray[0] floatValue]*_cellScoreArray.count;
+            if (_dataArray.count == 0) {
+                _surplus = 100;
+                UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"1.pic.jpg"]];
+                background.frame = CGRectMake(0, 20, SCREENWIDTH, SCREENWIDTH);
+                [_tableView addSubview:background];
+            } else {
+                _surplus = 100 -[_cellScoreArray[0] floatValue]*_cellScoreArray.count;
+            }
             _surplusScore.text = [NSString stringWithFormat:@"%ld",_surplus];
             
             [_tableView reloadData];
@@ -173,17 +176,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

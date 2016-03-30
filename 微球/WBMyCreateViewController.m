@@ -79,6 +79,14 @@
         if ([result isKindOfClass:[NSDictionary class]]){
             self.models = [WBMyGroupModel mj_objectArrayWithKeyValuesArray:result[@"helpGroup"]];
         }
+        
+        NSMutableArray *myCreate = [NSMutableArray array];
+        for (WBMyGroupModel *myModel in self.models) {
+            NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
+            [myCreate addObject:groupId];
+        }
+        [WBUserDefaults setMutableUserDefaults:@{@"myJoin":myCreate}];
+        
         [self willReloadTableData:self.conversationListDataSource];
         [self.conversationListTableView reloadData];
         

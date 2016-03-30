@@ -186,10 +186,24 @@
 #pragma mark - WBGroupSettingTableViewCellDelegate
 
 -(void)quitGroup:(WBGroupSettingTableViewCell *)cell{
-    NSLog(@"quitGroup");
-    
-    
-    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"现在退出帮帮团，你将无法获得球币，是否确认退出？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/quitGroup?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
+                NSLog(@"退出成功");
+                [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
+                [self.navigationController popToRootViewControllerAnimated:NO];
+            } andFailure:^(NSString *error) {
+                NSLog(@"退出失败，请检查网络后重试");
+            }];
+        }];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 -(void)closeGroup:(WBGroupSettingTableViewCell *)cell{

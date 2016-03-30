@@ -231,7 +231,7 @@
         [_minusButton setImage:[UIImage imageNamed:@"icon_minus_disabled"] forState:UIControlStateNormal];
     } else if ([_scoreLable.text isEqualToString:@"5000"]) {
         _plusbutton.userInteractionEnabled = NO;
-        [_plusbutton setImage:[UIImage imageNamed:@"icon_minus_disabled"] forState:UIControlStateNormal];
+        [_plusbutton setImage:[UIImage imageNamed:@"icon_add_dis"] forState:UIControlStateNormal];
     } else {
         _minusButton.userInteractionEnabled = YES;
         [_minusButton setImage:[UIImage imageNamed:@"icon_minus_abled"] forState:UIControlStateNormal];

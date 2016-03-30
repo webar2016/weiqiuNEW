@@ -53,7 +53,7 @@
     
     [self setUpTableView];
     
-    [self setUpSearchBox];
+//    [self setUpSearchBox];
     
     [self selectedView];
 }

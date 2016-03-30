@@ -22,48 +22,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x5fae;&#x7403;/WBAllocateScoreViewController.m"
+            timestampString = "481008024.50185"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "-loadData"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x5fae;&#x7403;/CreateHelpGroupViewController.m"
-            timestampString = "480919839.570159"
+            filePath = "&#x5fae;&#x7403;/WBAllocateScoreViewController.m"
+            timestampString = "481008395.392852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "-searchBarSearchButtonClicked:"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "-loadData"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x5fae;&#x7403;/WBAnswerListController.m"
-            timestampString = "480929745.840197"
+            filePath = "&#x5fae;&#x7403;/WBPostArticleViewController.m"
+            timestampString = "481012746.039041"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
-            landmarkName = "-loadDataWithPage:"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "-releaseArticle"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x5fae;&#x7403;/WBAnswerListController.m"
-            timestampString = "480929745.840197"
+            filePath = "&#x5fae;&#x7403;/WBPostArticleViewController.m"
+            timestampString = "481012749.293565"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "-loadDataWithPage:"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
+            landmarkName = "-releaseArticle"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
