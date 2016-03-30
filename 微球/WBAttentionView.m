@@ -60,7 +60,7 @@
 
 -(void)loadData{
 
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/relationship/concernsList?userId=%@&showUserId=%@",@"29",@"29"];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/relationship/concernsList?userId=%@&showUserId=%@",[WBUserDefaults userId],_showUserId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {
@@ -94,6 +94,7 @@
     {   cell = [[WBAttentionTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ConcernsCellID ];
         
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setModel:_dataArray[indexPath.row]];
     
     return cell;

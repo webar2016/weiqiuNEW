@@ -201,16 +201,25 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.row ==0) {
-        
-//        WBAllocateScoreViewController *AVC = [[WBAllocateScoreViewController alloc]init];
-//        [self.navigationController pushViewController:AVC animated:YES];
+        NSInteger topicId =((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicId;
+        // NSLog(@"%d",topicId);
+        WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
+        DVC.topicID = topicId;
+        [DVC setHidesBottomBarWhenPushed:YES];
+        [self.parentViewController.navigationController pushViewController:DVC animated:YES];
 
-        WBTestViewController *TVC = [[WBTestViewController alloc]init];
-        [self.navigationController pushViewController:TVC animated:YES];
+//        WBTestViewController *TVC = [[WBTestViewController alloc]init];
+//        [self.navigationController pushViewController:TVC animated:YES];
     }else if (indexPath.row ==1){
     
-        WBAllocateScoreViewController *AVC = [[WBAllocateScoreViewController alloc]init];
-        [self.navigationController pushViewController:AVC animated:YES];
+        NSInteger topicId =((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicId;
+        // NSLog(@"%d",topicId);
+        WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
+        DVC.topicID = topicId;
+        [DVC setHidesBottomBarWhenPushed:YES];
+        [self.parentViewController.navigationController pushViewController:DVC animated:YES];
+//        WBAllocateScoreViewController *AVC = [[WBAllocateScoreViewController alloc]init];
+//        [self.navigationController pushViewController:AVC animated:YES];
     
     
     }

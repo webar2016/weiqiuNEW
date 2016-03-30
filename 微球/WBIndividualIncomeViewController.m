@@ -143,14 +143,8 @@
         _scorelabel.text =[NSString stringWithFormat:@"%.0f",[integral floatValue] ];
         _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%.1f",[integral floatValue]/10];
         
-        
-        
     } andFailure:^(NSString *error) {
-        
     }];
-
-
-
 }
 
 
