@@ -291,13 +291,11 @@
 }
 
 -(void)writeAnswer{
-//    [MyDownLoadManager getNsurl:<#(NSString *)#> whenSuccess:<#^(id representData)success#> andFailure:<#^(NSString *error)failure#>]
-    
-    
     WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
     writeAnswerVC.isQuestionAnswer = YES;
     writeAnswerVC.groupId = self.targetId;
-    writeAnswerVC.qusetionId = _currentQuestionId;
+    writeAnswerVC.questionId = _currentQuestionId;
+    writeAnswerVC.isQuestionAnswer = YES;
     [self.navigationController pushViewController:writeAnswerVC animated:YES];
 }
 
