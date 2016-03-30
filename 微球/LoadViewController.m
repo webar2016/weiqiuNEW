@@ -14,8 +14,16 @@
 #import "WBDataModifiedViewController.h"
 #import "MyDownLoadManager.h"
 #import "UIImageView+WebCache.h"
+#import "MJExtension.h"
 
 #import "WBSetInformationViewController.h"
+#import "WBLeftViewController.h"
+
+//数据库
+#import "WBBig_AreaModel.h"
+#import "WBHelp_Group_Sign.h"
+#import "WBTbl_Unlock_City.h"
+#import "MyDBmanager.h"
 
 @interface LoadViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong) UITextField *account;
@@ -231,12 +239,12 @@
      NSLog(@"userInfo = %@",[WBUserDefaults userId]);
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/user/myInfo?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-       [WBUserDefaults printAllKeysInUserDefaults];
-        NSDictionary *userInfo = [result objectForKey:@"userInfo"];
+       //[WBUserDefaults printAllKeysInUserDefaults];
+       // NSDictionary *userInfo = [result objectForKey:@"userInfo"];
         
-        NSLog(@"userInfo = %@",userInfo);
-        [WBUserDefaults addUserDefaultsWithDictionary:userInfo];
-        [WBUserDefaults printAllKeysInUserDefaults];
+      //  NSLog(@"userInfo = %@",userInfo);
+     //   [WBUserDefaults addUserDefaultsWithDictionary:userInfo];
+      //  [WBUserDefaults printAllKeysInUserDefaults];
         
         if ([[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dir"] rangeOfString:@"http://"].location != NSNotFound) {
             SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -248,8 +256,18 @@
                 
                 NSLog(@"下载完成");
                 [WBUserDefaults setHeadIcon:image];
+                NSDictionary *userInfo = [result objectForKey:@"userInfo"];
+                
+                //  NSLog(@"userInfo = %@",userInfo);
+                [WBUserDefaults addUserDefaultsWithDictionary:userInfo];
+                
+                //存储数据库
+                [self saveToDataBase];
+                
+                
+           
                 [self dismissViewControllerAnimated:YES completion:^{
-                    [self.delegate loadBack];
+                
                 }];
             }];
             
@@ -257,6 +275,50 @@
     } andFailure:^(NSString *error) {
         
     }];
+}
+
+-(void)saveToDataBase{
+    NSString *unlockCityUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/lr/unlockCity?userId=%@",@"29"];
+
+        [MyDownLoadManager getNsurl:unlockCityUrl whenSuccess:^(id representData) {
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            NSArray *unlockCity = [WBTbl_Unlock_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"unlockCity"]];
+            
+            
+            MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+            
+            for (WBTbl_Unlock_City *model in unlockCity) {
+                [manager  addItem:model];
+            }
+            [manager deleteAllData];
+            NSLog(@"1 -------%@",[manager searchAllItems]);
+            
+            
+            // [manager cl]
+            [manager closeFBDM];
+            } andFailure:^(NSString *error) {
+    
+            }];
+
+    NSString *helpGroupSign = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/groupSign"];
+    [MyDownLoadManager getNsurl:helpGroupSign whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        NSArray *helpGroupSign = [WBHelp_Group_Sign mj_objectArrayWithKeyValuesArray:[result objectForKey:@"sign"]];
+        
+        
+        MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Help_group_sign];
+        
+        for (WBHelp_Group_Sign *model in helpGroupSign) {
+            [manager  addItem:model];
+        }
+        NSLog(@"2 ------%@",[manager searchAllItems]);
+        // [manager cl]
+        [manager closeFBDM];
+    } andFailure:^(NSString *error) {
+        
+    }];
+
+
 }
 
 

@@ -33,6 +33,8 @@
     UIImageView         *_headicon;
     UILabel             *_nickname;
     UIButton            *_followButton;
+    UIButton            *_attentionLeftButton;
+    UIButton            *_attentionRightButton;
     
     UIButton            *_topicButton;
     UIButton            *_answerButton;
@@ -80,10 +82,10 @@
     [self setUpAnswerTable];
     
     [self loadUserInfo];
-    [self loadTopics];
-    [self loadAnswers];
+//    [self loadTopics];
+//    [self loadAnswers];
     
-    [self setConfigHeadView];
+//    [self setConfigHeadView];
     
 }
 
@@ -117,28 +119,43 @@
     _headicon.layer.cornerRadius = 32;
     _headicon.layer.borderWidth = 2;
     _headicon.layer.borderColor = [UIColor whiteColor].CGColor;
-    _headicon.image = [WBUserDefaults headIcon];
+   // _headicon.image = [WBUserDefaults headIcon];
     [_headView addSubview:_headicon];
     
     UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [infoBtn setImage:[UIImage imageNamed:@"icon_personalinfo"] forState:UIControlStateNormal];
     infoBtn.frame = CGRectMake(15, 174, 32, 32);
     [infoBtn addTarget:self action:@selector(enterInfosView) forControlEvents:UIControlEventTouchUpInside];
-    [_headView addSubview:infoBtn];
     
     UIButton *chatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [chatBtn setImage:[UIImage imageNamed:@"icon_chat"] forState:UIControlStateNormal];
     chatBtn.frame = CGRectMake(SCREENWIDTH - 47, 174, 32, 32);
     
-    [_headView addSubview:chatBtn];
+    
+    if (!_friendId) {
+        [_headView addSubview:infoBtn];
+        [_headView addSubview:chatBtn];
+    }
     
     _nickname = [[UILabel alloc] initWithFrame:CGRectMake(0, 220, SCREENWIDTH, 18)];
     _nickname.font = BIGFONTSIZE;
     _nickname.textColor = [UIColor initWithNormalGray];
     _nickname.textAlignment = NSTextAlignmentCenter;
-    _nickname.text = [WBUserDefaults nickname];
+   // _nickname.text = [WBUserDefaults nickname];
     [_headView addSubview:_nickname];
 
+    
+
+    
+    _attentionLeftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _attentionLeftButton.frame = CGRectMake(SCREENWIDTH/2-100, 168+32+20+30, 95, 20);
+    [_headView addSubview:_attentionLeftButton];
+    _attentionLeftButton.titleLabel.font = MAINFONTSIZE;
+    _attentionLeftButton.tag = 500;
+    [_attentionLeftButton addTarget:self action:@selector(selfBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_attentionLeftButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
+    [_attentionLeftButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+    
     UILabel *followAndCare = [[UILabel alloc] initWithFrame:CGRectMake(0, 250, SCREENWIDTH, 14)];
     followAndCare.font = MAINFONTSIZE;
     followAndCare.textColor = [UIColor initWithNormalGray];
@@ -146,16 +163,28 @@
     followAndCare.text = @"·";
     [_headView addSubview:followAndCare];
     
+    _attentionRightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _attentionRightButton.frame = CGRectMake(SCREENWIDTH/2+5, 168+32+20+30, 95, 20);
+    [_headView addSubview:_attentionRightButton];
+    _attentionRightButton.titleLabel.font = MAINFONTSIZE;
+    _attentionRightButton.tag = 501;
+    [_attentionRightButton addTarget:self action:@selector(selfBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_attentionRightButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
+    [_attentionRightButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    
+    
+    
+    
     CGSize buttonSize = CGSizeMake(SCREENWIDTH / 3, 44);
-    CGPoint point;
+   CGPoint point;
     
     if (_friendId) {
         _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
         _followButton.center = CGPointMake(SCREENWIDTH / 2, 300);
-        [_followButton setTitle:@"关注" forState:UIControlStateNormal];
-        [_followButton setBackgroundColor:[UIColor initWithGreen]];
         _followButton.layer.masksToBounds = YES;
         _followButton.layer.cornerRadius = 4;
+        _followButton.tag = 50;
+        [_followButton addTarget:self action:@selector(concernsOperation:) forControlEvents:UIControlEventTouchUpInside];
         [_headView addSubview:_followButton];
         
         point = CGPointMake(0, 330);
@@ -193,11 +222,24 @@
 }
 
 -(void)setConfigHeadView{
-    if ([WBUserDefaults coverImage]) {
-        _coverImage.image = [WBUserDefaults coverImage];
+    if ([_userInfo objectForKey:@"personalImage"]) {
+        [_coverImage sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"personalImage"]]];
     }
+    [_headicon sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"dir"]]];
 
-
+    _nickname.text = [_userInfo objectForKey:@"nickname"];
+    
+    [_attentionLeftButton setTitle:[NSString stringWithFormat:@"%@关注",[_userInfo objectForKey:@"concerns"]] forState:UIControlStateNormal];
+    [_attentionRightButton setTitle:[NSString stringWithFormat:@"%@粉丝",[_userInfo objectForKey:@"fans"]] forState:UIControlStateNormal];
+    
+    if ([_userInfo objectForKey:@"isFriend"]) {
+        [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
+        [_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+    }else{
+        [_followButton setTitle:@"关注" forState:UIControlStateNormal];
+        [_followButton setBackgroundColor:[UIColor initWithGreen]];
+    }
+    
 }
 
 
@@ -219,6 +261,7 @@
     _answerTableView.dataSource = self;
     _answerTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _answerTableView.backgroundColor = [UIColor initWithBackgroundGray];
+    _topicTableView.tableHeaderView = _headView;
     _answerTableView.hidden = YES;
     [self.view addSubview:_answerTableView];
 }
@@ -231,6 +274,7 @@
         url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"],[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
     }else{
         url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",_friendId,[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
+        NSLog(@"%@",url);
     }
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -239,6 +283,9 @@
             _userInfo = userInfo;
             self.navigationItem.title = userInfo[@"nickname"];
         }
+        [self setConfigHeadView];
+        [self loadTopics];
+        [self loadAnswers];
     } andFailure:^(NSString *error) {
         NSLog(@"%@------",error);
     }];
@@ -321,6 +368,70 @@
 
 
 #pragma mark - other operations
+//获取粉丝和关注列表
+
+-(void)selfBtnClicked:(UIButton *)btn{
+    if (btn.tag ==500) {
+        WBAttentionView *AVC = [[WBAttentionView alloc]init];
+        if (_friendId) {
+            AVC.showUserId = _friendId;
+        }else{
+            AVC.showUserId = [WBUserDefaults userId];
+        }
+        [self.navigationController pushViewController:AVC animated:YES];
+        
+    }else if (btn.tag ==501){
+        WBFansView *FVC = [[WBFansView alloc]init];
+        if (_friendId) {
+            FVC.showUserId = _friendId;
+        }else{
+            FVC.showUserId = [WBUserDefaults userId];
+        }
+        [self.navigationController pushViewController:FVC animated:nil];
+    
+    }
+}
+
+//加关注和取消关注
+//[_followButton setTitle:@"已关注" forState:UIControlStateNormal];
+//[_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+//}else{
+//    [_followButton setTitle:@"关注" forState:UIControlStateNormal];
+//    [_followButton setBackgroundColor:[UIColor initWithGreen]];
+
+-(void)concernsOperation:(UIButton *)btn{
+    if (btn.tag == 50) {
+        if ([btn.titleLabel.text isEqualToString:@"关注"]) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],_friendId] whenSuccess:^(id representData) {
+                id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
+                    [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
+                    [_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+                }
+                
+            } andFailure:^(NSString *error) {
+                
+            }];
+ 
+        }else{
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],_friendId] whenSuccess:^(id representData) {
+                id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
+                    [_followButton setTitle:@"关注" forState:UIControlStateNormal];
+                    [_followButton setBackgroundColor:[UIColor initWithGreen]];
+                }
+                
+            } andFailure:^(NSString *error) {
+                
+            }];
+        
+        }
+    }
+    
+
+
+
+}
 
 -(CGFloat)calculateStationWidth:(NSString *)string andWithTextWidth:(CGFloat)textWidth anfont:(CGFloat)fontSize{
     
@@ -385,9 +496,9 @@
 
 - (void)ModefyViewDelegate{
     NSLog(@"---ModefyViewDelegate----");
-    ((UIImageView *)[self.view viewWithTag:102]).image = [WBUserDefaults headIcon];
+    _headicon.image= [WBUserDefaults headIcon];
     
-    ((UILabel *)[self.view viewWithTag:402]).text = [WBUserDefaults nickname];
+    _nickname.text = [WBUserDefaults nickname];
 }
 
 

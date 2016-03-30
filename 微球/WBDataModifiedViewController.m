@@ -15,7 +15,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface WBDataModifiedViewController ()<UITextFieldDelegate,PassValueDelegate,UIActionSheetDelegate,PassPositionDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface WBDataModifiedViewController ()<UITextFieldDelegate,UIActionSheetDelegate,PassPositionDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     
     UIImageView *_bigImageView;
@@ -84,6 +84,7 @@
 -(void)createUI{
     _bigImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 168)];
     _bigImageView.backgroundColor = [UIColor initWithBackgroundGray];
+    _bigImageView.image = [WBUserDefaults coverImage];
     [self.view addSubview:_bigImageView];
     
     _headImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 64, 64)];
@@ -101,7 +102,7 @@
     
     [_rightLabelName addObject:@"女"];
     [_rightLabelName addObject:@"2000-09-09"];
-    [_rightLabelName addObject:@"南京"];
+    [_rightLabelName addObject:@""];
     for (NSInteger i =0; i<4; i++) {
         UIImageView *imageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 168+40*i, SCREENWIDTH, 39)];
         imageView.backgroundColor = [UIColor whiteColor];
@@ -165,25 +166,21 @@
 }
 
 -(void)setContent{
-
     if ([WBUserDefaults nickname]) {
         ((UITextField *)[self.view viewWithTag:200]).text =[NSString stringWithFormat:@"%@",[WBUserDefaults nickname]];
     }
     if ([WBUserDefaults sex]) {
         ((UILabel *)[self.view viewWithTag:201]).text = [NSString stringWithFormat:@"%@",[WBUserDefaults sex]];
     }
-    if ([WBUserDefaults age]) {
-        ((UILabel *)[self.view viewWithTag:202]).text = [NSString stringWithFormat:@"%@",[WBUserDefaults age]];
+    if ([WBUserDefaults birthday]) {
+        ((UILabel *)[self.view viewWithTag:202]).text = [NSString stringWithFormat:@"%@",[WBUserDefaults birthday]];
     }
-    
-    
+    if ([WBUserDefaults city]) {
+         ((UILabel *)[self.view viewWithTag:203]).text = [NSString stringWithFormat:@"%@",[WBUserDefaults city]];
+    }
     if ([WBUserDefaults headIcon]) {
         _headImageView.image =[WBUserDefaults headIcon];
     }
-    
-    
-
-
 }
 
 -(void)setUpDatePicker{
@@ -191,7 +188,7 @@
     _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 40, SCREENWIDTH, SCREENHEIGHT / 3 - 40)];
     _datePicker.datePickerMode = UIDatePickerModeDate;
     _datePicker.backgroundColor = [UIColor whiteColor];
-    _datePicker.minimumDate = [[NSDate alloc] init];
+    
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 40)];
     toolBar.backgroundColor = [UIColor initWithLightGray];
     UIBarButtonItem *ensureButton = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStylePlain target:self action:@selector(ensureDatePicker)];
@@ -222,24 +219,22 @@
 -(void)rightBtnClicked{
     
     
-    [WBUserDefaults setNickname:((UITextField*)[self.view viewWithTag:200]).text];
-    [WBUserDefaults setSex:((UILabel*)[self.view viewWithTag:201]).text];
-    
-    if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
-        [WBUserDefaults setHeadIcon:_headImageView.image];
-
-    }
    
     
-    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text};
+    WBPositionList *positionList =[[WBPositionList alloc] init];
+    NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
+    
+    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"provinceId":positionArray[2],@"homeCityId":positionArray[1]};
       //  NSLog(@"parameters = %@",parameters);
     
-     NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 1.0);
+    
     [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
-            
-            
-             [formData appendPartWithFileData:imageData name:@"dsds" fileName:@"asadad.jpg" mimeType:@"image/jpeg"];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            NSString *dateTime = [formatter stringFromDate:[NSDate date]];
+            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 1.0);
+            [formData appendPartWithFileData:imageData name:dateTime fileName:[NSString stringWithFormat:@"%@head.jpg",dateTime] mimeType:@"image/jpeg"];
             
         }
        
@@ -248,7 +243,13 @@
     } andSuccess:^(id representData) {
       //  NSLog(@"%@",representData);
        NSLog(@"success-------");
-        
+        [WBUserDefaults setNickname:((UITextField*)[self.view viewWithTag:200]).text];
+        [WBUserDefaults setSex:((UILabel*)[self.view viewWithTag:201]).text];
+        if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
+            [WBUserDefaults setHeadIcon:_headImageView.image];
+            
+        }
+        [WBUserDefaults setCity:((UILabel*)[self.view viewWithTag:203]).text];
 
         [self.delegate ModefyViewDelegate];
     } andFailure:^(NSString *error) {
@@ -321,6 +322,7 @@
     NSDateFormatter *dateformatter = [[NSDateFormatter alloc]init];
     [dateformatter setDateFormat:@"yyyy-MM-dd"];
     NSString *date = [dateformatter stringFromDate:_datePicker.date];
+   
     ((UILabel *)[self.view viewWithTag:202]).text = date;
     [self cancelDatePicker];
 }
@@ -355,9 +357,28 @@
 -(void)TapBtnClick:(UITapGestureRecognizer *)tap{
    // NSLog(@"-----------");
     if (tap.view.tag == 101) {
-        WBSexViewController *SVC = [[WBSexViewController alloc]init];
-        SVC.passDelegate = self;
-        [self.navigationController pushViewController:SVC animated:YES];
+        UILabel *label = (UILabel *)[self.view viewWithTag:201];
+        
+        UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        //拍照：
+        UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"男" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            label.text = @"男";
+        }];
+        //相册
+        UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            label.text = @"女";
+        }];
+        
+        UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"性别" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [aleVC addAction:act1];
+        [aleVC addAction:act2];
+        [aleVC addAction:act3];
+        [self presentViewController:aleVC animated:YES completion:nil];
+        
+        
+
         
         
     }else if (tap.view.tag == 102){
@@ -376,15 +397,8 @@
 
 
 
-#pragma mark -----  PassValueDelegate --------
 
-- (void)setSexValue:(NSString *)value{
-    _rightLabelName[0] = value;
-    ((UILabel *)[self.view viewWithTag:200+1]).text = value;
-    
-    
-    
-}
+
 #pragma mark -----  PassPositionDelegate --------
 - (void)setPositionProvinceId:(NSNumber *)provinceId andCityId:(NSNumber *)cityId{
     

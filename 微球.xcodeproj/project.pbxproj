@@ -156,7 +156,6 @@
 		2D62D67F1C89632700E4D05E /* WBtopicCommentDetilListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D62D67E1C89632700E4D05E /* WBtopicCommentDetilListModel.m */; };
 		2D62D6821C8967ED00E4D05E /* WBTopicCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D62D6811C8967ED00E4D05E /* WBTopicCommentTableViewCell.m */; };
 		2D6958641C98EB1F009DBAB3 /* WBDataModifiedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6958631C98EB1F009DBAB3 /* WBDataModifiedViewController.m */; };
-		2D6958681C991B2E009DBAB3 /* WBSexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6958671C991B2E009DBAB3 /* WBSexViewController.m */; };
 		2D69586B1C99389E009DBAB3 /* WBPlaceChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D69586A1C99389E009DBAB3 /* WBPlaceChooseViewController.m */; };
 		2D6B53D01C8E6D6300E3009C /* WBPostIamgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B53CF1C8E6D6300E3009C /* WBPostIamgeViewController.m */; };
 		2DB20EF21C8573BF005C542F /* WBTopicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB20EF11C8573BF005C542F /* WBTopicTableViewCell.m */; };
@@ -456,8 +455,6 @@
 		2D62D6811C8967ED00E4D05E /* WBTopicCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicCommentTableViewCell.m; sourceTree = "<group>"; };
 		2D6958621C98EB1F009DBAB3 /* WBDataModifiedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDataModifiedViewController.h; sourceTree = "<group>"; };
 		2D6958631C98EB1F009DBAB3 /* WBDataModifiedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBDataModifiedViewController.m; sourceTree = "<group>"; };
-		2D6958661C991B2E009DBAB3 /* WBSexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSexViewController.h; sourceTree = "<group>"; };
-		2D6958671C991B2E009DBAB3 /* WBSexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSexViewController.m; sourceTree = "<group>"; };
 		2D6958691C99389E009DBAB3 /* WBPlaceChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPlaceChooseViewController.h; sourceTree = "<group>"; };
 		2D69586A1C99389E009DBAB3 /* WBPlaceChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPlaceChooseViewController.m; sourceTree = "<group>"; };
 		2D6B53CE1C8E6D6300E3009C /* WBPostIamgeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPostIamgeViewController.h; sourceTree = "<group>"; };
@@ -1243,8 +1240,6 @@
 			children = (
 				2D6958621C98EB1F009DBAB3 /* WBDataModifiedViewController.h */,
 				2D6958631C98EB1F009DBAB3 /* WBDataModifiedViewController.m */,
-				2D6958661C991B2E009DBAB3 /* WBSexViewController.h */,
-				2D6958671C991B2E009DBAB3 /* WBSexViewController.m */,
 				2D6958691C99389E009DBAB3 /* WBPlaceChooseViewController.h */,
 				2D69586A1C99389E009DBAB3 /* WBPlaceChooseViewController.m */,
 			);
@@ -1599,7 +1594,6 @@
 				2DF2A9381C9FC0FC002C3A2A /* WBAttentionTableViewCell.m in Sources */,
 				2D5D72FF1C925C2B00F8C2AE /* WBAllocateScoreViewController.m in Sources */,
 				2D1DE0041C92D03F0059CD89 /* DBManager.m in Sources */,
-				2D6958681C991B2E009DBAB3 /* WBSexViewController.m in Sources */,
 				2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */,
 				05794C851CA229B300F32837 /* WBUnlockMessage.m in Sources */,
 				05794C881CA2321A00F32837 /* WBSystemMsgCell.m in Sources */,
