@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WBSexViewController.h"
+
 
 @protocol ModefyData <NSObject>
 - (void)ModefyViewDelegate;

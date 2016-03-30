@@ -385,9 +385,9 @@
 
 - (void)ModefyViewDelegate{
     NSLog(@"---ModefyViewDelegate----");
-    ((UIImageView *)[self.view viewWithTag:102]).image = [WBUserDefaults headIcon];
+    _headicon.image= [WBUserDefaults headIcon];
     
-    ((UILabel *)[self.view viewWithTag:402]).text = [WBUserDefaults nickname];
+    _nickname.text = [WBUserDefaults nickname];
 }
 
 

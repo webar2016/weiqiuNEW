@@ -264,6 +264,10 @@
 
 - (void)loadBack{
     if ([WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]) {
+        
+        
+        
+        
         WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
         homepageVC.friendId =[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"];
         [homepageVC setHidesBottomBarWhenPushed:YES];
