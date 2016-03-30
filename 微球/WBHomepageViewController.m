@@ -176,15 +176,15 @@
     
     
     CGSize buttonSize = CGSizeMake(SCREENWIDTH / 3, 44);
-    CGPoint point;
+   CGPoint point;
     
     if (_friendId) {
         _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
         _followButton.center = CGPointMake(SCREENWIDTH / 2, 300);
-        [_followButton setTitle:@"关注" forState:UIControlStateNormal];
-        [_followButton setBackgroundColor:[UIColor initWithGreen]];
         _followButton.layer.masksToBounds = YES;
         _followButton.layer.cornerRadius = 4;
+        _followButton.tag = 50;
+        [_followButton addTarget:self action:@selector(concernsOperation:) forControlEvents:UIControlEventTouchUpInside];
         [_headView addSubview:_followButton];
         
         point = CGPointMake(0, 330);
@@ -232,8 +232,14 @@
     [_attentionLeftButton setTitle:[NSString stringWithFormat:@"%@关注",[_userInfo objectForKey:@"concerns"]] forState:UIControlStateNormal];
     [_attentionRightButton setTitle:[NSString stringWithFormat:@"%@粉丝",[_userInfo objectForKey:@"fans"]] forState:UIControlStateNormal];
     
+    if ([_userInfo objectForKey:@"isFriend"]) {
+        [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
+        [_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+    }else{
+        [_followButton setTitle:@"关注" forState:UIControlStateNormal];
+        [_followButton setBackgroundColor:[UIColor initWithGreen]];
+    }
     
-
 }
 
 
@@ -362,7 +368,7 @@
 
 
 #pragma mark - other operations
-
+//获取粉丝和关注列表
 
 -(void)selfBtnClicked:(UIButton *)btn{
     if (btn.tag ==500) {
@@ -384,6 +390,47 @@
         [self.navigationController pushViewController:FVC animated:nil];
     
     }
+}
+
+//加关注和取消关注
+//[_followButton setTitle:@"已关注" forState:UIControlStateNormal];
+//[_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+//}else{
+//    [_followButton setTitle:@"关注" forState:UIControlStateNormal];
+//    [_followButton setBackgroundColor:[UIColor initWithGreen]];
+
+-(void)concernsOperation:(UIButton *)btn{
+    if (btn.tag == 50) {
+        if ([btn.titleLabel.text isEqualToString:@"关注"]) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],_friendId] whenSuccess:^(id representData) {
+                id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
+                    [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
+                    [_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+                }
+                
+            } andFailure:^(NSString *error) {
+                
+            }];
+ 
+        }else{
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],_friendId] whenSuccess:^(id representData) {
+                id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
+                    [_followButton setTitle:@"关注" forState:UIControlStateNormal];
+                    [_followButton setBackgroundColor:[UIColor initWithGreen]];
+                }
+                
+            } andFailure:^(NSString *error) {
+                
+            }];
+        
+        }
+    }
+    
+
+
+
 }
 
 -(CGFloat)calculateStationWidth:(NSString *)string andWithTextWidth:(CGFloat)textWidth anfont:(CGFloat)fontSize{
