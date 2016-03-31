@@ -64,15 +64,7 @@
 }
 
 - (void)createUI{
-    //取消按钮
-    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-    cancelBtn.frame = CGRectMake(10, 20, 44, 44);
-    [self.view addSubview:cancelBtn];
-    cancelBtn.tag = 110;
-    [cancelBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [cancelBtn setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
+    
     //再逛逛按钮
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBtn.titleLabel.font = [UIFont systemFontOfSize:10];
@@ -80,17 +72,18 @@
     [self.view addSubview:rightBtn];
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"先逛逛"];
     NSRange strRange = {0,[str length]};
-    rightBtn.tag = 111;
+    rightBtn.tag = 110;
     [rightBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [str addAttribute:NSForegroundColorAttributeName value:[UIColor initWithGreen] range:strRange];
     [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
     [rightBtn setAttributedTitle:str forState:UIControlStateNormal];
+    
     //登陆界面
     
     UILabel *titleLabel = [[UILabel alloc]init];
     titleLabel.text = @"微球，\n旅游从未如此轻松";
     titleLabel.textColor = [UIColor initWithGreen];
-    titleLabel.font = [UIFont systemFontOfSize:32];
+    titleLabel.font = [UIFont systemFontOfSize:30];
     titleLabel.numberOfLines = 0;
     CGSize titleLabelSize = [titleLabel sizeThatFits:CGSizeMake(SCREENWIDTH-80, MAXFLOAT)];
     [self.view addSubview:titleLabel];
@@ -99,16 +92,11 @@
     [paragraphStyle setLineSpacing:20];
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, titleLabel.text.length)];
     titleLabel.attributedText = attributedString;
+    
     //调节高度
     CGSize labelSize = [titleLabel sizeThatFits:titleLabelSize];
-    titleLabel.frame = CGRectMake(40, 77+20, SCREENWIDTH-80, labelSize.height);
-    
-    
-    
-    
-    
-    
-    _account=[[UITextField alloc] initWithFrame:CGRectMake(30, 77+20+labelSize.height+39, SCREENWIDTH-60, 40)];
+    titleLabel.frame = CGRectMake(40, 80, SCREENWIDTH-80, labelSize.height);
+    _account=[[UITextField alloc] initWithFrame:CGRectMake(30, 80+labelSize.height+39, SCREENWIDTH-60, 40)];
     _account.backgroundColor=[UIColor initWithBackgroundGray];
     _account.placeholder=[NSString stringWithFormat:@"手机号"];
     _account.font = MAINFONTSIZE;

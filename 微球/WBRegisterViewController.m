@@ -53,18 +53,18 @@
     cancelBtn.tag = 100;
     [cancelBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [cancelBtn setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
-    //再逛逛按钮
-    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBtn.titleLabel.font = [UIFont systemFontOfSize:10];
-    rightBtn.frame = CGRectMake(SCREENWIDTH-60, 20, 50, 44);
-    [self.view addSubview:rightBtn];
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"先逛逛"];
-    NSRange strRange = {0,[str length]};
-    rightBtn.tag = 101;
-    [rightBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor initWithGreen] range:strRange];
-    [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
-    [rightBtn setAttributedTitle:str forState:UIControlStateNormal];
+//    //再逛逛按钮
+//    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    rightBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+//    rightBtn.frame = CGRectMake(SCREENWIDTH-60, 20, 50, 44);
+//    [self.view addSubview:rightBtn];
+//    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"先逛逛"];
+//    NSRange strRange = {0,[str length]};
+//    rightBtn.tag = 101;
+//    [rightBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    [str addAttribute:NSForegroundColorAttributeName value:[UIColor initWithGreen] range:strRange];
+//    [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
+//    [rightBtn setAttributedTitle:str forState:UIControlStateNormal];
     //登陆界面
     
     UILabel *titleLabel = [[UILabel alloc]init];

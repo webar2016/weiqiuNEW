@@ -102,7 +102,7 @@
     
     UITabBarItem *item = [self.tabBar.items objectAtIndex:index];
     UIView *view = [item valueForKey:@"view"];
-    CGPoint center = CGPointMake(view.center.x, view.center.y);
+    CGPoint center = CGPointMake(view.center.x, view.center.y - 0.5);
     return center;
 }
 
