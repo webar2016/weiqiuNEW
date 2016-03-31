@@ -247,7 +247,7 @@
 
 //加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:TopicCommentURL,_topicID]; //TopicCommentURL
+    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID]; //TopicCommentURL
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if (_page == 1) {

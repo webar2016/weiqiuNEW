@@ -85,7 +85,7 @@
     
     
     
-    NSString *url = [NSString stringWithFormat:commentURL,_commentId]; //TopicCommentURL
+    NSString *url = [NSString stringWithFormat:commentURL,(long)_commentId]; //TopicCommentURL
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if (_page == 1) {

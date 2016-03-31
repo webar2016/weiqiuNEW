@@ -190,7 +190,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
-        homepage.friendId = [NSString stringWithFormat:@"%ld",((WBUserInfosModel *)self.headIconArray[indexPath.row]).userId];
+        homepage.friendId = [NSString stringWithFormat:@"%d",((WBUserInfosModel *)self.headIconArray[indexPath.row]).userId];
         [self.navigationController pushViewController:homepage animated:YES];
     }
 }
@@ -221,6 +221,7 @@
 -(void)closeGroup:(WBGroupSettingTableViewCell *)cell{
     WBAllocateScoreViewController *AVC = [[WBAllocateScoreViewController alloc]init];
     AVC.groupId = _groupId;
+    AVC.rewardIntegral = [NSString stringWithFormat:@"%d",self.groupDetail.rewardIntegral];
     [self.navigationController pushViewController:AVC animated:YES];
 }
 

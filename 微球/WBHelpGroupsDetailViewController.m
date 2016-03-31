@@ -86,7 +86,7 @@
     
     _ageButton.layer.cornerRadius = 3;
     [_ageButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
-    [_ageButton setTitle:[NSString stringWithFormat:@"%ld",_model.tblUser.age]  forState:UIControlStateNormal];
+    [_ageButton setTitle:[NSString stringWithFormat:@"%d",_model.tblUser.age]  forState:UIControlStateNormal];
     _ageButton.backgroundColor = [UIColor initWithGreen];
     _ageButton.titleLabel.font = SMALLFONTSIZE;
 
@@ -110,7 +110,7 @@
     }
     
     
-    NSArray *rightLabelNameArray = @[_model.tblUser.position,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%ld人",_model.maxMembers],[NSString stringWithFormat:@"%ld球币",_model.rewardIntegral]];
+    NSArray *rightLabelNameArray = @[_model.tblUser.position,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%d人",_model.maxMembers],[NSString stringWithFormat:@"%d球币",_model.rewardIntegral]];
     
     
     
@@ -169,7 +169,7 @@
 
     }else{
     
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%d&userId=%@",_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
             
             [self dismissViewControllerAnimated:YES completion:nil];
         } andFailure:^(NSString *error) {

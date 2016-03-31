@@ -99,13 +99,13 @@
     NSString *insertSql;
     if (_style == 0) {
         WBBig_AreaModel *cItem =model;
-       insertSql = [NSString stringWithFormat:@"insert into '%@' (areaId, areaName, isCountry) values ('%ld', '%@', '%ld')", _tableName,cItem.areaId,cItem.areaName ,cItem.isCountry];
+       insertSql = [NSString stringWithFormat:@"insert into '%@' (areaId, areaName, isCountry) values ('%d', '%@', '%d')", _tableName,cItem.areaId,cItem.areaName ,cItem.isCountry];
     }else if(_style == 1){
         WBTbl_Unlock_City *cItem =model;
-        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, cityId, unlockDate,areaId,marked) values ('%ld', '%ld','%@', '%ld', '%ld')", _tableName,cItem.userId,cItem.cityId ,cItem.unlockDate,cItem.areaId,cItem.marked];
+        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, cityId, unlockDate,areaId,marked) values ('%d', '%d','%@', '%d', '%d')", _tableName,cItem.userId,cItem.cityId ,cItem.unlockDate,cItem.areaId,cItem.marked];
     }else{
         WBHelp_Group_Sign *cItem =model;
-        insertSql = [NSString stringWithFormat:@"insert into '%@' (sign_id, sign, sign_describe,type_flag) values ('%ld', '%@','%@', '%@')", _tableName,cItem.sign_id,cItem.sign ,cItem.sign_describe,cItem.type_flag];
+        insertSql = [NSString stringWithFormat:@"insert into '%@' (sign_id, sign, sign_describe,type_flag) values ('%d', '%@','%@', '%@')", _tableName,cItem.sign_id,cItem.sign ,cItem.sign_describe,cItem.type_flag];
     }
     
    // NSLog(@"----");
@@ -205,16 +205,16 @@
     {
         if (_style == 0) {
             WBBig_AreaModel *model = Item;
-             modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET areaId='%ld',areaName='%@',isCountry='%ld' WHERE id='%d'",_tableName,model.areaId,model.areaName,model.isCountry,model.Id];
+             modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET areaId='%d',areaName='%@',isCountry='%d' WHERE id='%d'",_tableName,model.areaId,model.areaName,model.isCountry,model.Id];
             [_myDataBase executeUpdate:modifiedSql];
         }else if (_style == 1){
             WBTbl_Unlock_City *model = Item;
-            modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET userId='%ld',cityId='%ld',unlockDate='%@',areaId='%ld',marked='%ld' WHERE id='%d'",_tableName,model.userId,model.cityId,model.unlockDate,model.areaId,model.marked,model.Id];
+            modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET userId='%d',cityId='%d',unlockDate='%@',areaId='%d',marked='%d' WHERE id='%d'",_tableName,model.userId,model.cityId,model.unlockDate,model.areaId,model.marked,model.Id];
             [_myDataBase executeUpdate:modifiedSql];
         
         }else{
             WBHelp_Group_Sign *model = Item;
-            modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET sign_id='%ld',sign='%@',sign_describe='%@',type_flag='%@' WHERE id='%d'",_tableName,model.sign_id,model.sign,model.sign_describe,model.type_flag,model.Id];
+            modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET sign_id='%d',sign='%@',sign_describe='%@',type_flag='%@' WHERE id='%d'",_tableName,model.sign_id,model.sign,model.sign_describe,model.type_flag,model.Id];
             [_myDataBase executeUpdate:modifiedSql];
             
         }

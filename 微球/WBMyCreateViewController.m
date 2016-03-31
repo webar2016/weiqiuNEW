@@ -35,6 +35,8 @@
     }
     [self loadData];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"getGroupInfo" object:nil];
+    self.emptyConversationView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+    self.emptyConversationView.center = CGPointMake(SCREENWIDTH / 2, 170);
     return self;
 }
 

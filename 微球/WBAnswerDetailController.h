@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *nickname;
 @property (nonatomic, strong) NSString *timeStr;
 @property (nonatomic, assign) NSInteger getIntegral;
+@property (nonatomic, assign) NSInteger userId;
 
 /**
  *点击问题后传给下一个controller的数据

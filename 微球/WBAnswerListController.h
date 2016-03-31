@@ -18,6 +18,7 @@
 @property (nonatomic, assign) NSInteger questionId;
 @property (nonatomic, assign) NSInteger allAnswers;
 @property (nonatomic, assign) NSInteger allIntegral;
+@property (nonatomic, assign) NSInteger userId;
 
 @property (nonatomic, assign) BOOL fromFindView;
 @property (nonatomic, assign) BOOL isMaster;

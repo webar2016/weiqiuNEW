@@ -133,7 +133,7 @@ typedef NS_ENUM(NSInteger, TableName) {
     NSLog(@"----");
    // NSString *insertSql = @"insert into bigarea(areaId,areaName,isCountry) values (@"",?,?)";
     
-    NSString *insertSql = [NSString stringWithFormat:@"insert into bigarea (areaId, areaName, isCountry) values ('%ld', '%@', '%ld'),('123', 'werrr', '123')", cItem.areaId,cItem.areaName ,cItem.isCountry];
+    NSString *insertSql = [NSString stringWithFormat:@"insert into bigarea (areaId, areaName, isCountry) values ('%d', '%@', '%d'),('123', 'werrr', '123')", cItem.areaId,cItem.areaName ,cItem.isCountry];
    // 图片转化成二进制
 //    NSData *data = UIImagePNGRepresentation(cItem.image);
     

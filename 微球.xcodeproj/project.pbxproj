@@ -70,7 +70,6 @@
 		05D1F9481C8FBE720049D3EC /* WBUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9471C8FBE720049D3EC /* WBUnlockViewController.m */; };
 		05D1F94C1C8FBE9E0049D3EC /* WBSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F94B1C8FBE9E0049D3EC /* WBSettingViewController.m */; };
 		05D1F94F1C8FC9C60049D3EC /* WBGroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F94E1C8FC9C60049D3EC /* WBGroupTableViewCell.m */; };
-		05D3808D1CACBC3900FE129B /* ZYKeyboardUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D3808C1CACBC3900FE129B /* ZYKeyboardUtil.m */; };
 		05D6EB7D1C7D414F002D48FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D6EB7C1C7D414F002D48FF /* main.m */; };
 		05D6EB801C7D414F002D48FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D6EB7F1C7D414F002D48FF /* AppDelegate.m */; };
 		05D6EB861C7D414F002D48FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05D6EB841C7D414F002D48FF /* Main.storyboard */; };
@@ -290,8 +289,6 @@
 		05D1F94B1C8FBE9E0049D3EC /* WBSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSettingViewController.m; sourceTree = "<group>"; };
 		05D1F94D1C8FC9C60049D3EC /* WBGroupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGroupTableViewCell.h; sourceTree = "<group>"; };
 		05D1F94E1C8FC9C60049D3EC /* WBGroupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGroupTableViewCell.m; sourceTree = "<group>"; };
-		05D3808B1CACBC3900FE129B /* ZYKeyboardUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYKeyboardUtil.h; sourceTree = "<group>"; };
-		05D3808C1CACBC3900FE129B /* ZYKeyboardUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYKeyboardUtil.m; sourceTree = "<group>"; };
 		05D6EB781C7D414F002D48FF /* 微球.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微球.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		05D6EB7C1C7D414F002D48FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		05D6EB7E1C7D414F002D48FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -633,8 +630,6 @@
 		052944D11C7FF23D0098159F /* others */ = {
 			isa = PBXGroup;
 			children = (
-				05D3808B1CACBC3900FE129B /* ZYKeyboardUtil.h */,
-				05D3808C1CACBC3900FE129B /* ZYKeyboardUtil.m */,
 				2D62D63D1C89346200E4D05E /* ShareSDK */,
 				05DB3F531C85305D00CBCC54 /* BROptionsButton */,
 				2D02B6981C8198B000FADFFB /* SlideDelegate */,
@@ -1578,7 +1573,6 @@
 				2DB20EF21C8573BF005C542F /* WBTopicTableViewCell.m in Sources */,
 				2D02B6A01C8198C300FADFFB /* RESideMenu.m in Sources */,
 				05F9E3401C8D687300DC584F /* WBAttributeTextView.m in Sources */,
-				05D3808D1CACBC3900FE129B /* ZYKeyboardUtil.m in Sources */,
 				05F9E3411C8D687300DC584F /* WBTextAttachment.m in Sources */,
 				05DB3F651C857EAB00CBCC54 /* WBUserInfosModel.m in Sources */,
 				2D6958641C98EB1F009DBAB3 /* WBDataModifiedViewController.m in Sources */,
@@ -1773,6 +1767,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/微球/WBPrefixHeader.pch";
 				INFOPLIST_FILE = "微球/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1826,6 +1821,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/微球/WBPrefixHeader.pch";
 				INFOPLIST_FILE = "微球/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

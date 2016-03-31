@@ -152,9 +152,9 @@
         _contentLabel.text = model.comment;
         
         
-        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
+        [_commentButton setTitle:[NSString stringWithFormat:@"%d条评论",model.descussNum] forState:UIControlStateNormal];
         
-        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
+        [_praiseButton setTitle:[NSString stringWithFormat:@"%d球币",model.getIntegral] forState:UIControlStateNormal];
         //s视频
     }else if(model.newsType ==2){
         //图文
@@ -171,10 +171,10 @@
         
         _shareButton.frame = CGRectMake(10, 60+175+17+20+_contentLabel.frame.size.height, 100, 16);
         _commentButton.frame =CGRectMake(SCREENWIDTH/3+10,60+175+17+20+_contentLabel.frame.size.height, 100, 16);
-        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
+        [_commentButton setTitle:[NSString stringWithFormat:@"%d条评论",model.descussNum] forState:UIControlStateNormal];
         _praiseButton.frame =CGRectMake(SCREENWIDTH-120,  60+175+17+20+_contentLabel.frame.size.height, 100,16);
         
-        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
+        [_praiseButton setTitle:[NSString stringWithFormat:@"%d球币",model.getIntegral] forState:UIControlStateNormal];
         
     }
     

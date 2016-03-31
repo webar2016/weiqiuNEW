@@ -174,9 +174,9 @@
         _contentLabel.text = model.comment;
         
         
-        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
+        [_commentButton setTitle:[NSString stringWithFormat:@"%d条评论",model.descussNum] forState:UIControlStateNormal];
         
-        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
+        [_praiseButton setTitle:[NSString stringWithFormat:@"%d球币",model.getIntegral] forState:UIControlStateNormal];
         //s视频
     }else if(model.newsType ==2){
         //图文

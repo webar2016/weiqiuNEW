@@ -254,9 +254,10 @@
     WBQuestionsListModel *data = self.questionsArray[self.selectedRow];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     dic[@"questionText"] = data.questionText;
-    dic[@"questionId"] = [NSString stringWithFormat:@"%ld",data.questionId];
-    dic[@"allAnswers"] = [NSString stringWithFormat:@"%ld",data.allAnswers];
-    dic[@"allIntegral"] = [NSString stringWithFormat:@"%ld",data.allIntegral];
+    dic[@"questionId"] = [NSString stringWithFormat:@"%d",data.questionId];
+    dic[@"allAnswers"] = [NSString stringWithFormat:@"%d",data.allAnswers];
+    dic[@"allIntegral"] = [NSString stringWithFormat:@"%d",data.allIntegral];
+    dic[@"suerId"] = [NSString stringWithFormat:@"%d",data.hga.tblUser.userId];
     [self dismissViewControllerAnimated:YES completion:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:@"showSearchResultView" object:self userInfo:dic];
     }];

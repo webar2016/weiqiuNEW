@@ -10,4 +10,5 @@
 
 @interface WBAllocateScoreViewController : UIViewController
 @property (nonatomic, copy) NSString *groupId;
+@property (nonatomic, copy) NSString *rewardIntegral;
 @end

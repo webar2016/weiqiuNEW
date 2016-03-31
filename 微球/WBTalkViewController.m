@@ -241,8 +241,9 @@
         _question.text = string;
     }
     
-    
-    if (self.isMaster) {
+    if ([((WBQuestionsListModel *)self.model[0]).isSolve isEqualToString:@"Y"]) {
+        _questionButton.hidden = YES;
+    }else if (self.isMaster) {
         [_questionButton setTitle:@"查看" forState:UIControlStateNormal];
         [_lookAll setTitle:@"查看所有问题" forState:UIControlStateNormal];
         [_questionButton addTarget:self action:@selector(lookDetail) forControlEvents:UIControlEventTouchUpInside];

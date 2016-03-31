@@ -8,6 +8,7 @@
 
 #import "WBAnswerDetailController.h"
 #import "WBAnswerListController.h"
+#import "WBIndividualIncomeViewController.h"
 #import "WBSingleAnswerModel.h"
 
 #import "MyDownLoadManager.h"
@@ -21,6 +22,7 @@
 #import "NSString+string.h"
 #import "UIImageView+WebCache.h"
 #import "UIImage+MultiFormat.h"
+#import "WBUpdateIntegral.h"
 
 #define ANSWERURL @"http://121.40.132.44:92/tq/getAnswerById?answerId=%ld"
 
@@ -335,22 +337,64 @@
     NSLog(@"进入个人主页");
 }
 
+#pragma mark - 点赞操作
+
 -(void)likeTap{
-    [self checkoutConfigDetail];
-    
-    [self.likeButton setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
-    [UIView animateWithDuration:0.5f animations:^{
-        self.likeButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
-        self.likeTip.frame = CGRectMake(SCREENWIDTH * 2 / 3, 0, 124, 23);
-        self.likeTip.alpha = 1;
-        _score += 5;
-        if (self.getIntegral > 1000) {
-            [self.likeButton setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+        NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
+        if ([result isEqualToString: @"true"]) {
+            
+            [self upLoadLikeTap];
+            [self.likeButton setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
+            [UIView animateWithDuration:0.5f animations:^{
+                self.likeButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
+                self.likeTip.frame = CGRectMake(SCREENWIDTH * 2 / 3, 0, 124, 23);
+                self.likeTip.alpha = 1;
+                _score += 5;
+                if (self.getIntegral > 1000) {
+                    [self.likeButton setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
+                }else{
+                    [self.likeButton setTitle:[NSString stringWithFormat:@" %ld球币",(long)_score] forState:UIControlStateNormal];
+                }
+            } completion:^(BOOL finished) {
+                [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0];
+            }];
+            
         }else{
-            [self.likeButton setTitle:[NSString stringWithFormat:@" %ld球币",(long)_score] forState:UIControlStateNormal];
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你当前的积分不足，请充值后再来打赏吧！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:({
+                UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+                action;
+            })];
+            [alert addAction:({
+                UIAlertAction *action = [UIAlertAction actionWithTitle:@"充值" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    WBIndividualIncomeViewController *chargeView = [[WBIndividualIncomeViewController alloc] init];
+                    [self.navigationController pushViewController:chargeView animated:YES];
+                }];
+                action;
+            })];
+            [self presentViewController:alert animated:YES completion:nil];
+            
         }
-    } completion:^(BOOL finished) {
-        [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0];
+        
+    } andFailure:^(NSString *error) {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳，请稍后再试！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }];
+}
+
+-(void)upLoadLikeTap{
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/answerPraise?answerId=%d&userId=%@&toUserId=%d",self.answerId,[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
+        
+    } andFailure:^(NSString *error) {
+        
     }];
 }
 
@@ -364,45 +408,6 @@
     }];
 }
 
-#pragma mark - 检查配置与上传积分
-
-//检查积分配置信息
-
--(void)checkoutConfigDetail{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/getIntegralConfigDetil?typeFlag=5"] whenSuccess:^(id representData) {
-        
-        NSString *str = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
-//         NSLog(@"getIntegral = %ld",_model.getIntegral);
-        [self checkoutIntegral:str];
-        
-    } andFailure:^(NSString *error) {
-        
-    }];
-    
-}
-
-//检查用户积分是否够用
--(void)checkoutIntegral:(NSString *)config{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=29&updateNum=5"] whenSuccess:^(id representData) {
-        
-        BOOL isEnough = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
-        if (isEnough) {
-            [self uploadInformation];
-        }else{
-              NSLog(@"积分不足");
-        }
-        
-    } andFailure:^(NSString *error) {
-    }];
-}
-
-//上传信息
--(void)uploadInformation{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=1&userId=29&toUserId=636"] whenSuccess:^(id representData) {
-        
-    } andFailure:^(NSString *error) {
-    }];
-}
 
 #pragma mark - text view delegate
 

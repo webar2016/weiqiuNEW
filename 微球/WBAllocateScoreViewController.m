@@ -10,6 +10,8 @@
 #import "MyDownLoadManager.h"
 #import "WBAllocateScoreModel.h"
 #import "WBAllocateScoreTableViewCell.h"
+#import "MyDownLoadManager.h"
+#import "RCIMClient.h"
 
 #import "MJExtension.h"
 
@@ -27,6 +29,8 @@
     NSMutableArray *_dataArray;
     NSMutableArray *_cellScoreArray;
     NSInteger _surplus;
+    
+    NSMutableDictionary *_data;
 }
 @end
 
@@ -34,11 +38,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor initWithBackgroundGray];
+    self.view.backgroundColor = [UIColor whiteColor];
     _dataArray = [NSMutableArray array];
     _cellScoreArray = [NSMutableArray array];
+    _data = (NSMutableDictionary *)@{@"userId":[WBUserDefaults userId],@"groupId":self.groupId};
     [self creatNavi];
-    [self createUI];
     [self loadData];
 }
 
@@ -53,74 +57,73 @@
 }
 
 
--(void)createUI{
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 10, SCREENWIDTH, SCREENHEIGHT - 123)];
+-(void)createTableView{
+    self.view.backgroundColor = [UIColor initWithBackgroundGray];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 113)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.view addSubview:_tableView];
     _tableView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_tableView];
     
+    [self createBottomView];
+    [_bottomView addSubview:_surplusScore];
+    [self.view addSubview:_bottomView];
+}
+
+-(void)createBottomView{
     _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT - 49 - 64, SCREENWIDTH, 49)];
     _bottomView.backgroundColor = [UIColor initWithBackgroundGray];
     
     _allocateButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 138, 49)];
     _allocateButton.backgroundColor = [UIColor initWithGreen];
     _allocateButton.titleLabel.font = BIGFONTSIZE;
-    [_allocateButton setTitle:@"确认分配" forState:UIControlStateNormal];
+    [_allocateButton setTitle:@"确   认" forState:UIControlStateNormal];
+    [_allocateButton addTarget:self action:@selector(allocate) forControlEvents:UIControlEventTouchUpInside];
     
     _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(150, 0, 170, 49)];
     _tipLabel.font = MAINFONTSIZE;
     _tipLabel.textColor = [UIColor initWithNormalGray];
-    _tipLabel.text = @"共1000积分，剩余";
+    _tipLabel.text = [NSString stringWithFormat:@"共%@积分，剩余",self.rewardIntegral];
     
-    _surplusScore = [[UILabel alloc] initWithFrame:CGRectMake(320, 6.5, 36, 36)];
+    _surplusScore = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH -60, 4.5, 40, 40)];
     _surplusScore.backgroundColor = [UIColor initWithGreen];
     _surplusScore.textColor = [UIColor whiteColor];
     _surplusScore.font = MAINFONTSIZE;
     _surplusScore.textAlignment = NSTextAlignmentCenter;
     _surplusScore.layer.masksToBounds = YES;
-    _surplusScore.layer.cornerRadius = 18;
-    _surplusScore.text = @"0%";
+    _surplusScore.layer.cornerRadius = 20;
     
     [_bottomView addSubview:_allocateButton];
     [_bottomView addSubview:_tipLabel];
-    [_bottomView addSubview:_surplusScore];
-    [self.view addSubview:_bottomView];
 }
-
 
 -(void)loadData{
     NSString *url = [NSString stringWithFormat:ScoreUrl,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        // NSLog(@"result = %@",result);
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"users"]];
             
             _dataArray =[WBAllocateScoreModel mj_objectArrayWithKeyValuesArray:arrayList];
             
-            
-            //计算cell 的初始值
-            
-            //NSLog(@"%f",floor(100.0f/_dataArray.count)) ;
-            
-            for (NSInteger i = 0; i<_dataArray.count; i++) {
-                [_cellScoreArray addObject:[NSString stringWithFormat:@"%f",floor(100.0f/_dataArray.count)]];
-            }
-            if (_dataArray.count == 0) {
-                _surplus = 100;
-                UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"1.pic.jpg"]];
-                background.frame = CGRectMake(0, 20, SCREENWIDTH, SCREENWIDTH);
-                [_tableView addSubview:background];
+            NSUInteger count = _dataArray.count;
+            if (count == 0) {
+                UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noanswer"]];
+                background.center = CGPointMake(SCREENWIDTH / 2, 200);
+                [self.view addSubview:background];
+                [self createBottomView];
+                [self.view addSubview:_bottomView];
+                _tipLabel.textAlignment = NSTextAlignmentCenter;
+                _tipLabel.text = @"悬赏球币将全部返还！";
             } else {
-                _surplus = 100 -[_cellScoreArray[0] floatValue]*_cellScoreArray.count;
+                [self createTableView];
+                for (NSUInteger i = 0; i < count; i ++) {
+                    [_cellScoreArray addObject:[NSString stringWithFormat:@"%f",floor(100.0f/_dataArray.count)]];
+                    _surplus = 100 -[_cellScoreArray[0] floatValue]*_cellScoreArray.count;
+                }
+                _surplusScore.text = [NSString stringWithFormat:@"%ld%@",_surplus,@"%"];
             }
-            _surplusScore.text = [NSString stringWithFormat:@"%ld",_surplus];
-            
-            [_tableView reloadData];
-            
-            
         }
     } andFailure:^(NSString *error) {
         NSLog(@"%@------",error);
@@ -131,10 +134,9 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 70;
+    return 68;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-
     return _dataArray.count;
 }
 
@@ -149,7 +151,6 @@
     [cell setModel:_dataArray[indexPath.row] cellScore:_cellScoreArray[indexPath.row] indexPath:indexPath];
     cell.delegate = self;
     return cell;
-
 }
 
 #pragma mark -----Cell delegate------积分分配
@@ -160,18 +161,44 @@
         if ([label.text integerValue]>0) {
             label.text = [NSString stringWithFormat:@"%ld",[label.text integerValue]-1];
             _surplus++;
-            _surplusScore.text = [NSString stringWithFormat:@"%ld",_surplus];
+            _surplusScore.text = [NSString stringWithFormat:@"%ld%@",_surplus,@"%"];
         }
-       // NSLog(@"-------------");
     }else{
         UILabel *label = [self.view viewWithTag:btn.tag-2];
         if (_surplus>0) {
             label.text = [NSString stringWithFormat:@"%ld",[label.text integerValue]+1];
             _surplus--;
-            _surplusScore.text = [NSString stringWithFormat:@"%ld",_surplus];
+            _surplusScore.text = [NSString stringWithFormat:@"%ld%@",_surplus,@"%"];
         }
     }
 
+}
+
+-(void)allocate{
+    if (_surplus > 0 && _dataArray.count > 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请将球币分配完毕" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    } else if (_surplus == 0 && _dataArray.count > 0) {
+//        _data[@"integral"]
+    }
+    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/hg/closeGroup" withParameters:_data whenProgress:^(NSProgress *FieldDataBlock) {
+        
+    } andSuccess:^(id representData) {
+        [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_GROUP targetId:self.groupId];
+        [self.navigationController popToRootViewControllerAnimated:NO];
+    } andFailure:^(NSString *error) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳，请稍后再试！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

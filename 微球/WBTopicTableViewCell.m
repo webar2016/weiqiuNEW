@@ -24,7 +24,7 @@
     if (self) {
        
         _backgroungImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 9, width-20, 178-9)];
-        _backgroungImage.backgroundColor = [UIColor initWithBackgroundGray];
+        _backgroungImage.backgroundColor = [UIColor initWithNormalGray];
         _backgroungImage.layer.cornerRadius =5;
         [self.contentView addSubview:_backgroungImage];
         
@@ -66,7 +66,7 @@
     _backgroungImage.layer.masksToBounds = YES;
     _backgroungImage.layer.cornerRadius = 5;
     _titleLabel.text = model.topicContent;
-    _contentLabel.text = [NSString stringWithFormat:@"%ld条内容",model.commentNum];
+    _contentLabel.text = [NSString stringWithFormat:@"%d条内容",model.commentNum];
     
 }
 
