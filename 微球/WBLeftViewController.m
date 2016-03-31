@@ -9,7 +9,7 @@
 #import "WBLeftViewController.h"
 #import "LoadViewController.h"
 #import "WBHomepageViewController.h"
-#import "WBGuessViewController.h"
+#import "WBWebViewController.h"
 #import "CreateHelpGroupViewController.h"
 #import "WBSettingViewController.h"
 #import "WBIndividualIncomeViewController.h"
@@ -184,7 +184,7 @@
         }
             
         case 1:{
-            WBGuessViewController *guessVC = [[WBGuessViewController alloc] init];
+            WBWebViewController *guessVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/main/guess?userId=%@",[WBUserDefaults userId]]] andTitle:@"猜图签到"];
             guessVC.hidesBottomBarWhenPushed = YES;
             [self pushViewControllerWithController:guessVC];
             break;

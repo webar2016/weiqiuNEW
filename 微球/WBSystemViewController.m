@@ -8,6 +8,8 @@
 
 #import "WBSystemViewController.h"
 #import "CreateHelpGroupViewController.h"
+#import "WBHomepageViewController.h"
+#import "WBWebViewController.h"
 
 #import "WBSystemMessage.h"
 #import "WBFollowMessage.h"
@@ -32,6 +34,9 @@
     [self setMessageAvatarStyle:RC_USER_AVATAR_CYCLE];
     self.displayUserNameInCell = NO;
     
+    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
+    self.navigationItem.backBarButtonItem = back;
+    
     //注册自定义消息cell
     [self registerClass:[WBSystemMsgCell class] forCellWithReuseIdentifier:WBSystemMessageIdentifier];
     [self registerClass:[WBFollowMsgCell class] forCellWithReuseIdentifier:WBFollowMessageIdentifier];
@@ -53,6 +58,10 @@
         [self.chatSessionInputBarControl removeFromSuperview];
         [self scrollToBottomAnimated:YES];
     }
+}
+
+-(void)popBack{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)willDisplayMessageCell:(RCMessageBaseCell *)cell
@@ -169,12 +178,15 @@
         }
     } else if ([model.content isKindOfClass:[WBSystemMessage class]]) {
         WBSystemMessage *message = (WBSystemMessage *)model.content;
-        NSLog(@"打开消息");
+        WBWebViewController *webView = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:message.extra] andTitle:message.title];
+        [self.navigationController pushViewController:webView animated:YES];
     } else if ([model.content isKindOfClass:[WBFollowMessage class]]) {
         WBFollowMessage *message = (WBFollowMessage *)model.content;
-        NSLog(@"查看订阅");
+        WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
+        homepage.friendId = message.extra;
+        [self.navigationController pushViewController:homepage animated:YES];
     } else if ([model.content isKindOfClass:[WBCommentMessage class]]) {
-        WBCommentMessage *message = (WBCommentMessage *)model.content;
+        WBCommentMessage *message = (WBCommentMessage *)model.content;//message.extra存储了被评论状态的id
         NSLog(@"回复评论");
     }
 }

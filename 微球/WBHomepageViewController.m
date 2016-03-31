@@ -9,7 +9,7 @@
 #import "WBHomepageViewController.h"
 #import "MyDownLoadManager.h"
 #import "WBDataModifiedViewController.h"
-#import "WBMapViewController.h"
+#import "WBWebViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MJExtension.h"
 
@@ -53,7 +53,7 @@
     
     NSDictionary        *_userInfo;
     
-    WBMapViewController *_mapVC;
+    WBWebViewController *_mapVC;
     
     UIImagePickerController *_imagePicker;
 }
@@ -68,7 +68,7 @@
     _answersArray = [NSMutableArray array];
     _labelHeightArrayOne = [NSMutableArray array];
     
-    _mapVC = [[WBMapViewController alloc] init];
+    _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/map/m?userId=%@",[WBUserDefaults userId]]] andTitle:@"征服地球"];
     
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, 19, 19);
@@ -388,7 +388,7 @@
         }else{
             FVC.showUserId = [WBUserDefaults userId];
         }
-        [self.navigationController pushViewController:FVC animated:nil];
+        [self.navigationController pushViewController:FVC animated:YES];
     
     }
 }

@@ -87,9 +87,9 @@
             [myJoin addObject:groupId];
         }
         
-        [WBUserDefaults setMutableUserDefaults:@{@"myJoin":myJoin}];
-        [self willReloadTableData:self.conversationListDataSource];
-        [self.conversationListTableView reloadData];
+//        [WBUserDefaults setMutableUserDefaults:@{@"myJoin":myJoin}];
+//        [self willReloadTableData:self.conversationListDataSource];
+//        [self.conversationListTableView reloadData];
         
     } andFailure:^(NSString *error) {
         NSLog(@"%@------",error);
