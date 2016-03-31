@@ -166,6 +166,8 @@
 }
 
 -(void)setContent{
+    [WBUserDefaults printUserDefaults];
+    
     if ([WBUserDefaults nickname]) {
         ((UITextField *)[self.view viewWithTag:200]).text =[NSString stringWithFormat:@"%@",[WBUserDefaults nickname]];
     }
