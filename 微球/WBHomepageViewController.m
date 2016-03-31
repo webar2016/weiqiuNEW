@@ -235,12 +235,13 @@
     [_attentionLeftButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     [_attentionRightButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     
-    if ([_userInfo objectForKey:@"isFriend"]) {
-        [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
-        [_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
-    }else{
+    if ([[_userInfo objectForKey:@"isFriend"]isEqualToString:@"0"]) {
         [_followButton setTitle:@"关注" forState:UIControlStateNormal];
         [_followButton setBackgroundColor:[UIColor initWithGreen]];
+    }else{
+       
+        [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
+        [_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
     }
     
 }
@@ -395,12 +396,7 @@
     }
 }
 
-//加关注和取消关注
-//[_followButton setTitle:@"已关注" forState:UIControlStateNormal];
-//[_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
-//}else{
-//    [_followButton setTitle:@"关注" forState:UIControlStateNormal];
-//    [_followButton setBackgroundColor:[UIColor initWithGreen]];
+
 
 -(void)concernsOperation:(UIButton *)btn{
     if (btn.tag == 50) {

@@ -18,7 +18,6 @@
     UIImageView *_headImageView;
     UILabel *_nickName;
     UILabel *_timeLabel;
-    UIButton *_attentionButton;
     UIImageView *_mainImageView;
     UILabel *_contentLabel;
     
@@ -58,14 +57,6 @@
         _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(65, 31, 100, 15)];
         _timeLabel.font = SMALLFONTSIZE;
         [_mainView addSubview:_timeLabel];
-        
-        _attentionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _attentionButton.frame = CGRectMake(SCREENWIDTH-70, 14+9, 60, 22) ;
-        _attentionButton.titleLabel.font = MAINFONTSIZE;
-        _attentionButton.layer.cornerRadius = 5.0f;
-        [_attentionButton addTarget:self action:@selector(attentionBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:_attentionButton];
-        
         
         _mainImageView = [[UIImageView alloc]init];
         [_backgroungImage addSubview:_mainImageView];
@@ -154,14 +145,6 @@
     _timeLabel.text = model.timeStr;
     // NSLog(@"model.timeStr = %@",model.timeStr);
     
-    if (model.isFriend) {
-        [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
-        _attentionButton.backgroundColor = [UIColor initWithBackgroundGray];
-        
-    }else{
-        [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
-        _attentionButton.backgroundColor = [UIColor initWithGreen];
-    }
     //图片
     if (model.newsType == 1) {
        [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
