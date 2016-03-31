@@ -232,12 +232,13 @@
     [_attentionLeftButton setTitle:[NSString stringWithFormat:@"%@关注",[_userInfo objectForKey:@"concerns"]] forState:UIControlStateNormal];
     [_attentionRightButton setTitle:[NSString stringWithFormat:@"%@粉丝",[_userInfo objectForKey:@"fans"]] forState:UIControlStateNormal];
     
-    if ([_userInfo objectForKey:@"isFriend"]) {
-        [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
-        [_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
-    }else{
+    if ([[_userInfo objectForKey:@"isFriend"]isEqualToString:@"0"]) {
         [_followButton setTitle:@"关注" forState:UIControlStateNormal];
         [_followButton setBackgroundColor:[UIColor initWithGreen]];
+    }else{
+       
+        [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
+        [_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
     }
     
 }
@@ -392,12 +393,7 @@
     }
 }
 
-//加关注和取消关注
-//[_followButton setTitle:@"已关注" forState:UIControlStateNormal];
-//[_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
-//}else{
-//    [_followButton setTitle:@"关注" forState:UIControlStateNormal];
-//    [_followButton setBackgroundColor:[UIColor initWithGreen]];
+
 
 -(void)concernsOperation:(UIButton *)btn{
     if (btn.tag == 50) {
