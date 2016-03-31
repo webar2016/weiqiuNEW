@@ -108,7 +108,7 @@
         insertSql = [NSString stringWithFormat:@"insert into '%@' (sign_id, sign, sign_describe,type_flag) values ('%ld', '%@','%@', '%@')", _tableName,cItem.sign_id,cItem.sign ,cItem.sign_describe,cItem.type_flag];
     }
     
-    NSLog(@"----");
+   // NSLog(@"----");
    //  NSString *insertSql = @"insert into bigarea(areaId,areaName,isCountry) values (@"",?,?)";
    
      //图片转化成二进制
@@ -116,11 +116,11 @@
     
     BOOL ret = [_myDataBase executeUpdate:insertSql];
     
-    NSLog(@"ret = %d",ret);
+  //  NSLog(@"ret = %d",ret);
     if (!ret) {
         NSLog(@"%@",_myDataBase.lastErrorMessage);
     }
-    NSLog(@"添加成功");
+  //  NSLog(@"添加成功");
     
 }
 

@@ -8,6 +8,7 @@
 
 #import "WBSettingViewController.h"
 #import <RongIMLib/RCIMClient.h>
+#import "MyDBmanager.h"
 
 @interface WBSettingViewController () <UITableViewDelegate,UITableViewDataSource> {
     UITableView     *_tableView;
@@ -62,6 +63,15 @@
 -(void)loginOut{
     NSLog(@"退出微球");
     [WBUserDefaults deleteUserDefaults];
+    
+    MyDBmanager *manager1 = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+    [manager1 deleteAllData];
+    [manager1 closeFBDM];
+    
+    MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Help_group_sign];
+    [manager2 deleteAllData];
+    [manager2 closeFBDM];
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
     self.tabBarController.selectedIndex = 0;
 }
