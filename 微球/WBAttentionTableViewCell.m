@@ -8,6 +8,7 @@
 
 #import "WBAttentionTableViewCell.h"
 #import "UIImageView+WebCache.h"
+#import "MyDownLoadManager.h"
 
 @implementation WBAttentionTableViewCell
 {
@@ -42,6 +43,8 @@
 }
 
 -(void)setModel:(WBFansModel *)model{
+    
+    self.fansId = model.fansId;
 
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:model.icon]];
     
@@ -50,30 +53,58 @@
     if (model.isFriend) {
         _rightButton.backgroundColor = [UIColor initWithBackgroundGray];
         [_rightButton setTitle:@"已关注" forState:UIControlStateNormal];
+        
     }else{
         _rightButton.backgroundColor = [UIColor initWithGreen];
         [_rightButton setTitle:@"关注" forState:UIControlStateNormal];
+        
     
     
     }
 
 
 }
+
+//关注和取消关注
+
 
 -(void)rightBtnClicked{
 
-
+    NSLog(@"--------");
     if ([_rightButton.titleLabel.text isEqualToString:@"已关注"]) {
-        _rightButton.backgroundColor = [UIColor initWithGreen];
-        [_rightButton setTitle:@"关注" forState:UIControlStateNormal];
+        NSLog(@" _model.fansId %@",_model);
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
+                _rightButton.backgroundColor = [UIColor initWithGreen];
+                [_rightButton setTitle:@"关注" forState:UIControlStateNormal];
+            }
+            
+        } andFailure:^(NSString *error) {
+            
+        }];
     }else{
     
-        _rightButton.backgroundColor = [UIColor initWithBackgroundGray];
-        [_rightButton setTitle:@"已关注" forState:UIControlStateNormal];
+       
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
+                _rightButton.backgroundColor = [UIColor initWithBackgroundGray];
+                [_rightButton setTitle:@"已关注" forState:UIControlStateNormal];
+            }
+            
+        } andFailure:^(NSString *error) {
+            
+        }];
     }
 
 
 }
+
+
+
+
+
 
 - (void)awakeFromNib {
     // Initialization code

@@ -141,6 +141,7 @@
     UIView *introduceView = [[UIView alloc]initWithFrame:CGRectMake(0, 328+9, SCREENWIDTH, 117)];
     introduceView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:introduceView];
+    introduceView.tag = 500;
     
     UILabel *introduceLabel = [[UILabel alloc]initWithFrame:CGRectMake(15,10, 100, 20)];
     introduceLabel.text = @"个人简介";
@@ -157,11 +158,7 @@
     _introduceTextView.keyboardType = UIKeyboardTypeDefault;
     // [_introduceTextView becomeFirstResponder];
     
-    _placeHoldLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 10, SCREENWIDTH-100-20, 30)];
-    _placeHoldLabel.text = @"说点什么介绍下自己...";
-    _placeHoldLabel.font = MAINFONTSIZE;
-    _placeHoldLabel.textColor = [UIColor initWithNormalGray];
-    [introduceView addSubview:_placeHoldLabel];
+
     
 }
 
@@ -183,6 +180,19 @@
     if ([WBUserDefaults headIcon]) {
         _headImageView.image =[WBUserDefaults headIcon];
     }
+    if ([WBUserDefaults profile]) {
+        _introduceTextView.text =[WBUserDefaults profile];
+    }else{
+        _placeHoldLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 10, SCREENWIDTH-100-20, 30)];
+        _placeHoldLabel.text = @"说点什么介绍下自己...";
+        _placeHoldLabel.userInteractionEnabled = NO;
+        _placeHoldLabel.font = MAINFONTSIZE;
+        _placeHoldLabel.textColor = [UIColor initWithNormalGray];
+        UIView *introduceView = (UIView *)[self.view viewWithTag:500];
+        [introduceView addSubview:_placeHoldLabel];
+    
+    }
+    
 }
 
 -(void)setUpDatePicker{
@@ -209,13 +219,7 @@
 
 
 
--(void)loadData{
-    
-    
 
-
-
-}
 
 #pragma mark ----右键保存------
 -(void)rightBtnClicked{
@@ -226,7 +230,7 @@
     WBPositionList *positionList =[[WBPositionList alloc] init];
     NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
     
-    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"provinceId":positionArray[2],@"homeCityId":positionArray[1]};
+    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"provinceId":positionArray[2],@"homeCityId":positionArray[1],@"profile":_introduceTextView.text};
       //  NSLog(@"parameters = %@",parameters);
     
     
@@ -252,7 +256,9 @@
             
         }
         [WBUserDefaults setCity:((UILabel*)[self.view viewWithTag:203]).text];
-
+        [WBUserDefaults setProfile:_introduceTextView.text];
+        
+        
         [self.delegate ModefyViewDelegate];
     } andFailure:^(NSString *error) {
         NSLog(@"failure");

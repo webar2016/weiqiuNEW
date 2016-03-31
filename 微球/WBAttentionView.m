@@ -95,8 +95,9 @@
         
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setModel:_dataArray[indexPath.row]];
-    
+    [cell setModel: (WBFansModel *)_dataArray[indexPath.row]];
+
+
     return cell;
 }
 

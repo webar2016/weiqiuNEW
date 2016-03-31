@@ -23,4 +23,14 @@
 @property (nonatomic, assign) id <BackDelegate> delegate;
 
 
+//，用于notification
+
+
+
+
+
+//前者是一个指向immutable string的常量指针。后者是一个指向immutable string的可变指针。
+
+
+
 @end

@@ -18,6 +18,7 @@
 
 #import "WBSetInformationViewController.h"
 #import "WBLeftViewController.h"
+#import "WBPositionList.h"
 
 //数据库
 #import "WBBig_AreaModel.h"
@@ -25,12 +26,19 @@
 #import "WBTbl_Unlock_City.h"
 #import "MyDBmanager.h"
 
+
+
 @interface LoadViewController ()<UITextFieldDelegate>
+{
+
+}
+
 @property (nonatomic,strong) UITextField *account;
 @property (nonatomic,strong) UITextField *password;
 @property (nonatomic,strong) UIButton *loginButton;
 @property (nonatomic,strong) UIButton *forgotButton;
 @property (nonatomic,strong) UIButton *regieterButton;
+@property (nonatomic,assign) NSInteger number;
 
 @end
 
@@ -38,6 +46,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _number = 0;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     [self createUI];
@@ -54,6 +63,7 @@
     if ([WBUserDefaults userId]) {
         NSLog(@"-----12345----");
         [self saveToUserDefault];
+        [self saveToDataBase];
     }
 }
 
@@ -164,6 +174,7 @@
                 [WBUserDefaults printUserDefaults];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
+                [self saveToDataBase];
                 [self saveToUserDefault];
             }else{
             
@@ -224,44 +235,63 @@
 
 #pragma mark   ----存本地数据----
 
+
+
+//本地沙盘
 -(void)saveToUserDefault{
-     NSLog(@"userInfo = %@",[WBUserDefaults userId]);
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/user/myInfo?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
-        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *userInfo = [result objectForKey:@"userInfo"];
-        if ([[userInfo objectForKey:@"dir"] rangeOfString:@"http://"].location != NSNotFound) {
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            [manager downloadImageWithURL:[userInfo objectForKey:@"dir"] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-              //  NSLog(@"显示当前进度");
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                NSLog(@"下载完成");
-                [WBUserDefaults setHeadIcon:image];
-                //  NSLog(@"userInfo = %@",userInfo);
-                [WBUserDefaults addUserDefaultsWithDictionary:userInfo];
-                //存储数据库
-                [self saveToDataBase];
-                [self dismissViewControllerAnimated:YES completion:^{
-                    
+        NSLog(@"userInfo = %@",[WBUserDefaults userId]);
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/user/myInfo?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            NSDictionary *userInfo = [result objectForKey:@"userInfo"];
+            if ([[userInfo objectForKey:@"dir"] rangeOfString:@"http://"].location != NSNotFound&&![WBUserDefaults headIcon]) {
+                SDWebImageManager *manager = [SDWebImageManager sharedManager];
+                [manager downloadImageWithURL:[userInfo objectForKey:@"dir"] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                    //  NSLog(@"显示当前进度");
+                } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                    NSLog(@"下载完成");
+                    [WBUserDefaults setHeadIcon:image];
+                    //  NSLog(@"userInfo = %@",userInfo);
+                    [WBUserDefaults addUserDefaultsWithDictionary:userInfo];
+                    //存储数据库
+                    [self saveData];
                 }];
-
-            }];
-        }
-        
-
-        
-        
-    } andFailure:^(NSString *error) {
-        
-    }];
+            }
+            
+            if ([[userInfo objectForKey:@"personalImage"] rangeOfString:@"http://"].location != NSNotFound) {
+                SDWebImageManager *manager = [SDWebImageManager sharedManager];
+                [manager downloadImageWithURL:[userInfo objectForKey:@"personalImage"] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                    //  NSLog(@"显示当前进度");
+                } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                    NSLog(@"下载完成");
+                    [WBUserDefaults setCoverImage:image];
+                    //存储数据库
+                    [self saveData];
+                }];
+            }
+            
+            WBPositionList *positionList =[[WBPositionList alloc] init];
+            
+            if ([userInfo objectForKey:@"homeCityId"]) {
+                NSNumber  *cityId =[userInfo objectForKey:@"homeCityId"];
+                NSString *name = [positionList cityNameWithCityId:cityId];
+               [WBUserDefaults setCity:name] ;
+            }
+            if ([userInfo objectForKey:@"provinceId"]) {
+                [WBUserDefaults setProvince:[positionList cityNameWithCityId:[userInfo objectForKey:@"provinceId"]]] ;
+            }
+            
+            [self saveData];
+            
+        } andFailure:^(NSString *error) {
+        }];
 }
 
 
 
 
-
+//数据库
 -(void)saveToDataBase{
     NSString *unlockCityUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/lr/unlockCity?userId=%@",@"29"];
-
         [MyDownLoadManager getNsurl:unlockCityUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSArray *unlockCity = [WBTbl_Unlock_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"unlockCity"]];
@@ -271,6 +301,7 @@
             }
             NSLog(@"1 -------%@",[manager searchAllItems]);
             [manager closeFBDM];
+            [self saveData];
             } andFailure:^(NSString *error) {
             }];
 
@@ -284,8 +315,24 @@
         }
         NSLog(@"2 ------%@",[manager searchAllItems]);
         [manager closeFBDM];
+         [self saveData];
     } andFailure:^(NSString *error) {
     }];
+        
+
+}
+
+
+-(void)saveData{
+    _number++;
+    if (_number == 4) {
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+        
+        
+        
+    }
 }
 
 
@@ -304,6 +351,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)dealloc{
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 /*
 #pragma mark - Navigation
 

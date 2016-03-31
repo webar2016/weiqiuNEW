@@ -12,6 +12,7 @@
 @interface WBAttentionTableViewCell : UITableViewCell
 
 
-@property (nonatomic,copy)WBFansModel *model;
+@property (nonatomic,strong)WBFansModel *model;
+@property (nonatomic,copy)NSString *fansId;
 
 @end

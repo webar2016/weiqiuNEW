@@ -133,9 +133,10 @@
     [chatBtn setImage:[UIImage imageNamed:@"icon_chat"] forState:UIControlStateNormal];
     chatBtn.frame = CGRectMake(SCREENWIDTH - 47, 174, 32, 32);
     [chatBtn addTarget:self action:@selector(enterChatView) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (!_friendId) {
+    if ([_friendId isEqual:[WBUserDefaults userId]]) {
         [_headView addSubview:infoBtn];
+        
+    }else{
         [_headView addSubview:chatBtn];
     }
     
@@ -180,7 +181,7 @@
     CGSize buttonSize = CGSizeMake(SCREENWIDTH / 3, 44);
    CGPoint point;
     
-    if (_friendId) {
+    if (![_friendId isEqual:[WBUserDefaults userId]]) {
         _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
         _followButton.center = CGPointMake(SCREENWIDTH / 2, 300);
         _followButton.layer.masksToBounds = YES;
@@ -275,7 +276,7 @@
 
 -(void)loadUserInfo{
     NSString *url;
-    if (_friendId==nil) {
+    if ([_friendId isEqual:[WBUserDefaults userId]]) {
         url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"],[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
     }else{
         url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",_friendId,[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
@@ -427,10 +428,6 @@
         
         }
     }
-    
-
-
-
 }
 
 -(CGFloat)calculateStationWidth:(NSString *)string andWithTextWidth:(CGFloat)textWidth anfont:(CGFloat)fontSize{

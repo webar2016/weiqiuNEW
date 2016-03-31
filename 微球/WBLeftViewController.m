@@ -59,6 +59,7 @@
     _userIcon.image = [WBUserDefaults headIcon];
     _nickName.text = [WBUserDefaults nickname];
     _profile.text = [WBUserDefaults profile];
+    [self loadMoneyData];
 }
 
 #pragma mark - setUpSubviews
@@ -217,6 +218,8 @@
 -(void)enterHomepage{
     [self.sideMenuViewController hideMenuViewController];
     WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
+    homepageVC.friendId = [WBUserDefaults userId];
+    
     [homepageVC setHidesBottomBarWhenPushed:YES];
     [self pushViewControllerWithController:homepageVC];
 }
@@ -282,10 +285,6 @@
 
 - (void)loadBack{
     if ([WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]) {
-        
-        
-        
-        
         WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
         homepageVC.friendId =[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"];
         [homepageVC setHidesBottomBarWhenPushed:YES];
