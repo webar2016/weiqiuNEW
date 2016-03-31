@@ -104,7 +104,6 @@
 		2D16EF471C840780002D5F90 /* WBAllListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF461C840780002D5F90 /* WBAllListViewController.m */; };
 		2D16EF4B1C8407B4002D5F90 /* WBJoinUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF4A1C8407B4002D5F90 /* WBJoinUsViewController.m */; };
 		2D16EF4F1C8407E4002D5F90 /* WBMyCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF4E1C8407E4002D5F90 /* WBMyCreateViewController.m */; };
-		2D16EF531C840D91002D5F90 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF521C840D91002D5F90 /* MyDownLoadManager.m */; };
 		2D16EF5D1C8416AF002D5F90 /* TopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF561C8416AF002D5F90 /* TopCell.m */; };
 		2D16EF631C842443002D5F90 /* NSString+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF621C842443002D5F90 /* NSString+Frame.m */; };
 		2D16EF661C844DFB002D5F90 /* MyCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF651C844DFB002D5F90 /* MyCollectionViewFlowLayout.m */; };
@@ -122,7 +121,6 @@
 		2D49D61D1C86C1E0008EE96B /* WBTopicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D61C1C86C1E0008EE96B /* WBTopicDetailViewController.m */; };
 		2D49D6241C86F232008EE96B /* TopicDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D6231C86F232008EE96B /* TopicDetailModel.m */; };
 		2D4BB50B1C8561FA00C02248 /* WBTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4BB50A1C8561FA00C02248 /* WBTopicModel.m */; };
-		2D4C95341C8A772E000F02B3 /* WBTopicDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4C95331C8A772E000F02B3 /* WBTopicDetailTableViewCell.m */; };
 		2D4F50C71C8FBCE0001E017C /* WBCollectionViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F50C61C8FBCE0001E017C /* WBCollectionViewModel.m */; };
 		2D4F50CD1C8FC48B001E017C /* WBCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F50CC1C8FC48B001E017C /* WBCollectionViewCell.m */; };
 		2D5005581C800BCC00DB8BF3 /* CreateHelpGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5005571C800BCC00DB8BF3 /* CreateHelpGroupViewController.m */; };
@@ -166,10 +164,12 @@
 		2DF0499E1C9D835A00E92B9E /* WBFansView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF0499D1C9D835A00E92B9E /* WBFansView.m */; };
 		2DF26B671CA1925E00B7ED10 /* WBIndividualIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF26B661CA1925E00B7ED10 /* WBIndividualIncomeViewController.m */; };
 		2DF26B6A1CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF26B691CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.m */; };
-		2DF2A9381C9FC0FC002C3A2A /* WBAttentionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A9371C9FC0FC002C3A2A /* WBAttentionTableViewCell.m */; };
 		2DF2A93B1C9FC20D002C3A2A /* WBFansViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93A1C9FC20D002C3A2A /* WBFansViewTableViewCell.m */; };
 		2DF2A93E1C9FC220002C3A2A /* WBFansModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93D1C9FC220002C3A2A /* WBFansModel.m */; };
 		2DF2A9411C9FCD44002C3A2A /* WBAttentionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A9401C9FCD44002C3A2A /* WBAttentionModel.m */; };
+		2DF791AC1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */; };
+		2DF791AF1CAD1B2100C14E79 /* WBAttentionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AD1CAD1A2C00C14E79 /* WBAttentionTableViewCell.m */; };
+		2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */; };
 		2DFF687F1C969C95000DCDDA /* WBRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */; };
 		2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFF68811C96B1AD000DCDDA /* WBClientModel.m */; };
 		9338262491D79DB4DE91FFAD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0E529E428FEF18D5650182 /* libPods.a */; };
@@ -482,6 +482,10 @@
 		2DF2A93D1C9FC220002C3A2A /* WBFansModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFansModel.m; sourceTree = "<group>"; };
 		2DF2A93F1C9FCD44002C3A2A /* WBAttentionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAttentionModel.h; sourceTree = "<group>"; };
 		2DF2A9401C9FCD44002C3A2A /* WBAttentionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAttentionModel.m; sourceTree = "<group>"; };
+		2DF791AA1CAD199900C14E79 /* WBAttentionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WBAttentionTableViewCell.m; path = "微球/WBAttentionTableViewCell.m"; sourceTree = "<group>"; };
+		2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WBTopicDetailTableViewCell.m; path = "微球/WBTopicDetailTableViewCell.m"; sourceTree = "<group>"; };
+		2DF791AD1CAD1A2C00C14E79 /* WBAttentionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WBAttentionTableViewCell.m; path = "微球/WBAttentionTableViewCell.m"; sourceTree = "<group>"; };
+		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyDownLoadManager.m; path = "微球/MyDownLoadManager.m"; sourceTree = "<group>"; };
 		2DFF687D1C969C95000DCDDA /* WBRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBRegisterViewController.h; sourceTree = "<group>"; };
 		2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBRegisterViewController.m; sourceTree = "<group>"; };
 		2DFF68801C96B1AD000DCDDA /* WBClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBClientModel.h; sourceTree = "<group>"; };
@@ -808,6 +812,10 @@
 		05D6EB6F1C7D414F002D48FF = {
 			isa = PBXGroup;
 			children = (
+				2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */,
+				2DF791AD1CAD1A2C00C14E79 /* WBAttentionTableViewCell.m */,
+				2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */,
+				2DF791AA1CAD199900C14E79 /* WBAttentionTableViewCell.m */,
 				05D6EB7A1C7D414F002D48FF /* 微球 */,
 				05D6EB941C7D414F002D48FF /* 微球Tests */,
 				05D6EB9F1C7D414F002D48FF /* 微球UITests */,
@@ -1505,6 +1513,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */,
+				2DF791AF1CAD1B2100C14E79 /* WBAttentionTableViewCell.m in Sources */,
+				2DF791AC1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m in Sources */,
 				052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */,
 				05DB3F791C87F33E00CBCC54 /* WBNavigationController.m in Sources */,
 				05794C8B1CA2322C00F32837 /* WBUnlockMsgCell.m in Sources */,
@@ -1535,7 +1546,6 @@
 				2D16EF4F1C8407E4002D5F90 /* WBMyCreateViewController.m in Sources */,
 				05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */,
 				05DB3F701C87E18800CBCC54 /* WBAnswerListController.m in Sources */,
-				2D16EF531C840D91002D5F90 /* MyDownLoadManager.m in Sources */,
 				2D6047EC1C93F7D200A88BAA /* WBTbl_Unlock_City.m in Sources */,
 				05D1F94F1C8FC9C60049D3EC /* WBGroupTableViewCell.m in Sources */,
 				052944DA1C7FF2AF0098159F /* BROptionItem.m in Sources */,
@@ -1591,7 +1601,6 @@
 				2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */,
 				05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */,
 				054550531C90165100A6F0E8 /* WBGroupSettingViewController.m in Sources */,
-				2DF2A9381C9FC0FC002C3A2A /* WBAttentionTableViewCell.m in Sources */,
 				2D5D72FF1C925C2B00F8C2AE /* WBAllocateScoreViewController.m in Sources */,
 				2D1DE0041C92D03F0059CD89 /* DBManager.m in Sources */,
 				2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */,
@@ -1609,7 +1618,6 @@
 				054550501C8FEF6F00A6F0E8 /* WBTalkViewController.m in Sources */,
 				05DB3F731C87E25600CBCC54 /* WBAnswerDetailController.m in Sources */,
 				2D4F50C71C8FBCE0001E017C /* WBCollectionViewModel.m in Sources */,
-				2D4C95341C8A772E000F02B3 /* WBTopicDetailTableViewCell.m in Sources */,
 				2D02B6A11C8198C300FADFFB /* UIViewController+RESideMenu.m in Sources */,
 				05794C821CA2299900F32837 /* WBSystemMessage.m in Sources */,
 			);
