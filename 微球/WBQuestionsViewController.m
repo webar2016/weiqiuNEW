@@ -242,6 +242,7 @@
     answerListController.allIntegral = data.allIntegral;
     answerListController.isSolved = data.isSolve;
     answerListController.groupId = data.groupId;
+    answerListController.userId = data.hga.tblUser.userId;
     NSLog(@"%@",self.parentViewController.parentViewController.parentViewController.childViewControllers.lastObject.childViewControllers.lastObject);
     if (self.fromFindView) {
         [self.parentViewController.navigationController pushViewController:answerListController animated:YES];
@@ -270,6 +271,7 @@
     answerDetailController.nickname = data.hga.tblUser.nickname;
     answerDetailController.timeStr = data.hga.timeStr;
     answerDetailController.getIntegral = data.hga.getIntegral;
+    answerDetailController.userId = data.hga.tblUser.userId;
     if (self.fromFindView) {
         [self.parentViewController.navigationController pushViewController:answerDetailController animated:YES];
         return;
@@ -282,7 +284,7 @@
     self.selectedRow = (int)cell.tag;
     WBQuestionsListModel *data = self.questionsList[self.selectedRow];
     WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
-    homepage.friendId = [NSString stringWithFormat:@"%ld",data.hga.tblUser.userId];
+    homepage.friendId = [NSString stringWithFormat:@"%d",data.hga.tblUser.userId];
     if (self.fromFindView) {
         [self.parentViewController.navigationController pushViewController:homepage animated:YES];
         return;
@@ -304,6 +306,7 @@
     answerListController.questionId = [sender.userInfo[@"questionId"] integerValue];
     answerListController.allAnswers = [sender.userInfo[@"allAnswers"] integerValue];
     answerListController.allIntegral = [sender.userInfo[@"allIntegral"] integerValue];
+    answerListController.userId = [sender.userInfo[@"userId"] integerValue];
     [self.parentViewController.navigationController pushViewController:answerListController animated:YES];
 }
 

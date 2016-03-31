@@ -117,7 +117,7 @@
 
        _ageButton.layer.cornerRadius = 3;
     [_ageButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
-    [_ageButton setTitle:[NSString stringWithFormat:@"%ld",model.tblUser.age]  forState:UIControlStateNormal];
+    [_ageButton setTitle:[NSString stringWithFormat:@"%ld",(long)model.tblUser.age]  forState:UIControlStateNormal];
     _ageButton.backgroundColor = [UIColor initWithGreen];
     _ageButton.titleLabel.font = SMALLFONTSIZE;
     
@@ -126,7 +126,7 @@
    
     _leftImageView.image = [UIImage imageNamed:@"icon_qiupiao.png"];
     
-        _leftLabel.text = [NSString stringWithFormat:@"%ld球币",model.rewardIntegral];
+        _leftLabel.text = [NSString stringWithFormat:@"%d球币",model.rewardIntegral];
     _leftLabel.font = MAINFONTSIZE;
     _leftLabel.textColor = [UIColor initWithLightGray];
     
@@ -135,7 +135,7 @@
     _rightImageView.image = [UIImage imageNamed:@"icon_member.png"];
     
     
-    _rightLabel.text = [NSString stringWithFormat:@"%ld球币",model.members];
+    _rightLabel.text = [NSString stringWithFormat:@"%d球币",model.members];
     _rightLabel.font = MAINFONTSIZE;
     _rightLabel.textColor = [UIColor initWithLightGray];
     

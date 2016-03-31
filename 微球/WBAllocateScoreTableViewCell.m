@@ -89,7 +89,7 @@
     
     _nickNamelabel.text = model.nickname;
     
-    _contentLabel.text = [NSString stringWithFormat:@"回答了%d个问题",model.qNum];
+    _contentLabel.text = [NSString stringWithFormat:@"回答了%ld个问题",model.qNum];
     
     _scoreLabel.text = [NSString stringWithFormat:@"%.0f%@",[cellScore floatValue],@"%"];
     

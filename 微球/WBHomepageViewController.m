@@ -116,10 +116,11 @@
     
     _headicon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 64, 64)];
     _headicon.center = CGPointMake(SCREENWIDTH / 2, 168);
+    _headicon.backgroundColor = [UIColor initWithBackgroundGray];
     _headicon.layer.masksToBounds = YES;
     _headicon.layer.cornerRadius = 32;
     _headicon.layer.borderWidth = 2;
-    _headicon.layer.borderColor = [UIColor whiteColor].CGColor;
+    _headicon.layer.borderColor = [UIColor initWithGreen].CGColor;
    // _headicon.image = [WBUserDefaults headIcon];
     [_headView addSubview:_headicon];
     

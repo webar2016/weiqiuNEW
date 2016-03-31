@@ -10,12 +10,11 @@
 
 @implementation WBUpdateIntegral
 
-+(NSInteger)getIntegralConfigWithType:(IntegralUpdateType)type{
-    NSInteger __block integral;
++(NSString *)getIntegralConfigWithType:(IntegralUpdateType)type{
+    NSString __block *integral;
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL_CONFIG,(int)type] whenSuccess:^(id representData) {
         
-        NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
-        integral = [result integerValue];
+        integral = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         
     } andFailure:^(NSString *error) {
         
@@ -25,9 +24,9 @@
     return integral;
 }
 
-+(id)updateUserIntegralFrom:(NSUInteger)userId to:(NSUInteger)anotherUserId withIntegral:(NSInteger)integral{
++(NSDictionary *)updateUserByUpdateType:(IntegralUpdateType)type withIntegral:(NSString *)integral{
     id __block result;
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:UPDATE_INTEGRAL,(int)userId,(int)anotherUserId,(int)integral] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:UPDATE_INTEGRAL,[WBUserDefaults userId],type,integral] whenSuccess:^(id representData) {
         
         result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -39,9 +38,9 @@
     return result;
 }
 
-+(id)getUserIntegralDetailWithUserId:(NSUInteger)userId{
++(id)getUserIntegralDetail{
     id __block result;
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL_DETAIL,(int)userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL_DETAIL,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         
         result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -53,9 +52,9 @@
     return result;
 }
 
-+(id)getUserIntegralWithUserId:(NSUInteger)userId{
++(id)getUserIntegral{
     id __block result;
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL,(int)userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         
         result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -68,12 +67,12 @@
 }
 
 
-+(BOOL)checkIntegralWithUserId:(NSUInteger)userId byIntegral:(NSInteger)integral{
++(BOOL)checkIntegralByNeededIntegral:(NSString *)integral{
     BOOL __block isEnough;
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:CHECK_INTEGRAL,(int)userId,(int)integral] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:CHECK_INTEGRAL,[WBUserDefaults userId],integral] whenSuccess:^(id representData) {
         
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
-        if ([result  isEqual: @"true"]) {
+        if ([result isEqualToString: @"true"]) {
             isEnough = 1;
         }else{
             isEnough = 0;
