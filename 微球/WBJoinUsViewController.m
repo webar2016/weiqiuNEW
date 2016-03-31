@@ -36,6 +36,7 @@
     }
     [self loadData];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"getGroupInfo" object:nil];
+    self.emptyConversationView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     return self;
 }
 
