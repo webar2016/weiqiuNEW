@@ -31,7 +31,7 @@
     self.navigationItem.backBarButtonItem = back;
     self.navigationItem.title = @"设置";
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 8, SCREENWIDTH, 132)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 8, SCREENWIDTH, 176)];
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.separatorColor = [UIColor initWithBackgroundGray];
     _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 0);
@@ -49,9 +49,7 @@
     
     _alert = [UIAlertController alertControllerWithTitle:@"设置失败，请重试" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [_alert addAction:({
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self dismissViewControllerAnimated:_alert completion:nil];
-        }];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
         action;
     })];
 }
@@ -123,9 +121,9 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 1) {
+    if (indexPath.row == 2) {
         NSLog(@"给我们鼓励！");
-    } else if (indexPath.row == 2) {
+    } else if (indexPath.row == 3) {
         NSLog(@"关于微球");
     }
 }

@@ -10,6 +10,7 @@
 #import "MyDownLoadManager.h"
 #import "WBDataModifiedViewController.h"
 #import "WBWebViewController.h"
+#import "WBPrivateViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MJExtension.h"
 
@@ -106,7 +107,7 @@
     _coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 168)];
     _coverImage.layer.masksToBounds = YES;
     _coverImage.contentMode = UIViewContentModeScaleAspectFill;
-    _coverImage.image = [UIImage imageNamed:@"1.pic.jpg"];
+    _coverImage.image = [UIImage imageNamed:@"cover"];
     _coverImage.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(changeCoverImage)];
     _coverImage.userInteractionEnabled = YES;
@@ -130,7 +131,7 @@
     UIButton *chatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [chatBtn setImage:[UIImage imageNamed:@"icon_chat"] forState:UIControlStateNormal];
     chatBtn.frame = CGRectMake(SCREENWIDTH - 47, 174, 32, 32);
-    
+    [chatBtn addTarget:self action:@selector(enterChatView) forControlEvents:UIControlEventTouchUpInside];
     
     if (!_friendId) {
         [_headView addSubview:infoBtn];
@@ -189,7 +190,7 @@
         
         point = CGPointMake(0, 330);
     } else {
-        point = CGPointMake(0, 300);
+        point = CGPointMake(0, 270);
     }
     
     _topicButton = [[UIButton alloc] initWithFrame:(CGRect){point,buttonSize}];
@@ -231,6 +232,8 @@
     
     [_attentionLeftButton setTitle:[NSString stringWithFormat:@"%@关注",[_userInfo objectForKey:@"concerns"]] forState:UIControlStateNormal];
     [_attentionRightButton setTitle:[NSString stringWithFormat:@"%@粉丝",[_userInfo objectForKey:@"fans"]] forState:UIControlStateNormal];
+    [_attentionLeftButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
+    [_attentionRightButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     
     if ([[_userInfo objectForKey:@"isFriend"]isEqualToString:@"0"]) {
         [_followButton setTitle:@"关注" forState:UIControlStateNormal];
@@ -490,6 +493,11 @@
     [self.navigationController pushViewController:DVC animated:YES];
 }
 
+-(void)enterChatView{
+    WBPrivateViewController *chatView = [[WBPrivateViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:self.friendId];
+    [self.navigationController pushViewController:chatView animated:YES];
+}
+
 - (void)ModefyViewDelegate{
     NSLog(@"---ModefyViewDelegate----");
     _headicon.image= [WBUserDefaults headIcon];
@@ -526,7 +534,7 @@
         
     }];
     
-    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"提示" message:@"选择图片" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"个人主页封面" message:@"选一张你喜欢的照片作为你的个人主页封面吧！" preferredStyle:UIAlertControllerStyleActionSheet];
     [aleVC addAction:act1];
     [aleVC addAction:act2];
     [aleVC addAction:act3];

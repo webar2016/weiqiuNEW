@@ -59,7 +59,6 @@
     [self.view addSubview:headImageView];
     
     _moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREENWIDTH/2-150, 42+63+37, 300, 40)];
-    _moneyLabel.text = @"¥123.0";
     _moneyLabel.font = [UIFont systemFontOfSize:36];
     _moneyLabel.textColor = [UIColor initWithGreen];
     _moneyLabel.textAlignment = NSTextAlignmentCenter;
@@ -81,13 +80,13 @@
     [self.view addSubview:withdrawHeadLabel];
     
     _scorelabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 42+63+37+40+42+15+13, SCREENWIDTH/2, 15)];
-    _scorelabel.textColor = [UIColor initWithLightGray];
+    _scorelabel.textColor = [UIColor initWithNormalGray];
     _scorelabel.font =[UIFont systemFontOfSize:18];
     _scorelabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_scorelabel];
     
     _withdrawMoneylabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREENWIDTH/2, 42+63+37+40+42+15+13, SCREENWIDTH/2, 15)];
-    _withdrawMoneylabel.textColor = [UIColor initWithLightGray];
+    _withdrawMoneylabel.textColor = [UIColor initWithNormalGray];
     _withdrawMoneylabel.textAlignment = NSTextAlignmentCenter;
     _withdrawMoneylabel.font = [UIFont systemFontOfSize:18];
     [self.view addSubview:_withdrawMoneylabel];
@@ -97,8 +96,8 @@
     [leftButton setBackgroundImage:[UIImage imageNamed:@"bg.png"] forState:UIControlStateNormal];
     leftButton.frame = CGRectMake(0, 42+63+37+40+42+15+13+40, SCREENWIDTH/2, 50);
     [leftButton setImage:[UIImage imageNamed:@"icon_recharge.png"] forState:UIControlStateNormal];
-    [leftButton setTitle:@"充值" forState:UIControlStateNormal];
-    [leftButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
+    [leftButton setTitle:@"  充值" forState:UIControlStateNormal];
+    [leftButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(leftBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:leftButton];
     
@@ -106,9 +105,9 @@
     [rightButton setBackgroundImage:[UIImage imageNamed:@"bg.png"] forState:UIControlStateNormal] ;
     rightButton.frame =CGRectMake(SCREENWIDTH/2, 42+63+37+40+42+15+13+40, SCREENWIDTH/2, 50);
     [rightButton setImage:[UIImage imageNamed:@"icon_withdraw.png"] forState:UIControlStateNormal];
-    [rightButton setTitle:@"提现" forState:UIControlStateNormal];
+    [rightButton setTitle:@"  提现" forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(rightBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    [rightButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
+    [rightButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     [self.view addSubview:rightButton];
 }
 
@@ -139,9 +138,9 @@
         NSDictionary *userIntegral = result[@"userIntegral"];
         NSString *integral = [userIntegral objectForKey:@"integral"];
         
-        _moneyLabel.text = [NSString stringWithFormat:@"¥%.1f",[integral floatValue]/10];
+        _moneyLabel.text = [NSString stringWithFormat:@"¥%.01f",[integral floatValue]/100];
         _scorelabel.text =[NSString stringWithFormat:@"%.0f",[integral floatValue] ];
-        _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%.1f",[integral floatValue]/10];
+        _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%.01f",[integral floatValue]/100];
         
     } andFailure:^(NSString *error) {
     }];

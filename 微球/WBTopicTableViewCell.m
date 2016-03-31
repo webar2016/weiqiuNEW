@@ -24,12 +24,15 @@
     if (self) {
        
         _backgroungImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 9, width-20, 178-9)];
-        _backgroungImage.backgroundColor = [UIColor greenColor];
+        _backgroungImage.backgroundColor = [UIColor initWithBackgroundGray];
         _backgroungImage.layer.cornerRadius =5;
         [self.contentView addSubview:_backgroungImage];
         
         _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(17.5, 29, width-20, 30)];
         _titleLabel.font = [UIFont boldSystemFontOfSize:14];
+        _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+        _titleLabel.shadowOffset = CGSizeMake(1,1);
         [_backgroungImage addSubview:_titleLabel];
         
        
@@ -40,6 +43,9 @@
         
         _contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(17.5+14+5, 62, 100, 30)];
         _contentLabel.font = [UIFont systemFontOfSize:12];
+        _contentLabel.textColor = [UIColor whiteColor];
+        _contentLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+        _contentLabel.shadowOffset = CGSizeMake(1,1);
         _contentLabel.textAlignment = NSTextAlignmentJustified;
         [_backgroungImage addSubview:_contentLabel];
         

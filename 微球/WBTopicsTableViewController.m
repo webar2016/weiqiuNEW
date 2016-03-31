@@ -83,7 +83,7 @@
 -(void)loadDataCell
 {
     _page = 1;
-    NSString *url = [NSString stringWithFormat:CellURL,_page,2];
+    NSString *url = [NSString stringWithFormat:CellURL,_page,PAGESIZE];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -122,7 +122,7 @@
 
 -(void)loadMoreData{
 
-    NSString *url = [NSString stringWithFormat:CellURL,_page,2];
+    NSString *url = [NSString stringWithFormat:CellURL,_page,PAGESIZE];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
        // NSLog(@"result = %@",result);

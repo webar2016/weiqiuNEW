@@ -72,6 +72,9 @@
     _userIcon.layer.masksToBounds = YES;
     _userIcon.layer.cornerRadius = 25.0;
     _userIcon.contentMode = UIViewContentModeScaleAspectFill;
+    _userIcon.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapIcon = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(enterHomepage)];
+    [_userIcon addGestureRecognizer:tapIcon];
     [self.userInfosView addSubview:_userIcon];
     
     _nickName = [[UILabel alloc] initWithFrame:CGRectMake(100, 30, (self.size.width*0.7-100), 15)];
@@ -104,7 +107,6 @@
     
     _totalScoreNumber = [[UILabel alloc] initWithFrame:CGRectMake(100, self.size.height * 0.02, (self.size.width*0.7-100), self.size.height * 0.04)];
     _totalScoreNumber.textColor = [UIColor whiteColor];
-    _totalScoreNumber.text = @"22222球币";
     _totalScoreNumber.font = MAINFONTSIZE;
     
     [self.userScoreView addSubview:totalScore];
@@ -117,7 +119,6 @@
     
     _todayScoreNumber = [[UILabel alloc] initWithFrame:CGRectMake(100, self.size.height * 0.08, (self.size.width*0.7-100), self.size.height * 0.04)];
     _todayScoreNumber.textColor = [UIColor whiteColor];
-    _todayScoreNumber.text = @"22222球币";
     _todayScoreNumber.font = MAINFONTSIZE;
 
     [self.userScoreView addSubview:todayScore];
@@ -148,8 +149,8 @@
     NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/integral/getTodayIntegral?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        _totalScoreNumber.text =[NSString stringWithFormat:@"%.0f",[[result objectForKey:@"totleIntegral"] floatValue]];
-        _todayScoreNumber.text = [NSString stringWithFormat:@"%.0f",[[result objectForKey:@"todayIntegral"] floatValue]];
+        _totalScoreNumber.text =[NSString stringWithFormat:@"%.0f 球币",[[result objectForKey:@"totleIntegral"] floatValue]];
+        _todayScoreNumber.text = [NSString stringWithFormat:@"%.0f 球币",[[result objectForKey:@"todayIntegral"] floatValue]];
     } andFailure:^(NSString *error) {
     }];
 }
@@ -173,13 +174,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.sideMenuViewController hideMenuViewController];
     switch (indexPath.row) {
         case 0:{
-            WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
-            [homepageVC setHidesBottomBarWhenPushed:YES];
-            [self pushViewControllerWithController:homepageVC];
+            [self enterHomepage];
             break;
         }
             
@@ -216,6 +214,13 @@
     }
 }
 
+-(void)enterHomepage{
+    [self.sideMenuViewController hideMenuViewController];
+    WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
+    [homepageVC setHidesBottomBarWhenPushed:YES];
+    [self pushViewControllerWithController:homepageVC];
+}
+
 #pragma mark - UITableView Datasource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -239,7 +244,6 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.textLabel.font = MAINFONTSIZE;
-        cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     

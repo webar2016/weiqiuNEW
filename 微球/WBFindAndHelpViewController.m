@@ -66,9 +66,7 @@
     _tip.hidden = YES;
     [_rightBarButton addSubview:_tip];
     [_rightBarButton addTarget:self action:@selector(presentRightMenuViewController) forControlEvents:UIControlEventTouchUpInside];
-    if ([WBUserDefaults userId]) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightBarButton];
-    }
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightBarButton];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
 }
 
@@ -76,11 +74,9 @@
     if ([WBUserDefaults userId]) {
         _headIcon = [[WBUserDefaults headIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [_leftBarButton setBackgroundImage:_headIcon forState:UIControlStateNormal];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightBarButton];
     } else {
         _headIcon = [UIImage imageWithOriginal:@"icon_webar"];
         [_leftBarButton setBackgroundImage:_headIcon forState:UIControlStateNormal];
-        self.navigationItem.rightBarButtonItem = nil;
     }
 }
 
@@ -98,12 +94,16 @@
 
 - (void)presentRightMenuViewController
 {
-    [self isFromFindView];
-    [self.sideMenuViewController presentRightMenuViewController];
+    if ([WBUserDefaults userId]) {
+        [self isFromFindView];
+        [self.sideMenuViewController presentRightMenuViewController];
+    } else {
+        LoadViewController *loadView = [[LoadViewController alloc]init];
+        [self presentViewController:loadView animated:YES completion:nil];
+    }
 }
 
 -(void)isFromFindView{
-    NSLog(@"%lu",self.tabBarController.selectedIndex);
     if (self.tabBarController.selectedIndex == 0) {
         self.sideMenuViewController.isFindPage = YES;
     } else if (self.tabBarController.selectedIndex == 2) {
