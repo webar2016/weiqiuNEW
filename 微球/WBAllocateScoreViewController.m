@@ -200,15 +200,26 @@
     } else if (_surplus == 0 && _dataArray.count > 0) {
 //        _data[@"integral"]
         NSMutableDictionary *integral = [NSMutableDictionary dictionary];
+        
+        NSString  *str= [NSString string];
+        
+        [str stringByAppendingString:@"sssssss"];
         for (NSInteger i = 0;i<_dataArray.count;i++) {
             
             UILabel *label = (UILabel *)[self.view viewWithTag:100+10*i];
             [integral setObject:label.text forKey:[NSString stringWithFormat:@"%ld",((WBAllocateScoreModel *)_dataArray[i]).userId]];
+//            [str stringByAppendingString:[NSString stringWithFormat:@"%ld",((WBAllocateScoreModel *)_dataArray[i]).userId]];
+//            [str stringByAppendingString:@":"];
+//            [str stringByAppendingString:label.text];
+            if (i ==_dataArray.count-1 ) {
+                
+            }else{
+                [str stringByAppendingString:@","];
+            }
         }
-        
-       
-        NSLog(@"_data %@",_data);
-        [_data setObject:integral forKey:@"integral"];
+        str = [self dictionaryToJson:integral];
+        NSLog(@"_data %@",str);
+        [_data setObject:str forKey:@"integral"];
        
        // [_data setObject:integral forKey:@"integral"];
     }
@@ -227,6 +238,18 @@
         })];
         [self presentViewController:alert animated:YES completion:nil];
     }];
+}
+
+- (NSString*)dictionaryToJson:(NSDictionary *)dic
+
+{
+    
+    NSError *parseError = nil;
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
 }
 
 - (void)didReceiveMemoryWarning {
