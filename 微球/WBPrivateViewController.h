@@ -10,4 +10,6 @@
 
 @interface WBPrivateViewController : RCConversationViewController
 
+@property (nonatomic, assign) BOOL fromHomePage;
+
 @end

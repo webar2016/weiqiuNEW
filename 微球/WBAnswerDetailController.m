@@ -119,7 +119,9 @@
     _narrow.image = [UIImage imageNamed:@"icon_spread1"];
     
     [self.titleView addSubview:quesLabel];
-    [self.titleView addSubview:_narrow];
+    if (!self.fromHomePage) {
+        [self.titleView addSubview:_narrow];
+    }
     self.navigationItem.titleView = self.titleView;
 }
 
@@ -289,6 +291,9 @@
 #pragma mark - 添加点击事件
 
 -(void)addGestureRecognizer{
+    if (self.fromHomePage) {
+        return;
+    }
     UITapGestureRecognizer *titleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleTap)];
     [self.navigationItem.titleView addGestureRecognizer:titleTap];
     
@@ -391,7 +396,7 @@
 }
 
 -(void)upLoadLikeTap{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/answerPraise?answerId=%d&userId=%@&toUserId=%d",self.answerId,[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/answerPraise?answerId=%ld&userId=%@&toUserId=%ld",self.answerId,[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
         
     } andFailure:^(NSString *error) {
         

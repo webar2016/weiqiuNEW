@@ -67,6 +67,7 @@
 		05BE5DCC1CAE090100D2DBF1 /* WBPostVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE5DCB1CAE090100D2DBF1 /* WBPostVideoViewController.m */; };
 		05BE5DCE1CAE093200D2DBF1 /* WBTopicDetailTableViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE5DCD1CAE093200D2DBF1 /* WBTopicDetailTableViewCell2.m */; };
 		05BE5DD01CAE095B00D2DBF1 /* WBAttentionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE5DCF1CAE095B00D2DBF1 /* WBAttentionTableViewCell.m */; };
+		05BE5DD61CAE362F00D2DBF1 /* WBAboutWBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE5DD41CAE362F00D2DBF1 /* WBAboutWBViewController.m */; };
 		05D1F9361C8E78960049D3EC /* WBUpdateIntegral.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9351C8E78960049D3EC /* WBUpdateIntegral.m */; };
 		05D1F9391C8EC0520049D3EC /* WBPostArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9381C8EC0520049D3EC /* WBPostArticleViewController.m */; };
 		05D1F9401C8FBE1A0049D3EC /* WBHomepageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F93F1C8FBE1A0049D3EC /* WBHomepageViewController.m */; };
@@ -284,6 +285,8 @@
 		05BE5DCF1CAE095B00D2DBF1 /* WBAttentionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBAttentionTableViewCell.m; sourceTree = "<group>"; };
 		05BE5DD11CAE0AB700D2DBF1 /* WBPostVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBPostVideoViewController.h; sourceTree = "<group>"; };
 		05BE5DD21CAE0AE100D2DBF1 /* WBTopicDetailTableViewCell2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBTopicDetailTableViewCell2.h; sourceTree = "<group>"; };
+		05BE5DD31CAE362F00D2DBF1 /* WBAboutWBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAboutWBViewController.h; sourceTree = "<group>"; };
+		05BE5DD41CAE362F00D2DBF1 /* WBAboutWBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAboutWBViewController.m; sourceTree = "<group>"; };
 		05D1F9341C8E78960049D3EC /* WBUpdateIntegral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUpdateIntegral.h; sourceTree = "<group>"; };
 		05D1F9351C8E78960049D3EC /* WBUpdateIntegral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUpdateIntegral.m; sourceTree = "<group>"; };
 		05D1F9371C8EC0520049D3EC /* WBPostArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPostArticleViewController.h; sourceTree = "<group>"; };
@@ -802,6 +805,8 @@
 			children = (
 				05D1F94A1C8FBE9E0049D3EC /* WBSettingViewController.h */,
 				05D1F94B1C8FBE9E0049D3EC /* WBSettingViewController.m */,
+				05BE5DD31CAE362F00D2DBF1 /* WBAboutWBViewController.h */,
+				05BE5DD41CAE362F00D2DBF1 /* WBAboutWBViewController.m */,
 			);
 			name = setting;
 			sourceTree = "<group>";
@@ -1578,6 +1583,7 @@
 				2D02B6A01C8198C300FADFFB /* RESideMenu.m in Sources */,
 				05F9E3401C8D687300DC584F /* WBAttributeTextView.m in Sources */,
 				05F9E3411C8D687300DC584F /* WBTextAttachment.m in Sources */,
+				05BE5DD61CAE362F00D2DBF1 /* WBAboutWBViewController.m in Sources */,
 				05DB3F651C857EAB00CBCC54 /* WBUserInfosModel.m in Sources */,
 				2D6958641C98EB1F009DBAB3 /* WBDataModifiedViewController.m in Sources */,
 				05D6EB7D1C7D414F002D48FF /* main.m in Sources */,

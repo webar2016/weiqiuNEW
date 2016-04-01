@@ -11,6 +11,7 @@
 #import "MJExtension.h"
 #import "WBFansModel.h"
 #import "WBFansViewTableViewCell.h"
+#import "WBHomepageViewController.h"
 
 
 @interface WBFansView ()<UITableViewDataSource,UITableViewDelegate>
@@ -82,9 +83,17 @@
     {   cell = [[WBFansViewTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FansCellID ];
         
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setModel:_dataArray[indexPath.row]];
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    WBFansModel *model = _dataArray[indexPath.row];
+    WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
+    homepage.userId = model.fansId;
+    [self.navigationController pushViewController:homepage animated:YES];
 }
 
 

@@ -200,6 +200,7 @@ didRegisterUserNotificationSettings:
 
 -(void)setRongCloud{
     [[RCIM sharedRCIM] initWithAppKey:@"z3v5yqkbvtkt0"];
+    [RCIM sharedRCIM].globalMessageAvatarStyle = RC_USER_AVATAR_CYCLE;
     
     //设置未注册消息显示方式
     [RCIM sharedRCIM].showUnkownMessage = YES;

@@ -32,6 +32,7 @@
 @property (nonatomic, assign) BOOL hasPrevPage;
 
 @property (nonatomic, assign) BOOL fromFindView;
+@property (nonatomic, assign) BOOL fromHomePage;
 @property (nonatomic, assign) BOOL isMaster;
 
 

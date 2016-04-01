@@ -218,8 +218,7 @@
 -(void)enterHomepage{
     [self.sideMenuViewController hideMenuViewController];
     WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
-    homepageVC.friendId = [WBUserDefaults userId];
-    
+    homepageVC.userId = [WBUserDefaults userId];
     [homepageVC setHidesBottomBarWhenPushed:YES];
     [self pushViewControllerWithController:homepageVC];
 }
@@ -286,7 +285,7 @@
 - (void)loadBack{
     if ([WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]) {
         WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
-        homepageVC.friendId =[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"];
+        homepageVC.userId =[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"];
         [homepageVC setHidesBottomBarWhenPushed:YES];
         
         [self pushViewControllerWithController:homepageVC];

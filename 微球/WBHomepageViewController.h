@@ -10,6 +10,6 @@
 
 @interface WBHomepageViewController : UIViewController
 
-@property (nonatomic,copy)NSString *friendId;
+@property (nonatomic,copy)NSString *userId;
 
 @end

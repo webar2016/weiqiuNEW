@@ -19,5 +19,53 @@
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x5fae;&#x7403;/WBHelpGroupsDetailViewController.m"
+            timestampString = "481174772.068335"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-checkInGroup"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[WBHelpGroupsDetailViewController checkInGroup]"
+                  moduleName = "&#x5fae;&#x7403;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Troy/Desktop/%E5%BE%AE%E7%90%83/%E5%BE%AE%E7%90%83/WBHelpGroupsDetailViewController.m"
+                  timestampString = "481174772.339474"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "23">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__48-[WBHelpGroupsDetailViewController checkInGroup]_block_invoke"
+                  moduleName = "&#x5fae;&#x7403;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Troy/Desktop/%E5%BE%AE%E7%90%83/%E5%BE%AE%E7%90%83/WBHelpGroupsDetailViewController.m"
+                  timestampString = "481174772.339681"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
