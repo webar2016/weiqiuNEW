@@ -26,6 +26,8 @@
     UIView *_imageBackgroungView;
     //预留选择图片控制器
     UIImageView *_placeHoldImageView;
+    
+    UIImage *_selectPic;
 }
 @end
 
@@ -66,6 +68,7 @@
     rightBtton.titleLabel.font = MAINFONTSIZE;
     rightBtton.layer.cornerRadius = 5;
     [rightBtton setTitle:@"发布" forState:UIControlStateNormal];
+    [rightBtton addTarget:self action:@selector(saveBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]initWithCustomView:rightBtton];
     self.navigationItem.rightBarButtonItem = rightBarButton;
@@ -190,23 +193,10 @@
         //添加
         [self addImageInSelf:info[UIImagePickerControllerEditedImage]];
         //压缩图片
+        _selectPic =info[UIImagePickerControllerEditedImage];
+      //  _picData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 1.0);
+        
        
-        NSData *fileData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 1.0);
-        NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
-        
-        [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
-        [parameters setObject:@"1" forKey:@"newsType"];
-        [parameters setObject:_textView.text forKey:@"comment"];
-        [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
-        
-        
-        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fileData:fileData name:@"dsad" fileName:@"dsadad.jpg" mimeType:@"image/jpeg" whenProgress:^(NSProgress *uploadProgress) {
-            
-        } andSuccess:^(id representData) {
-            NSLog(@"success");
-        } andFailure:^(NSString *error) {
-            NSLog(@"failure");
-        }];
         
         
         
@@ -214,21 +204,7 @@
     }else{
         //如果是视频
         NSURL *url = info[UIImagePickerControllerMediaURL];
-        //播放视频
-//        _moviePlayer.contentURL = url;
-//        [_moviePlayer play];
-//        //保存视频至相册（异步线程）
-//        NSString *urlStr = [url path];
-//        
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(urlStr)) {
-//                
-//                UISaveVideoAtPathToSavedPhotosAlbum(urlStr, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
-//            }
-//        });
-//        NSData *videoData = [NSData dataWithContentsOfURL:url];
-//        //视频上传
-//        [self uploadVideoWithData:videoData];
+
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -237,19 +213,19 @@
 
 -(void)addImageInSelf:(UIImage *)image{
     
-    
+    _placeHoldImageView.image = image;
 
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:_placeHoldImageView.frame];
-    imageView.image = image;
-   
-    [_imageBackgroungView addSubview:imageView];
-    
-    if (_placeHoldImageView.frame.origin.x==15+(SCREENWIDTH-20)/3*2) {
-       _placeHoldImageView.frame  = CGRectMake(5, imageView.frame.origin.y+(5+(SCREENWIDTH-20)/3), (SCREENWIDTH-20)/3, (SCREENWIDTH-20)/3);
-    }else{
-    
-     _placeHoldImageView.frame= CGRectMake(_placeHoldImageView.frame.origin.x+(SCREENWIDTH-20)/3+5, _placeHoldImageView.frame.origin.y, (SCREENWIDTH-20)/3, (SCREENWIDTH-20)/3);
-    }
+//    UIImageView *imageView = [[UIImageView alloc]initWithFrame:_placeHoldImageView.frame];
+//    imageView.image = image;
+//   
+//    [_imageBackgroungView addSubview:imageView];
+//    
+//    if (_placeHoldImageView.frame.origin.x==15+(SCREENWIDTH-20)/3*2) {
+//       _placeHoldImageView.frame  = CGRectMake(5, imageView.frame.origin.y+(5+(SCREENWIDTH-20)/3), (SCREENWIDTH-20)/3, (SCREENWIDTH-20)/3);
+//    }else{
+//    
+//     _placeHoldImageView.frame= CGRectMake(_placeHoldImageView.frame.origin.x+(SCREENWIDTH-20)/3+5, _placeHoldImageView.frame.origin.y, (SCREENWIDTH-20)/3, (SCREENWIDTH-20)/3);
+//    }
 
 }
 
@@ -309,6 +285,30 @@
     
     
     [self.navigationController popViewControllerAnimated:YES];
+
+}
+
+
+-(void)saveBtnClicked{
+    
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
+    
+    [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
+    [parameters setObject:@"1" forKey:@"newsType"];
+    [parameters setObject:_textView.text forKey:@"comment"];
+    [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
+     CGFloat rate =_selectPic.size.height/_selectPic.size.width;
+   [parameters setObject:[NSString stringWithFormat:@"%f",rate] forKey:@"imgRate"];
+    NSData *fileData = UIImageJPEGRepresentation(_selectPic, 1.0);
+    
+    
+    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fileData:fileData name:@"dsad" fileName:@"dsadad.jpg" mimeType:@"image/jpeg" whenProgress:^(NSProgress *uploadProgress) {
+        
+    } andSuccess:^(id representData) {
+        NSLog(@"success");
+    } andFailure:^(NSString *error) {
+        NSLog(@"failure");
+    }];
 
 }
 

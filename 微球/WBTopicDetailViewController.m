@@ -60,21 +60,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    
-    
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     _dataArray = [NSMutableArray array];
     //缓冲标志
     _labelHeightArray = [NSMutableArray array];
-    
-    
-    
-    
-    
     _page = 1;
     [self createNavi];
     [self createUI];
@@ -99,10 +90,6 @@
         [self loadData];
         
     }];
-    
-    
-    
-    
 }
 
 -(void) createNavi{
@@ -389,7 +376,7 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        //[cell setModel:model];
+        
         return cell;
         
     }else{

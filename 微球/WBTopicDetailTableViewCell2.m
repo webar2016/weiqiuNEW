@@ -52,6 +52,9 @@
         [_backgroungImage addSubview:_mainImageView];
         _mainImageView.layer.cornerRadius = 5.0f;
         _mainImageView.layer.masksToBounds = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoPlay)];
+        [_mainView addGestureRecognizer:tap];
+        //icon_broadcast 
         
         UIImageView *iconView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 41, 41)];
         iconView.image = [UIImage imageNamed:@"icon_broadcast.png"];
@@ -195,6 +198,16 @@
 
 
 #pragma 点击事件
+//播放视频
+-(void)videoPlay{
+
+
+
+
+
+}
+
+
 
 //分享事件
 -(void)shareBtnClicked{

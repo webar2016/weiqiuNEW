@@ -191,9 +191,39 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
-    if (![mediaType isEqualToString:(NSString *)kUTTypeImage]){
+    if ([mediaType isEqualToString:(NSString*)kUTTypeMovie]){
         //如果是视频
         NSURL *url = info[UIImagePickerControllerMediaURL];
+        
+        NSData  *fileData = [NSData dataWithContentsOfFile:url.path];
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
+        
+                [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
+                [parameters setObject:@"2" forKey:@"newsType"];
+               // [parameters setObject:_textView.text forKey:@"comment"];
+                [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
+        
+        [MyDownLoadManager postUserInfoUrl:@"http://192.168.1.135/mbapp/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+            [formData appendPartWithFileData:fileData name:@"1234" fileName:@"video1.mov" mimeType:@"video/quicktime"];
+        
+        } whenProgress:^(NSProgress *FieldDataBlock) {
+            
+        } andSuccess:^(id representData) {
+            NSLog(@"success");
+        } andFailure:^(NSString *error) {
+             NSLog(@"failure");
+        }];
+        
+             //   [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fileData:fileData name:@"dsad" fileName:@"dsadad.jpg" mimeType:@"image/jpeg" whenProgress:^(NSProgress *uploadProgress) {
+//        
+//                } andSuccess:^(id representData) {
+//                    NSLog(@"success");
+//                } andFailure:^(NSString *error) {
+//                    NSLog(@"failure");
+//                }];
+
+        // Compress movie first
+        
         //播放视频
         //        _moviePlayer.contentURL = url;
         //        [_moviePlayer play];
@@ -218,25 +248,12 @@
         
     }else{
         
+       // UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"" preferredStyle:<#(UIAlertControllerStyle)#>]
+        
         //压缩图片
         
-        NSData *fileData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 1.0);
-        NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
-        
-        [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
-        [parameters setObject:@"1" forKey:@"newsType"];
-       // [parameters setObject:_textView.text forKey:@"comment"];
-        [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
-        
-        
-        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fileData:fileData name:@"dsad" fileName:@"dsadad.jpg" mimeType:@"image/jpeg" whenProgress:^(NSProgress *uploadProgress) {
-            
-        } andSuccess:^(id representData) {
-            NSLog(@"success");
-        } andFailure:^(NSString *error) {
-            NSLog(@"failure");
-        }];
-
+//        NSData *fileData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 1.0);
+//
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
