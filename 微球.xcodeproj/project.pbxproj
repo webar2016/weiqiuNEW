@@ -169,6 +169,8 @@
 		2DF791AC1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */; };
 		2DF791AF1CAD1B2100C14E79 /* WBAttentionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AD1CAD1A2C00C14E79 /* WBAttentionTableViewCell.m */; };
 		2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */; };
+		2DF9A44A1CAD5F660075CE47 /* WBTopicDetailTableViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF9A4491CAD5F660075CE47 /* WBTopicDetailTableViewCell2.m */; };
+		2DF9A44E1CAD63070075CE47 /* WBPostVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF9A44C1CAD63070075CE47 /* WBPostVideoViewController.m */; };
 		2DFF687F1C969C95000DCDDA /* WBRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */; };
 		2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFF68811C96B1AD000DCDDA /* WBClientModel.m */; };
 		9338262491D79DB4DE91FFAD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0E529E428FEF18D5650182 /* libPods.a */; };
@@ -483,6 +485,10 @@
 		2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WBTopicDetailTableViewCell.m; path = "微球/WBTopicDetailTableViewCell.m"; sourceTree = "<group>"; };
 		2DF791AD1CAD1A2C00C14E79 /* WBAttentionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WBAttentionTableViewCell.m; path = "微球/WBAttentionTableViewCell.m"; sourceTree = "<group>"; };
 		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyDownLoadManager.m; path = "微球/MyDownLoadManager.m"; sourceTree = "<group>"; };
+		2DF9A4481CAD5F660075CE47 /* WBTopicDetailTableViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicDetailTableViewCell2.h; sourceTree = "<group>"; };
+		2DF9A4491CAD5F660075CE47 /* WBTopicDetailTableViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailTableViewCell2.m; sourceTree = "<group>"; };
+		2DF9A44B1CAD63070075CE47 /* WBPostVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPostVideoViewController.h; sourceTree = "<group>"; };
+		2DF9A44C1CAD63070075CE47 /* WBPostVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPostVideoViewController.m; sourceTree = "<group>"; };
 		2DFF687D1C969C95000DCDDA /* WBRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBRegisterViewController.h; sourceTree = "<group>"; };
 		2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBRegisterViewController.m; sourceTree = "<group>"; };
 		2DFF68801C96B1AD000DCDDA /* WBClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBClientModel.h; sourceTree = "<group>"; };
@@ -1099,6 +1105,8 @@
 				2D49D61C1C86C1E0008EE96B /* WBTopicDetailViewController.m */,
 				2D4C95321C8A772E000F02B3 /* WBTopicDetailTableViewCell.h */,
 				2D4C95331C8A772E000F02B3 /* WBTopicDetailTableViewCell.m */,
+				2DF9A4481CAD5F660075CE47 /* WBTopicDetailTableViewCell2.h */,
+				2DF9A4491CAD5F660075CE47 /* WBTopicDetailTableViewCell2.m */,
 				2D26AEBF1CA2230C003D5DAE /* WBTopicDetailTableViewCell3.h */,
 				2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */,
 				2D49D6221C86F232008EE96B /* TopicDetailModel.h */,
@@ -1256,6 +1264,8 @@
 				05D1F9381C8EC0520049D3EC /* WBPostArticleViewController.m */,
 				2D6B53CE1C8E6D6300E3009C /* WBPostIamgeViewController.h */,
 				2D6B53CF1C8E6D6300E3009C /* WBPostIamgeViewController.m */,
+				2DF9A44B1CAD63070075CE47 /* WBPostVideoViewController.h */,
+				2DF9A44C1CAD63070075CE47 /* WBPostVideoViewController.m */,
 			);
 			name = postView;
 			sourceTree = "<group>";
@@ -1510,6 +1520,7 @@
 			files = (
 				2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */,
 				2DF791AF1CAD1B2100C14E79 /* WBAttentionTableViewCell.m in Sources */,
+				2DF9A44A1CAD5F660075CE47 /* WBTopicDetailTableViewCell2.m in Sources */,
 				2DF791AC1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m in Sources */,
 				052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */,
 				05DB3F791C87F33E00CBCC54 /* WBNavigationController.m in Sources */,
@@ -1602,6 +1613,7 @@
 				05794C881CA2321A00F32837 /* WBSystemMsgCell.m in Sources */,
 				05BE27911C8038F100B916FB /* WBQuestionsViewController.m in Sources */,
 				0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */,
+				2DF9A44E1CAD63070075CE47 /* WBPostVideoViewController.m in Sources */,
 				05DB3F641C857EAB00CBCC54 /* WBSingleAnswerModel.m in Sources */,
 				05D6EBC31C7D4BCF002D48FF /* WBHelpGroupsViewController.m in Sources */,
 				2D5005581C800BCC00DB8BF3 /* CreateHelpGroupViewController.m in Sources */,

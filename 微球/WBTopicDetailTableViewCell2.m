@@ -1,19 +1,15 @@
 //
-//  WBTopicDetailTableViewCell.m
+//  WBTopicDetailTableViewCell2.m
 //  微球
 //
-//  Created by 贾玉斌 on 16/3/5.
+//  Created by 贾玉斌 on 16/3/31.
 //  Copyright © 2016年 weiqiuwang. All rights reserved.
 //
 
-#import "WBTopicDetailTableViewCell.h"
-#import "UIImageView+WebCache.h"
-#import <ShareSDK/ShareSDK.h>
-#import <ShareSDKUI/ShareSDK+SSUI.h>
-#import "MyDownLoadManager.h"
-#import "WBTopicCommentTableViewController.h"
+#import "WBTopicDetailTableViewCell2.h"
 
-@implementation WBTopicDetailTableViewCell
+@implementation WBTopicDetailTableViewCell2
+
 {
     UIImageView *_imageView;
 }
@@ -56,6 +52,11 @@
         [_backgroungImage addSubview:_mainImageView];
         _mainImageView.layer.cornerRadius = 5.0f;
         _mainImageView.layer.masksToBounds = YES;
+        
+        UIImageView *iconView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 41, 41)];
+        iconView.image = [UIImage imageNamed:@"icon_broadcast.png"];
+        iconView.center = _mainView.center;
+        [_backgroungImage addSubview:iconView];
         
         
         _contentLabel = [[UILabel alloc]init];
@@ -367,12 +368,13 @@
 
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    
+
     // Configure the view for the selected state
 }
 
