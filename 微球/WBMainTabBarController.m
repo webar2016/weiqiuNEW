@@ -63,7 +63,7 @@
     self.brOptionsButton = brOption;
 //    brOption.backgroundColor = [UIColor clearColor];
     [brOption setImage:[UIImage imageNamed:@"btn_add"] forBROptionsButtonState:BROptionsButtonStateNormal];
-    [brOption setImage:[UIImage imageNamed:@"btn_cancel"] forBROptionsButtonState:BROptionsButtonStateOpened];
+    [brOption setImage:[UIImage imageNamed:@"btn_cancel_tab"] forBROptionsButtonState:BROptionsButtonStateOpened];
     
     self.tabBar.opaque = YES;
     UIView *bgView = [[UIView alloc] initWithFrame:self.tabBar.bounds];

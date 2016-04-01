@@ -479,10 +479,10 @@
 		2DF2A93D1C9FC220002C3A2A /* WBFansModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFansModel.m; sourceTree = "<group>"; };
 		2DF2A93F1C9FCD44002C3A2A /* WBAttentionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAttentionModel.h; sourceTree = "<group>"; };
 		2DF2A9401C9FCD44002C3A2A /* WBAttentionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAttentionModel.m; sourceTree = "<group>"; };
-		2DF791AA1CAD199900C14E79 /* WBAttentionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WBAttentionTableViewCell.m; path = "微球/WBAttentionTableViewCell.m"; sourceTree = "<group>"; };
-		2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WBTopicDetailTableViewCell.m; path = "微球/WBTopicDetailTableViewCell.m"; sourceTree = "<group>"; };
-		2DF791AD1CAD1A2C00C14E79 /* WBAttentionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WBAttentionTableViewCell.m; path = "微球/WBAttentionTableViewCell.m"; sourceTree = "<group>"; };
-		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyDownLoadManager.m; path = "微球/MyDownLoadManager.m"; sourceTree = "<group>"; };
+		2DF791AA1CAD199900C14E79 /* WBAttentionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBAttentionTableViewCell.m; sourceTree = "<group>"; };
+		2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailTableViewCell.m; sourceTree = "<group>"; };
+		2DF791AD1CAD1A2C00C14E79 /* WBAttentionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBAttentionTableViewCell.m; sourceTree = "<group>"; };
+		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDownLoadManager.m; sourceTree = "<group>"; };
 		2DFF687D1C969C95000DCDDA /* WBRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBRegisterViewController.h; sourceTree = "<group>"; };
 		2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBRegisterViewController.m; sourceTree = "<group>"; };
 		2DFF68801C96B1AD000DCDDA /* WBClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBClientModel.h; sourceTree = "<group>"; };
@@ -757,6 +757,7 @@
 			isa = PBXGroup;
 			children = (
 				2D16EF511C840D91002D5F90 /* MyDownLoadManager.h */,
+				2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */,
 				2D16EF521C840D91002D5F90 /* MyDownLoadManager.m */,
 			);
 			name = "上传下载";
@@ -807,10 +808,6 @@
 		05D6EB6F1C7D414F002D48FF = {
 			isa = PBXGroup;
 			children = (
-				2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */,
-				2DF791AD1CAD1A2C00C14E79 /* WBAttentionTableViewCell.m */,
-				2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */,
-				2DF791AA1CAD199900C14E79 /* WBAttentionTableViewCell.m */,
 				05D6EB7A1C7D414F002D48FF /* 微球 */,
 				05D6EB941C7D414F002D48FF /* 微球Tests */,
 				05D6EB9F1C7D414F002D48FF /* 微球UITests */,
@@ -1098,6 +1095,7 @@
 				2D49D61B1C86C1E0008EE96B /* WBTopicDetailViewController.h */,
 				2D49D61C1C86C1E0008EE96B /* WBTopicDetailViewController.m */,
 				2D4C95321C8A772E000F02B3 /* WBTopicDetailTableViewCell.h */,
+				2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */,
 				2D4C95331C8A772E000F02B3 /* WBTopicDetailTableViewCell.m */,
 				2D26AEBF1CA2230C003D5DAE /* WBTopicDetailTableViewCell3.h */,
 				2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */,
@@ -1276,6 +1274,8 @@
 				2DF0499A1C9D833700E92B9E /* WBAttentionView.m */,
 				2DF2A9361C9FC0FC002C3A2A /* WBAttentionTableViewCell.h */,
 				2DF2A9371C9FC0FC002C3A2A /* WBAttentionTableViewCell.m */,
+				2DF791AD1CAD1A2C00C14E79 /* WBAttentionTableViewCell.m */,
+				2DF791AA1CAD199900C14E79 /* WBAttentionTableViewCell.m */,
 				2DF2A93F1C9FCD44002C3A2A /* WBAttentionModel.h */,
 				2DF2A9401C9FCD44002C3A2A /* WBAttentionModel.m */,
 			);
