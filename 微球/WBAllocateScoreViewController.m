@@ -42,7 +42,10 @@
     self.view.backgroundColor = [UIColor whiteColor];
     _dataArray = [NSMutableArray array];
     _cellScoreArray = [NSMutableArray array];
-    _data = (NSMutableDictionary *)@{@"userId":[WBUserDefaults userId],@"groupId":self.groupId};
+    
+    _data = [NSMutableDictionary dictionary];
+    [_data setObject:[WBUserDefaults userId] forKey:@"userId"];
+    [_data setObject:self.groupId forKey:@"groupId"];
     _totalQum = 0;
     [self creatNavi];
     [self loadData];
@@ -196,8 +199,22 @@
         return;
     } else if (_surplus == 0 && _dataArray.count > 0) {
 //        _data[@"integral"]
+        NSMutableDictionary *integral = [NSMutableDictionary dictionary];
+        for (NSInteger i = 0;i<_dataArray.count;i++) {
+            
+            UILabel *label = (UILabel *)[self.view viewWithTag:100+10*i];
+            [integral setObject:label.text forKey:[NSString stringWithFormat:@"%ld",((WBAllocateScoreModel *)_dataArray[i]).userId]];
+        }
+        
+       
+        NSLog(@"_data %@",_data);
+        [_data setObject:integral forKey:@"integral"];
+       
+       // [_data setObject:integral forKey:@"integral"];
     }
-    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/hg/closeGroup" withParameters:_data whenProgress:^(NSProgress *FieldDataBlock) {
+    NSLog(@"_data%@",_data);
+    //@"http://121.40.132.44:92/hg/closeGroup"
+    [MyDownLoadManager postUrl:@"http://192.168.1.135/mbapp/hg/closeGroup" withParameters:_data whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
         [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_GROUP targetId:self.groupId];

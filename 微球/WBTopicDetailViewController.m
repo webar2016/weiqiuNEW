@@ -339,7 +339,7 @@
     }else if (((TopicDetailModel *)_dataArray[indexPath.row]).newsType==1){
         return   [((TopicDetailModel *)_dataArray[indexPath.row]).imgRate floatValue]*SCREENWIDTH+[_labelHeightArray[indexPath.row] floatValue]+132;
     }else{
-        return 0;
+        return 400;
     }
 }
 

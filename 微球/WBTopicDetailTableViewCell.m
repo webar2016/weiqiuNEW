@@ -16,6 +16,7 @@
 @implementation WBTopicDetailTableViewCell
 {
     UIImageView *_imageView;
+    NSInteger _userId;
 }
 
 
@@ -54,8 +55,7 @@
         
         _mainImageView = [[UIImageView alloc]init];
         [_backgroungImage addSubview:_mainImageView];
-        _mainImageView.layer.cornerRadius = 5.0f;
-        _mainImageView.layer.masksToBounds = YES;
+
         
         
         _contentLabel = [[UILabel alloc]init];
@@ -122,6 +122,13 @@
     //尺寸设置
     CGFloat imageHeight = [model.imgRate floatValue]*SCREENWIDTH;
     _backgroungImage.frame = CGRectMake(0, 0, SCREENWIDTH, 120+labelHeight+imageHeight);
+    
+    if (model.createUser==[[WBUserDefaults userId] integerValue]) {
+        NSLog(@"---------");
+        _attentionButton.alpha = 0;
+        
+    }
+    _userId = model.userId;
     
     _mainView.frame = CGRectMake(0, 9, SCREENWIDTH, 60+imageHeight+17+labelHeight+10);
     
@@ -356,12 +363,33 @@
 //
 -(void)attentionBtnClicked{
     if ([_attentionButton.titleLabel.text isEqualToString:@"关注"]) {
-        [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentionButton setTintColor:[UIColor initWithBackgroundGray]];
-    }else{
+        NSLog(@"_model.userId%ld",_model.userId);
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%ld",[WBUserDefaults userId],_userId] whenSuccess:^(id representData) {
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
+                [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
+                [_attentionButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+            }
+            
+        } andFailure:^(NSString *error) {
+            
+        }];
         
+    }else{
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%ld",[WBUserDefaults userId],_userId] whenSuccess:^(id representData) {
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
+                [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
+                [_attentionButton setBackgroundColor:[UIColor initWithGreen]];
+            }
+            
+        } andFailure:^(NSString *error) {
+            
+        }];
         
     }
+    
+    
     
 }
 

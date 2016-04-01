@@ -91,7 +91,7 @@
     
     _contentLabel.text = [NSString stringWithFormat:@"回答了%ld个问题",model.qNum];
     
-    _scoreLabel.text = [NSString stringWithFormat:@"%.0f%@",[cellScore floatValue],@"%"];
+    _scoreLabel.text = [NSString stringWithFormat:@"%.0f",[cellScore floatValue]];
     
     _scoreLabel.tag = 100+indexPath.row*10;
     _leftButton.tag = 100+indexPath.row*10+1;

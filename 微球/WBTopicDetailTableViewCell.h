@@ -45,6 +45,7 @@
 
 @property (nonatomic, retain) TopicDetailModel *model;
 
+
 @property (nonatomic,retain) NSIndexPath *indexPath;
 
 @property(nonatomic,assign)id<TransformValue> delegate;//实现代理
