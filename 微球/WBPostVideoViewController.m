@@ -1,24 +1,23 @@
 //
-//  WBPostIamgeViewController.m
+//  WBPostVideoViewController.m
 //  微球
 //
-//  Created by 贾玉斌 on 16/3/8.
+//  Created by 贾玉斌 on 16/3/31.
 //  Copyright © 2016年 weiqiuwang. All rights reserved.
 //
 
-#import "WBPostIamgeViewController.h"
-#import "AFHTTPSessionManager.h"
+#import "WBPostVideoViewController.h"
 #import "MyDownLoadManager.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface WBPostIamgeViewController ()<UITextViewDelegate,UIScrollViewDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface WBPostVideoViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextViewDelegate>
 {
     UILabel *_placeHoldLabel;
     UITextView *_textView;
-   
+    
     UIImagePickerController *_imagePickerController;
     
     
@@ -29,24 +28,25 @@
 }
 @end
 
-@implementation WBPostIamgeViewController
+@implementation WBPostVideoViewController
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor initWithBackgroundGray];
+    // Do any additional setup after loading the view from its nib.
     [self createNav];
+    self.view.backgroundColor = [UIColor initWithBackgroundGray];
     [self createUI];
     [self createImagePicker];
 }
 
-
 -(void) createNav{
     //设置标题
-    self.navigationItem.title = @"照片";
+    self.navigationItem.title = @"视频";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor initWithDarkGray]}];
     //设置返回按钮
- 
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setImage:[UIImage imageNamed:@"btn_cancel_post.png"] forState:UIControlStateNormal];
     [button setTitle:@"取消" forState:UIControlStateNormal];
@@ -57,7 +57,7 @@
     
     UIBarButtonItem *leftBtuuon = [[UIBarButtonItem alloc]initWithCustomView:button];
     self.navigationItem.leftBarButtonItem = leftBtuuon;
-   //[self.navigationController.navigationBar.topItem setBackBarButtonItem:leftBtuuon];
+    //[self.navigationController.navigationBar.topItem setBackBarButtonItem:leftBtuuon];
     
     
     UIButton *rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -73,6 +73,19 @@
 }
 
 
+-(void)createImagePicker{
+    _imagePickerController = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.allowsEditing = YES;
+}
+
+
+#pragma mark ----点击事件-------
+-(void)cancelBtnClick{
+    [self.navigationController popViewControllerAnimated:YES];
+
+}
 
 -(void)createUI{
 
@@ -85,7 +98,7 @@
     _textView.delegate = self;
     _textView.keyboardType = UIKeyboardTypeDefault;
     [_textView becomeFirstResponder];
-  
+    
     [contentView addSubview:_textView];
     
     _placeHoldLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, SCREENWIDTH, 20)];
@@ -102,29 +115,21 @@
     _placeHoldImageView.image = [UIImage imageNamed:@"btn_addimg.png"];
     [_imageBackgroungView addSubview:_placeHoldImageView];
     _placeHoldImageView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imagePickClicked:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoPickClick)];
     [_placeHoldImageView addGestureRecognizer:tap ];
-    
-    
+
+
 
 }
 
+-(void)videoPickClick{
 
--(void)createImagePicker{
-    _imagePickerController = [[UIImagePickerController alloc] init];
-    _imagePickerController.delegate = self;
-    _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    _imagePickerController.allowsEditing = YES;
-}
-
--(void)imagePickClicked:(UITapGestureRecognizer *)tap{
-    
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"选择" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *photo = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self selectImageFromAlbum];
     }];
     
-    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self selectImageFromCamera];
     }];
     
@@ -133,8 +138,10 @@
     [alertController addAction:camera];
     [alertController addAction:cancel];
     [self presentViewController:alertController animated:YES completion:nil];
-}
 
+
+
+}
 
 #pragma mark 从摄像头获取图片或视频
 - (void)selectImageFromCamera
@@ -184,19 +191,41 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
-    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+    if (![mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        //如果是视频
+        NSURL *url = info[UIImagePickerControllerMediaURL];
+        //播放视频
+        //        _moviePlayer.contentURL = url;
+        //        [_moviePlayer play];
+        //        //保存视频至相册（异步线程）
+        //        NSString *urlStr = [url path];
+        //
+        //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //            if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(urlStr)) {
+        //
+        //                UISaveVideoAtPathToSavedPhotosAlbum(urlStr, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+        //            }
+        //        });
+        //        NSData *videoData = [NSData dataWithContentsOfURL:url];
+        //        //视频上传
+        //        [self uploadVideoWithData:videoData];
         //如果是图片
         
         //添加
-        [self addImageInSelf:info[UIImagePickerControllerEditedImage]];
+
+        
+        
+        
+    }else{
+        
         //压缩图片
-       
+        
         NSData *fileData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 1.0);
         NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
         
         [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
         [parameters setObject:@"1" forKey:@"newsType"];
-        [parameters setObject:_textView.text forKey:@"comment"];
+       // [parameters setObject:_textView.text forKey:@"comment"];
         [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
         
         
@@ -207,51 +236,14 @@
         } andFailure:^(NSString *error) {
             NSLog(@"failure");
         }];
-        
-        
-        
-        
-    }else{
-        //如果是视频
-        NSURL *url = info[UIImagePickerControllerMediaURL];
-        //播放视频
-//        _moviePlayer.contentURL = url;
-//        [_moviePlayer play];
-//        //保存视频至相册（异步线程）
-//        NSString *urlStr = [url path];
-//        
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(urlStr)) {
-//                
-//                UISaveVideoAtPathToSavedPhotosAlbum(urlStr, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
-//            }
-//        });
-//        NSData *videoData = [NSData dataWithContentsOfURL:url];
-//        //视频上传
-//        [self uploadVideoWithData:videoData];
+
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark 本体添加图片
 
--(void)addImageInSelf:(UIImage *)image{
-    
-    
 
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:_placeHoldImageView.frame];
-    imageView.image = image;
-   
-    [_imageBackgroungView addSubview:imageView];
-    
-    if (_placeHoldImageView.frame.origin.x==15+(SCREENWIDTH-20)/3*2) {
-       _placeHoldImageView.frame  = CGRectMake(5, imageView.frame.origin.y+(5+(SCREENWIDTH-20)/3), (SCREENWIDTH-20)/3, (SCREENWIDTH-20)/3);
-    }else{
-    
-     _placeHoldImageView.frame= CGRectMake(_placeHoldImageView.frame.origin.x+(SCREENWIDTH-20)/3+5, _placeHoldImageView.frame.origin.y, (SCREENWIDTH-20)/3, (SCREENWIDTH-20)/3);
-    }
-
-}
 
 #pragma mark 图片保存完毕的回调
 - (void) image: (UIImage *) image didFinishSavingWithError:(NSError *) error contextInfo: (void *)contextInf{
@@ -267,50 +259,6 @@
     }
 }
 
-#pragma mark -------textView delegate ------
-- (void)textViewDidBeginEditing:(UITextView *)textView{
- 
-    [_textView becomeFirstResponder];
-
-
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView{
-    [_textView resignFirstResponder];
-
-}
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-
-{    if (![text isEqualToString:@""])
-    
-{
-    
-    _placeHoldLabel.hidden = YES;
-    
-}
-    
-    if ([text isEqualToString:@""] && range.location == 0 && range.length == 1)
-        
-    {
-        
-        _placeHoldLabel.hidden = NO;
-        
-    }
-    
-    return YES;
-    
-}
-
-
-
-
-#pragma mark ------btn ----
--(void)cancelBtnClick{
-    
-    
-    [self.navigationController popViewControllerAnimated:YES];
-
-}
 
 
 - (void)didReceiveMemoryWarning {

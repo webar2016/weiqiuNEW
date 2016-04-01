@@ -28,6 +28,7 @@
     
     NSMutableArray *_dataArray;
     NSMutableArray *_cellScoreArray;
+    NSInteger _totalQum;
     NSInteger _surplus;
     
     NSMutableDictionary *_data;
@@ -42,6 +43,7 @@
     _dataArray = [NSMutableArray array];
     _cellScoreArray = [NSMutableArray array];
     _data = (NSMutableDictionary *)@{@"userId":[WBUserDefaults userId],@"groupId":self.groupId};
+    _totalQum = 0;
     [self creatNavi];
     [self loadData];
 }
@@ -119,8 +121,17 @@
             } else {
                 [self createTableView];
                 for (NSUInteger i = 0; i < count; i ++) {
-                    [_cellScoreArray addObject:[NSString stringWithFormat:@"%f",floor(100.0f/_dataArray.count)]];
-                    _surplus = 100 -[_cellScoreArray[0] floatValue]*_cellScoreArray.count;
+                    _totalQum = _totalQum +((WBAllocateScoreModel *)_dataArray[i]).qNum;
+                }
+                
+                
+                for (NSUInteger i = 0; i < count; i ++) {
+                    [_cellScoreArray addObject:[NSString stringWithFormat:@"%f",floor((((WBAllocateScoreModel *)_dataArray[i]).qNum)*100.0f/_totalQum)]];
+                   
+                }
+                _surplus = 100;
+                for (NSUInteger i = 0; i < count; i ++) {
+                    _surplus = _surplus - [_cellScoreArray[i] integerValue];
                 }
                 _surplusScore.text = [NSString stringWithFormat:@"%ld%@",_surplus,@"%"];
             }

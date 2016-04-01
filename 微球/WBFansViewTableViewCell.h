@@ -11,4 +11,5 @@
 
 @interface WBFansViewTableViewCell : UITableViewCell
 @property (nonatomic,copy)WBFansModel *model;
+@property (nonatomic,copy)NSString *fansId;
 @end

@@ -17,11 +17,13 @@
 #import "WBTopicCommentTableViewController.h"
 #import "UIImageView+WebCache.h"
 #import "WBTopicDetailTableViewCell.h"
+#import "WBTopicDetailTableViewCell2.h"
 #import "WBTopicDetailTableViewCell3.h"
 
 
 #import "WBPostIamgeViewController.h"
 #import "WBPostArticleViewController.h"
+#import "WBPostVideoViewController.h"
 
 
 #define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
@@ -182,12 +184,16 @@
 #pragma mark --------上传图片----------
 -(void)photoBtnClicled{
     WBPostIamgeViewController *PIVC = [[WBPostIamgeViewController alloc]init];
+    PIVC.topicID = _topicID;
     [self  menuBtnClicled];
     [self.navigationController pushViewController:PIVC animated:YES];
 }
 #pragma mark --------上传视频----------
 -(void)videoBtnClicled{
-    
+    WBPostVideoViewController *VVC = [[WBPostVideoViewController alloc]init];
+    VVC.topicID = _topicID;
+    [self menuBtnClicled];
+    [self.navigationController pushViewController:VVC animated:YES];
 }
 #pragma mark --------上传图文----------
 -(void)textBtnClicled{
@@ -268,10 +274,8 @@
                     [_dataArray addObject:arrayTemp[i]];
                     [_labelHeightArray addObject:[NSString stringWithFormat:@"%f",[self calculateLabelHeight:((TopicDetailModel *)arrayTemp[i]).comment]]];
                 }else if(((TopicDetailModel *)arrayTemp[i]).newsType == 2){
-                    
-                    
-                    
-                    
+                    [_dataArray addObject:arrayTemp[i]];
+                    [_labelHeightArray addObject:[NSString stringWithFormat:@"%f",[self calculateLabelHeight:((TopicDetailModel *)arrayTemp[i]).comment]]];
                 }else{
                     NSArray *labelComponents = [((TopicDetailModel *)arrayTemp[i]).comment componentsSeparatedByString:IMAGE];
                     NSArray *imageComponents = [((TopicDetailModel *)arrayTemp[i]).dir componentsSeparatedByString:@";"];
@@ -374,8 +378,19 @@
         //[cell setModel:model];
         return cell;
     }else if(((TopicDetailModel *)_dataArray[indexPath.row]).newsType == 2){
-        
-        return nil;
+        static NSString *topCellID2 = @"detailCellID2";
+        WBTopicDetailTableViewCell2 *cell = [tableView dequeueReusableCellWithIdentifier:topCellID2];
+        if (cell == nil)
+        {    cell = [[WBTopicDetailTableViewCell2 alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID2 ];
+            
+        }
+        TopicDetailModel *model = _dataArray[indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
+        cell.delegate = self;
+        cell.indexPath = indexPath;
+        //[cell setModel:model];
+        return cell;
         
     }else{
         static NSString *topCellID3 = @"detailCellID3";

@@ -69,10 +69,7 @@
 
 
 -(void)rightBtnClicked{
-
-    NSLog(@"--------");
     if ([_rightButton.titleLabel.text isEqualToString:@"已关注"]) {
-        NSLog(@" _model.fansId %@",_model);
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
