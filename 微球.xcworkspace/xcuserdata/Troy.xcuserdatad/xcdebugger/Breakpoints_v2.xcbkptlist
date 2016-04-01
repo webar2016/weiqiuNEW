@@ -73,13 +73,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x5fae;&#x7403;/WBLeftViewController.m"
-            timestampString = "481189496.145283"
+            filePath = "&#x5fae;&#x7403;/WBHomepageViewController.m"
+            timestampString = "481196583.031816"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
-            landmarkName = "-enterHomepage"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "-setUpHeadView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

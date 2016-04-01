@@ -218,8 +218,7 @@
 -(void)enterHomepage{
     [self.sideMenuViewController hideMenuViewController];
     WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
-    NSLog(@"%@",[WBUserDefaults userId].class);
-    homepageVC.userId = [WBUserDefaults userId];
+    homepageVC.userId = [NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
     [homepageVC setHidesBottomBarWhenPushed:YES];
     [self pushViewControllerWithController:homepageVC];
 }
