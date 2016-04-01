@@ -16,8 +16,8 @@
 
 @property (nonatomic, copy) NSString *content;
 
-//@property (nonatomic, weak) NSData *imageArray;
-//
-//@property (nonatomic, weak) NSData *nameArray;
+@property (nonatomic, copy) NSString *topicId;
+
+@property (nonatomic, copy) NSString *imageRate;
 
 @end

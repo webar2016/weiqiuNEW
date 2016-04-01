@@ -300,6 +300,13 @@
 
 -(void)showSearchResultView:(NSNotification*)sender{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"showSearchResultView" object:nil];
+    if (sender.userInfo[@"searchPearch"]) {
+        WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
+        homepage.userId = sender.userInfo[@"userId"];
+        homepage.hidesBottomBarWhenPushed = YES;
+        [self.parentViewController.navigationController pushViewController:homepage animated:YES];
+        return;
+    }
     WBAnswerListController *answerListController = [[WBAnswerListController alloc] init];
     [answerListController setHidesBottomBarWhenPushed:YES];
     answerListController.fromFindView = YES;

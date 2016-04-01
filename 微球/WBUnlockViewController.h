@@ -7,11 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
 
 @interface WBUnlockViewController : UIViewController
 
 @property (nonatomic, copy) NSString *cityName;
 @property (nonatomic, copy) NSNumber *cityId;
 @property (nonatomic, copy) NSNumber *provinceId;
+
+@property (nonatomic,strong)MBProgressHUD *hud;
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
+-(void)showHUDComplete:(NSString *)title;
+-(void)hideHUD;
 
 @end

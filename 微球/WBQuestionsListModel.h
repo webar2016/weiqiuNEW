@@ -23,6 +23,8 @@
 
 @property (nonatomic, copy) NSString *groupId;
 
+@property (nonatomic, copy) NSString *cityStr;
+
 @property (nonatomic, strong) WBSingleAnswerModel *hga;
 
 @end

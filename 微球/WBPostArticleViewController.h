@@ -15,6 +15,7 @@
 
 @property (nonatomic, copy) NSString *groupId;
 @property (nonatomic, copy) NSString *questionId;
+@property (nonatomic,assign) NSString *topicID;
 
 @property (nonatomic,strong)MBProgressHUD *hud;
 

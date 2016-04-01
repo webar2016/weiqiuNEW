@@ -132,7 +132,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_currentPage == 2) {
-        NSLog(@"进入个人主页");
+        [self dismissViewControllerAnimated:YES completion:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"showSearchResultView" object:self userInfo:@{@"searchPearch":@YES,@"userId":[NSString stringWithFormat:@"%ld",((WBUserInfosModel *)self.usersArray[indexPath.row]).userId]}];
+        }];
     }
 }
 
@@ -254,10 +256,10 @@
     WBQuestionsListModel *data = self.questionsArray[self.selectedRow];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     dic[@"questionText"] = data.questionText;
-    dic[@"questionId"] = [NSString stringWithFormat:@"%d",data.questionId];
-    dic[@"allAnswers"] = [NSString stringWithFormat:@"%d",data.allAnswers];
-    dic[@"allIntegral"] = [NSString stringWithFormat:@"%d",data.allIntegral];
-    dic[@"suerId"] = [NSString stringWithFormat:@"%d",data.hga.tblUser.userId];
+    dic[@"questionId"] = [NSString stringWithFormat:@"%ld",data.questionId];
+    dic[@"allAnswers"] = [NSString stringWithFormat:@"%ld",data.allAnswers];
+    dic[@"allIntegral"] = [NSString stringWithFormat:@"%ld",data.allIntegral];
+    dic[@"suerId"] = [NSString stringWithFormat:@"%ld",data.hga.tblUser.userId];
     [self dismissViewControllerAnimated:YES completion:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:@"showSearchResultView" object:self userInfo:dic];
     }];

@@ -64,6 +64,7 @@
 -(void)loginOut{
     NSLog(@"退出微球");
     [WBUserDefaults deleteUserDefaults];
+    [[RCIMClient sharedRCIMClient] logout];
     
     MyDBmanager *manager1 = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
     [manager1 deleteAllData];
