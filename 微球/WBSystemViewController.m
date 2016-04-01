@@ -184,7 +184,7 @@
     } else if ([model.content isKindOfClass:[WBFollowMessage class]]) {
         WBFollowMessage *message = (WBFollowMessage *)model.content;
         WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
-        homepage.friendId = message.extra;
+        homepage.userId = message.extra;
         [self.navigationController pushViewController:homepage animated:YES];
     } else if ([model.content isKindOfClass:[WBCommentMessage class]]) {
         WBCommentMessage *message = (WBCommentMessage *)model.content;//message.extra存储了被评论状态的id

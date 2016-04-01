@@ -302,7 +302,7 @@
 
 - (void)didTapCellPortrait:(NSString *)userId{
     WBHomepageViewController *friendPage = [[WBHomepageViewController alloc] init];
-    friendPage.friendId = userId;
+    friendPage.userId = userId;
     [self.navigationController pushViewController:friendPage animated:YES];
 }
 

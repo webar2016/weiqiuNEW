@@ -100,7 +100,7 @@
     self.dataDic[@"endTime"] = _closeDate;
     self.dataDic[@"maxMembers"] = _memberNumber.text;
     self.dataDic[@"imgRate"] = [NSString stringWithFormat:@"%.2f",_imageScale];
-    self.dataDic[@"groupSign"] = @"吃喝玩乐嫖赌毒";
+    self.dataDic[@"groupSign"] = @"";
     self.dataDic[@"rewardIntegral"] = _scoreLable.text;
     self.dataDic[@"userId"] = [WBUserDefaults userId];
     

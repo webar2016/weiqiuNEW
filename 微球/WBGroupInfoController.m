@@ -25,6 +25,9 @@
     
     BOOL            _choosePlanBegin;
     BOOL            _datePickerIsHide;
+    
+    NSDate          *_beginDate;
+    NSDate          *_endDate;
 }
 
 @end
@@ -67,6 +70,20 @@
 }
 
 -(void)nextStep{
+    
+    if (_beginDate && _endDate) {
+        NSDate *earlierDate = [_beginDate earlierDate:_endDate];
+        if (![earlierDate isEqualToDate:_beginDate]){
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"结束时间不能早于开始时间\n请重新选择！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:({
+                UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+                action;
+            })];
+            [self presentViewController:alert animated:YES completion:nil];
+            return;
+        }
+    }
+    
     WBGroupDetailController *groupDetailVC = [[WBGroupDetailController alloc] init];
     groupDetailVC.dataDic = self.dataDic;
     
@@ -193,9 +210,11 @@
     [dateformatter setDateFormat:@"yyyy-MM-dd"];
     NSString *date = [dateformatter stringFromDate:_datePicker.date];
     if (_choosePlanBegin) {
+        _beginDate = _datePicker.date;
         [_beginButton setTitle:date forState:UIControlStateNormal];
         self.dataDic[@"planBegin"] = date;
     }else{
+        _endDate = _datePicker.date;
         [_endButton setTitle:date forState:UIControlStateNormal];
         self.dataDic[@"planEnd"] = date;
     }

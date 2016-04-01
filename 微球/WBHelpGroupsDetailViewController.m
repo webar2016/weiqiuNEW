@@ -23,8 +23,8 @@
     UILabel *_timeLabel;
     UIButton *_ageButton;
     NSString *_dataStr;
-    
-    
+    UIButton *_cancelBtn;
+    UIButton *_ensureBtn;
 
 }
 @end
@@ -34,7 +34,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    [self createButton];
+    [self checkInGroup];
     [self createUI];
+}
+
+-(void)checkInGroup{
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%ld",[WBUserDefaults userId],self.model.groupId] whenSuccess:^(id representData) {
+        
+        NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
+        if ([result isEqualToString:@"false"]) {
+            [_ensureBtn setTitle:@"确认加入" forState:UIControlStateNormal];
+            _ensureBtn.backgroundColor = [UIColor initWithGreen];
+            [_ensureBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        }
+       
+    } andFailure:^(NSString *error) {
+        
+    }];
 }
 
 -(void)createUI{
@@ -86,14 +103,11 @@
     
     _ageButton.layer.cornerRadius = 3;
     [_ageButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
-    [_ageButton setTitle:[NSString stringWithFormat:@"%d",_model.tblUser.age]  forState:UIControlStateNormal];
+    [_ageButton setTitle:[NSString stringWithFormat:@"%ld",_model.tblUser.age]  forState:UIControlStateNormal];
     _ageButton.backgroundColor = [UIColor initWithGreen];
     _ageButton.titleLabel.font = SMALLFONTSIZE;
 
     [self createGroupOne];
-    [self createButton];
-
-
 }
 
 -(void)createGroupOne{
@@ -110,7 +124,7 @@
     }
     
     
-    NSArray *rightLabelNameArray = @[_model.tblUser.position,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%d人",_model.maxMembers],[NSString stringWithFormat:@"%d球币",_model.rewardIntegral]];
+    NSArray *rightLabelNameArray = @[_model.tblUser.position,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%ld人",_model.maxMembers],[NSString stringWithFormat:@"%ld球币",_model.rewardIntegral]];
     
     
     
@@ -138,29 +152,23 @@
 
 
 -(void)createButton{
+    _cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-49, SCREENWIDTH/2, 49)];
+    [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [_cancelBtn setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
+    _cancelBtn.backgroundColor = [UIColor initWithBackgroundGray];
+    _cancelBtn.tag = 100;
+    [_cancelBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSArray *nameArray = @[@"取消",@"确认加入"];
-    for (NSInteger i =0; i<2; i++) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setTitle:nameArray[i] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor initWithDarkGray] forState:UIControlStateNormal];
-        button.frame = CGRectMake(0+i*(SCREENWIDTH)/2, self.view.frame.size.height-49, SCREENWIDTH/2, 49) ;
-        [self.view addSubview:button];
-        if (i==0) {
-            button.backgroundColor = [UIColor initWithBackgroundGray];
-        }else{
-         button.backgroundColor = [UIColor initWithGreen];
-        }
-        
-        [button addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        button.tag =100+i;
-        
-
-    }
+    _ensureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH/2, self.view.frame.size.height-49, SCREENWIDTH/2, 49)];
+    [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+    [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+    _ensureBtn.tag = 101;
     
-
-
+    [self.view addSubview:_cancelBtn];
+    [self.view addSubview:_ensureBtn];
 }
+
 // 加入帮帮团
 -(void)btnClicked:(UIButton *)btn{
 
@@ -169,7 +177,7 @@
 
     }else{
     
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%d&userId=%@",_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
             
             [self dismissViewControllerAnimated:YES completion:nil];
         } andFailure:^(NSString *error) {
@@ -184,15 +192,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

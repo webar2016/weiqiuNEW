@@ -100,7 +100,7 @@
 {
     if (!_collectionView) {
         MyCollectionViewFlowLayout * flowLayout = [[MyCollectionViewFlowLayout alloc]init];
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height) collectionViewLayout:flowLayout];
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height - 20) collectionViewLayout:flowLayout];
         collectionView.backgroundColor = [UIColor whiteColor];
         collectionView.dataSource = self;
         collectionView.delegate = self;
@@ -117,7 +117,7 @@
     _loadImageCount = 0;
     _page = 1;
     
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%d",_page];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld",_page];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -150,7 +150,7 @@
         return;
     }
     
-    NSString *url = [NSString stringWithFormat:@"http://www.xiaohongchun.com/api2/index/gvideo?page=%d&release=2.0&udid=765879&cid=0",_page];
+    NSString *url = [NSString stringWithFormat:@"http://www.xiaohongchun.com/api2/index/gvideo?page=%ld&release=2.0&udid=765879&cid=0",_page];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         

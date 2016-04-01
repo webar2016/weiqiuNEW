@@ -39,8 +39,12 @@
 }
 
 - (void)didTapCellPortrait:(NSString *)userId{
+    if (self.fromHomePage) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     WBHomepageViewController *friendPage = [[WBHomepageViewController alloc] init];
-    friendPage.friendId = userId;
+    friendPage.userId = userId;
     [self.navigationController pushViewController:friendPage animated:YES];
 }
 

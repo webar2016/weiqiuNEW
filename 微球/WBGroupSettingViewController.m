@@ -189,8 +189,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
+        WBUserInfosModel *pageInfo = self.headIconArray[indexPath.row];
         WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
-        homepage.friendId = [NSString stringWithFormat:@"%d",((WBUserInfosModel *)self.headIconArray[indexPath.row]).userId];
+        homepage.userId = [NSString stringWithFormat:@"%ld",pageInfo.userId];
         [self.navigationController pushViewController:homepage animated:YES];
     }
 }

@@ -11,18 +11,19 @@
 #import "WBDataModifiedViewController.h"
 #import "WBWebViewController.h"
 #import "WBPrivateViewController.h"
-#import "UIImageView+WebCache.h"
-#import "MJExtension.h"
-
+#import "WBAnswerListController.h"
+#import "WBAnswerDetailController.h"
 #import "WBHomeHeadTableViewCell.h"
 #import "WBHomeFirstPageTableViewCell.h"
 #import "WBQuestionTableViewCell.h"
-
 #import "WBFansView.h"
 #import "WBAttentionView.h"
 
 #import "TopicDetailModel.h"
 #import "WBSingleAnswerModel.h"
+#import "WBQuestionsListModel.h"
+#import "UIImageView+WebCache.h"
+#import "MJExtension.h"
 
 @interface WBHomepageViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,WBQuestionTableViewCellDelegate,ModefyData,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     
@@ -32,7 +33,7 @@
     
     UIImageView         *_coverImage;//封面图片
     UIImageView         *_headicon;
-    UILabel             *_nickname;
+    UILabel             *_nicknameLabel;
     UIButton            *_followButton;
     UIButton            *_attentionLeftButton;
     UIButton            *_attentionRightButton;
@@ -58,6 +59,9 @@
     
     UIImagePickerController *_imagePicker;
 }
+
+@property (nonatomic, assign) int selectedRow;
+
 @end
 
 @implementation WBHomepageViewController
@@ -109,9 +113,12 @@
     _coverImage.contentMode = UIViewContentModeScaleAspectFill;
     _coverImage.image = [UIImage imageNamed:@"cover"];
     _coverImage.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(changeCoverImage)];
-    _coverImage.userInteractionEnabled = YES;
-    [_coverImage addGestureRecognizer:tap];
+    
+    if (self.userId == [WBUserDefaults userId]) {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(changeCoverImage)];
+        _coverImage.userInteractionEnabled = YES;
+        [_coverImage addGestureRecognizer:tap];
+    }
     [_headView addSubview:_coverImage];
     
     _headicon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 64, 64)];
@@ -133,19 +140,19 @@
     [chatBtn setImage:[UIImage imageNamed:@"icon_chat"] forState:UIControlStateNormal];
     chatBtn.frame = CGRectMake(SCREENWIDTH - 47, 174, 32, 32);
     [chatBtn addTarget:self action:@selector(enterChatView) forControlEvents:UIControlEventTouchUpInside];
-    if ([_friendId isEqual:[WBUserDefaults userId]]) {
+    if ([self.userId isEqual:[WBUserDefaults userId]]) {
         [_headView addSubview:infoBtn];
         
     }else{
         [_headView addSubview:chatBtn];
     }
     
-    _nickname = [[UILabel alloc] initWithFrame:CGRectMake(0, 220, SCREENWIDTH, 18)];
-    _nickname.font = BIGFONTSIZE;
-    _nickname.textColor = [UIColor initWithNormalGray];
-    _nickname.textAlignment = NSTextAlignmentCenter;
+    _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 220, SCREENWIDTH, 18)];
+    _nicknameLabel.font = BIGFONTSIZE;
+    _nicknameLabel.textColor = [UIColor initWithNormalGray];
+    _nicknameLabel.textAlignment = NSTextAlignmentCenter;
    // _nickname.text = [WBUserDefaults nickname];
-    [_headView addSubview:_nickname];
+    [_headView addSubview:_nicknameLabel];
 
     
 
@@ -181,7 +188,7 @@
     CGSize buttonSize = CGSizeMake(SCREENWIDTH / 3, 44);
    CGPoint point;
     
-    if (![_friendId isEqual:[WBUserDefaults userId]]) {
+    if (![self.userId isEqual:[WBUserDefaults userId]]) {
         _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
         _followButton.center = CGPointMake(SCREENWIDTH / 2, 300);
         _followButton.layer.masksToBounds = YES;
@@ -230,7 +237,7 @@
     }
     [_headicon sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"dir"]]];
 
-    _nickname.text = [_userInfo objectForKey:@"nickname"];
+    _nicknameLabel.text = [_userInfo objectForKey:@"nickname"];
     
     [_attentionLeftButton setTitle:[NSString stringWithFormat:@"%@关注",[_userInfo objectForKey:@"concerns"]] forState:UIControlStateNormal];
     [_attentionRightButton setTitle:[NSString stringWithFormat:@"%@粉丝",[_userInfo objectForKey:@"fans"]] forState:UIControlStateNormal];
@@ -276,10 +283,10 @@
 
 -(void)loadUserInfo{
     NSString *url;
-    if ([_friendId isEqual:[WBUserDefaults userId]]) {
+    if ([self.userId isEqual:[WBUserDefaults userId]]) {
         url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"],[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
     }else{
-        url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",_friendId,[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
+        url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",self.userId,[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
         NSLog(@"%@",url);
     }
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
@@ -379,8 +386,8 @@
 -(void)selfBtnClicked:(UIButton *)btn{
     if (btn.tag ==500) {
         WBAttentionView *AVC = [[WBAttentionView alloc]init];
-        if (_friendId) {
-            AVC.showUserId = _friendId;
+        if (self.userId != [WBUserDefaults userId]) {
+            AVC.showUserId = self.userId;
         }else{
             AVC.showUserId = [WBUserDefaults userId];
         }
@@ -388,8 +395,8 @@
         
     }else if (btn.tag ==501){
         WBFansView *FVC = [[WBFansView alloc]init];
-        if (_friendId) {
-            FVC.showUserId = _friendId;
+        if (self.userId != [WBUserDefaults userId]) {
+            FVC.showUserId = self.userId;
         }else{
             FVC.showUserId = [WBUserDefaults userId];
         }
@@ -403,7 +410,7 @@
 -(void)concernsOperation:(UIButton *)btn{
     if (btn.tag == 50) {
         if ([btn.titleLabel.text isEqualToString:@"关注"]) {
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],_friendId] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
                     [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
@@ -415,7 +422,7 @@
             }];
  
         }else{
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],_friendId] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
                     [_followButton setTitle:@"关注" forState:UIControlStateNormal];
@@ -492,7 +499,9 @@
 }
 
 -(void)enterChatView{
-    WBPrivateViewController *chatView = [[WBPrivateViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:self.friendId];
+    WBPrivateViewController *chatView = [[WBPrivateViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:self.userId];
+    chatView.fromHomePage = YES;
+    chatView.title = self.navigationItem.title;
     [self.navigationController pushViewController:chatView animated:YES];
 }
 
@@ -500,7 +509,7 @@
     NSLog(@"---ModefyViewDelegate----");
     _headicon.image= [WBUserDefaults headIcon];
     
-    _nickname.text = [WBUserDefaults nickname];
+    _nicknameLabel.text = [WBUserDefaults nickname];
 }
 
 
@@ -538,7 +547,9 @@
     [aleVC addAction:act3];
     [self presentViewController:aleVC animated:YES completion:nil];
 }
+
 #pragma mark UIImagePickerControllerDelegate
+
 //该代理方法仅适用于只选取图片时
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
     NSLog(@"选择完毕----image:%@-----info:%@",image,editingInfo);
@@ -568,6 +579,30 @@
         
     }
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - question tableview cell tap delegate
+
+-(void)questionView:(WBQuestionTableViewCell *)cell{
+    [self answerView:cell];
+}
+
+-(void)answerView:(WBQuestionTableViewCell *)cell{
+    self.selectedRow = (int)cell.tag;
+    WBAnswerDetailController *answerDetailController = [[WBAnswerDetailController alloc] init];
+    [answerDetailController setHidesBottomBarWhenPushed:YES];
+    WBSingleAnswerModel *data = _answersArray[self.selectedRow];
+    answerDetailController.questionText = data.questionText;
+    answerDetailController.answerId = data.answerId;
+    answerDetailController.questionId = data.questionId;
+    answerDetailController.allIntegral = data.getIntegral;
+    answerDetailController.dir = data.tblUser.dir;
+    answerDetailController.nickname = data.tblUser.nickname;
+    answerDetailController.timeStr = data.timeStr;
+    answerDetailController.getIntegral = data.getIntegral;
+    answerDetailController.userId = data.tblUser.userId;
+    answerDetailController.fromHomePage = YES;
+    [self.navigationController pushViewController:answerDetailController animated:YES];
 }
 
 

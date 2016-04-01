@@ -7,6 +7,7 @@
 //
 
 #import "WBSettingViewController.h"
+#import "WBAboutWBViewController.h"
 #import <RongIMLib/RCIMClient.h>
 #import "MyDBmanager.h"
 
@@ -124,7 +125,8 @@
     if (indexPath.row == 2) {
         NSLog(@"给我们鼓励！");
     } else if (indexPath.row == 3) {
-        NSLog(@"关于微球");
+        WBAboutWBViewController *aboutVC = [[WBAboutWBViewController alloc] init];
+        [self.navigationController pushViewController:aboutVC animated:YES];
     }
 }
 

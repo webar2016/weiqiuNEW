@@ -284,7 +284,8 @@
     self.selectedRow = (int)cell.tag;
     WBQuestionsListModel *data = self.questionsList[self.selectedRow];
     WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
-    homepage.friendId = [NSString stringWithFormat:@"%d",data.hga.tblUser.userId];
+    homepage.userId = [NSString stringWithFormat:@"%ld",data.hga.tblUser.userId];
+    homepage.hidesBottomBarWhenPushed = YES;
     if (self.fromFindView) {
         [self.parentViewController.navigationController pushViewController:homepage animated:YES];
         return;
