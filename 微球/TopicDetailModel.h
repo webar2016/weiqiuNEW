@@ -45,7 +45,7 @@
 @property (nonatomic,strong) TblUser *tblUser;
 @property (nonatomic,copy) NSString *timeStr;
 @property (nonatomic,assign) NSInteger descussNum;   //评论树木
-@property (nonatomic,assign) NSInteger mediaPic;
+@property (nonatomic,copy) NSString *mediaPic;
 @property (nonatomic,copy) NSString *imgRate;
 @end
 

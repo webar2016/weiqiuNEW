@@ -371,10 +371,15 @@
 //
 -(void)attentionBtnClicked{
     if ([_attentionButton.titleLabel.text isEqualToString:@"关注"]) {
+        
+        
         [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
         [_attentionButton setTintColor:[UIColor initWithBackgroundGray]];
     }else{
         
+        
+        [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
+        [_attentionButton setTintColor:[UIColor initWithBackgroundGray]];
         
     }
     

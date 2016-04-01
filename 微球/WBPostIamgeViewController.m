@@ -244,15 +244,26 @@
 }
 
 #pragma mark -------textView delegate ------
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (![_textView isExclusiveTouch]) {
+        [_textView resignFirstResponder];
+    }
+}
+
 - (void)textViewDidBeginEditing:(UITextView *)textView{
  
     [_textView becomeFirstResponder];
-
-
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     [_textView resignFirstResponder];
+
+}
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView{
+
+    [_textView resignFirstResponder];
+    return YES;
 
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -276,6 +287,7 @@
     return YES;
     
 }
+#pragma mark ====textviewdelegate====
 
 
 
@@ -302,12 +314,18 @@
     NSData *fileData = UIImageJPEGRepresentation(_selectPic, 1.0);
     
     
-    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fileData:fileData name:@"dsad" fileName:@"dsadad.jpg" mimeType:@"image/jpeg" whenProgress:^(NSProgress *uploadProgress) {
+    
+    [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+        if (fileData) {
+            [formData appendPartWithFileData:fileData name:@"asd" fileName:@"asd.jpg" mimeType:@"image/jpeg"];
+        }
+        
+    } whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
-        NSLog(@"success");
+        
     } andFailure:^(NSString *error) {
-        NSLog(@"failure");
+        
     }];
 
 }

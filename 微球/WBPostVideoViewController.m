@@ -203,7 +203,7 @@
                // [parameters setObject:_textView.text forKey:@"comment"];
                 [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
         
-        [MyDownLoadManager postUserInfoUrl:@"http://192.168.1.135/mbapp/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+        [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:fileData name:@"1234" fileName:@"video1.mov" mimeType:@"video/quicktime"];
         
         } whenProgress:^(NSProgress *FieldDataBlock) {

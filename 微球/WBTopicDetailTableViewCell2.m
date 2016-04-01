@@ -174,7 +174,14 @@
         _mainImageView.frame =CGRectMake(10, 60, SCREENWIDTH-20, 175);
         _mainImageView.layer.borderWidth = 2;
         _mainImageView.layer.borderColor =[UIColor colorWithRed:236 green:240 blue:241 alpha:1].CGColor;
-        [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
+        [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.mediaPic]];
+        [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.mediaPic] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+          
+            [_mainImageView setImage:[UIImage imageWithCGImage:image.CGImage scale:1 orientation:UIImageOrientationLeft]];
+        }];
+        
+
+        
         
         _contentLabel.frame =CGRectMake(10, 60+175+17, SCREENWIDTH-20, _contentLabel.frame.size.height);
         _contentLabel.text = model.comment;
@@ -369,6 +376,7 @@
 
 //
 -(void)attentionBtnClicked{
+    
     if ([_attentionButton.titleLabel.text isEqualToString:@"关注"]) {
         [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
         [_attentionButton setTintColor:[UIColor initWithBackgroundGray]];
