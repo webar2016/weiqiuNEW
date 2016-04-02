@@ -211,6 +211,7 @@
             
         } andSuccess:^(id representData) {
             NSLog(@"success");
+            [self.navigationController popViewControllerAnimated:YES];
         } andFailure:^(NSString *error) {
              NSLog(@"failure");
         }];

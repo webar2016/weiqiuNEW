@@ -23,9 +23,9 @@
 -(instancetype)init{
     self=[super init];
     if (self) {
-        [self setFrame:CGRectMake(0, 0, 30, 30)];
-        _zanImage=[UIImage imageNamed:@"Zan"];
-        _unZanImage=[UIImage imageNamed:@"UnZan"];
+        [self setFrame:CGRectMake(0, 0, 20, 20)];
+        _zanImage=[UIImage imageNamed:@"icon_liked"];
+        _unZanImage=[UIImage imageNamed:@"icon_like"];
         _type=CatZanButtonTypeFirework;
         [self initBaseLayout];
     }
@@ -35,8 +35,8 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
     if (self) {
-        _zanImage=[UIImage imageNamed:@"Zan"];
-        _unZanImage=[UIImage imageNamed:@"UnZan"];
+        _zanImage=[UIImage imageNamed:@"icon_liked"];
+        _unZanImage=[UIImage imageNamed:@"icon_like"];
         _type=CatZanButtonTypeFirework;
         [self initBaseLayout];
     }

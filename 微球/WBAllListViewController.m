@@ -104,6 +104,7 @@
         collectionView.backgroundColor = [UIColor whiteColor];
         collectionView.dataSource = self;
         collectionView.delegate = self;
+        collectionView.backgroundColor = [UIColor initWithBackgroundGray];
        [collectionView registerClass:[WBCollectionViewCell class] forCellWithReuseIdentifier:kCellReuseId];
         collectionView.backgroundView.backgroundColor = [UIColor initWithBackgroundGray];
         return collectionView;

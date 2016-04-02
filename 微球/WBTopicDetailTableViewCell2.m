@@ -97,28 +97,28 @@
         [_commentButton addTarget: self action:@selector(commentBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         
         
+       
+        _praiseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        //[_praiseButton setImage:[UIImage imageNamed:@"icon_like.png"] forState:UIControlStateNormal];
+        [self.contentView addSubview:_praiseButton];
+        [_praiseButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
+        //[_praiseButton addTarget:self action:@selector(praiseBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+        _praiseButton.titleLabel.font = MAINFONTSIZE;
         //点赞
-         _zanBtn=[[CatZanButton alloc] init];
+        _zanBtn=[[CatZanButton alloc] init];
         [self.contentView addSubview:_zanBtn];
         [_zanBtn setType:CatZanButtonTypeFirework];
-         __unsafe_unretained WBTopicDetailTableViewCell2 *wfindShopVC = self;
+        __unsafe_unretained WBTopicDetailTableViewCell2 *wfindShopVC = self;
         [_zanBtn setClickHandler:^(CatZanButton *zanButton) {
             if (zanButton.isZan) {
                 NSLog(@"Zan!");
-               
+                
                 [wfindShopVC praiseBtnClicked];
             }else{
                 NSLog(@"Cancel zan!");
             }
         }];
 
-        _praiseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        //[_praiseButton setImage:[UIImage imageNamed:@"icon_like.png"] forState:UIControlStateNormal];
-        [self.contentView addSubview:_praiseButton];
-        [_praiseButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
-        [_praiseButton addTarget:self action:@selector(praiseBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-        _praiseButton.titleLabel.font = MAINFONTSIZE;
-        
         //点赞跳出的提示框
         _imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"点赞转积分提示.png"]];
         _imageView.frame = CGRectMake(_praiseButton.frame.origin.x-124, _praiseButton.frame.origin.y-5, 124, 23);
@@ -138,6 +138,9 @@
 
 - (void)setModel:(TopicDetailModel *)model  labelHeight:(CGFloat)labelHeight{
     //尺寸设置
+    
+    _model = model;
+    
     CGFloat imageHeight = [model.imgRate floatValue]*SCREENWIDTH;
     _backgroungImage.frame = CGRectMake(0, 0, SCREENWIDTH, 120+labelHeight+imageHeight);
     
@@ -154,8 +157,8 @@
     _shareButton.frame =CGRectMake(10, 60+imageHeight+17+labelHeight+10+10, 80, 16);
     
     _commentButton.frame =CGRectMake(SCREENWIDTH/3+10, 60+imageHeight+17+labelHeight+10+10, 80, 16);
-    _praiseButton.frame =CGRectMake(SCREENWIDTH-120+44,  60+imageHeight+17+labelHeight+10+10, 100,16);
-    _zanBtn.frame = CGRectMake(SCREENWIDTH-120, 60+imageHeight+17+labelHeight+10+10, 44, 44);
+    _praiseButton.frame =CGRectMake(SCREENWIDTH-120,  60+imageHeight+17+labelHeight+10+10, 100,16);
+    _zanBtn.frame = CGRectMake(SCREENWIDTH-120, 60+imageHeight+17+labelHeight+10+10, 20, 20);
     _imageView.frame = CGRectMake(_praiseButton.frame.origin.x-124, _praiseButton.frame.origin.y-5, 124, 23);
     
     
@@ -290,9 +293,6 @@
 //点赞事件
 -(void)praiseBtnClicked{
     [self checkoutConfigDetail];
-    
-    
-    
 }
 
 //检查积分配置信息
@@ -312,7 +312,8 @@
 
 //检查用户积分是否够用
 -(void)checkoutIntegral:(NSString *)config{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=29&updateNum=5"] whenSuccess:^(id representData) {
+    NSLog(@"url = %@",@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5");
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         BOOL isEnough = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if (isEnough) {
             [self uploadInformation];
@@ -326,17 +327,17 @@
 
 -(void)uploadInformation{
     
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=1&userId=29&toUserId=636"] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",_model.commentId,[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
         [self.delegate changeGetIntegralValue:123 indexPath:_indexPath];
-//        [_praiseButton setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
-//        [UIView animateWithDuration:0.5f animations:^{
-//            _praiseButton.transform = CGAffineTransformScale(_praiseButton.transform, 2, 2);
-//            //_praiseButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
-//             NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);
-//            _imageView.alpha = 1;
-//        } completion:^(BOOL finished) {
-//            [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0.5f];
-//        }];
+        //[_praiseButton setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
+        [UIView animateWithDuration:0.5f animations:^{
+          //  _praiseButton.transform = CGAffineTransformScale(_praiseButton.transform, 2, 2);
+            //_praiseButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
+             NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);
+            _imageView.alpha = 1;
+        } completion:^(BOOL finished) {
+            [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0.5f];
+        }];
     } andFailure:^(NSString *error) {
     }];
 }
@@ -346,7 +347,7 @@
 - (void)hideWindow:(id)object
 {
     [UIView animateWithDuration:0.5f animations:^{
-        _praiseButton.transform = CGAffineTransformScale(_praiseButton.transform, 0.5, 0.5);
+       // _praiseButton.transform = CGAffineTransformScale(_praiseButton.transform, 0.5, 0.5);
        // _praiseButton.transform = CGAffineTransformMakeScale(1,1);
         NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);
         _imageView.alpha = 0;
@@ -356,13 +357,34 @@
 //
 -(void)attentionBtnClicked{
     if ([_attentionButton.titleLabel.text isEqualToString:@"关注"]) {
-        [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
-        [_attentionButton setTintColor:[UIColor initWithBackgroundGray]];
-    }else{
+        NSLog(@"_model.userId%ld",_model.userId);
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%ld",[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
+                [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
+                [_attentionButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+            }
+            
+        } andFailure:^(NSString *error) {
+            
+        }];
         
+    }else{
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%ld",[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
+                [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
+                [_attentionButton setBackgroundColor:[UIColor initWithGreen]];
+            }
+            
+        } andFailure:^(NSString *error) {
+            
+        }];
         
     }
 }
+
+
 
 
 - (void)awakeFromNib {

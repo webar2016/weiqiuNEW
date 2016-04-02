@@ -8,10 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "WBCollectionViewModel.h"
+#import "MBProgressHUD.h"
 
 @interface WBHelpGroupsDetailViewController : UIViewController
 
 
 @property (nonatomic,retain) WBCollectionViewModel *model;
 @property (nonatomic,assign) CGFloat imageHeight;
+
+
+
+@property (nonatomic,strong)MBProgressHUD *hud;
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
+-(void)showHUDComplete:(NSString *)title;
+-(void)hideHUD;
+
 @end

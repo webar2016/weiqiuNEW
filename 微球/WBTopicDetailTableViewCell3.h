@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TopicDetailModel.h"
+#import "CatZanButton.h"
 
 //代理反相传旨
 @protocol TransformValue3 <NSObject>
@@ -15,12 +16,16 @@
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath;
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath;
-
+//去个人主页
+-(void)gotoHomePage:(NSIndexPath *)indexPath;
 @end
 
 
 @interface WBTopicDetailTableViewCell3 : UITableViewCell
+{
 
+CatZanButton *_zanBtn;
+}
 
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;

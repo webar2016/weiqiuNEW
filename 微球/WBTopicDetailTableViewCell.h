@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TopicDetailModel.h"
+#import "CatZanButton.h"
 //代理反相传旨
 @protocol TransformValue <NSObject>
 //改变积分
@@ -44,6 +45,8 @@
     
     UIImageView *_imageView;
     NSInteger _userId;
+    
+    CatZanButton *_zanBtn;
     
 }
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier ;
