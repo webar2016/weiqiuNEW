@@ -14,6 +14,7 @@
 #import "UIColor+color.h"
 #import "UIImageView+WebCache.h"
 
+
 #import "WBTopicCommentTableViewController.h"
 #import "UIImageView+WebCache.h"
 #import "WBTopicDetailTableViewCell.h"
@@ -28,7 +29,7 @@
 
 #define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
 
-@interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue>
+@interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue,TransformValue2>
 {
     
     UITableView *_tableView;
@@ -328,6 +329,51 @@
     
 }
 
+-(void)playMedio:(NSIndexPath *)indexPath{
+    
+    
+    NSString *url = ((TopicDetailModel *)_dataArray[indexPath.row]).dir;
+    _player = [[MPMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:url]];
+    //1设置播放器的大小
+    _player.movieSourceType=MPMovieSourceTypeStreaming;
+    [_player.view setFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)]; //16:9是主流媒体的样式
+    //2将播放器视图添加到根视图
+    [self.view addSubview:_player.view];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:TRUE];
+    
+    [_player play];
+    //[self.player stop];
+    //通过通知中心，以观察者模式监听视频播放状态
+    //1 监听播放状态
+   // [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stateChange) name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
+//    //2 监听播放完成
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(finishedPlay) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+//    //3视频截图
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(caputerImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
+//    //3视频截图
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(caputerImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
+//    
+//    //4退出全屏通知
+ //   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(exitFullScreen) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
+    
+    //异步视频截图,可以在attimes指定一个或者多个时间。
+    //[player requestThumbnailImagesAtTimes:@[@10.0f, @20.0f] timeOption:MPMovieTimeOptionNearestKeyFrame];
+    
+//    UIImageView *thumbnailImageView = [[UIImageView alloc]initWithFrame:CGRectMake(80, 200, 160, 90)];
+//    self.imageView = thumbnailImageView;
+//    [self.view addSubview:thumbnailImageView];
+
+}
+
+#pragma mark 播放完成
+- (void)finishedPlay
+{
+    NSLog(@"播放完成");
+    [_player.view removeFromSuperview];
+    [self.navigationController setNavigationBarHidden:NO animated:TRUE];
+}
+
 #pragma mark --------tableView delegate---------
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -338,7 +384,7 @@
     }else if (((TopicDetailModel *)_dataArray[indexPath.row]).newsType==1){
         return   [((TopicDetailModel *)_dataArray[indexPath.row]).imgRate floatValue]*SCREENWIDTH+[_labelHeightArray[indexPath.row] floatValue]+132;
     }else{
-        return 400;
+        return [((TopicDetailModel *)_dataArray[indexPath.row]).imgRate floatValue]*SCREENWIDTH+[_labelHeightArray[indexPath.row] floatValue]+132;
     }
 }
 
@@ -362,7 +408,7 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        //[cell setModel:model];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else if(((TopicDetailModel *)_dataArray[indexPath.row]).newsType == 2){
         static NSString *topCellID2 = @"detailCellID2";
@@ -376,7 +422,7 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
     }else{
@@ -392,7 +438,7 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        //[cell setModel:model];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
         
@@ -402,9 +448,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
-    commentView.commentId = ((TopicDetailModel *)_dataArray[indexPath.row]).commentId;
-    [self.navigationController pushViewController:commentView animated:YES];
+//    WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
+//    commentView.commentId = ((TopicDetailModel *)_dataArray[indexPath.row]).commentId;
+//    [self.navigationController pushViewController:commentView animated:YES];
     
 }
 

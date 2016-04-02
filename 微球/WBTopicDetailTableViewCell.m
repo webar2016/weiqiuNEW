@@ -151,16 +151,22 @@
     _timeLabel.text = model.timeStr;
     // NSLog(@"model.timeStr = %@",model.timeStr);
     
-    if (model.isFriend) {
-        [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
-        _attentionButton.backgroundColor = [UIColor initWithBackgroundGray];
+    if (model.userId ==[[WBUserDefaults userId] integerValue]) {
         
+        _attentionButton.alpha = 0;
     }else{
-        [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
-        _attentionButton.backgroundColor = [UIColor initWithGreen];
+        
+        if (model.isFriend) {
+            [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
+            _attentionButton.backgroundColor = [UIColor initWithBackgroundGray];
+            
+        }else{
+            [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
+            _attentionButton.backgroundColor = [UIColor initWithGreen];
+        }
+        
     }
     //图片
-    if (model.newsType == 1) {
         [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
         
         _contentLabel.text = model.comment;
@@ -170,28 +176,7 @@
         
         [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
         //s视频
-    }else if(model.newsType ==2){
-        //图文
-    }else{
-        
-        _mainImageView.frame =CGRectMake(10, 60, SCREENWIDTH-20, 175);
-        _mainImageView.layer.borderWidth = 2;
-        _mainImageView.layer.borderColor =[UIColor colorWithRed:236 green:240 blue:241 alpha:1].CGColor;
-        [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
-        
-        _contentLabel.frame =CGRectMake(10, 60+175+17, SCREENWIDTH-20, _contentLabel.frame.size.height);
-        _contentLabel.text = model.comment;
-        
-        
-        _shareButton.frame = CGRectMake(10, 60+175+17+20+_contentLabel.frame.size.height, 100, 16);
-        _commentButton.frame =CGRectMake(SCREENWIDTH/3+10,60+175+17+20+_contentLabel.frame.size.height, 100, 16);
-        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
-        _praiseButton.frame =CGRectMake(SCREENWIDTH-120,  60+175+17+20+_contentLabel.frame.size.height, 100,16);
-        
-        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
-        
-    }
-    
+       
     
     // NSLog(@"comment id = %ld",model.commentId);
     

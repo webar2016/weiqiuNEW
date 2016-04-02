@@ -12,6 +12,8 @@
 
 {
     UIImageView *_imageView;
+    UIImageView *_iconImageView;
+    NSString *_medioUrl;
 }
 
 
@@ -20,6 +22,7 @@
     if (self) {
         //   NSLog(@"height = %f,width = %f",imageHeight,labelHeight);
         _backgroungImage = [[UIImageView alloc]init];
+        _backgroungImage.userInteractionEnabled = YES;
         _backgroungImage.backgroundColor = [UIColor initWithBackgroundGray];
         
         _mainView = [[UIView alloc]init];
@@ -50,16 +53,13 @@
         
         _mainImageView = [[UIImageView alloc]init];
         [_backgroungImage addSubview:_mainImageView];
-        _mainImageView.layer.cornerRadius = 5.0f;
-        _mainImageView.layer.masksToBounds = YES;
+        _mainImageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoPlay)];
-        [_mainView addGestureRecognizer:tap];
+        [_mainImageView addGestureRecognizer:tap];
         //icon_broadcast 
         
-        UIImageView *iconView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 41, 41)];
-        iconView.image = [UIImage imageNamed:@"icon_broadcast.png"];
-        iconView.center = _mainView.center;
-        [_backgroungImage addSubview:iconView];
+        _iconImageView = [[UIImageView alloc]init];
+        [_backgroungImage addSubview:_iconImageView];
         
         
         _contentLabel = [[UILabel alloc]init];
@@ -130,6 +130,11 @@
     _mainView.frame = CGRectMake(0, 9, SCREENWIDTH, 60+imageHeight+17+labelHeight+10);
     
     _mainImageView.frame=CGRectMake(0, 60, SCREENWIDTH, imageHeight);
+    
+    
+    
+    
+    
     _contentLabel.frame= CGRectMake(10, 60+imageHeight+17, SCREENWIDTH-20, labelHeight);
     _footerView.frame =CGRectMake(0, 60+imageHeight+17+labelHeight+10+5, SCREENWIDTH, 40);
     _shareButton.frame =CGRectMake(10, 60+imageHeight+17+labelHeight+10+10, 80, 16);
@@ -146,58 +151,40 @@
     _nickName.text =model.tblUser.nickname;
     // NSLog(@"nick = %@",);
     _timeLabel.text = model.timeStr;
-    // NSLog(@"model.timeStr = %@",model.timeStr);
+   //  NSLog(@"model.userId = %@",[NSString stringWithFormat:@"%ld",model.userId]);
+   // NSLog(@"model.userId = %@",[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]);
     
-    if (model.isFriend) {
-        [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
-        _attentionButton.backgroundColor = [UIColor initWithBackgroundGray];
+    if (model.userId ==[[WBUserDefaults userId] integerValue]) {
         
+        _attentionButton.alpha = 0;
     }else{
-        [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
-        _attentionButton.backgroundColor = [UIColor initWithGreen];
+    
+        if (model.isFriend) {
+            [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
+            _attentionButton.backgroundColor = [UIColor initWithBackgroundGray];
+            
+        }else{
+            [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
+            _attentionButton.backgroundColor = [UIColor initWithGreen];
+        }
+    
     }
-    //图片
-    if (model.newsType == 1) {
-        [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
-        
-        _contentLabel.text = model.comment;
-        
-        
-        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
-        
-        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
-        //s视频
-    }else if(model.newsType ==2){
-        //图文
-    }else{
-        
-        _mainImageView.frame =CGRectMake(10, 60, SCREENWIDTH-20, 175);
-        _mainImageView.layer.borderWidth = 2;
-        _mainImageView.layer.borderColor =[UIColor colorWithRed:236 green:240 blue:241 alpha:1].CGColor;
+    
+    
+   
         [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.mediaPic]];
-        [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.mediaPic] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-          
-            [_mainImageView setImage:[UIImage imageWithCGImage:image.CGImage scale:1 orientation:UIImageOrientationLeft]];
-        }];
         
-
+        _iconImageView.frame = CGRectMake(_mainImageView.center.x-41.0/2, _mainImageView.center.y-41.0/2, 41, 41);
+        _iconImageView.image = [UIImage imageNamed:@"icon_broadcast.png"];
+      //  [_backgroungImage addSubview:_iconImageView];
         
-        
-        _contentLabel.frame =CGRectMake(10, 60+175+17, SCREENWIDTH-20, _contentLabel.frame.size.height);
         _contentLabel.text = model.comment;
-        
-        
-        _shareButton.frame = CGRectMake(10, 60+175+17+20+_contentLabel.frame.size.height, 100, 16);
-        _commentButton.frame =CGRectMake(SCREENWIDTH/3+10,60+175+17+20+_contentLabel.frame.size.height, 100, 16);
+    _medioUrl = model.dir;
+    
         [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
-        _praiseButton.frame =CGRectMake(SCREENWIDTH-120,  60+175+17+20+_contentLabel.frame.size.height, 100,16);
         
         [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
         
-    }
-    
-    
-    // NSLog(@"comment id = %ld",model.commentId);
     
     
 }
@@ -207,10 +194,8 @@
 #pragma 点击事件
 //播放视频
 -(void)videoPlay{
-
-
-
-
+    
+    [self.delegate playMedio:_indexPath];
 
 }
 
