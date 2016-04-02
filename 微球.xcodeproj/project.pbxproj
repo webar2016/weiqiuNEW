@@ -53,6 +53,7 @@
 		0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0545505C1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m */; };
 		0559DD0A1C9287D00062D1BE /* WBMyGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD091C9287D00062D1BE /* WBMyGroupModel.m */; };
 		0559DD0D1C92BFD80062D1BE /* NSAttributedString + attributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD0C1C92BFD80062D1BE /* NSAttributedString + attributedString.m */; };
+		05665F1D1CAFB87D00FFAA21 /* WBArticalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05665F1C1CAFB87D00FFAA21 /* WBArticalViewController.m */; };
 		05794C7F1CA225FF00F32837 /* WBSystemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C7E1CA225FF00F32837 /* WBSystemViewController.m */; };
 		05794C821CA2299900F32837 /* WBSystemMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C811CA2299900F32837 /* WBSystemMessage.m */; };
 		05794C851CA229B300F32837 /* WBUnlockMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C841CA229B300F32837 /* WBUnlockMessage.m */; };
@@ -117,7 +118,6 @@
 		2D26AEC11CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */; };
 		2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */; };
 		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
-		2D29EBDE1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29EBDD1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m */; };
 		2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */; };
 		2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE61C8840B000555532 /* MyModel.xcdatamodeld */; };
 		2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D6161C869FDC008EE96B /* WBTopTableViewCell.m */; };
@@ -264,6 +264,8 @@
 		0559DD091C9287D00062D1BE /* WBMyGroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyGroupModel.m; sourceTree = "<group>"; };
 		0559DD0B1C92BFD80062D1BE /* NSAttributedString + attributedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString + attributedString.h"; sourceTree = "<group>"; };
 		0559DD0C1C92BFD80062D1BE /* NSAttributedString + attributedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString + attributedString.m"; sourceTree = "<group>"; };
+		05665F1B1CAFB87D00FFAA21 /* WBArticalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBArticalViewController.h; sourceTree = "<group>"; };
+		05665F1C1CAFB87D00FFAA21 /* WBArticalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBArticalViewController.m; sourceTree = "<group>"; };
 		05794C7D1CA225FF00F32837 /* WBSystemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSystemViewController.h; sourceTree = "<group>"; };
 		05794C7E1CA225FF00F32837 /* WBSystemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSystemViewController.m; sourceTree = "<group>"; };
 		05794C801CA2299900F32837 /* WBSystemMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSystemMessage.h; sourceTree = "<group>"; };
@@ -391,8 +393,6 @@
 		2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindAndHelpViewController.h; sourceTree = "<group>"; };
 		2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindAndHelpViewController.m; sourceTree = "<group>"; };
-		2D29EBDC1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHomeHeadTableViewCell.h; sourceTree = "<group>"; };
-		2D29EBDD1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHomeHeadTableViewCell.m; sourceTree = "<group>"; };
 		2D465FE31C88316000555532 /* WBTopicCommentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicCommentTableViewController.h; sourceTree = "<group>"; };
 		2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicCommentTableViewController.m; sourceTree = "<group>"; };
 		2D465FE71C8840B000555532 /* MyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyModel.xcdatamodel; sourceTree = "<group>"; };
@@ -795,8 +795,6 @@
 			children = (
 				05D1F93E1C8FBE1A0049D3EC /* WBHomepageViewController.h */,
 				05D1F93F1C8FBE1A0049D3EC /* WBHomepageViewController.m */,
-				2D29EBDC1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.h */,
-				2D29EBDD1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m */,
 				2DF26B681CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.h */,
 				2DF26B691CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.m */,
 				2DF0499F1C9D842500E92B9E /* 关注 */,
@@ -1105,6 +1103,8 @@
 				2D62D6811C8967ED00E4D05E /* WBTopicCommentTableViewCell.m */,
 				2D62D67D1C89632700E4D05E /* WBtopicCommentDetilListModel.h */,
 				2D62D67E1C89632700E4D05E /* WBtopicCommentDetilListModel.m */,
+				05665F1B1CAFB87D00FFAA21 /* WBArticalViewController.h */,
+				05665F1C1CAFB87D00FFAA21 /* WBArticalViewController.m */,
 			);
 			name = commentView;
 			sourceTree = "<group>";
@@ -1604,7 +1604,6 @@
 				2DFF687F1C969C95000DCDDA /* WBRegisterViewController.m in Sources */,
 				2D6047E91C93DCEC00A88BAA /* MyDBmanager.m in Sources */,
 				2D4BB50B1C8561FA00C02248 /* WBTopicModel.m in Sources */,
-				2D29EBDE1C9D35B9001A5BAA /* WBHomeHeadTableViewCell.m in Sources */,
 				2D16EF471C840780002D5F90 /* WBAllListViewController.m in Sources */,
 				2D02B69F1C8198C300FADFFB /* RECommonFunctions.m in Sources */,
 				0559DD0D1C92BFD80062D1BE /* NSAttributedString + attributedString.m in Sources */,
@@ -1659,6 +1658,7 @@
 				05DB3F731C87E25600CBCC54 /* WBAnswerDetailController.m in Sources */,
 				2D4F50C71C8FBCE0001E017C /* WBCollectionViewModel.m in Sources */,
 				2D02B6A11C8198C300FADFFB /* UIViewController+RESideMenu.m in Sources */,
+				05665F1D1CAFB87D00FFAA21 /* WBArticalViewController.m in Sources */,
 				05794C821CA2299900F32837 /* WBSystemMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

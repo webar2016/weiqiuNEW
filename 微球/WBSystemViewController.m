@@ -88,7 +88,7 @@
             NSLog(@"失败");
         }];
     } else {
-        NSData *fileData = UIImageJPEGRepresentation(((RCImageMessage *)messageCotent).thumbnailImage, 1.0);
+        NSData *fileData = UIImageJPEGRepresentation(((RCImageMessage *)messageCotent).thumbnailImage, 0.2);
         NSString *imageName = [[NSString ret32bitString] stringByAppendingString:@".JPG"];
         [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/feedBack/talkToHelper" withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:fileData name:imageName fileName:imageName mimeType:@"image/jpeg"];

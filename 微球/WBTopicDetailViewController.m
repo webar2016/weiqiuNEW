@@ -27,7 +27,7 @@
 #import "WBPostIamgeViewController.h"
 #import "WBPostArticleViewController.h"
 #import "WBPostVideoViewController.h"
-
+#import "WBArticalViewController.h"
 
 #define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
 
@@ -438,7 +438,8 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.tag = 1;
+        //[cell setModel:model];
         return cell;
     }else if(((TopicDetailModel *)_dataArray[indexPath.row]).newsType == 2){
         static NSString *topCellID2 = @"detailCellID2";
@@ -452,7 +453,7 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.tag = 2;
         return cell;
         
     }else{
@@ -468,7 +469,8 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.tag = 3;
+        //[cell setModel:model];
         return cell;
         
         
@@ -477,10 +479,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-//    WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
-//    commentView.commentId = ((TopicDetailModel *)_dataArray[indexPath.row]).commentId;
-//    [self.navigationController pushViewController:commentView animated:YES];
+    TopicDetailModel *model = _dataArray[indexPath.row];
+    if (model.newsType == 3) {
+        WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
+        [self.navigationController pushViewController:articalVC animated:YES];
+    }
+    WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
+    commentView.commentId = ((TopicDetailModel *)_dataArray[indexPath.row]).commentId;
+    [self.navigationController pushViewController:commentView animated:YES];
     
 }
 

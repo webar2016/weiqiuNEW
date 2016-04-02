@@ -46,7 +46,7 @@
 #define LINESPACE 4
 
 //page size
-#define PAGESIZE 10
+#define PAGESIZE 20
 
 //image sign
 #define IMAGE @"[aa1b1d19893e48dc6c3c7688]"

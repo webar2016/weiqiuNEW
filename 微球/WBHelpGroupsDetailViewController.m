@@ -179,7 +179,9 @@
     
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
             
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self dismissViewControllerAnimated:YES completion:^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"helpGroupShowFront" object:self userInfo:@{@"isJoin":@"YES"}];
+            }];
         } andFailure:^(NSString *error) {
             
         }];

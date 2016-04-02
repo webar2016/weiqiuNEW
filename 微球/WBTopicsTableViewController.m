@@ -48,7 +48,7 @@
     //创建UI
     [self createUI];
     //缓冲标志
-    [self showHUD:@"正在加载图片..." isDim:NO];
+    [self showHUD:@"正在努力加载" isDim:NO];
     //加载数据
     [self loadDataCell];
 }

@@ -239,7 +239,7 @@
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
             [formatter setDateFormat:@"yyyy-MM-dd"];
             NSString *dateTime = [formatter stringFromDate:[NSDate date]];
-            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 1.0);
+            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.2);
             [formData appendPartWithFileData:imageData name:dateTime fileName:[NSString stringWithFormat:@"%@head.jpg",dateTime] mimeType:@"image/jpeg"];
             
         }
@@ -274,6 +274,7 @@
       //相机类型（拍照、录像...）字符串需要做相应的类型转换
     _imagePicker.delegate = self;
     _imagePicker.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePicker.videoQuality = UIImagePickerControllerQualityTypeLow;
     _imagePicker.allowsEditing = YES;
     _imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
 

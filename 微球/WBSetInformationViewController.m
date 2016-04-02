@@ -336,7 +336,7 @@
     NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"sex":_sex,@"birthday":_birthdayPickLabel.text,@"sex":_sex,@"provinceId":_cityArray[2],@"homeCityId":_cityArray[1]};
     //  NSLog(@"parameters = %@",parameters);
     
-    NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 1.0);
+    NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.2);
     [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];

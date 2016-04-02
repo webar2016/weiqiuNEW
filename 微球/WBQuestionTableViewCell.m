@@ -84,10 +84,10 @@
     CGFloat quseViewMaxHeight = CGRectGetMaxY(_questionView.frame);
     CGSize answSize = [text adjustSizeWithWidth:(CELLWIDTH - 65 - MARGININSIDE) andFont:MAINFONTSIZE];
     answSize.height > 51 ? answSize.height = 51 : answSize.height;
-    _answerLabel = [[UILabel alloc] initWithFrame:(CGRect){{60, MARGININSIDE }, answSize}];
+    _answerLabel = [[UILabel alloc] initWithFrame:(CGRect){{60, MARGININSIDE }, {CELLWIDTH - 65 - MARGININSIDE,answSize.height}}];
     _answerLabel.font = MAINFONTSIZE;
     _answerLabel.textColor = [UIColor initWithNormalGray];
-    
+
     _userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(MARGININSIDE, MARGININSIDE, 26, 26)];
     _userIcon.layer.masksToBounds = YES;
     _userIcon.layer.borderColor = [UIColor initWithGreen].CGColor;
