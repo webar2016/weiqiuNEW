@@ -26,6 +26,7 @@
         //   NSLog(@"height = %f,width = %f",imageHeight,labelHeight);
         _backgroungImage = [[UIImageView alloc]init];
         _backgroungImage.backgroundColor = [UIColor initWithBackgroundGray];
+        _backgroungImage.userInteractionEnabled = YES;
         
         _mainView = [[UIView alloc]init];
         _mainView.backgroundColor = [UIColor whiteColor];
@@ -35,6 +36,9 @@
         [self.contentView addSubview:_backgroungImage];
         
         _headImageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 5, 40, 40)];
+        _headImageView.userInteractionEnabled =YES;
+        UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoSelfPage)];
+        [_headImageView addGestureRecognizer:headTap];
         [_mainView addSubview:_headImageView];
         
         _nickName = [[UILabel alloc]initWithFrame:CGRectMake(65, 5, 100, 30)];
@@ -109,14 +113,7 @@
         
     }
     return self;
-    
-    
-    
 }
-
-
-
-
 
 - (void)setModel:(TopicDetailModel *)model  labelHeight:(CGFloat)labelHeight{
     //尺寸设置
@@ -176,16 +173,17 @@
         
         [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
         //s视频
-       
-    
-    // NSLog(@"comment id = %ld",model.commentId);
-    
-    
 }
 
 
 
 #pragma 点击事件
+
+//去个人主页
+-(void)gotoSelfPage{
+    [self.delegate gotoHomePage:_indexPath];
+
+}
 
 //分享事件
 -(void)shareBtnClicked{
@@ -240,20 +238,11 @@
 -(void)commentBtnClicked{
     //  NSLog(@" id = %ld",self.model.commentId);
     [self.delegate commentClickedPushView:self.indexPath];
-    
-    
-    
 }
 
 //点赞事件
 -(void)praiseBtnClicked{
-    
-    
-    
-    
     [self checkoutConfigDetail];
-    
-    
     [_praiseButton setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
     [UIView animateWithDuration:0.5f animations:^{
         _praiseButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
@@ -262,10 +251,7 @@
     } completion:^(BOOL finished) {
         
         [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0.5f];
-        
     }];
-    
-    
 }
 
 //检查积分配置信息
@@ -306,14 +292,6 @@
     }];
     
 }
-
-
-//UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"not enough " message:@"sadsa" preferredStyle:UIAlertControllerStyleAlert];
-//UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"zxczxc" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-//    NSLog(@"The \"Okay/Cancel\" alert's cancel action occured.");
-//
-//}];
-//[alertController addAction:cancelAction];
 
 //上传信息
 -(void)uploadInformation{
@@ -373,9 +351,6 @@
         }];
         
     }
-    
-    
-    
 }
 
 

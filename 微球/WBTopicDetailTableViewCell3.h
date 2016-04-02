@@ -10,7 +10,7 @@
 #import "TopicDetailModel.h"
 
 //代理反相传旨
-@protocol TransformValue <NSObject>
+@protocol TransformValue3 <NSObject>
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath;
 
@@ -32,5 +32,5 @@
 
 @property (nonatomic,retain) NSIndexPath *indexPath;
 
-@property(nonatomic,assign)id<TransformValue> delegate;//实现代理
+@property(nonatomic,assign)id<TransformValue3> delegate;//实现代理
 @end

@@ -13,6 +13,7 @@
 #import "MJExtension.h"
 #import "UIColor+color.h"
 #import "UIImageView+WebCache.h"
+#import "WBHomepageViewController.h"
 
 
 #import "WBTopicCommentTableViewController.h"
@@ -29,7 +30,7 @@
 
 #define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
 
-@interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue,TransformValue2>
+@interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue,TransformValue2,TransformValue3>
 {
     
     UITableView *_tableView;
@@ -316,6 +317,15 @@
 
 
 #pragma mark ---cell delegate----
+-(void)gotoHomePage:(NSIndexPath *)indexPath{
+    WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
+    HVC.userId = [NSString stringWithFormat:@"%ld",((TopicDetailModel *)_dataArray[indexPath.row]).userId ];
+    [self.navigationController pushViewController:HVC animated:YES];
+
+
+}
+
+
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
     
     [self loadData];

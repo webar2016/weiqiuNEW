@@ -10,10 +10,12 @@
 #import "TopicDetailModel.h"
 //代理反相传旨
 @protocol TransformValue <NSObject>
-
+//改变积分
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath;
-
+//评论页面
 -(void)commentClickedPushView:(NSIndexPath *)indexPath;
+//去个人主页
+-(void)gotoHomePage:(NSIndexPath *)indexPath;
 
 @end
 
@@ -44,7 +46,6 @@
 - (void)setModel:(TopicDetailModel *)model labelHeight:(CGFloat)labelHeight;
 
 @property (nonatomic, retain) TopicDetailModel *model;
-
 
 @property (nonatomic,retain) NSIndexPath *indexPath;
 
