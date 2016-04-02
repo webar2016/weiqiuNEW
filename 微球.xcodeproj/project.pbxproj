@@ -170,6 +170,12 @@
 		2DF2A93B1C9FC20D002C3A2A /* WBFansViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93A1C9FC20D002C3A2A /* WBFansViewTableViewCell.m */; };
 		2DF2A93E1C9FC220002C3A2A /* WBFansModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93D1C9FC220002C3A2A /* WBFansModel.m */; };
 		2DF2A9411C9FCD44002C3A2A /* WBAttentionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A9401C9FCD44002C3A2A /* WBAttentionModel.m */; };
+		2DF532B71CAFCE660000E8CB /* CatZanButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF532B31CAFCE660000E8CB /* CatZanButton.m */; };
+		2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B41CAFCE660000E8CB /* EffectImage.png */; };
+		2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B51CAFCE660000E8CB /* UnZan.png */; };
+		2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B61CAFCE660000E8CB /* Zan.png */; };
+		2DF532BF1CAFD2090000E8CB /* WBTopicXibTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF532BD1CAFD2090000E8CB /* WBTopicXibTableViewCell.m */; };
+		2DF532C01CAFD2090000E8CB /* WBTopicXibTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532BE1CAFD2090000E8CB /* WBTopicXibTableViewCell.xib */; };
 		2DF791AC1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */; };
 		2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */; };
 		2DFF687F1C969C95000DCDDA /* WBRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */; };
@@ -486,6 +492,14 @@
 		2DF2A93D1C9FC220002C3A2A /* WBFansModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFansModel.m; sourceTree = "<group>"; };
 		2DF2A93F1C9FCD44002C3A2A /* WBAttentionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAttentionModel.h; sourceTree = "<group>"; };
 		2DF2A9401C9FCD44002C3A2A /* WBAttentionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAttentionModel.m; sourceTree = "<group>"; };
+		2DF532B21CAFCE660000E8CB /* CatZanButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatZanButton.h; sourceTree = "<group>"; };
+		2DF532B31CAFCE660000E8CB /* CatZanButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatZanButton.m; sourceTree = "<group>"; };
+		2DF532B41CAFCE660000E8CB /* EffectImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EffectImage.png; sourceTree = "<group>"; };
+		2DF532B51CAFCE660000E8CB /* UnZan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnZan.png; sourceTree = "<group>"; };
+		2DF532B61CAFCE660000E8CB /* Zan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Zan.png; sourceTree = "<group>"; };
+		2DF532BC1CAFD2090000E8CB /* WBTopicXibTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicXibTableViewCell.h; sourceTree = "<group>"; };
+		2DF532BD1CAFD2090000E8CB /* WBTopicXibTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicXibTableViewCell.m; sourceTree = "<group>"; };
+		2DF532BE1CAFD2090000E8CB /* WBTopicXibTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBTopicXibTableViewCell.xib; sourceTree = "<group>"; };
 		2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailTableViewCell.m; sourceTree = "<group>"; };
 		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDownLoadManager.m; sourceTree = "<group>"; };
 		2DFF687D1C969C95000DCDDA /* WBRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBRegisterViewController.h; sourceTree = "<group>"; };
@@ -1100,6 +1114,9 @@
 			children = (
 				2D49D61B1C86C1E0008EE96B /* WBTopicDetailViewController.h */,
 				2D49D61C1C86C1E0008EE96B /* WBTopicDetailViewController.m */,
+				2DF532BC1CAFD2090000E8CB /* WBTopicXibTableViewCell.h */,
+				2DF532BD1CAFD2090000E8CB /* WBTopicXibTableViewCell.m */,
+				2DF532BE1CAFD2090000E8CB /* WBTopicXibTableViewCell.xib */,
 				2D4C95321C8A772E000F02B3 /* WBTopicDetailTableViewCell.h */,
 				2DF791AB1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m */,
 				05BE5DD21CAE0AE100D2DBF1 /* WBTopicDetailTableViewCell2.h */,
@@ -1108,6 +1125,7 @@
 				2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */,
 				2D49D6221C86F232008EE96B /* TopicDetailModel.h */,
 				2D49D6231C86F232008EE96B /* TopicDetailModel.m */,
+				2DF532B11CAFCE510000E8CB /* zanBtn */,
 				2D6B53CD1C8E6D3A00E3009C /* postView */,
 				2D465FE21C88313900555532 /* commentView */,
 			);
@@ -1311,6 +1329,18 @@
 			name = "individual income";
 			sourceTree = "<group>";
 		};
+		2DF532B11CAFCE510000E8CB /* zanBtn */ = {
+			isa = PBXGroup;
+			children = (
+				2DF532B21CAFCE660000E8CB /* CatZanButton.h */,
+				2DF532B31CAFCE660000E8CB /* CatZanButton.m */,
+				2DF532B41CAFCE660000E8CB /* EffectImage.png */,
+				2DF532B51CAFCE660000E8CB /* UnZan.png */,
+				2DF532B61CAFCE660000E8CB /* Zan.png */,
+			);
+			name = zanBtn;
+			sourceTree = "<group>";
+		};
 		83E9131E4C3C0B892DAA5A4B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1431,7 +1461,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				052F30D71C93F9FA00D15322 /* province.plist in Resources */,
+				2DF532C01CAFD2090000E8CB /* WBTopicXibTableViewCell.xib in Resources */,
 				2D62D6651C89346200E4D05E /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
+				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
 				05D6EB8B1C7D414F002D48FF /* LaunchScreen.storyboard in Resources */,
 				2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */,
@@ -1439,6 +1472,7 @@
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
 				054452B91C9AD94100F8969E /* 1.pic.jpg in Resources */,
 				2D62D6621C89346200E4D05E /* ShareSDKUI.bundle in Resources */,
+				2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
 				05D6EB881C7D414F002D48FF /* Assets.xcassets in Resources */,
@@ -1539,6 +1573,7 @@
 				050B020A1C9FE82900344611 /* WBPrivateViewController.m in Sources */,
 				052F30C81C93DAB500D15322 /* WBGroupDetailController.m in Sources */,
 				054452C91C9CFC4E00F8969E /* WBUserListTableViewCell.m in Sources */,
+				2DF532B71CAFCE660000E8CB /* CatZanButton.m in Sources */,
 				05794C941CA27B0400F32837 /* WBFollowMsgCell.m in Sources */,
 				2D16EF5D1C8416AF002D5F90 /* TopCell.m in Sources */,
 				05D6EB801C7D414F002D48FF /* AppDelegate.m in Sources */,
@@ -1609,6 +1644,7 @@
 				2D1DE0041C92D03F0059CD89 /* DBManager.m in Sources */,
 				2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */,
 				05794C851CA229B300F32837 /* WBUnlockMessage.m in Sources */,
+				2DF532BF1CAFD2090000E8CB /* WBTopicXibTableViewCell.m in Sources */,
 				05794C881CA2321A00F32837 /* WBSystemMsgCell.m in Sources */,
 				05BE27911C8038F100B916FB /* WBQuestionsViewController.m in Sources */,
 				0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */,

@@ -21,6 +21,7 @@
 #import "WBTopicDetailTableViewCell.h"
 #import "WBTopicDetailTableViewCell2.h"
 #import "WBTopicDetailTableViewCell3.h"
+#import "WBTopicXibTableViewCell.h"
 
 
 #import "WBPostIamgeViewController.h"
@@ -30,7 +31,7 @@
 
 #define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
 
-@interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue,TransformValue2,TransformValue3>
+@interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue,TransformValue2,TransformValue3,TransformXibValue>
 {
     
     UITableView *_tableView;
@@ -54,6 +55,7 @@
     UIImageView *_textImageView;
     
 }
+
 @end
 
 @implementation WBTopicDetailViewController
@@ -62,6 +64,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -388,6 +391,7 @@
 #pragma mark --------tableView delegate---------
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
     
     if (((TopicDetailModel *)_dataArray[indexPath.row]).newsType==3) {
         
@@ -405,6 +409,21 @@
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+//    static NSString *cellId = @"TopDetailCellID";
+//    
+//    WBTopicXibTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+//    
+//    if (nil == cell) {
+//        cell = [[[NSBundle mainBundle] loadNibNamed:@"WBTopicXibTableViewCell" owner:nil options:nil] firstObject];
+//        
+//    }
+//    //显示数据
+//    cell.delegate = self;
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    TopicDetailModel *model = _dataArray[indexPath.row];
+//    [cell configModel:model indexPath:indexPath];
+//    return cell;
     
     if (((TopicDetailModel *)_dataArray[indexPath.row]).newsType == 1) {
         static NSString *topCellID = @"detailCellID";

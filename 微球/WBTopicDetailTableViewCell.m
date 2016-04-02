@@ -15,8 +15,11 @@
 
 @implementation WBTopicDetailTableViewCell
 {
-    UIImageView *_imageView;
-    NSInteger _userId;
+    //视频页面所需
+    UIImageView *_iconImageView;
+    NSString *_medioUrl;
+    
+    
 }
 
 

@@ -16,17 +16,19 @@
 -(void)commentClickedPushView:(NSIndexPath *)indexPath;
 //去个人主页
 -(void)gotoHomePage:(NSIndexPath *)indexPath;
-
+//播放视频
+-(void)playMedio:(NSIndexPath *)indexPath;
 @end
 
 
 @interface WBTopicDetailTableViewCell : UITableViewCell
 
 {
-    UIImageView *_backgroungImage;
+    
+    UIImageView *_backgroungImage;//背景
     
     
-    UIView *_mainView;
+    UIView *_mainView;  
     UIImageView *_headImageView;
     UILabel *_nickName;
     UILabel *_timeLabel;
@@ -39,6 +41,9 @@
     UIButton *_shareButton;
     UIButton *_commentButton;
     UIButton *_praiseButton;
+    
+    UIImageView *_imageView;
+    NSInteger _userId;
     
 }
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier ;

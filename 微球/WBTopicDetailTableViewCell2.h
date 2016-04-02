@@ -13,7 +13,7 @@
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 #import "MyDownLoadManager.h"
 #import "WBTopicCommentTableViewController.h"
- 
+#import "CatZanButton.h"
 
 @protocol TransformValue2 <NSObject>
 
@@ -22,7 +22,8 @@
 -(void)commentClickedPushView:(NSIndexPath *)indexPath;
 
 -(void)playMedio:(NSIndexPath *)indexPath;
-
+//去个人主页
+-(void)gotoHomePage:(NSIndexPath *)indexPath;
 @end
 
 @interface WBTopicDetailTableViewCell2 : UITableViewCell
@@ -43,6 +44,8 @@
     UIButton *_shareButton;
     UIButton *_commentButton;
     UIButton *_praiseButton;
+    
+    CatZanButton *_zanBtn;
     
 }
 
