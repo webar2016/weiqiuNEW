@@ -13,12 +13,15 @@
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 #import "MyDownLoadManager.h"
 #import "WBTopicCommentTableViewController.h"
+ 
 
-@protocol TransformValue <NSObject>
+@protocol TransformValue2 <NSObject>
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath;
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath;
+
+-(void)playMedio:(NSIndexPath *)indexPath;
 
 @end
 
@@ -42,6 +45,8 @@
     UIButton *_praiseButton;
     
 }
+
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier ;
 
 - (void)setModel:(TopicDetailModel *)model labelHeight:(CGFloat)labelHeight;
@@ -50,5 +55,5 @@
 
 @property (nonatomic,retain) NSIndexPath *indexPath;
 
-@property(nonatomic,assign)id<TransformValue> delegate;//实现代理
+@property(nonatomic,assign)id<TransformValue2> delegate;//实现代理
 @end

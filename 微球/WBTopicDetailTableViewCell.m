@@ -26,6 +26,7 @@
         //   NSLog(@"height = %f,width = %f",imageHeight,labelHeight);
         _backgroungImage = [[UIImageView alloc]init];
         _backgroungImage.backgroundColor = [UIColor initWithBackgroundGray];
+        _backgroungImage.userInteractionEnabled = YES;
         
         _mainView = [[UIView alloc]init];
         _mainView.backgroundColor = [UIColor whiteColor];
@@ -35,6 +36,9 @@
         [self.contentView addSubview:_backgroungImage];
         
         _headImageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 5, 40, 40)];
+        _headImageView.userInteractionEnabled =YES;
+        UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoSelfPage)];
+        [_headImageView addGestureRecognizer:headTap];
         [_mainView addSubview:_headImageView];
         
         _nickName = [[UILabel alloc]initWithFrame:CGRectMake(65, 5, 100, 30)];
@@ -109,14 +113,7 @@
         
     }
     return self;
-    
-    
-    
 }
-
-
-
-
 
 - (void)setModel:(TopicDetailModel *)model  labelHeight:(CGFloat)labelHeight{
     //尺寸设置
@@ -151,16 +148,22 @@
     _timeLabel.text = model.timeStr;
     // NSLog(@"model.timeStr = %@",model.timeStr);
     
-    if (model.isFriend) {
-        [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
-        _attentionButton.backgroundColor = [UIColor initWithBackgroundGray];
+    if (model.userId ==[[WBUserDefaults userId] integerValue]) {
         
+        _attentionButton.alpha = 0;
     }else{
-        [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
-        _attentionButton.backgroundColor = [UIColor initWithGreen];
+        
+        if (model.isFriend) {
+            [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
+            _attentionButton.backgroundColor = [UIColor initWithBackgroundGray];
+            
+        }else{
+            [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
+            _attentionButton.backgroundColor = [UIColor initWithGreen];
+        }
+        
     }
     //图片
-    if (model.newsType == 1) {
         [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
         
         _contentLabel.text = model.comment;
@@ -170,37 +173,17 @@
         
         [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
         //s视频
-    }else if(model.newsType ==2){
-        //图文
-    }else{
-        
-        _mainImageView.frame =CGRectMake(10, 60, SCREENWIDTH-20, 175);
-        _mainImageView.layer.borderWidth = 2;
-        _mainImageView.layer.borderColor =[UIColor colorWithRed:236 green:240 blue:241 alpha:1].CGColor;
-        [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
-        
-        _contentLabel.frame =CGRectMake(10, 60+175+17, SCREENWIDTH-20, _contentLabel.frame.size.height);
-        _contentLabel.text = model.comment;
-        
-        
-        _shareButton.frame = CGRectMake(10, 60+175+17+20+_contentLabel.frame.size.height, 100, 16);
-        _commentButton.frame =CGRectMake(SCREENWIDTH/3+10,60+175+17+20+_contentLabel.frame.size.height, 100, 16);
-        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
-        _praiseButton.frame =CGRectMake(SCREENWIDTH-120,  60+175+17+20+_contentLabel.frame.size.height, 100,16);
-        
-        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
-        
-    }
-    
-    
-    // NSLog(@"comment id = %ld",model.commentId);
-    
-    
 }
 
 
 
 #pragma 点击事件
+
+//去个人主页
+-(void)gotoSelfPage{
+    [self.delegate gotoHomePage:_indexPath];
+
+}
 
 //分享事件
 -(void)shareBtnClicked{
@@ -255,20 +238,11 @@
 -(void)commentBtnClicked{
     //  NSLog(@" id = %ld",self.model.commentId);
     [self.delegate commentClickedPushView:self.indexPath];
-    
-    
-    
 }
 
 //点赞事件
 -(void)praiseBtnClicked{
-    
-    
-    
-    
     [self checkoutConfigDetail];
-    
-    
     [_praiseButton setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
     [UIView animateWithDuration:0.5f animations:^{
         _praiseButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
@@ -277,10 +251,7 @@
     } completion:^(BOOL finished) {
         
         [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0.5f];
-        
     }];
-    
-    
 }
 
 //检查积分配置信息
@@ -321,14 +292,6 @@
     }];
     
 }
-
-
-//UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"not enough " message:@"sadsa" preferredStyle:UIAlertControllerStyleAlert];
-//UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"zxczxc" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-//    NSLog(@"The \"Okay/Cancel\" alert's cancel action occured.");
-//
-//}];
-//[alertController addAction:cancelAction];
 
 //上传信息
 -(void)uploadInformation{
@@ -388,9 +351,6 @@
         }];
         
     }
-    
-    
-    
 }
 
 

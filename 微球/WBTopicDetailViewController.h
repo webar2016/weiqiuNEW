@@ -10,13 +10,14 @@
 #import "MBProgressHUD.h"
 #import "MJRefresh.h"
 #import "WBPostMenuButton.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 
 @interface WBTopicDetailViewController : UIViewController
 
 @property (nonatomic,assign) NSInteger topicID;
 
-
+@property (strong, nonatomic) MPMoviePlayerController *player; 
 @property (nonatomic,strong)MBProgressHUD *hud;
 
 -(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
