@@ -159,6 +159,7 @@
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
     _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
     _imagePickerController.allowsEditing = YES;
 }
 
@@ -271,7 +272,7 @@
     [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         for (NSUInteger index = 0; index < count; index ++) {
-            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 1.0);
+            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 0.4);
             [formData appendPartWithFileData:fileData name:self.nameArray[index] fileName:self.nameArray[index] mimeType:@"image/jpeg"];
         }
         

@@ -10,8 +10,9 @@
 #import "WBAboutWBViewController.h"
 #import <RongIMLib/RCIMClient.h>
 #import "MyDBmanager.h"
+#import <StoreKit/StoreKit.h>
 
-@interface WBSettingViewController () <UITableViewDelegate,UITableViewDataSource> {
+@interface WBSettingViewController () <UITableViewDelegate,UITableViewDataSource,SKStoreProductViewControllerDelegate> {
     UITableView     *_tableView;
     UISwitch        *_disturbSwitch;
     UISwitch        *_weiqiuSwitch;
@@ -124,7 +125,17 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 2) {
-        NSLog(@"给我们鼓励！");
+//        SKStoreProductViewController *vc = [[SKStoreProductViewController alloc] init];
+//        vc.delegate = self;
+//        [vc loadProductWithParameters:
+//         @{SKStoreProductParameterITunesItemIdentifier:@"536226604"}
+//         completionBlock:^(BOOL result, NSError * _Nullable error) {
+//             if(error){
+//                 NSLog(@"error %@ with userInfo %@",error,[error userInfo]);
+//             }else{
+//                 [self presentViewController:vc animated:YES completion:nil];
+//             }
+//         }];
     } else if (indexPath.row == 3) {
         WBAboutWBViewController *aboutVC = [[WBAboutWBViewController alloc] init];
         [self.navigationController pushViewController:aboutVC animated:YES];
@@ -165,6 +176,10 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return cell;
+}
+
+-(void)productViewControllerDidFinish:(SKStoreProductViewController*)viewController{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

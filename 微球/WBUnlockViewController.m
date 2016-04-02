@@ -134,6 +134,7 @@
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
     _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
     _imagePickerController.allowsEditing = YES;
 }
 
@@ -171,7 +172,7 @@
     NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
     _imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
-    _fileData = UIImageJPEGRepresentation(image, 1.0);
+    _fileData = UIImageJPEGRepresentation(image, 0.2);
     
     [picker dismissViewControllerAnimated:YES completion:^{
         [_imagePicker setBackgroundImage:image forState:UIControlStateNormal];

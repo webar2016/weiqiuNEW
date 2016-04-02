@@ -51,7 +51,7 @@
 
 -(void)setUpNavgationItem{
     
-    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"话题",@"问题"]];
+    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"专题",@"问题"]];
     self.segmentedControl.selectedSegmentIndex = 0;
     [self.segmentedControl addTarget:self action:@selector(changeCurrentController:) forControlEvents:UIControlEventValueChanged];
     self.segmentedControl.tintColor = [UIColor initWithGreen];

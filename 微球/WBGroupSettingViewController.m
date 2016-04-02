@@ -41,6 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"帮帮团设置";
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.bounces = NO;
@@ -222,7 +223,7 @@
 -(void)closeGroup:(WBGroupSettingTableViewCell *)cell{
     WBAllocateScoreViewController *AVC = [[WBAllocateScoreViewController alloc]init];
     AVC.groupId = _groupId;
-    AVC.rewardIntegral = [NSString stringWithFormat:@"%d",self.groupDetail.rewardIntegral];
+    AVC.rewardIntegral = [NSString stringWithFormat:@"%ld",self.groupDetail.rewardIntegral];
     [self.navigationController pushViewController:AVC animated:YES];
 }
 

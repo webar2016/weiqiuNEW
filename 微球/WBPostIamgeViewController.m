@@ -117,6 +117,7 @@
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
     _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
     _imagePickerController.allowsEditing = YES;
 }
 
@@ -194,7 +195,7 @@
         [self addImageInSelf:info[UIImagePickerControllerEditedImage]];
         //压缩图片
         _selectPic =info[UIImagePickerControllerEditedImage];
-      //  _picData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 1.0);
+      //  _picData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 0.4);
         
        
         
@@ -311,7 +312,7 @@
     [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
      CGFloat rate =_selectPic.size.height/_selectPic.size.width;
    [parameters setObject:[NSString stringWithFormat:@"%f",rate] forKey:@"imgRate"];
-    NSData *fileData = UIImageJPEGRepresentation(_selectPic, 1.0);
+    NSData *fileData = UIImageJPEGRepresentation(_selectPic, 0.4);
     
     
     

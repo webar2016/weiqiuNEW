@@ -13,7 +13,6 @@
 #import "WBPrivateViewController.h"
 #import "WBAnswerListController.h"
 #import "WBAnswerDetailController.h"
-#import "WBHomeHeadTableViewCell.h"
 #import "WBHomeFirstPageTableViewCell.h"
 #import "WBQuestionTableViewCell.h"
 #import "WBFansView.h"
@@ -78,6 +77,7 @@
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, 19, 19);
     [rightButton setImage:[UIImage imageNamed:@"icon_share-2"] forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(mutableChoices) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
@@ -519,6 +519,7 @@
     //相机类型（拍照、录像...）字符串需要做相应的类型转换
     _imagePicker.delegate = self;
     _imagePicker.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePicker.videoQuality = UIImagePickerControllerQualityTypeLow;
     _imagePicker.allowsEditing = YES;
     _imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
     
@@ -564,7 +565,7 @@
         [_coverImage setImage:info[UIImagePickerControllerEditedImage]];
         
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
-        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 1.0);
+        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 0.4);
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/user/updateCover" withParameters:parameters fileData:imageData name:[WBUserDefaults userId] fileName:[NSString stringWithFormat:@"%@.jpg",[WBUserDefaults userId]] mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
             
         } andSuccess:^(id representData) {
@@ -603,6 +604,27 @@
     answerDetailController.userId = data.tblUser.userId;
     answerDetailController.fromHomePage = YES;
     [self.navigationController pushViewController:answerDetailController animated:YES];
+}
+
+-(void)mutableChoices{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"分享" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //share operations
+        }];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"举报" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            //举报操作
+        }];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 

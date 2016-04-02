@@ -27,8 +27,8 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(createSuccess)
-                                                 name:@"createSuccess"
+                                             selector:@selector(createSuccess:)
+                                                 name:@"helpGroupShowFront"
                                                object:nil];
     
     self.positionList = [[WBPositionList alloc] init];
@@ -255,7 +255,10 @@
 
 #pragma mark - notification center
 
--(void)createSuccess{
+-(void)createSuccess:(NSNotification *)sender{
+    if ([sender.userInfo[@"isJoin"] isEqualToString:@"YES"]) {
+        return;
+    }
     self.fromNextPage = NO;
     self.fromSlidePage = NO;
     _chooseCity = NO;

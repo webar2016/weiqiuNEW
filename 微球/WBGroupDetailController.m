@@ -118,7 +118,7 @@
         [self hideHUD];
         self.tabBarController.selectedIndex = 2;
         [self.navigationController popToRootViewControllerAnimated:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"createSuccess" object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"helpGroupShowFront" object:self userInfo:@{@"isJoin":@"NO"}];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideHUD];
         self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -266,6 +266,7 @@
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
     _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
     _imagePickerController.allowsEditing = NO;
 }
 
@@ -310,7 +311,7 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     _imageScale = image.size.height / image.size.width;
-    _fileData = UIImageJPEGRepresentation(image, 1.0);
+    _fileData = UIImageJPEGRepresentation(image, 0.4);
     
     if (!_imageFromAlbum) {
         UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);

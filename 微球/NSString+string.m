@@ -23,14 +23,13 @@
     NSArray *array = [self componentsSeparatedByString:IMAGE];
     NSUInteger count = array.count;
     for (NSUInteger i = 0; i < count; i ++) {
+        NSString *string = [array[i]  stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if (i == count - 1) {
-            currentString = [currentString stringByAppendingString:array[i]];
+            currentString = [currentString stringByAppendingString:string];
         }else{
-            currentString = [currentString stringByAppendingString:[NSString stringWithFormat:@"%@%@",array[i],@"[图片]"]];
+            currentString = [currentString stringByAppendingString:[NSString stringWithFormat:@"%@%@",string,@"[图片]"]];
         }
-        
     }
-    
     return currentString;
 }
 
