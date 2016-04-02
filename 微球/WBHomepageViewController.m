@@ -73,7 +73,7 @@
     _answersArray = [NSMutableArray array];
     _labelHeightArrayOne = [NSMutableArray array];
     
-    _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/map/m?userId=%@",[WBUserDefaults userId]]] andTitle:@"征服地球"];
+    _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, 19, 19);
@@ -114,7 +114,7 @@
     _coverImage.image = [UIImage imageNamed:@"cover"];
     _coverImage.userInteractionEnabled = YES;
     
-    if (self.userId == [WBUserDefaults userId]) {
+    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(changeCoverImage)];
         _coverImage.userInteractionEnabled = YES;
         [_coverImage addGestureRecognizer:tap];
@@ -140,7 +140,7 @@
     [chatBtn setImage:[UIImage imageNamed:@"icon_chat"] forState:UIControlStateNormal];
     chatBtn.frame = CGRectMake(SCREENWIDTH - 47, 174, 32, 32);
     [chatBtn addTarget:self action:@selector(enterChatView) forControlEvents:UIControlEventTouchUpInside];
-    if ([self.userId isEqual:[WBUserDefaults userId]]) {
+    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
         [_headView addSubview:infoBtn];
         
     }else{
@@ -188,7 +188,7 @@
     CGSize buttonSize = CGSizeMake(SCREENWIDTH / 3, 44);
    CGPoint point;
     
-    if (![self.userId isEqual:[WBUserDefaults userId]]) {
+    if (![self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
         _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
         _followButton.center = CGPointMake(SCREENWIDTH / 2, 300);
         _followButton.layer.masksToBounds = YES;
@@ -283,8 +283,8 @@
 
 -(void)loadUserInfo{
     NSString *url;
-    if ([self.userId isEqual:[WBUserDefaults userId]]) {
-        url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"],[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
+    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
+        url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",self.userId,self.userId];
     }else{
         url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",self.userId,[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
         NSLog(@"%@",url);
@@ -305,7 +305,7 @@
 }
 
 -(void)loadTopics{
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/tq/getUserComment?userId=%@",@"29"];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/tq/getUserComment?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _topicsArray = [TopicDetailModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentList"]];
@@ -320,7 +320,7 @@
 }
 
 -(void)loadAnswers{
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/tq/getUserAnswer?userId=%@",@"29"];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/tq/getUserAnswer?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _answersArray = [WBSingleAnswerModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
@@ -386,7 +386,7 @@
 -(void)selfBtnClicked:(UIButton *)btn{
     if (btn.tag ==500) {
         WBAttentionView *AVC = [[WBAttentionView alloc]init];
-        if (self.userId != [WBUserDefaults userId]) {
+        if (![self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
             AVC.showUserId = self.userId;
         }else{
             AVC.showUserId = [WBUserDefaults userId];
@@ -395,7 +395,7 @@
         
     }else if (btn.tag ==501){
         WBFansView *FVC = [[WBFansView alloc]init];
-        if (self.userId != [WBUserDefaults userId]) {
+        if (![self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
             FVC.showUserId = self.userId;
         }else{
             FVC.showUserId = [WBUserDefaults userId];

@@ -170,7 +170,7 @@
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
            // NSLog(@"%@",result);
             if ([result objectForKey:@"userId"]) {
-                [WBUserDefaults setUserId:[result objectForKey:@"userId"]];
+                [WBUserDefaults setUserId:[NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]]];
                 [WBUserDefaults printUserDefaults];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];

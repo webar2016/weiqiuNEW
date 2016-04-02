@@ -87,7 +87,12 @@
 
 -(void)nextStep{
     if (!_cityId) {
-        NSLog(@"请选择城市");
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择城市" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
         return;
     }
     if (self.fromNextPage) {

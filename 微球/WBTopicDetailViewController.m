@@ -186,6 +186,7 @@
 #pragma mark --------上传图文----------
 -(void)textBtnClicled{
     WBPostArticleViewController *articleViewController = [[WBPostArticleViewController alloc]init];
+    articleViewController.topicID = [NSString stringWithFormat:@"%ld",self.topicID];
     [self  menuBtnClicled];
     [self.navigationController pushViewController:articleViewController animated:YES];
 }

@@ -26,6 +26,8 @@
     NSString        *_imageName;
     
     UIImagePickerController *_imagePickerController;
+    
+    BOOL            _isUpLoading;
 }
 
 @end
@@ -105,11 +107,12 @@
     [_imagePicker setBackgroundImage:[UIImage imageNamed:@"btn_uploadimg"] forState:UIControlStateNormal];
     [_imagePicker addTarget:self action:@selector(imagePicker) forControlEvents:UIControlEventTouchUpInside];
     
-    _tip = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 50, 570, 100, 16)];
+    _tip = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 150, 570, 300, 30)];
     _tip.font = FONTSIZE12;
+    _tip.numberOfLines = 0;
     _tip.textColor = [UIColor initWithNormalGray];
     _tip.textAlignment = NSTextAlignmentCenter;
-    _tip.text = @"24小时认证解锁";
+    _tip.text = @"24小时认证解锁\n请选择自己的真实照片，否则可能解锁失败";
     
     [_scrollView addSubview:titleOne];
     [_scrollView addSubview:_unlockInfo];
@@ -173,7 +176,7 @@
     [picker dismissViewControllerAnimated:YES completion:^{
         [_imagePicker setBackgroundImage:image forState:UIControlStateNormal];
         _imagePicker.frame = CGRectMake(SCREENWIDTH / 2 - 145, 500, 290, 290 * scale);
-        _tip.frame = CGRectMake(SCREENWIDTH / 2 - 50, 510 + 290 * scale, 100, 16);
+        _tip.frame = CGRectMake(SCREENWIDTH / 2 - 150, 510 + 290 * scale, 300, 30);
         CGFloat maxHegiht = CGRectGetMaxY(_tip.frame);
         
         _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 80);
@@ -196,13 +199,37 @@
 
 -(void)showDatePicker{
     [UIView animateWithDuration:0.3 animations:^{
-        _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4.4);
+        _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4 + 60);
     }];
 }
 
 -(void)unlockCity{
+    if (_isUpLoading) {
+        return;
+    }
+    
+    if ([_dateButton.currentTitle isEqualToString:@"请选择"]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择拍摄时间" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    if (!_fileData) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择解锁照片" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    _isUpLoading = YES;
+    [self showHUD:@"努力上传中…" isDim:YES];
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
-    data[@"userId"] = @"29";
+    data[@"userId"] = [WBUserDefaults userId];
     data[@"photoDate"] = _dateButton.currentTitle;
     data[@"provinceId"] = self.provinceId;
     data[@"cityId"] = self.cityId;
@@ -213,11 +240,36 @@
         
     } andSuccess:^(id representData) {
         NSLog(@"unlock---success");
+        _isUpLoading = NO;
+        [self hideHUD];
         [self.navigationController popToRootViewControllerAnimated:YES];
     } andFailure:^(NSString *error) {
+        _isUpLoading = NO;
+        [self hideHUD];
         NSLog(@"unlock---failure-------%@",error);
     }];
     
+}
+
+#pragma mark - MBprogress
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim
+{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.dimBackground = isDim;
+    self.hud.labelText = title;
+}
+-(void)showHUDComplete:(NSString *)title
+{
+    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.labelText = title;
+    [self hideHUD];
+}
+
+-(void)hideHUD
+{
+    [self.hud hide:YES afterDelay:0.3];
 }
 
 - (void)didReceiveMemoryWarning {

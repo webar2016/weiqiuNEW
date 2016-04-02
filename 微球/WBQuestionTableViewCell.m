@@ -35,13 +35,15 @@
     if (self) {
         
         if ([model isKindOfClass:[WBQuestionsListModel class]]) {
-            [self setUpQuestionByText:((WBQuestionsListModel *)model).questionText];
+            WBQuestionsListModel *currentModel = model;
+            [self setUpQuestionByText:[NSString stringWithFormat:@"【%@】%@",currentModel.cityStr,currentModel.questionText]];
             
-            [self setUpAnswerByText:((WBQuestionsListModel *)model).hga.answerText];
+            [self setUpAnswerByText:currentModel.hga.answerText];
         } else {
-            [self setUpQuestionByText:((WBSingleAnswerModel *)model).questionText];
+            WBSingleAnswerModel *currentModel = model;
+            [self setUpQuestionByText:[NSString stringWithFormat:@"【%@】%@",currentModel.cityStr,currentModel.questionText]];
             
-            [self setUpAnswerByText:((WBSingleAnswerModel *)model).answerText];
+            [self setUpAnswerByText:currentModel.answerText];
         }
         
         [self addGestureRecognizer];
@@ -169,10 +171,10 @@
 -(void)setModel:(id)model{
     _model = model;
     if ([model isKindOfClass:[WBQuestionsListModel class]]) {
-        
-        _questionLabel.text = ((WBQuestionsListModel *)model).questionText;
+        WBQuestionsListModel *currentModel = model;
+        _questionLabel.text = [NSString stringWithFormat:@"【%@】%@",currentModel.cityStr,currentModel.questionText];
         _questionLabel.numberOfLines = 0;
-        [_questionLabel setLineSpace:LINESPACE withContent:((WBQuestionsListModel *)model).questionText];
+        [_questionLabel setLineSpace:LINESPACE withContent:[NSString stringWithFormat:@"【%@】%@",currentModel.cityStr,currentModel.questionText]];
         
         _answerLabel.text = [((WBQuestionsListModel *)model).hga.answerText replaceImageSign];
         _answerLabel.numberOfLines = 3;
@@ -188,9 +190,10 @@
         }
         
     } else if ([model isKindOfClass:[WBSingleAnswerModel class]]) {
-        _questionLabel.text = ((WBSingleAnswerModel *)model).questionText;
+        WBSingleAnswerModel *currentModel = model;
+        _questionLabel.text = [NSString stringWithFormat:@"【%@】%@",currentModel.cityStr,currentModel.questionText];
         _questionLabel.numberOfLines = 0;
-        [_questionLabel setLineSpace:LINESPACE withContent:((WBSingleAnswerModel *)model).questionText];
+        [_questionLabel setLineSpace:LINESPACE withContent:[NSString stringWithFormat:@"【%@】%@",currentModel.cityStr,currentModel.questionText]];
         
         _answerLabel.text = [((WBSingleAnswerModel *)model).answerText replaceImageSign];
         _answerLabel.numberOfLines = 3;

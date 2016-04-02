@@ -10,6 +10,6 @@
 
 @interface NSAttributedString (NSAttributedString)
 
-- (NSString *)getPlainStringWithImageArray:(NSMutableArray *)imageArray byNameArray:(NSMutableArray *)nameArray;
+- (NSString *)getPlainStringWithImageArray:(NSMutableArray *)imageArray byNameArray:(NSMutableArray *)nameArray byImageRate:(NSMutableArray *)rateArray;
 
 @end

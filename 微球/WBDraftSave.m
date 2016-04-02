@@ -15,8 +15,8 @@
         self.groupId = [aDecoder decodeObjectForKey:@"groupId"];
         self.questionId = [aDecoder decodeObjectForKey:@"questionId"];
         self.content = [aDecoder decodeObjectForKey:@"content"];
-//        self.imageArray = [aDecoder decodeObjectForKey:@"imageArray"];
-//        self.nameArray = [aDecoder decodeObjectForKey:@"nameArray"];
+        self.topicId = [aDecoder decodeObjectForKey:@"topicId"];
+        self.imageRate = [aDecoder decodeObjectForKey:@"imageRate"];
     }
     return  self;
 }
@@ -25,8 +25,8 @@
     [aCoder encodeObject:self.groupId forKey:@"groupId"];
     [aCoder encodeObject:self.questionId forKey:@"questionId"];
     [aCoder encodeObject:self.content forKey:@"content"];
-//    [aCoder encodeObject:self.imageArray forKey:@"imageArray"];
-//    [aCoder encodeObject:self.nameArray forKey:@"nameArray"];
+    [aCoder encodeObject:self.topicId forKey:@"topicId"];
+    [aCoder encodeObject:self.imageRate forKey:@"imageRate"];
 }
 
 @end
