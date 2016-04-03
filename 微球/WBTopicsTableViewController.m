@@ -199,43 +199,14 @@
 
 #pragma mark --点击cell事件----
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row ==0) {
-        NSInteger topicId =((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicId;
-        // NSLog(@"%d",topicId);
-        WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
-        DVC.topicID = topicId;
-        [DVC setHidesBottomBarWhenPushed:YES];
-        [self.parentViewController.navigationController pushViewController:DVC animated:YES];
 
-//        WBTestViewController *TVC = [[WBTestViewController alloc]init];
-//        [self.navigationController pushViewController:TVC animated:YES];
-    }else if (indexPath.row ==1){
+    NSInteger topicId =((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicId;
+    WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
+    DVC.topicID = topicId;
+    DVC.navigationItem.title = ((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicContent;
+    [DVC setHidesBottomBarWhenPushed:YES];
+    [self.parentViewController.navigationController pushViewController:DVC animated:YES];
     
-        NSInteger topicId =((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicId;
-        // NSLog(@"%d",topicId);
-        WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
-        DVC.topicID = topicId;
-        [DVC setHidesBottomBarWhenPushed:YES];
-        [self.parentViewController.navigationController pushViewController:DVC animated:YES];
-//        WBAllocateScoreViewController *AVC = [[WBAllocateScoreViewController alloc]init];
-//        [self.navigationController pushViewController:AVC animated:YES];
-    
-    
-    }
-    else{
-        NSInteger topicId =((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicId;
-       // NSLog(@"%d",topicId);
-        WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
-        DVC.topicID = topicId;
-        [DVC setHidesBottomBarWhenPushed:YES];
-        [self.parentViewController.navigationController pushViewController:DVC animated:YES];
-    }
-    
-    //WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
-    
-    //[self.view.window.rootViewController presentViewController:DVC animated:YES completion:nil];
-
 }
 
 #pragma mark -- UIScrollViewDelegate Methods

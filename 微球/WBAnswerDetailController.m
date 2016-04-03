@@ -417,7 +417,6 @@
 #pragma mark - text view delegate
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(WBTextAttachment *)textAttachment inRange:(NSRange)characterRange{
-    NSLog(@"%@", textAttachment.image);
     return YES;
 }
 

@@ -26,11 +26,8 @@
 @property (nonatomic, assign) NSInteger allAnswers;
 @property (nonatomic, assign) NSInteger allIntegral;
 
-/**
- *是否从答案列表页跳转
- */
-@property (nonatomic, assign) BOOL hasPrevPage;
 
+@property (nonatomic, assign) BOOL hasPrevPage;
 @property (nonatomic, assign) BOOL fromFindView;
 @property (nonatomic, assign) BOOL fromHomePage;
 @property (nonatomic, assign) BOOL isMaster;

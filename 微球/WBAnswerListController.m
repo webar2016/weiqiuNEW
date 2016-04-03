@@ -10,6 +10,7 @@
 #import "WBAnswerListCell.h"
 #import "WBAnswerDetailController.h"
 #import "WBPostArticleViewController.h"
+#import "LoadViewController.h"
 
 #import "MyDownLoadManager.h"
 #import "WBSingleAnswerModel.h"
@@ -129,7 +130,7 @@
     else{
         joinButton.backgroundColor = [UIColor initWithRed];
         [joinButton setTitle:@"关闭问题" forState:UIControlStateNormal];
-        [joinButton addTarget:self action:@selector(closeQuestion) forControlEvents:UIControlEventTouchUpInside];
+        [joinButton addTarget:self action:@selector(closeQuestion:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     
@@ -179,6 +180,10 @@
 }
 
 -(void)writeAnswer{
+    if (![WBUserDefaults userId]) {
+        [self alertLogin];
+        return;
+    }
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString:@"true"]) {
@@ -192,14 +197,15 @@
             [alert addAction:({
                 UIAlertAction *action = [UIAlertAction actionWithTitle:@"加入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%@&userId=%@",self.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
-                        NSLog(@"加入成功");
+                        
                         WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
                         writeAnswerVC.groupId = self.groupId;
-                        writeAnswerVC.questionId = [NSString stringWithFormat:@"%d",self.questionId];
+                        writeAnswerVC.questionId = [NSString stringWithFormat:@"%ld",self.questionId];
                         writeAnswerVC.isQuestionAnswer = YES;
                         [self.navigationController pushViewController:writeAnswerVC animated:YES];
+                        
                     } andFailure:^(NSString *error) {
-                        NSLog(@"请检查网络后重试");
+                        [self showHUDComplete:@"请检查网络后重试"];
                     }];
                 }];
                 action;
@@ -211,19 +217,37 @@
             [self presentViewController:alert animated:YES completion:nil];
         }
     } andFailure:^(NSString *error) {
-        NSLog(@"请检查网络后重试");
+        [self showHUDComplete:@"请检查网络后重试"];
     }];
 }
 
--(void)closeQuestion{
+-(void)alertLogin{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登陆后即可发布啦！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"登陆" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LoadViewController *loginVC = [[LoadViewController alloc] init];
+            [self presentViewController:loginVC animated:YES completion:nil];
+        }];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)closeQuestion:(UIButton *)sender{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"关闭问题，小伙伴将无法回答，是否确认关闭？" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"关闭" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/closeQuestion?userId=%@&questionId=%d",[WBUserDefaults userId],self.questionId] whenSuccess:^(id representData) {
-                NSLog(@"问题关闭成功");
-                [self.navigationController popToRootViewControllerAnimated:NO];
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/closeQuestion?userId=%@&questionId=%ld",[WBUserDefaults userId],self.questionId] whenSuccess:^(id representData) {
+                sender.enabled = NO;
+                sender.backgroundColor = [UIColor initWithNormalGray];
+                [sender setTitle:@"已关闭" forState:UIControlStateNormal];
+                [self showHUDComplete:@"问题关闭成功"];
             } andFailure:^(NSString *error) {
-                NSLog(@"问题关闭失败，请检查网络后重试");
+                [self showHUDComplete:@"问题关闭失败，请检查网络后重试"];
             }];
         }];
         action;
@@ -295,7 +319,7 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self hideHUD];
+    [self.hud hide:YES afterDelay:2.0];
 }
 
 -(void)hideHUD

@@ -297,7 +297,7 @@
         action;
     })];
     [alert addAction:({
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             _imageFromAlbum = NO;
             [self imagePicker];
         }];

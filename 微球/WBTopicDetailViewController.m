@@ -14,6 +14,7 @@
 #import "UIColor+color.h"
 #import "UIImageView+WebCache.h"
 #import "WBHomepageViewController.h"
+#import "LoadViewController.h"
 
 
 #import "WBTopicCommentTableViewController.h"
@@ -98,10 +99,7 @@
 }
 
 -(void) createNavi{
-    //设置标题
-    self.navigationItem.title = @"频道名称";
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
-    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
+    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
 }
 
@@ -175,6 +173,10 @@
 }
 #pragma mark --------上传图片----------
 -(void)photoBtnClicled{
+    if (![WBUserDefaults userId]) {
+        [self alertLogin];
+        return;
+    }
     WBPostIamgeViewController *PIVC = [[WBPostIamgeViewController alloc]init];
     PIVC.topicID = _topicID;
     [self  menuBtnClicled];
@@ -182,6 +184,10 @@
 }
 #pragma mark --------上传视频----------
 -(void)videoBtnClicled{
+    if (![WBUserDefaults userId]) {
+        [self alertLogin];
+        return;
+    }
     WBPostVideoViewController *VVC = [[WBPostVideoViewController alloc]init];
     VVC.topicID = _topicID;
     [self menuBtnClicled];
@@ -189,10 +195,30 @@
 }
 #pragma mark --------上传图文----------
 -(void)textBtnClicled{
+    if (![WBUserDefaults userId]) {
+        [self alertLogin];
+        return;
+    }
     WBPostArticleViewController *articleViewController = [[WBPostArticleViewController alloc]init];
     articleViewController.topicID = [NSString stringWithFormat:@"%ld",self.topicID];
     [self  menuBtnClicled];
     [self.navigationController pushViewController:articleViewController animated:YES];
+}
+
+-(void)alertLogin{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登陆后即可发布啦！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"登陆" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LoadViewController *loginVC = [[LoadViewController alloc] init];
+            [self presentViewController:loginVC animated:YES completion:nil];
+        }];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 //菜单栏按钮动画效果
@@ -488,10 +514,24 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (![WBUserDefaults userId]) {
+        [self alertLogin];
+        return;
+    }
     TopicDetailModel *model = _dataArray[indexPath.row];
     if (model.newsType == 3) {
         WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
+        articalVC.nickname = model.tblUser.nickname;
+        articalVC.dir = model.tblUser.dir;
+        articalVC.image = model.dir;
+        articalVC.timeStr = model.timeStr;
+        articalVC.commentId = model.commentId;
+        articalVC.topicId = model.topicId;
+        articalVC.userId = model.userId;
+        articalVC.comment = model.comment;
+        articalVC.getIntegral = model.getIntegral;
         [self.navigationController pushViewController:articalVC animated:YES];
+        return;
     }
     WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
     commentView.commentId = ((TopicDetailModel *)_dataArray[indexPath.row]).commentId;

@@ -47,20 +47,6 @@
     //设置标题
     self.navigationItem.title = @"照片";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor initWithDarkGray]}];
-    //设置返回按钮
- 
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:[UIImage imageNamed:@"btn_cancel_post.png"] forState:UIControlStateNormal];
-    [button setTitle:@"取消" forState:UIControlStateNormal];
-    button.titleLabel.font = MAINFONTSIZE;
-    [button setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(cancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    button.frame = CGRectMake(0, 0, 50, 50);
-    
-    UIBarButtonItem *leftBtuuon = [[UIBarButtonItem alloc]initWithCustomView:button];
-    self.navigationItem.leftBarButtonItem = leftBtuuon;
-   //[self.navigationController.navigationBar.topItem setBackBarButtonItem:leftBtuuon];
-    
     
     UIButton *rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBtton.frame = CGRectMake(0, 0, 48, 22) ;
@@ -123,8 +109,8 @@
 
 -(void)imagePickClicked:(UITapGestureRecognizer *)tap{
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"选择" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *photo = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *photo = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self selectImageFromAlbum];
     }];
     
@@ -155,7 +141,7 @@
     //UIImagePickerControllerQualityTypeMedium中等质量
     //UIImagePickerControllerQualityTypeLow低质量
     //UIImagePickerControllerQualityType640x480
-    _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeHigh;
+    _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeLow;
     
     //设置摄像头模式（拍照，录制视频）为录像模式
     _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
