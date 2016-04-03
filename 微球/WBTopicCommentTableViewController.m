@@ -35,7 +35,7 @@
     [self createNavi];
     [self createUI];
     
-    [self showHUD:@"正在加载图片..." isDim:NO];
+    [self showHUD:@"正在努力加载" isDim:NO];
     [self loadData];
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{

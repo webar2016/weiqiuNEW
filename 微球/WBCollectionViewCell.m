@@ -138,9 +138,6 @@
     _rightLabel.text = [NSString stringWithFormat:@"%ld球币",model.members];
     _rightLabel.font = MAINFONTSIZE;
     _rightLabel.textColor = [UIColor initWithLightGray];
-    
-  //  [self setFrame:_mainImageView.frame];
-  //  NSLog(@"------cell ------");
 
 }
 

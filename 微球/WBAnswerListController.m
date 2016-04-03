@@ -57,7 +57,7 @@
     
     self.currentPage = 1;
     if (self.currentPage == 1) {
-        [self showHUD:@"正在努力加载..." isDim:NO];
+        [self showHUD:@"正在努力加载" isDim:NO];
     }
     
     [self loadDataWithPage:self.currentPage];

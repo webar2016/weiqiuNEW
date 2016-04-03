@@ -32,8 +32,6 @@
     NSNumber *_provinceId;
     NSNumber *_cityId;
     
-    BOOL            _datePickerIsHide;
-    
     UITextView *_introduceTextView;
     UILabel *_placeHoldLabel;
     
@@ -200,7 +198,7 @@
     _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 40, SCREENWIDTH, SCREENHEIGHT / 3 - 40)];
     _datePicker.datePickerMode = UIDatePickerModeDate;
     _datePicker.backgroundColor = [UIColor whiteColor];
-    
+    _datePicker.maximumDate = [[NSDate alloc] init];
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 40)];
     toolBar.backgroundColor = [UIColor initWithLightGray];
     UIBarButtonItem *ensureButton = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStylePlain target:self action:@selector(ensureDatePicker)];
@@ -209,7 +207,6 @@
     ensureButton.tintColor = [UIColor whiteColor];
     toolBar.items = @[flexibleButton,cancelButton,ensureButton];
     _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 7);
-    _datePickerIsHide = YES;
     [_datePickerView addSubview:toolBar];
     [_datePickerView addSubview:_datePicker];
     [self.view addSubview:_datePickerView];
@@ -327,38 +324,25 @@
 
 
 #pragma mark ---- datapicker ----
+
 -(void)ensureDatePicker{
     NSDateFormatter *dateformatter = [[NSDateFormatter alloc]init];
     [dateformatter setDateFormat:@"yyyy-MM-dd"];
     NSString *date = [dateformatter stringFromDate:_datePicker.date];
-   
     ((UILabel *)[self.view viewWithTag:202]).text = date;
     [self cancelDatePicker];
 }
 
-
 -(void)cancelDatePicker{
     [UIView animateWithDuration:0.3 animations:^{
-        _datePickerIsHide = YES;
         _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 7);
     }];
 }
 
 -(void)showDatePicker{
-    if (_datePickerIsHide) {
-        [UIView animateWithDuration:0.3 animations:^{
-            _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4);
-        }];
-    }else{
-        [UIView animateWithDuration:0.15 animations:^{
-            _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 7);
-        }completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.15 animations:^{
-                _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4);
-            }];
-        }];
-    }
-    _datePickerIsHide = NO;
+    [UIView animateWithDuration:0.3 animations:^{
+        _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4 + 60);
+    }];
 }
 
 

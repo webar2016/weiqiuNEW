@@ -7,6 +7,7 @@
 //
 
 #import "WBGroupDetailController.h"
+#import "LoadViewController.h"
 
 #import "AFHTTPSessionManager.h"
 #import <RongIMKit/RongIMKit.h>
@@ -35,6 +36,7 @@
     UIImagePickerController *_imagePickerController;
     
     BOOL        _imageFromAlbum;
+    BOOL        _isSuccess;
 }
 
 @end
@@ -81,6 +83,24 @@
 }
 
 -(void)nextStep{
+    if (![WBUserDefaults userId]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你还没有登陆，先去登陆吧！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"登陆" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                LoadViewController *loadView = [[LoadViewController alloc]init];
+                [self presentViewController:loadView animated:YES completion:nil];
+            }];
+            action;
+        })];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    
+    
     if (!_fileData) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你还没有上传照片" message:@"快点上传照片\n吸引更多的小伙伴加入你的帮帮团！" preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
@@ -93,14 +113,13 @@
         return;
     }
     
-    [self showHUD:@"正在努力上传..." isDim:NO];
+    [self showHUD:@"正在努力上传" isDim:NO];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
     self.dataDic[@"beginTime"] = _currentDate;
     self.dataDic[@"endTime"] = _closeDate;
     self.dataDic[@"maxMembers"] = _memberNumber.text;
     self.dataDic[@"imgRate"] = [NSString stringWithFormat:@"%.2f",_imageScale];
-    self.dataDic[@"groupSign"] = @"";
     self.dataDic[@"rewardIntegral"] = _scoreLable.text;
     self.dataDic[@"userId"] = [WBUserDefaults userId];
     
@@ -114,23 +133,21 @@
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"create group success");
-        [self hideHUD];
-        self.tabBarController.selectedIndex = 2;
-        [self.navigationController popToRootViewControllerAnimated:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"helpGroupShowFront" object:self userInfo:@{@"isJoin":@"NO"}];
+        _isSuccess = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
+        [self showHUDComplete:@"创建成功，可在【我创建的】查看"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"createSuccess" object:self];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideHUD];
+        _isSuccess = NO;
         self.navigationItem.rightBarButtonItem.enabled = YES;
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"创建帮帮团失败，请重新创建" preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                [self dismissViewControllerAnimated:alert completion:nil];
-            }];
-            action;
-        })];
-        [self presentViewController:alert animated:YES completion:nil];
+        [self showHUDComplete:@"创建失败，请稍后重试"];
     }];
+}
+
+-(void)dismissView{
+    self.tabBarController.selectedIndex = 2;
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UI
@@ -348,7 +365,10 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self hideHUD];
+    [self.hud hide:YES afterDelay:2];
+    if (_isSuccess) {
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0f];
+    }
 }
 
 -(void)hideHUD

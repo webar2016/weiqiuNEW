@@ -42,7 +42,7 @@
     _tableView.bounces = NO;
     [self.view addSubview:_tableView];
     
-    _loginOut = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.2, SCREENHEIGHT - 104, SCREENWIDTH * 0.6, 30)];
+    _loginOut = [[UIButton alloc] initWithFrame:CGRectMake((SCREENWIDTH - 350) / 2, SCREENHEIGHT - 120, 350, 35)];
     [_loginOut setBackgroundImage:[UIImage imageNamed:@"bg-23"] forState:UIControlStateNormal];
     [_loginOut setTitle:@"退出微球" forState:UIControlStateNormal];
     [_loginOut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -63,20 +63,34 @@
 }
 
 -(void)loginOut{
-    NSLog(@"退出微球");
-    [WBUserDefaults deleteUserDefaults];
-    [[RCIMClient sharedRCIMClient] logout];
     
-    MyDBmanager *manager1 = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-    [manager1 deleteAllData];
-    [manager1 closeFBDM];
+    UIAlertController *alert= [UIAlertController alertControllerWithTitle:@"是否确定退出？" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
-    MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Help_group_sign];
-    [manager2 deleteAllData];
-    [manager2 closeFBDM];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [WBUserDefaults deleteUserDefaults];
+            [[RCIMClient sharedRCIMClient] logout];
+            
+            MyDBmanager *manager1 = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+            [manager1 deleteAllData];
+            [manager1 closeFBDM];
+            
+            MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Help_group_sign];
+            [manager2 deleteAllData];
+            [manager2 closeFBDM];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            self.tabBarController.selectedIndex = 0;
+        }];
+        action;
+    })];
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    self.tabBarController.selectedIndex = 0;
+    [self presentViewController:alert animated:YES completion:nil];
+    
 }
 
 -(void)dontDisturb{

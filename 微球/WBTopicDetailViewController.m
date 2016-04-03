@@ -40,7 +40,7 @@
     NSMutableArray *_dataArray;
     NSMutableArray *_labelHeightArray;
     
-    
+    UIImageView *_background;
     
     NSInteger _page;
     
@@ -74,7 +74,7 @@
     _page = 1;
     [self createNavi];
     [self createUI];
-    [self showHUD:@"正在加载图片..." isDim:NO];
+    [self showHUD:@"正在努力加载" isDim:NO];
     [self loadData];
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -406,6 +406,16 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (!_background) {
+        _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+        _background.center = CGPointMake(SCREENWIDTH / 2, 170);
+    }
+    
+    if (_dataArray.count == 0) {
+        [self.view addSubview:_background];
+    } else {
+        [_background removeFromSuperview];
+    }
     return _dataArray.count;
     
 }

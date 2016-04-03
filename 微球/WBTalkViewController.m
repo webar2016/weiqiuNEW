@@ -68,7 +68,7 @@
     self.enableContinuousReadUnreadVoice = YES;
     self.groupId = self.targetId;
     [self setMessageAvatarStyle:RC_USER_AVATAR_CYCLE];
-    [self showHUD:@"正在努力加载..." isDim:NO];
+    [self showHUD:@"正在努力加载" isDim:NO];
     [self getQuestionTotalNumber];
     
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];

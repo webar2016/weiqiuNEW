@@ -90,7 +90,7 @@
     
     [self loadData];
     
-    [self showHUD:@"正在努力加载..." isDim:NO];
+    [self showHUD:@"正在努力加载" isDim:NO];
     
     [self addGestureRecognizer];
     

@@ -34,6 +34,10 @@
         [self talkDetail];
         
         [self disturbSign];
+        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, 66, SCREENWIDTH - 15, 1)];
+        line.backgroundColor = [UIColor initWithBackgroundGray];
+        [self addSubview:line];
     }
     return self;
 }
@@ -42,7 +46,7 @@
     _iconsView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 9, 49, 49)];
     _iconsView.layer.masksToBounds = YES;
     _iconsView.layer.cornerRadius = 5;
-    _iconsView.contentMode = UIViewContentModeScaleToFill;
+    _iconsView.contentMode = UIViewContentModeScaleAspectFill;
     
     _unReadTip = [[UILabel alloc] initWithFrame:CGRectMake(48, 4, 20, 20)];
     _unReadTip.backgroundColor = [UIColor redColor];
@@ -109,7 +113,7 @@
         _disturbSign.hidden = YES;
     }
     if (model.unreadMessageCount > 0) {
-        _unReadTip.text = [NSString stringWithFormat:@"%d",model.unreadMessageCount];
+        _unReadTip.text = [NSString stringWithFormat:@"%ld",model.unreadMessageCount];
         [self addSubview:_unReadTip];
     }else{
         [_unReadTip removeFromSuperview];

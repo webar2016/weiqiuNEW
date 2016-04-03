@@ -225,10 +225,10 @@
     }
     NSLog(@"_data%@",_data);
     //@"http://121.40.132.44:92/hg/closeGroup"
-    [MyDownLoadManager postUrl:@"http://192.168.1.135/mbapp/hg/closeGroup" withParameters:_data whenProgress:^(NSProgress *FieldDataBlock) {
+    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/hg/closeGroup" withParameters:_data whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
-        [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_GROUP targetId:self.groupId];
+        [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
         [self.navigationController popToRootViewControllerAnimated:NO];
     } andFailure:^(NSString *error) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳，请稍后再试！" message:nil preferredStyle:UIAlertControllerStyleAlert];
