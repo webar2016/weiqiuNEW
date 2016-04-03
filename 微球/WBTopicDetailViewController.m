@@ -419,8 +419,7 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        cell.tag = 1;
-        //[cell setModel:model];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else if(((TopicDetailModel *)_dataArray[indexPath.row]).newsType == 2){
         static NSString *topCellID2 = @"detailCellID2";
@@ -434,7 +433,7 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        cell.tag = 2;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
     }else{
@@ -450,8 +449,7 @@
         [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
         cell.delegate = self;
         cell.indexPath = indexPath;
-        cell.tag = 3;
-        //[cell setModel:model];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
         
