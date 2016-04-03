@@ -15,6 +15,7 @@
 
 @interface WBHelpGroupsDetailViewController ()
 {
+    UIScrollView *_scrollView;
 
     UIImageView *_mainImageView;
     UIView *_backGroungViewOne;
@@ -34,9 +35,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    
+    [self createUI];
     [self createButton];
     [self checkInGroup];
-    [self createUI];
 }
 
 -(void)checkInGroup{
@@ -56,14 +59,22 @@
 
 -(void)createUI{
     
-    if(_imageHeight>300){
-        _imageHeight = 300;
-        
+//    if(_imageHeight>300){
+//        _imageHeight = 300;
+//        
+//    
+//    }
     
-    }
+    _scrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+    [self.view addSubview:_scrollView];
+    // 设置UIScrollView的滚动范围（内容大小）
+     _scrollView.contentSize = CGSizeMake(SCREENWIDTH, _imageHeight+350) ;
+    // 隐藏水平滚动条
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.showsVerticalScrollIndicator = NO;
     
     _mainImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 20, SCREENWIDTH, _imageHeight)];
-    [self.view addSubview:_mainImageView];
+    [_scrollView addSubview:_mainImageView];
     [_mainImageView sd_setImageWithURL:[NSURL URLWithString:_model.dir]];
     _mainImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _mainImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -72,16 +83,16 @@
     
     
     _headImageView = [[UIImageView alloc]init];
-    [self.view addSubview:_headImageView];
+    [_scrollView addSubview:_headImageView];
     
     _nameLabel = [[UILabel alloc]init];
-    [self.view addSubview:_nameLabel];
+    [_scrollView addSubview:_nameLabel];
     
     _timeLabel= [[UILabel alloc]init];
-    [self.view addSubview:_timeLabel];
+    [_scrollView addSubview:_timeLabel];
     
     _ageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.view addSubview:_ageButton];
+    [_scrollView addSubview:_ageButton];
     _headImageView.frame = CGRectMake(4, 20+_imageHeight+5, 30, 30);
     _nameLabel.frame = CGRectMake(40, 20+_imageHeight+10, 80, 10);
     _timeLabel.frame = CGRectMake(40, 20+_imageHeight+10+15, 80, 10);
@@ -131,17 +142,17 @@
     for (NSInteger i=0; i<6; i++) {
         UIImageView  *headImage = [[UIImageView alloc]initWithFrame:CGRectMake(22, _imageHeight+55+[cellHeightyArray[i] integerValue], 13, 16)];
         headImage.image = [UIImage imageNamed:imageNameArray[i]];
-        [self.view addSubview:headImage];
+        [_scrollView addSubview:headImage];
         
         UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(50, _imageHeight+55+[cellHeightyArray[i] integerValue], 150, 16)];
-        [self.view addSubview:labelName];
+        [_scrollView addSubview:labelName];
         labelName.text = labelNameArray[i];
         labelName.font = MAINFONTSIZE;
         labelName.textColor = [UIColor initWithLightGray];
         
         UILabel *rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, _imageHeight+55+[cellHeightyArray[i] integerValue], SCREENWIDTH-150-20, 16)];
         rightLabel.textAlignment = NSTextAlignmentRight;
-        [self.view addSubview:rightLabel];
+        [_scrollView addSubview:rightLabel];
         rightLabel.text = rightLabelNameArray[i];
         rightLabel.font = MAINFONTSIZE;
         rightLabel.textColor = [UIColor initWithLightGray];
@@ -177,18 +188,57 @@
 
     }else{
     
+        [self showHUD:@"正在加入" isDim:YES];
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
             
-            [self dismissViewControllerAnimated:YES completion:^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"helpGroupShowFront" object:self userInfo:@{@"isJoin":@"YES"}];
-            }];
-        } andFailure:^(NSString *error) {
+          //[self showHUD:@"加入成功" isDim:YES];
+            [self showHUDComplete:@"加入成功"];
+            //[self hideHUD];
             
+            UIButton *btn = (UIButton *)[self.view viewWithTag:101];
+            [btn setEnabled:NO];
+            btn.userInteractionEnabled = NO;
+            [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+            [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+            
+            
+//          [self dismissViewControllerAnimated:YES completion:^{
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"helpGroupShowFront" object:self userInfo:@{@"isJoin":@"YES"}];
+//            }];
+            
+            
+            
+            
+        } andFailure:^(NSString *error) {
+             [self showHUD:@"加入失败" isDim:YES];
+            [self hideHUD];
         }];
     
     }
     
 }
+
+#pragma mark - MBprogress
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim
+{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.dimBackground = isDim;
+    self.hud.labelText = title;
+}
+-(void)showHUDComplete:(NSString *)title
+{
+    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.labelText = title;
+    [self hideHUD];
+}
+
+-(void)hideHUD
+{
+    [self.hud hide:YES afterDelay:0.3];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

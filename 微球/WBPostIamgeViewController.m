@@ -324,7 +324,7 @@
     } whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
-        
+        [self.navigationController popViewControllerAnimated:YES];
     } andFailure:^(NSString *error) {
         
     }];
