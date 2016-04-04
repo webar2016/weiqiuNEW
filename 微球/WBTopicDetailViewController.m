@@ -200,7 +200,7 @@
         return;
     }
     WBPostArticleViewController *articleViewController = [[WBPostArticleViewController alloc]init];
-    articleViewController.topicID = [NSString stringWithFormat:@"%ld",self.topicID];
+    articleViewController.topicID = [NSString stringWithFormat:@"%ld",(long)self.topicID];
     [self  menuBtnClicled];
     [self.navigationController pushViewController:articleViewController animated:YES];
 }

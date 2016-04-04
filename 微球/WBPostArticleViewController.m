@@ -118,7 +118,7 @@
 #pragma mark - 创建文本框
 
 -(void)setUpTextView{
-    _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 100 - 270)];
+    _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height)];
     _textView.textContainerInset = UIEdgeInsetsMake(MARGININSIDE, MARGININSIDE, MARGININSIDE * 4, MARGININSIDE);
     _textView.font = MAINFONTSIZE;
     _textView.delegate = self;
@@ -186,7 +186,7 @@
     
     [_textView resignFirstResponder];
     _textView.editable = NO;
-    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
+//    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
     _cancelPreview = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH - 100, SCREENHEIGHT - 100, 60, 14)];
     _cancelPreview.titleLabel.font = MAINFONTSIZE;
     _textView.inputAccessoryView.hidden = YES;
@@ -198,7 +198,7 @@
 
 -(void)cancelPreview{
     _textView.editable = YES;
-    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 100 - 270);
+//    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 100 - 270);
     [_cancelPreview removeFromSuperview];
     _textView.inputAccessoryView.hidden = NO;
     [_textView becomeFirstResponder];
@@ -219,7 +219,7 @@
     [self showHUD:@"正在努力发布" isDim:YES];
     [_textView resignFirstResponder];
     _textView.editable = NO;
-    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
+//    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
     [self.imageArray removeAllObjects];
     [self.nameArray removeAllObjects];
     
@@ -347,6 +347,21 @@
 }
 
 #pragma mark - textview delegate
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.275f];
+    _textView.frame = CGRectMake(0.0f, 0.0f,SCREENWIDTH,self.view.frame.size.height - 216.0 -100.0);
+    [UIView commitAnimations];
+}
+
+- (void)textViewDidEndEditing:(UITextField *)textField{
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.275f];
+    _textView.frame = CGRectMake(0.0f, 0.0f,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
+}
 
 - (void)textViewDidChange:(UITextView *)textView{
     _textView.textColor = [UIColor initWithNormalGray];
