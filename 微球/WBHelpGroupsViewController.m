@@ -42,10 +42,6 @@
     self.navigationController.navigationBar.translucent = NO;
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(helpGroupShowFront:)
-                                                 name:@"helpGroupShowFront"
-                                               object:nil];
     [self setUpNavgationItem];
     [self initVcArr];
     [self initPageVc];
@@ -68,15 +64,6 @@
         self.segmentedControl.tintColor = [UIColor initWithGreen];
         self.segmentedControl.frame = CGRectMake(0, 0, self.view.frame.size.width*0.5, 30);
         self.navigationItem.titleView = self.segmentedControl;
-}
-
--(void)helpGroupShowFront:(NSNotification *)sender{
-    if ([sender.userInfo[@"isJoin"] isEqualToString:@"YES"]) {
-        self.segmentedControl.selectedSegmentIndex = 1;
-    } else {
-        self.segmentedControl.selectedSegmentIndex = 2;
-    }
-    [self changeCurrentController:self.segmentedControl];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -113,6 +113,8 @@
     _account.layer.cornerRadius = 2.0f;
     _account.borderStyle = UITextBorderStyleNone;
     _account.delegate = self;
+    _account.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _account.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_account];
     _account.layer.masksToBounds=YES;
     [[_account layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
@@ -128,6 +130,8 @@
     _password.layer.cornerRadius = 2.0f;
     _password.font = MAINFONTSIZE;
     _password.delegate = self;
+    _password.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _password.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_password];
     _password.layer.masksToBounds=YES;
     [[_password layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];

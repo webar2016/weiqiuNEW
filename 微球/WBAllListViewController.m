@@ -60,16 +60,14 @@
     [self.view addSubview:_collectionView];
     [self createMJRefresh];
     
-    
-
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    
-    
-    [self showHUD:@"正在加载图片..." isDim:NO];
     _loadImageCount = 0;
-    
-    [self loadData];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self showHUD:@"正在努力加载" isDim:NO];
+    [self loadData];;
 }
 
 -(void) createMJRefresh{

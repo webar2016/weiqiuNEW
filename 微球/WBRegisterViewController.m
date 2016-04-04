@@ -89,7 +89,8 @@
     _telephoneField = [[UITextField alloc]initWithFrame:CGRectMake(30, titleLabel.frame.origin.y+titleLabel.frame.size.height+57, SCREENWIDTH-60, 43)];
     _telephoneField.placeholder = @"输入手机号";
     _telephoneField.font = MAINFONTSIZE;
-    
+    _telephoneField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _telephoneField.leftViewMode = UITextFieldViewModeAlways;
     _telephoneField.textColor = [UIColor initWithNormalGray];
     _telephoneField.delegate = self;
     _telephoneField.backgroundColor = [UIColor initWithBackgroundGray];
@@ -123,6 +124,8 @@
     _registerNumber.backgroundColor =[UIColor initWithBackgroundGray];
     [self.view addSubview:_registerNumber];
     _registerNumber.font = MAINFONTSIZE;
+    _registerNumber.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _registerNumber.leftViewMode = UITextFieldViewModeAlways;
     [_registerNumber setTextColor:[UIColor initWithNormalGray]];
     _registerNumber.layer.masksToBounds=YES;
     _registerNumber.layer.cornerRadius = 3;
@@ -139,6 +142,8 @@
     _passwordField.layer.masksToBounds=YES;
     _passwordField.layer.cornerRadius = 3;
     [_passwordField setSecureTextEntry:YES];
+    _passwordField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _passwordField.leftViewMode = UITextFieldViewModeAlways;
     [[_passwordField layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
     _passwordField.layer.borderWidth= 1.0f;
     _passwordField.tag = 105;

@@ -27,7 +27,7 @@
     
     UIImagePickerController *_imagePickerController;
     
-    BOOL            _isUpLoading;
+    BOOL            _isSuccess;
 }
 
 @end
@@ -205,10 +205,6 @@
 }
 
 -(void)unlockCity{
-    if (_isUpLoading) {
-        return;
-    }
-    
     if ([_dateButton.currentTitle isEqualToString:@"请选择"]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择拍摄时间" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
@@ -227,8 +223,8 @@
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
-    _isUpLoading = YES;
-    [self showHUD:@"努力上传中…" isDim:YES];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self showHUD:@"正在努力上传" isDim:YES];
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     data[@"userId"] = [WBUserDefaults userId];
     data[@"photoDate"] = _dateButton.currentTitle;
@@ -240,16 +236,18 @@
     [MyDownLoadManager postUrl:UNLOCK_URL withParameters:data fileData:_fileData name:_imageName fileName:_imageName mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
-        NSLog(@"unlock---success");
-        _isUpLoading = NO;
-        [self hideHUD];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        _isSuccess = YES;
+        [self showHUDComplete:@"上传成功，正在火速审核中"];
     } andFailure:^(NSString *error) {
-        _isUpLoading = NO;
-        [self hideHUD];
-        NSLog(@"unlock---failure-------%@",error);
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        _isSuccess = NO;
+        [self showHUDComplete:@"上传失败，请稍后再试"];
     }];
     
+}
+
+-(void)dismissView{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - MBprogress
@@ -265,7 +263,10 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self hideHUD];
+    [self.hud hide:YES afterDelay:2.0];
+    if (_isSuccess) {
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0];
+    }
 }
 
 -(void)hideHUD

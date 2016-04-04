@@ -34,9 +34,11 @@
         [self setDisplayConversationTypes:@[@(ConversationType_GROUP)]];
     }
     [self loadData];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"getGroupInfo" object:nil];
     self.emptyConversationView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     self.emptyConversationView.center = CGPointMake(SCREENWIDTH / 2, 170);
+    self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"getGroupInfo" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"showNewGroup" object:nil];
     return self;
 }
 
@@ -54,11 +56,6 @@
     [self notifyUpdateUnreadMessageCount];
     _emptyView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"1.pic.jpg"]];
     _emptyView.frame = CGRectMake(0, 40, SCREENWIDTH, SCREENWIDTH);
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    [self loadData];
 }
 
 -(void)notifyUpdateUnreadMessageCount{
@@ -87,7 +84,6 @@
             NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
             [myCreate addObject:groupId];
         }
-//        [WBUserDefaults setMutableUserDefaults:@{@"myJoin":myCreate}];
         
         [self willReloadTableData:self.conversationListDataSource];
         [self.conversationListTableView reloadData];

@@ -9,6 +9,7 @@
 #import "WBHelpGroupsDetailViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MyDownLoadManager.h"
+#import "LoadViewController.h"
 #import <RongIMKit/RongIMKit.h>
 
 
@@ -26,7 +27,7 @@
     NSString *_dataStr;
     UIButton *_cancelBtn;
     UIButton *_ensureBtn;
-
+    BOOL _isSuccess;
 }
 @end
 
@@ -36,9 +37,12 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
     [self createUI];
     [self createButton];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear: YES];
     [self checkInGroup];
 }
 
@@ -50,6 +54,9 @@
             [_ensureBtn setTitle:@"确认加入" forState:UIControlStateNormal];
             _ensureBtn.backgroundColor = [UIColor initWithGreen];
             [_ensureBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        } else {
+            [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+            _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
         }
        
     } andFailure:^(NSString *error) {
@@ -58,12 +65,6 @@
 }
 
 -(void)createUI{
-    
-//    if(_imageHeight>300){
-//        _imageHeight = 300;
-//        
-//    
-//    }
     
     _scrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
     [self.view addSubview:_scrollView];
@@ -166,18 +167,29 @@
     _cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-49, SCREENWIDTH/2, 49)];
     [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
     [_cancelBtn setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
-    _cancelBtn.backgroundColor = [UIColor initWithBackgroundGray];
     _cancelBtn.tag = 100;
+    _cancelBtn.backgroundColor = [UIColor initWithBackgroundGray];
     [_cancelBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     _ensureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH/2, self.view.frame.size.height-49, SCREENWIDTH/2, 49)];
-    [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
-    [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+    if ([WBUserDefaults userId]) {
+        _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+        [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+    } else {
+        _ensureBtn.backgroundColor = [UIColor initWithGreen];
+        [_ensureBtn setTitle:@"登陆加入帮帮团" forState:UIControlStateNormal];
+        [_ensureBtn addTarget:self action:@selector(loginWebar) forControlEvents:UIControlEventTouchUpInside];
+    }
+        [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _ensureBtn.tag = 101;
     
     [self.view addSubview:_cancelBtn];
     [self.view addSubview:_ensureBtn];
+}
+
+-(void)loginWebar{
+    LoadViewController *loadView = [[LoadViewController alloc]init];
+    [self presentViewController:loadView animated:YES completion:nil];
 }
 
 // 加入帮帮团
@@ -187,14 +199,12 @@
         [self dismissViewControllerAnimated:YES completion:nil];
 
     }else{
-    
+        btn.enabled = NO;
         [self showHUD:@"正在加入" isDim:YES];
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
-            
-          //[self showHUD:@"加入成功" isDim:YES];
-            [self showHUDComplete:@"加入成功"];
-            //[self hideHUD];
-            
+            _isSuccess = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
+            [self showHUDComplete:@"加入成功，可在【我加入的】查看"];
             UIButton *btn = (UIButton *)[self.view viewWithTag:101];
             [btn setEnabled:NO];
             btn.userInteractionEnabled = NO;
@@ -202,21 +212,17 @@
             [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
             
-            
-//          [self dismissViewControllerAnimated:YES completion:^{
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"helpGroupShowFront" object:self userInfo:@{@"isJoin":@"YES"}];
-//            }];
-            
-            
-            
-            
         } andFailure:^(NSString *error) {
-             [self showHUD:@"加入失败" isDim:YES];
+            _isSuccess = NO;
+            btn.enabled = YES;
+            [self showHUDComplete:@"加入失败，请稍后重试"];
             [self hideHUD];
         }];
-    
     }
-    
+}
+
+-(void)dismissView{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - MBprogress
@@ -231,7 +237,10 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self hideHUD];
+    [self.hud hide:YES afterDelay:2];
+    if (_isSuccess) {
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0f];
+    }
 }
 
 -(void)hideHUD

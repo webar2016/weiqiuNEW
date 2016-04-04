@@ -176,10 +176,10 @@
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 70)];
     footerView.backgroundColor = [UIColor initWithBackgroundGray];
     
-    UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake((SCREENWIDTH - 250) / 2, 36, 250, 27)];
+    UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake((SCREENWIDTH - 350) / 2, 25, 350, 35)];
     [closeButton setBackgroundImage:[UIImage imageNamed:@"bg-23"] forState:UIControlStateNormal];
     [closeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    closeButton.titleLabel.font = MAINFONTSIZE;
+    closeButton.titleLabel.font = FONTSIZE16;
     if (self.isMaster) {
         [closeButton setTitle:@"闭团 & 颁发悬赏" forState:UIControlStateNormal];
         [closeButton addTarget:self action:@selector(closeGroup) forControlEvents:UIControlEventTouchUpInside];

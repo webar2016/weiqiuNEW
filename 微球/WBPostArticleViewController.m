@@ -25,6 +25,8 @@
     NSAttributedString *_breakLine;
     NSMutableParagraphStyle *_paragraphStyle;
     
+    BOOL _isSuccess;
+    
 //    BOOL _hasDraft;
 //    WBDraftSave *_savedDraft;
 //    NSString *_draftContentPath;
@@ -116,7 +118,7 @@
 #pragma mark - 创建文本框
 
 -(void)setUpTextView{
-    _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 100 - 270)];
+    _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height)];
     _textView.textContainerInset = UIEdgeInsetsMake(MARGININSIDE, MARGININSIDE, MARGININSIDE * 4, MARGININSIDE);
     _textView.font = MAINFONTSIZE;
     _textView.delegate = self;
@@ -184,7 +186,7 @@
     
     [_textView resignFirstResponder];
     _textView.editable = NO;
-    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
+//    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
     _cancelPreview = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH - 100, SCREENHEIGHT - 100, 60, 14)];
     _cancelPreview.titleLabel.font = MAINFONTSIZE;
     _textView.inputAccessoryView.hidden = YES;
@@ -196,7 +198,7 @@
 
 -(void)cancelPreview{
     _textView.editable = YES;
-    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 100 - 270);
+//    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 100 - 270);
     [_cancelPreview removeFromSuperview];
     _textView.inputAccessoryView.hidden = NO;
     [_textView becomeFirstResponder];
@@ -213,11 +215,11 @@
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
-    
-    [self showHUD:@"努力发布中…" isDim:YES];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self showHUD:@"正在努力发布" isDim:YES];
     [_textView resignFirstResponder];
     _textView.editable = NO;
-    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
+//    _textView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - MARGINOUTSIDE - 40);
     [self.imageArray removeAllObjects];
     [self.nameArray removeAllObjects];
     
@@ -280,8 +282,8 @@
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self hideHUD];
-        NSLog(@"success");
+        _isSuccess = YES;
+        [self showHUDComplete:@"发布成功"];
         //删除现有草稿
 //        if (_savedDraft) {
 //            NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -289,19 +291,12 @@
 //            [fileManager removeItemAtPath:_draftImagePath error:NULL];
 //            [fileManager removeItemAtPath:_draftImgNamePath error:NULL];
 //        }
-        [self.navigationController popViewControllerAnimated:NO];
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideHUD];
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳请稍后再试！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"重新发布" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self releaseArticle];
-            }];
-            action;
-        })];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil
-//                                     ^(UIAlertAction * _Nonnull action) {
+        _isSuccess = NO;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        [self showHUDComplete:@"网络状态不佳,请稍后再试"];
+        
 //                //保存草稿
 //                WBDraftSave *draft = [[WBDraftSave alloc] init];
 //                draft.content = plainString;
@@ -322,12 +317,7 @@
 //                [NSKeyedArchiver archiveRootObject:self.imageArray toFile:_draftImagePath];
 //                [NSKeyedArchiver archiveRootObject:self.nameArray toFile:_draftImgNamePath];
 //                [self.navigationController popViewControllerAnimated:YES];
-//            }
-                                     ];
-            action;
-        })];
-        [self presentViewController:alert animated:YES completion:nil];
-        NSLog(@"failure");
+
     }];
 }
 
@@ -357,6 +347,21 @@
 }
 
 #pragma mark - textview delegate
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.275f];
+    _textView.frame = CGRectMake(0.0f, 0.0f,SCREENWIDTH,self.view.frame.size.height - 216.0 -100.0);
+    [UIView commitAnimations];
+}
+
+- (void)textViewDidEndEditing:(UITextField *)textField{
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.275f];
+    _textView.frame = CGRectMake(0.0f, 0.0f,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
+}
 
 - (void)textViewDidChange:(UITextView *)textView{
     _textView.textColor = [UIColor initWithNormalGray];
@@ -380,7 +385,10 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self hideHUD];
+    [self.hud hide:YES afterDelay:2.0];
+    if (_isSuccess) {
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0];
+    }
 }
 
 -(void)hideHUD
@@ -388,6 +396,9 @@
     [self.hud hide:YES afterDelay:0.3];
 }
 
+-(void)dismissView{
+    [self.navigationController popViewControllerAnimated:NO];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
