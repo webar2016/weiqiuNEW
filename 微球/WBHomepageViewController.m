@@ -233,7 +233,8 @@
 
 -(void)setConfigHeadView{
     if ([_userInfo objectForKey:@"personalImage"]) {
-        [_coverImage sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"personalImage"]]];
+        
+        [_coverImage sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"personalImage"]] placeholderImage:[UIImage imageNamed:@"cover.png"]];
     }
     [_headicon sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"dir"]]];
 

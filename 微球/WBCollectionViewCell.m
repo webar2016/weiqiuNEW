@@ -8,16 +8,7 @@
 
 #import "WBCollectionViewCell.h"
 #import "UIImageView+WebCache.h"
-/*
- UIImageView *_mainImageView;
- UIView *_backgroundViewTop;
- UIView *_backgroundViewButtom;
- UIImageView *_headImageView;
- UIButton *_ageButton;
- UIImageView *_leftImageView;
- UIImageView *_rightImageView;
- UILabel *_leftLabel;
- UILabel *_rightLabel;*/
+
 @implementation WBCollectionViewCell
 
 
@@ -59,21 +50,13 @@
         [_backgroundViewButtom addSubview:_rightLabel];
         
         self.contentView.backgroundColor = [UIColor initWithBackgroundGray];
-        //beijin
-        
         _backgroundViewTop.backgroundColor = [UIColor whiteColor];
-       // _mainImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-       // _mainImageView.contentMode = UIViewContentModeScaleAspectFill;
-        //_mainImageView.clipsToBounds = YES;
-        //_mainImageView.backgroundColor = [UIColor greenColor];
         _mainImageView.layer.cornerRadius = 5.0f;
         _mainImageView.layer.masksToBounds = YES;
     }
     return self;
 }
 - (void)createUI:(CGFloat)imageHeight{
-    
-        
     _mainImageView.frame = CGRectMake(0, 0, CollectionCellWidth, imageHeight);
     _backgroundViewTop.frame = CGRectMake(0, imageHeight, CollectionCellWidth, 40);
     _headImageView.frame = CGRectMake(4, imageHeight+5, 30, 30);
@@ -81,56 +64,46 @@
     _timelabel.frame = CGRectMake(40, imageHeight+10+15, 80, 10);
     _ageButton.frame = CGRectMake(130, imageHeight+10, 20, 10);
     _leftImageView.frame = CGRectMake(6.5, 3, 13, 13);
-    _backgroundViewButtom.frame = CGRectMake(0, imageHeight+42, CollectionCellWidth, 20);
+    _backgroundViewButtom.frame = CGRectMake(0, imageHeight+41, CollectionCellWidth, 20);
     _leftLabel.frame =CGRectMake(25, 3, 100, 13);
     _rightImageView.frame =CGRectMake(100, 3, 13, 13);
     _rightLabel.frame = CGRectMake(120, 3, 100, 13);
-
-
-
 }
 
 - (void)setModel:(WBCollectionViewModel *)model imageHeight:(CGFloat)imageHeight{
     [self createUI:imageHeight];
+    self.model = model;
     //大图
-    
-
     [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
-    
-    
-   
-    
    
    [_headImageView sd_setImageWithURL:[NSURL URLWithString:model.tblUser.dir]];
     _headImageView.layer.masksToBounds = YES;
     _headImageView.layer.cornerRadius = 15;
-    
+    _headImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goHomePage:)];
+    [_headImageView addGestureRecognizer:tap];
    
     _nickName.text = model.tblUser.nickname;
     _nickName.font = [UIFont systemFontOfSize:12];
     _nickName.textColor = [UIColor initWithLightGray];
     
-   
     _timelabel.text = model.beginTime;
     _timelabel.font = SMALLFONTSIZE;
     _timelabel.textColor = [UIColor initWithLightGray];
 
-       _ageButton.layer.cornerRadius = 3;
+    _ageButton.layer.cornerRadius = 3;
     [_ageButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
     [_ageButton setTitle:[NSString stringWithFormat:@"%ld",(long)model.tblUser.age]  forState:UIControlStateNormal];
     _ageButton.backgroundColor = [UIColor initWithGreen];
     _ageButton.titleLabel.font = SMALLFONTSIZE;
     
-        _backgroundViewButtom.backgroundColor = [UIColor whiteColor];
+    _backgroundViewButtom.backgroundColor = [UIColor whiteColor];
     
-   
     _leftImageView.image = [UIImage imageNamed:@"icon_qiupiao.png"];
     
         _leftLabel.text = [NSString stringWithFormat:@"%ld球币",model.rewardIntegral];
     _leftLabel.font = MAINFONTSIZE;
     _leftLabel.textColor = [UIColor initWithLightGray];
-    
-    
     
     _rightImageView.image = [UIImage imageNamed:@"icon_member.png"];
     
@@ -140,7 +113,10 @@
     _rightLabel.textColor = [UIColor initWithLightGray];
 
 }
-
+//去往个人主页
+-(void)goHomePage:(UITapGestureRecognizer *)tap{
+    [self.delegate goHomepage:[NSString stringWithFormat:@"%ld",_model.userId]];
+}
 
 
 @end

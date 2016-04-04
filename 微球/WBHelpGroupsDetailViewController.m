@@ -141,7 +141,7 @@
     
     
     for (NSInteger i=0; i<6; i++) {
-        UIImageView  *headImage = [[UIImageView alloc]initWithFrame:CGRectMake(22, _imageHeight+55+[cellHeightyArray[i] integerValue], 13, 16)];
+        UIImageView  *headImage = [[UIImageView alloc]initWithFrame:CGRectMake(22, _imageHeight+55+[cellHeightyArray[i] integerValue], 17, 17)];
         headImage.image = [UIImage imageNamed:imageNameArray[i]];
         [_scrollView addSubview:headImage];
         

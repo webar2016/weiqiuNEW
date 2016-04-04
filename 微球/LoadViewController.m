@@ -19,6 +19,7 @@
 #import "WBSetInformationViewController.h"
 #import "WBLeftViewController.h"
 #import "WBPositionList.h"
+#import "WBFindKeyViewController.h"
 
 //数据库
 #import "WBBig_AreaModel.h"
@@ -213,30 +214,16 @@
         
        //忘记密码
     }else if (btn.tag == 100){
-        
-       
-        
-        
         WBRegisterViewController *registerView = [[WBRegisterViewController alloc]init];
         [self presentViewController:registerView animated:YES completion:nil];
-
-       
     //注册
     }else if(btn.tag == 101){
-        
         //忘记密码
-//        WBSetInformationViewController *SVC  = [[WBSetInformationViewController alloc]init];
-//        [self presentViewController:SVC animated:YES completion:nil];
-        
-      //  WBDataModifiedViewController *DVC = [[WBDataModifiedViewController alloc]init];
-      //  [self.navigationController pushViewController:DVC animated:YES];
+        WBFindKeyViewController *FVC = [[WBFindKeyViewController alloc]init];
+        [self presentViewController:FVC animated:YES completion:nil];
     }else if(btn.tag == 110){
-    
-               
         [self dismissViewControllerAnimated:YES completion:^{
-            
         }];
-    
     }else if (btn.tag == 111){
     
     

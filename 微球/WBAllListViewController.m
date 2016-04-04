@@ -13,6 +13,7 @@
 #import "WBCollectionViewCell.h"
 #import "WBGetSizeOfObject.h"
 #import "WBHelpGroupsDetailViewController.h"
+#import "WBHomepageViewController.h"
 
 #import "TopCell.h"
 
@@ -30,7 +31,7 @@
 #define kCellReuseId @"collectionViewCellId"
 #define CollectionCellWidth (SCREENWIDTH-30)/2
 
-@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate>
+@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,CollectionGoHomePage>
 {
     UICollectionView *_collectionView;
     NSInteger _page;
@@ -197,6 +198,7 @@
     WBCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     [cell setModel:_dataSource[indexPath.row] imageHeight:[_cellHeightArray[indexPath.row] floatValue]*CollectionCellWidth];
       //  NSLog(@"UICollectionViewCell = %ld",indexPath.row);
+    cell.delegate = self;
     return cell;
     
     
@@ -255,6 +257,16 @@
                          }];
     }
 }
+
+#pragma mark  ----去个人主页-----
+-(void)goHomepage:(NSString *)userId{
+    WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
+    HVC.userId = userId;
+    [self.navigationController pushViewController:HVC animated:YES];
+
+
+}
+
 
 #pragma mark - HUD
 
