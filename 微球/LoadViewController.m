@@ -118,6 +118,9 @@
     [[_account layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
     _account.layer.borderWidth= 1.0f;
     _account.tag = 50;
+    _account.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 12, 0)];
+    //设置显示模式为永远显示(默认不显示)
+    _account.leftViewMode = UITextFieldViewModeAlways;
 
     _password=[[UITextField alloc] initWithFrame:CGRectMake(30, _account.frame.origin.y+50, SCREENWIDTH-60, 40)];
     _password.backgroundColor=[UIColor initWithBackgroundGray];
@@ -131,6 +134,9 @@
     _password.layer.borderWidth= 1.0f;
     [_password setSecureTextEntry:YES];
     _password.tag = 51;
+    _password.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 12, 0)];
+    //设置显示模式为永远显示(默认不显示)
+    _password.leftViewMode = UITextFieldViewModeAlways;
     
     UIButton *loadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     loadBtn.backgroundColor = [UIColor initWithGreen];

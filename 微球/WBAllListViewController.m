@@ -125,6 +125,9 @@
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"helpGroup"]];
           //  NSLog(@"result=%@",result);
+            [self.dataSource removeAllObjects];
+            [_cellHeightArray removeAllObjects];
+            
             self.dataSource =[WBCollectionViewModel mj_objectArrayWithKeyValuesArray:arrayList];
             
           //  NSLog(@"count = %@",self.dataSource);
@@ -194,14 +197,6 @@
     static NSString * CellIdentifier = kCellReuseId;
     
     WBCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-//    if (cell == nil) {
-//        WBCollectionViewCell *cell = [[WBCollectionViewCell alloc]init];
-//    }
-   
-  //  NSLog(@"WBALLList定义   cell---%@",_dataSource[indexPath.row]);
-  //  [cell setModel:_dataSource[indexPath.row] imageHeight:100];
-  //  _cellHeightArray[indexPath.row] = [NSString stringWithFormat:@"%d",100+65];
-   // [self collectionView:_collectionView layout:[[MyCollectionViewFlowLayout alloc]init] sizeForItemAtIndexPath:indexPath];
     [cell setModel:_dataSource[indexPath.row] imageHeight:[_cellHeightArray[indexPath.row] floatValue]*CollectionCellWidth];
       //  NSLog(@"UICollectionViewCell = %ld",indexPath.row);
     return cell;
