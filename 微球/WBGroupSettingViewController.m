@@ -229,7 +229,7 @@
 -(void)messagePush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     BOOL noPush;
-    data[@"userId"] = [WBUserDefaults userId];
+    data[@"userId"] = [NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
     data[@"groupId"] = self.groupId;
     
     if (isOn) {
@@ -240,19 +240,19 @@
         noPush = NO;
     }
     //设置SDK提醒
-    [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"userId"] isBlocked:noPush success:^(RCConversationNotificationStatus nStatus) {
+    [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"groupId"] isBlocked:noPush success:^(RCConversationNotificationStatus nStatus) {
         //消息提醒同步到服务器
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/hg/setPush" withParameters:data whenProgress:^(NSProgress *FieldDataBlock) {
         } andSuccess:^(id representData) {
             
             //向聊天页面发送免提醒通知
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"msgPush" object:self userInfo:@{@"msgPush":data[@"type"],@"groupId":data[@"userId"]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"msgPush" object:self userInfo:@{@"msgPush":data[@"type"],@"groupId":data[@"groupId"]}];
             NSLog(@"免打扰设置成功");
             
         } andFailure:^(NSString *error) {
             
             //同步失败则将SDK的提醒方式改回原来的方式
-            [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"userId"] isBlocked:!noPush success:nil error:nil];
+            [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"groupId"] isBlocked:!noPush success:nil error:nil];
             [self.tableView reloadSections:[[NSIndexSet alloc]initWithIndex:2] withRowAnimation:UITableViewRowAnimationAutomatic];
             NSLog(@"免打扰设置失败");
         }];
