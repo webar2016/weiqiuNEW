@@ -124,8 +124,14 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (_currentPage == 1) {
+        if (self.questionsArray.count == 0) {
+            return 1;
+        }
         return self.questionsArray.count;
     } else {
+        if (self.usersArray.count == 0) {
+            return 1;
+        }
         return self.usersArray.count;
     }
 }
@@ -140,9 +146,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_currentPage == 1) {
+        if (self.questionsArray.count == 0) {
+            return 40;
+        }
         UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
         return cell.frame.size.height;
     } else {
+        if (self.usersArray.count == 0) {
+            return 40;
+        }
         return 75;
     }
     
@@ -150,7 +162,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_currentPage == 1) {
-        
+        if (self.questionsArray.count == 0) {
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.textLabel.text = @"无搜索结果";
+            cell.textLabel.textColor = [UIColor initWithNormalGray];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return  cell;
+        }
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         NSString *cellID = [[NSString alloc] init];
         switch (indexPath.row % 5) {
@@ -183,7 +201,13 @@
         return cell;
         
     } else {
-        
+        if (self.usersArray.count == 0) {
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.textLabel.text = @"无搜索结果";
+            cell.textLabel.textColor = [UIColor initWithNormalGray];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return  cell;
+        }
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         self.tableView.separatorColor = [UIColor initWithBackgroundGray];
         static NSString *cellID = @"reuse";

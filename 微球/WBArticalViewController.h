@@ -12,12 +12,8 @@
 @interface WBArticalViewController : UIViewController
 
 @property (nonatomic,assign) NSInteger commentId;
-@property (nonatomic,assign) NSInteger topicId;
 @property (nonatomic,assign) NSInteger userId;
-@property (nonatomic,copy) NSString *comment;
 @property (nonatomic,copy) NSString *dir;
-@property (nonatomic,copy) NSString *image;
-@property (nonatomic,assign) NSInteger getIntegral;
 @property (nonatomic,copy) NSString *timeStr;
 @property (nonatomic,copy) NSString *nickname;
 

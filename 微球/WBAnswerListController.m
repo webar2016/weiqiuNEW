@@ -205,7 +205,7 @@
                         [self.navigationController pushViewController:writeAnswerVC animated:YES];
                         
                     } andFailure:^(NSString *error) {
-                        [self showHUDComplete:@"请检查网络后重试"];
+                        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
                     }];
                 }];
                 action;
@@ -217,7 +217,7 @@
             [self presentViewController:alert animated:YES completion:nil];
         }
     } andFailure:^(NSString *error) {
-        [self showHUDComplete:@"请检查网络后重试"];
+        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
     }];
 }
 

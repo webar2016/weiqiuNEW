@@ -8,6 +8,7 @@
 
 #import "WBArticalViewController.h"
 #import "WBIndividualIncomeViewController.h"
+#import "WBHomepageViewController.h"
 
 #import "WBAttributeTextView.h"
 #import "WBTextAttachment.h"
@@ -73,7 +74,7 @@
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
 
-        self.artical = [TopicDetailModel mj_objectWithKeyValues:result[@"topic"]];
+        self.artical = [TopicDetailModel mj_objectWithKeyValues:result[@"topicComment"]];
         
         [self hideHUD];
         [self setUpArticalWraper];
@@ -100,6 +101,7 @@
     self.userIcon.layer.borderWidth = 1;
     self.userIcon.layer.cornerRadius = 20;
     [self.userIcon setImage:[UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.dir]]] forState:UIControlStateNormal];
+    [self.userIcon addTarget:self action:@selector(enterHomepage) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(40 + MARGININSIDE * 2, 10, SCREENWIDTH * 0.5, 14)];
     nickName.font = MAINFONTSIZE;
@@ -117,8 +119,8 @@
     [self.likeButton setImage:[UIImage imageNamed:@"icon_like"] forState:UIControlStateNormal];
     [self.likeButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     self.likeButton.titleLabel.font = MAINFONTSIZE;
-    _score = self.getIntegral;
-    if (self.getIntegral > 1000) {
+    _score = self.artical.getIntegral;
+    if (_score > 1000) {
         [self.likeButton setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
     }else{
         [self.likeButton setTitle:[NSString stringWithFormat:@" %ld球币",(long)_score] forState:UIControlStateNormal];
@@ -148,8 +150,8 @@
     self.articalDetail.editable = NO;
     self.articalDetail.backgroundColor = [UIColor whiteColor];
     self.articalDetail.textContainerInset = UIEdgeInsetsMake(MARGININSIDE, MARGININSIDE, self.titleDetailSize.height + MARGININSIDE * 2, MARGININSIDE);
-    self.articalDetail.content = self.comment;
-    self.articalDetail.images = self.image;
+    self.articalDetail.content = self.artical.comment;
+    self.articalDetail.images = self.artical.dir;
     self.articalDetail.contentSeparateSign = IMAGE;
     self.articalDetail.imageSeparateSign = @";";
     self.articalDetail.lineSpacing = MARGINOUTSIDE;
@@ -182,7 +184,7 @@
                 self.likeTip.frame = CGRectMake(SCREENWIDTH * 2 / 3, 0, 124, 23);
                 self.likeTip.alpha = 1;
                 _score += 5;
-                if (self.getIntegral > 1000) {
+                if (_score > 1000) {
                     [self.likeButton setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
                 }else{
                     [self.likeButton setTitle:[NSString stringWithFormat:@" %ld球币",(long)_score] forState:UIControlStateNormal];
@@ -210,14 +212,7 @@
         }
         
     } andFailure:^(NSString *error) {
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳，请稍后再试！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-            action;
-        })];
-        [self presentViewController:alert animated:YES completion:nil];
-        
+        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
     }];
 }
 
@@ -237,6 +232,12 @@
         self.likeTip.alpha = 0;
         self.likeTip.frame = CGRectMake(SCREENWIDTH / 2, 0, 124, 23);
     }];
+}
+
+-(void)enterHomepage{
+    WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
+    homepage.userId = [NSString stringWithFormat:@"%d",self.userId];
+    [self.navigationController pushViewController:homepage animated:YES];
 }
 
 
@@ -259,7 +260,7 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self hideHUD];
+    [self.hud hide:YES afterDelay:2.0];
 }
 
 -(void)hideHUD

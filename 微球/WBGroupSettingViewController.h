@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
 
 @interface WBGroupSettingViewController : UITableViewController
 
@@ -15,5 +16,11 @@
 @property (nonatomic, assign) BOOL isPush;
 
 @property (nonatomic, copy) NSString *groupId;
+
+@property (nonatomic,strong)MBProgressHUD *hud;
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
+-(void)showHUDComplete:(NSString *)title;
+-(void)hideHUD;
 
 @end

@@ -617,7 +617,29 @@
     })];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"举报" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            //举报操作
+            [self wbPolice];
+        }];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)wbPolice{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请输入举报信息" message:@"请勿恶意举报，否则可能导致您被封号！" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addTextFieldWithConfigurationHandler:nil];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [MyDownLoadManager postUrl:@"http://121.40.132.44:92/report/reportUser" withParameters:@{@"userId":[WBUserDefaults userId],@"toUserId":self.userId,@"content":alert.textFields.firstObject.text} whenProgress:^(NSProgress *FieldDataBlock) {
+                
+            } andSuccess:^(id representData) {
+                [self showHUDComplete:@"举报成功！"];
+            } andFailure:^(NSString *error) {
+                [self showHUDComplete:@"举报失败，请稍后再试"];
+            }];
         }];
         action;
     })];
@@ -640,7 +662,7 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self hideHUD];
+    [self.hud hide:YES afterDelay:2.0];
 }
 
 -(void)hideHUD

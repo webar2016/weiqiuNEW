@@ -231,12 +231,7 @@
         [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
         [self.navigationController popToRootViewControllerAnimated:NO];
     } andFailure:^(NSString *error) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳，请稍后再试！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-            action;
-        })];
-        [self presentViewController:alert animated:YES completion:nil];
+        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
     }];
 }
 
@@ -250,6 +245,27 @@
     
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
+}
+
+#pragma mark - MBprogress
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim
+{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.dimBackground = isDim;
+    self.hud.labelText = title;
+}
+-(void)showHUDComplete:(NSString *)title
+{
+    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.labelText = title;
+    [self.hud hide:YES afterDelay:2.0];
+}
+
+-(void)hideHUD
+{
+    [self.hud hide:YES afterDelay:0.3];
 }
 
 - (void)didReceiveMemoryWarning {

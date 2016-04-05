@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
 
 @interface WBSettingViewController : UIViewController
+
+@property (nonatomic,strong)MBProgressHUD *hud;
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
+-(void)showHUDComplete:(NSString *)title;
+-(void)hideHUD;
 
 @end

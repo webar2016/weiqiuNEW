@@ -78,6 +78,9 @@
     [self showHUD:@"正在努力加载" isDim:NO];
     [self loadData];
     
+    _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+    _background.center = CGPointMake(SCREENWIDTH / 2, 170);
+    
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
         //NSLog(@"进入刷新状态后会自动调用这个block1");
@@ -99,7 +102,7 @@
 }
 
 -(void) createNavi{
-    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
+    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
 }
 
@@ -112,6 +115,7 @@
     _tableView.backgroundColor = [UIColor initWithBackgroundGray];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
     [self createMenuButton];
@@ -319,7 +323,9 @@
             if (_page == 1) {
                 [self hideHUD];
                 [_tableView.mj_header endRefreshing];
-                
+                if (_dataArray.count == 0) {
+                    [self.view addSubview:_background];
+                }
             }else{
                 
                 [_tableView.mj_footer endRefreshing];
@@ -432,16 +438,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (!_background) {
-        _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
-        _background.center = CGPointMake(SCREENWIDTH / 2, 170);
-    }
-    
-    if (_dataArray.count == 0) {
-        [self.view addSubview:_background];
-    } else {
-        [_background removeFromSuperview];
-    }
+
     return _dataArray.count;
     
 }
@@ -521,15 +518,12 @@
     TopicDetailModel *model = _dataArray[indexPath.row];
     if (model.newsType == 3) {
         WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
+        articalVC.navigationItem.title = self.navigationItem.title;
         articalVC.nickname = model.tblUser.nickname;
         articalVC.dir = model.tblUser.dir;
-        articalVC.image = model.dir;
         articalVC.timeStr = model.timeStr;
         articalVC.commentId = model.commentId;
-        articalVC.topicId = model.topicId;
         articalVC.userId = model.userId;
-        articalVC.comment = model.comment;
-        articalVC.getIntegral = model.getIntegral;
         [self.navigationController pushViewController:articalVC animated:YES];
         return;
     }
@@ -561,7 +555,7 @@
 
 -(void)hideHUD
 {
-    [self.hud hide:YES afterDelay:0.3];
+    [self.hud hide:YES afterDelay:0];
 }
 
 

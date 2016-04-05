@@ -204,11 +204,10 @@
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/quitGroup?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
-                NSLog(@"退出成功");
                 [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
                 [self.navigationController popToRootViewControllerAnimated:NO];
             } andFailure:^(NSString *error) {
-                NSLog(@"退出失败，请检查网络后重试");
+                [self showHUDComplete:@"退出失败，请检查网络后重试"];
             }];
         }];
         action;
@@ -266,5 +265,26 @@
 //-(void)QAPush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
 //    NSLog(@"QAPush");
 //}
+
+#pragma mark - MBprogress
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim
+{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.dimBackground = isDim;
+    self.hud.labelText = title;
+}
+-(void)showHUDComplete:(NSString *)title
+{
+    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.labelText = title;
+    [self.hud hide:YES afterDelay:2.0];
+}
+
+-(void)hideHUD
+{
+    [self.hud hide:YES afterDelay:0.3];
+}
 
 @end
