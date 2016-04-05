@@ -29,7 +29,7 @@
 
 
 
-@interface LoadViewController ()<UITextFieldDelegate>
+@interface LoadViewController ()<UITextFieldDelegate,UITextInputTraits>
 {
 
 }
@@ -52,8 +52,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self createUI];
     
-    self.view.userInteractionEnabled = YES;
-  //  [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewClicked)]];
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewClicked)]];
     
     
 }
@@ -66,6 +65,11 @@
         [self saveToUserDefault];
         [self saveToDataBase];
     }
+}
+
+-(void)viewClicked{
+    [_account resignFirstResponder];
+    [_password resignFirstResponder];
 }
 
 
@@ -125,6 +129,7 @@
     _account.delegate = self;
     _account.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
     _account.leftViewMode = UITextFieldViewModeAlways;
+    _account.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:_account];
     _account.layer.masksToBounds=YES;
     [[_account layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
@@ -142,6 +147,7 @@
     _password.delegate = self;
     _password.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
     _password.leftViewMode = UITextFieldViewModeAlways;
+    _password.returnKeyType = UIReturnKeyDone;
     [self.view addSubview:_password];
     _password.layer.masksToBounds=YES;
     [[_password layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
@@ -344,8 +350,24 @@
 #pragma mark  ------textfield delegate ------
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];    //主要是[receiver resignFirstResponder]在哪调用就能把receiver对应的键盘往下收
-    return YES;
+    [_password resignFirstResponder];
+    return NO;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = CGRectMake(0.0f, -100,SCREENWIDTH,self.view.frame.size.height);;
+    [UIView commitAnimations];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    NSTimeInterval animationDuration = 0.20f;
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = CGRectMake(0.0f, 0,SCREENWIDTH,self.view.frame.size.height);;
+    [UIView commitAnimations];
 }
 
 

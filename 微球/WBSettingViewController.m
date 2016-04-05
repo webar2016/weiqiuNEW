@@ -42,7 +42,7 @@
     _tableView.bounces = NO;
     [self.view addSubview:_tableView];
     
-    _loginOut = [[UIButton alloc] initWithFrame:CGRectMake((SCREENWIDTH - 350) / 2, SCREENHEIGHT - 120, 350, 35)];
+    _loginOut = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.15, SCREENHEIGHT - 120, SCREENWIDTH * 0.7, 35)];
     [_loginOut setBackgroundImage:[UIImage imageNamed:@"bg-23"] forState:UIControlStateNormal];
     [_loginOut setTitle:@"退出微球" forState:UIControlStateNormal];
     [_loginOut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -167,11 +167,11 @@
         _disturbSwitch.onTintColor = [UIColor initWithGreen];
         _disturbSwitch.center = CGPointMake(SCREENWIDTH * 0.9, 22);
         [_disturbSwitch addTarget:self action:@selector(dontDisturb) forControlEvents:UIControlEventValueChanged];
-        if (![WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dontDisturb"]) {
+        if (![WBUserDefaults getBoolForKey:@"dontDisturb"]) {
             _disturbSwitch.on = NO;
             [WBUserDefaults addUserDefaultsValue:NO withKey:@"dontDisturb"];
         } else {
-            _disturbSwitch.on = [WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"dontDisturb"];
+            _disturbSwitch.on = [WBUserDefaults getBoolForKey:@"dontDisturb"];
         }
         [cell.contentView addSubview:_disturbSwitch];
     } else if (indexPath.row == 1) {
@@ -179,11 +179,11 @@
         _weiqiuSwitch.onTintColor = [UIColor initWithGreen];
         _weiqiuSwitch.center = CGPointMake(SCREENWIDTH * 0.9, 22);
         [_weiqiuSwitch addTarget:self action:@selector(weiqiuDisturb) forControlEvents:UIControlEventValueChanged];
-        if (![WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"weiqiuDisturb"]) {
+        if (![WBUserDefaults getBoolForKey:@"weiqiuDisturb"]) {
             _weiqiuSwitch.on = NO;
             [WBUserDefaults addUserDefaultsValue:NO withKey:@"weiqiuDisturb"];
         } else {
-            _weiqiuSwitch.on = [WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"weiqiuDisturb"];
+            _weiqiuSwitch.on = [WBUserDefaults getBoolForKey:@"weiqiuDisturb"];
         }
         [cell.contentView addSubview:_weiqiuSwitch];
     } else {

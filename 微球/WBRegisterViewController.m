@@ -11,7 +11,7 @@
 #import "WBDataModifiedViewController.h"
 #import "WBSetInformationViewController.h"
 
-@interface WBRegisterViewController ()<UITextFieldDelegate>
+@interface WBRegisterViewController ()<UITextFieldDelegate,UITextInputTraits>
 {
     UITextField *_telephoneField;
     UITextField *_registerNumber;
@@ -36,7 +36,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewClicked)]];
     [self createUI];
+}
+
+-(void)viewClicked{
+    [_telephoneField resignFirstResponder];
+    [_registerNumber resignFirstResponder];
+    [_passwordField resignFirstResponder];
 }
 
 
@@ -97,7 +104,7 @@
     _telephoneField.layer.masksToBounds=YES;
     [[_telephoneField layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
     _telephoneField.layer.borderWidth= 1.0f;
-    
+    _telephoneField.keyboardType = UIKeyboardTypeNumberPad;
     UIButton *vertifyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [vertifyButton setTitle:@"获取验证码" forState:UIControlStateNormal];
     vertifyButton.titleLabel.font = MAINFONTSIZE;
@@ -126,6 +133,8 @@
     [_registerNumber setTextColor:[UIColor initWithNormalGray]];
     _registerNumber.layer.masksToBounds=YES;
     _registerNumber.layer.cornerRadius = 3;
+    _registerNumber.delegate = self;
+    _registerNumber.keyboardType = UIKeyboardTypeNumberPad;
     [[_registerNumber layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
     _registerNumber.layer.borderWidth= 1.0f;
     _registerNumber.tag = 104;
@@ -138,7 +147,9 @@
     [_passwordField setTextColor:[UIColor initWithNormalGray]];
     _passwordField.layer.masksToBounds=YES;
     _passwordField.layer.cornerRadius = 3;
+    _passwordField.returnKeyType = UIReturnKeyDone;
     [_passwordField setSecureTextEntry:YES];
+    _passwordField.delegate = self;
     _passwordField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
     _passwordField.leftViewMode = UITextFieldViewModeAlways;
     [[_passwordField layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
@@ -286,6 +297,28 @@
     }
     
     return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = CGRectMake(0.0f, -100,SCREENWIDTH,self.view.frame.size.height);;
+    [UIView commitAnimations];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    NSTimeInterval animationDuration = 0.20f;
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = CGRectMake(0.0f, 0,SCREENWIDTH,self.view.frame.size.height);;
+    [UIView commitAnimations];
 }
 
 

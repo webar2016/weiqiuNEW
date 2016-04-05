@@ -176,7 +176,7 @@
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 70)];
     footerView.backgroundColor = [UIColor initWithBackgroundGray];
     
-    UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake((SCREENWIDTH - 350) / 2, 25, 350, 35)];
+    UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.15, SCREENHEIGHT - 120, SCREENWIDTH * 0.7, 35)];
     [closeButton setBackgroundImage:[UIImage imageNamed:@"bg-23"] forState:UIControlStateNormal];
     [closeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     closeButton.titleLabel.font = FONTSIZE16;

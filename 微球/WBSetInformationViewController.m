@@ -183,9 +183,6 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     
     }
-    
-    
-    
 }
 
 #pragma mark ---- datapicker ----
