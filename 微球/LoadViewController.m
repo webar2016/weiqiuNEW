@@ -16,10 +16,12 @@
 #import "UIImageView+WebCache.h"
 #import "MJExtension.h"
 
+
 #import "WBSetInformationViewController.h"
 #import "WBLeftViewController.h"
 #import "WBPositionList.h"
 #import "WBFindKeyViewController.h"
+
 
 //数据库
 #import "WBBig_AreaModel.h"
@@ -41,6 +43,7 @@
 @property (nonatomic,strong) UIButton *regieterButton;
 @property (nonatomic,assign) NSInteger number;
 
+
 @end
 
 @implementation LoadViewController
@@ -53,11 +56,7 @@
     [self createUI];
     
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewClicked)]];
-    
-    
 }
-
-
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if ([WBUserDefaults userId]) {
@@ -204,7 +203,7 @@
                 [self saveToDataBase];
                 [self saveToUserDefault];
             }else{
-            
+                 [self hideHUD];
                 //初始化提示框；
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号或密码错误" preferredStyle: UIAlertControllerStyleAlert];
                 

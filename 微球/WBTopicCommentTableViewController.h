@@ -13,6 +13,9 @@
 @interface WBTopicCommentTableViewController : UITableViewController
 
 @property (nonatomic,assign)NSInteger commentId;
+
+@property (nonatomic,copy)NSString *userId;
+
 @property (nonatomic,strong)MBProgressHUD *hud;
 
 -(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
