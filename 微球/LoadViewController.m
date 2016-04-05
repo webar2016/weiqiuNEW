@@ -79,7 +79,16 @@
 }
 
 - (void)createUI{
-    
+    //取消按钮
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    cancelBtn.frame = CGRectMake(10, 20, 44, 44);
+    [self.view addSubview:cancelBtn];
+    cancelBtn.tag = 110;
+    [cancelBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
+
     //再逛逛按钮
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBtn.titleLabel.font = [UIFont systemFontOfSize:10];

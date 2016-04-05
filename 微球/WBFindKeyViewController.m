@@ -7,6 +7,7 @@
 //
 
 #import "WBFindKeyViewController.h"
+#import "MyDownLoadManager.h"
 
 @interface WBFindKeyViewController ()<UITextFieldDelegate>
 {
@@ -153,19 +154,86 @@
 -(void)btnClicked:(UIButton *)btn{
     if (btn.tag == 100) {
         [self dismissViewControllerAnimated:YES completion:nil];
+    }else if (btn.tag == 103){
+        //短信验证
+        //判断是否注册
+        // http://121.40.132.44:92/pt/checkUser?userName=15651039809
+        NSString *vertifyUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/pt/checkUser?userName=%@",_telephoneField.text];
+        [MyDownLoadManager getNsurl:vertifyUrl whenSuccess:^(id representData) {
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"%@",result);
+            if ([[result objectForKey:@"error"] isEqualToString:@"1"]) {
+                NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+                [dict setObject:@2 forKey:@"ttl"];
+                [AVOSCloud requestSmsCodeWithPhoneNumber:_telephoneField.text templateName:@"update" variables:dict callback:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        //操作成功
+                        NSLog(@"success");
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                }];
+            }else{
+                //可以注册
+                UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:[result objectForKey:@"该用户还没有注册"] preferredStyle:UIAlertControllerStyleAlert];
+                [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                }]];
+                [self presentViewController:alertView animated:YES completion:nil];
+            }
+        } andFailure:^(NSString *error) {
+        }];
     }
-    
-
-
 }
 
 -(void)btnClickedConfirm{
+    if ([_passwordFieldAgain.text isEqual:_passwordField.text]&& _passwordField.text.length>5 &&_passwordField.text.length<15) {
+        [AVOSCloud verifySmsCode:_verifyNumber.text mobilePhoneNumber:_telephoneField.text callback:^(BOOL succeeded, NSError *error) {
+            if(succeeded){
+                //验证成功
+                NSLog(@"success");
+                NSDictionary *parameters = @{@"username":_telephoneField.text,@"password":_passwordField.text};
+                
+                [MyDownLoadManager postUrl:@"http://121.40.132.44:92/pt/updatepwd" withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
+                    
+                } andSuccess:^(id representData) {
+                    NSLog(@"success");
+                    id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                    NSLog(@"id = %@",result);
+                   // [WBUserDefaults setUserId:[NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]]];
+                   // [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
+                   // [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
+                    
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                } andFailure:^(NSString *error) {
+                    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"网络出错" preferredStyle:UIAlertControllerStyleAlert];
+                    [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    }]];
+                    [self presentViewController:alertView animated:YES completion:nil];
+                    NSLog(@"%@",error);
+                }];
+            }else{
+                UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"验证码有误" preferredStyle:UIAlertControllerStyleAlert];
+                [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                }]];
+                [self presentViewController:alertView animated:YES completion:nil];
+                NSLog(@"failure");
+            }
+        }];
+
+    }else{
+        UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"输入有误" preferredStyle:UIAlertControllerStyleAlert];
+        [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }]];
+        [self presentViewController:alertView animated:YES completion:nil];
+        
+    
+    }
 
 
 
 }
 
-
+//
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
