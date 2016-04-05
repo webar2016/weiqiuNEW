@@ -31,7 +31,6 @@
 		052F30D61C93F9FA00D15322 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052F30D41C93F9FA00D15322 /* city.plist */; };
 		052F30D71C93F9FA00D15322 /* province.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052F30D51C93F9FA00D15322 /* province.plist */; };
 		052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6047EE1C93F86000A88BAA /* WBHelp_Group_Sign.m */; };
-		054452B91C9AD94100F8969E /* 1.pic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 054452B81C9AD94100F8969E /* 1.pic.jpg */; };
 		054452BD1C9ADFEC00F8969E /* WBUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 054452BC1C9ADFEC00F8969E /* WBUserDefaults.m */; };
 		054452C51C9C45A100F8969E /* WBSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 054452C41C9C45A100F8969E /* WBSearchViewController.m */; };
 		054452C91C9CFC4E00F8969E /* WBUserListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 054452C71C9CFC4E00F8969E /* WBUserListTableViewCell.m */; };
@@ -236,7 +235,6 @@
 		052F30D21C93EEB200D15322 /* WBPositionList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPositionList.m; sourceTree = "<group>"; };
 		052F30D41C93F9FA00D15322 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
 		052F30D51C93F9FA00D15322 /* province.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = province.plist; sourceTree = "<group>"; };
-		054452B81C9AD94100F8969E /* 1.pic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.pic.jpg; sourceTree = "<group>"; };
 		054452BB1C9ADFEC00F8969E /* WBUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUserDefaults.h; sourceTree = "<group>"; };
 		054452BC1C9ADFEC00F8969E /* WBUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUserDefaults.m; sourceTree = "<group>"; };
 		054452C31C9C45A100F8969E /* WBSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSearchViewController.h; sourceTree = "<group>"; };
@@ -867,7 +865,6 @@
 				052944D01C7FF2040098159F /* controllers */,
 				05D6EB7E1C7D414F002D48FF /* AppDelegate.h */,
 				05D6EB7F1C7D414F002D48FF /* AppDelegate.m */,
-				054452B81C9AD94100F8969E /* 1.pic.jpg */,
 				2D465FE61C8840B000555532 /* MyModel.xcdatamodeld */,
 				05DB3F7A1C881AEC00CBCC54 /* WBPrefixHeader.pch */,
 				05D6EB871C7D414F002D48FF /* Assets.xcassets */,
@@ -1488,7 +1485,6 @@
 				2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */,
 				2D62D6691C89346200E4D05E /* read_me.txt in Resources */,
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
-				054452B91C9AD94100F8969E /* 1.pic.jpg in Resources */,
 				2D62D6621C89346200E4D05E /* ShareSDKUI.bundle in Resources */,
 				2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
@@ -1821,6 +1817,7 @@
 			baseConfigurationReference = 8C8B3CC378DA732C55AD53C5 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1875,6 +1872,7 @@
 			baseConfigurationReference = 37122738A485B55C790524E0 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
