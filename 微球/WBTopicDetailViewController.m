@@ -372,6 +372,8 @@
     
     WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
     commentView.commentId =((TopicDetailModel *)_dataArray[indexPath.row]).commentId;
+    commentView.userId =[NSString stringWithFormat:@"%ld", ((TopicDetailModel *)_dataArray[indexPath.row]).userId];
+    
     [self.navigationController pushViewController:commentView animated:YES];
     
 }
