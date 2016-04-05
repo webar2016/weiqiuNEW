@@ -8,8 +8,13 @@
 
 #import "WBFindKeyViewController.h"
 
-@interface WBFindKeyViewController ()
-
+@interface WBFindKeyViewController ()<UITextFieldDelegate>
+{
+    UITextField *_telephoneField;
+    UITextField *_verifyNumber;
+    UITextField *_passwordField;
+    UITextField *_passwordFieldAgain;
+}
 @end
 
 @implementation WBFindKeyViewController
@@ -19,12 +24,150 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     [self createNavi];
+    [self createUI];
 }
 
 -(void)createNavi{
+    //取消按钮
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    cancelBtn.frame = CGRectMake(10, 20, 44, 44);
+    [self.view addSubview:cancelBtn];
+    cancelBtn.tag = 100;
+    [cancelBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
+
+}
+
+-(void)createUI{
+    UILabel *titleLabel = [[UILabel alloc]init];
+    titleLabel.text = @"找回您的密码";
+    titleLabel.textColor = [UIColor initWithGreen];
+    titleLabel.font = [UIFont systemFontOfSize:32];
+    titleLabel.numberOfLines = 0;
+    CGSize titleLabelSize = [titleLabel sizeThatFits:CGSizeMake(SCREENWIDTH-80, MAXFLOAT)];
+    [self.view addSubview:titleLabel];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:titleLabel.text];;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    [paragraphStyle setLineSpacing:20];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, titleLabel.text.length)];
+    titleLabel.attributedText = attributedString;
+    //调节高度
+    CGSize labelSize = [titleLabel sizeThatFits:titleLabelSize];
+    titleLabel.frame = CGRectMake(40, 77+20, SCREENWIDTH-80, labelSize.height);
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    
+    
+    _telephoneField = [[UITextField alloc]initWithFrame:CGRectMake(30, titleLabel.frame.origin.y+titleLabel.frame.size.height+57, SCREENWIDTH-60, 43)];
+    _telephoneField.placeholder = @"输入手机号";
+    _telephoneField.font = MAINFONTSIZE;
+    _telephoneField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _telephoneField.leftViewMode = UITextFieldViewModeAlways;
+    _telephoneField.textColor = [UIColor initWithNormalGray];
+    _telephoneField.delegate = self;
+    _telephoneField.backgroundColor = [UIColor initWithBackgroundGray];
+    _telephoneField.tag = 102;
+    _telephoneField.layer.cornerRadius = 3.0f;
+    [self.view addSubview:_telephoneField];
+    _telephoneField.layer.masksToBounds=YES;
+    [[_telephoneField layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
+    _telephoneField.layer.borderWidth= 1.0f;
+    
+    UIButton *vertifyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [vertifyButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+    vertifyButton.titleLabel.font = MAINFONTSIZE;
+    vertifyButton.backgroundColor = [UIColor initWithBackgroundGray];
+    [vertifyButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
+    vertifyButton.tag = 103;
+    vertifyButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    vertifyButton.frame = CGRectMake(_telephoneField.frame.size.width+30-86,titleLabel.frame.origin.y+titleLabel.frame.size.height+57, 86, 43);
+    [self.view addSubview:vertifyButton];
+    vertifyButton.layer.masksToBounds=YES;
+    vertifyButton.layer.cornerRadius = 3;
+    [[vertifyButton layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
+    vertifyButton.layer.borderWidth= 1.0f;
+    [vertifyButton addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    //    [_sendButton addTarget:self action:@selector(btnClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
+    _verifyNumber = [[UITextField alloc]initWithFrame:CGRectMake(30, _telephoneField.frame.origin.y+52 , SCREENWIDTH-60, 43)];
+    _verifyNumber.placeholder = @"验证码";
+    _verifyNumber.backgroundColor =[UIColor initWithBackgroundGray];
+    [self.view addSubview:_verifyNumber];
+    _verifyNumber.font = MAINFONTSIZE;
+    _verifyNumber.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _verifyNumber.leftViewMode = UITextFieldViewModeAlways;
+    [_verifyNumber setTextColor:[UIColor initWithNormalGray]];
+    _verifyNumber.layer.masksToBounds=YES;
+    _verifyNumber.layer.cornerRadius = 3;
+    [[_verifyNumber layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
+    _verifyNumber.layer.borderWidth= 1.0f;
+    _verifyNumber.tag = 104;
+    
+    _passwordField = [[UITextField alloc]initWithFrame:CGRectMake(30, _verifyNumber.frame.origin.y+52, SCREENWIDTH-60, 43)];
+    [self.view addSubview:_passwordField];
+    _passwordField.placeholder = @"新密码(6~14位)";
+    _passwordField.backgroundColor = [UIColor initWithBackgroundGray];
+    _passwordField.font = MAINFONTSIZE;
+    [_passwordField setTextColor:[UIColor initWithNormalGray]];
+    _passwordField.layer.masksToBounds=YES;
+    _passwordField.layer.cornerRadius = 3;
+    [_passwordField setSecureTextEntry:YES];
+    _passwordField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _passwordField.leftViewMode = UITextFieldViewModeAlways;
+    [[_passwordField layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
+    _passwordField.layer.borderWidth= 1.0f;
+    _passwordField.tag = 105;
+    
+    _passwordFieldAgain =[[UITextField alloc]initWithFrame:CGRectMake(30, _passwordField.frame.origin.y+52, SCREENWIDTH-60, 43)];
+    [self.view addSubview:_passwordFieldAgain];
+    _passwordFieldAgain.placeholder = @"确认密码";
+    _passwordFieldAgain.backgroundColor = [UIColor initWithBackgroundGray];
+    _passwordFieldAgain.font = MAINFONTSIZE;
+    [_passwordFieldAgain setTextColor:[UIColor initWithNormalGray]];
+    _passwordFieldAgain.layer.masksToBounds=YES;
+    _passwordFieldAgain.layer.cornerRadius = 3;
+    [_passwordFieldAgain setSecureTextEntry:YES];
+    _passwordFieldAgain.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _passwordFieldAgain.leftViewMode = UITextFieldViewModeAlways;
+    [[_passwordFieldAgain layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
+    _passwordFieldAgain.layer.borderWidth= 1.0f;
+    _passwordFieldAgain.tag = 106;
+    
+    
+    UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    nextButton.backgroundColor = [UIColor initWithGreen];
+    nextButton.frame = CGRectMake(30, _passwordFieldAgain.frame.origin.y+61, SCREENWIDTH-60, 43);
+    [nextButton setTitle:@"下一步" forState:UIControlStateNormal];
+    nextButton.titleLabel.font = MAINFONTSIZE;
+    nextButton.layer.masksToBounds=YES;
+    nextButton.layer.cornerRadius = 3;
+    [self.view addSubview:nextButton];
+    nextButton.tag = 107;
+    [nextButton addTarget:self action:@selector(btnClickedConfirm) forControlEvents:UIControlEventTouchUpInside];
+}
+
+
+
+#pragma mark --------点击事件---------
+
+-(void)btnClicked:(UIButton *)btn{
+    if (btn.tag == 100) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
 
 
 }
+
+-(void)btnClickedConfirm{
+
+
+
+}
+
 
 
 - (void)didReceiveMemoryWarning {
