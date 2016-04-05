@@ -51,9 +51,10 @@
         
         self.contentView.backgroundColor = [UIColor initWithBackgroundGray];
         _backgroundViewTop.backgroundColor = [UIColor whiteColor];
-        _mainImageView.layer.cornerRadius = 5.0f;
-        _mainImageView.layer.masksToBounds = YES;
     }
+    self.contentView.layer.cornerRadius = 5.0f;
+    self.contentView.layer.masksToBounds = YES;
+    self.contentView.backgroundColor = [UIColor whiteColor];
     return self;
 }
 - (void)createUI:(CGFloat)imageHeight{
@@ -62,12 +63,12 @@
     _headImageView.frame = CGRectMake(4, imageHeight+5, 30, 30);
     _nickName.frame = CGRectMake(40, imageHeight+10, 80, 10);
     _timelabel.frame = CGRectMake(40, imageHeight+10+15, 80, 10);
-    _ageButton.frame = CGRectMake(130, imageHeight+10, 20, 10);
-    _leftImageView.frame = CGRectMake(6.5, 3, 13, 13);
+    _ageButton.frame = CGRectMake(120, imageHeight+10, 20, 10);
+    _leftImageView.frame = CGRectMake(5, 3, 13, 13);
     _backgroundViewButtom.frame = CGRectMake(0, imageHeight+41, CollectionCellWidth, 20);
-    _leftLabel.frame =CGRectMake(25, 3, 100, 13);
-    _rightImageView.frame =CGRectMake(100, 3, 13, 13);
-    _rightLabel.frame = CGRectMake(120, 3, 100, 13);
+    _leftLabel.frame =CGRectMake(20, 3, 100, 13);
+    _rightImageView.frame =CGRectMake(85, 3, 13, 13);
+    _rightLabel.frame = CGRectMake(100, 3, 100, 13);
 }
 
 - (void)setModel:(WBCollectionViewModel *)model imageHeight:(CGFloat)imageHeight{
@@ -102,14 +103,14 @@
     _leftImageView.image = [UIImage imageNamed:@"icon_qiupiao.png"];
     
         _leftLabel.text = [NSString stringWithFormat:@"%ld球币",model.rewardIntegral];
-    _leftLabel.font = MAINFONTSIZE;
+    _leftLabel.font = FONTSIZE12;
     _leftLabel.textColor = [UIColor initWithLightGray];
     
     _rightImageView.image = [UIImage imageNamed:@"icon_member.png"];
     
     
-    _rightLabel.text = [NSString stringWithFormat:@"%ld球币",model.members];
-    _rightLabel.font = MAINFONTSIZE;
+    _rightLabel.text = [NSString stringWithFormat:@"%ld团员",model.members];
+    _rightLabel.font = FONTSIZE12;
     _rightLabel.textColor = [UIColor initWithLightGray];
 
 }

@@ -152,6 +152,9 @@
                     self.currentPage ++;
                 }
             }
+            if (tempArray.count == 0 || tempArray.count < PAGESIZE) {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            }
             
             [self.tableView reloadData];
             [self hideHUD];
