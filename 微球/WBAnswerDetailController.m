@@ -10,6 +10,7 @@
 #import "WBAnswerListController.h"
 #import "WBIndividualIncomeViewController.h"
 #import "WBSingleAnswerModel.h"
+#import "WBHomepageViewController.h"
 
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
@@ -173,7 +174,7 @@
     self.userIcon.layer.borderWidth = 1;
     self.userIcon.layer.cornerRadius = 20;
     [self.userIcon setImage:[UIImage sd_imageWithData:[NSData dataWithContentsOfURL:self.dir]] forState:UIControlStateNormal];
-    [self.userIcon addTarget:self action:@selector(iconTap) forControlEvents:UIControlEventTouchUpInside];
+    [self.userIcon addTarget:self action:@selector(enterHomepage) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(40 + MARGININSIDE * 2, 10, SCREENWIDTH * 0.5, 14)];
     nickName.font = MAINFONTSIZE;
@@ -338,8 +339,10 @@
     [self.navigationController pushViewController:answerListController animated:YES];
 }
 
--(void)iconTap{
-    NSLog(@"进入个人主页");
+-(void)enterHomepage{
+    WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
+    homepage.userId = [NSString stringWithFormat:@"%ld",self.userId];
+    [self.navigationController pushViewController:homepage animated:YES];
 }
 
 #pragma mark - 点赞操作
@@ -384,14 +387,7 @@
         }
         
     } andFailure:^(NSString *error) {
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳，请稍后再试！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-            action;
-        })];
-        [self presentViewController:alert animated:YES completion:nil];
-        
+        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
     }];
 }
 
@@ -433,7 +429,7 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self hideHUD];
+    [self.hud hide:YES afterDelay:2.0];
 }
 
 -(void)hideHUD

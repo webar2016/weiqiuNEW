@@ -16,8 +16,7 @@
     UITableView     *_tableView;
     UISwitch        *_disturbSwitch;
     UISwitch        *_weiqiuSwitch;
-    UIButton        *_loginOut;
-    UIAlertController   *_alert;
+    UIButton        *_logout;
 }
 
 @end
@@ -42,18 +41,12 @@
     _tableView.bounces = NO;
     [self.view addSubview:_tableView];
     
-    _loginOut = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.15, SCREENHEIGHT - 120, SCREENWIDTH * 0.7, 35)];
-    [_loginOut setBackgroundImage:[UIImage imageNamed:@"bg-23"] forState:UIControlStateNormal];
-    [_loginOut setTitle:@"退出微球" forState:UIControlStateNormal];
-    [_loginOut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_loginOut addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_loginOut];
-    
-    _alert = [UIAlertController alertControllerWithTitle:@"设置失败，请重试" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [_alert addAction:({
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-        action;
-    })];
+    _logout = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.15, SCREENHEIGHT - 120, SCREENWIDTH * 0.7, 35)];
+    [_logout setBackgroundImage:[UIImage imageNamed:@"bg-23"] forState:UIControlStateNormal];
+    [_logout setTitle:@"退出微球" forState:UIControlStateNormal];
+    [_logout setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_logout addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_logout];
 }
 
 #pragma mark - operations
@@ -62,7 +55,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)loginOut{
+-(void)logout{
     
     UIAlertController *alert= [UIAlertController alertControllerWithTitle:@"是否确定退出？" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
@@ -98,14 +91,14 @@
         [[RCIMClient sharedRCIMClient]setNotificationQuietHours:@"22:00:00" spanMins:540 success:^{
             [WBUserDefaults setUserDefaultsValue:YES withKey:@"dontDisturb"];
         } error:^(RCErrorCode status) {
-            [self presentViewController:_alert animated:YES completion:nil];
+            [self showHUDComplete:@"设置失败，请重试！"];
             _disturbSwitch.on = NO;
         }];
     } else {
         [[RCIMClient sharedRCIMClient] removeNotificationQuietHours:^{
             [WBUserDefaults setUserDefaultsValue:NO withKey:@"dontDisturb"];
         } error:^(RCErrorCode status) {
-            [self presentViewController:_alert animated:YES completion:nil];
+            [self showHUDComplete:@"设置失败，请重试！"];
             _disturbSwitch.on = YES;
         }];
     }
@@ -116,12 +109,14 @@
         [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_PRIVATE targetId:@"weiqiu" isBlocked:YES success:^(RCConversationNotificationStatus nStatus) {
             [WBUserDefaults setUserDefaultsValue:YES withKey:@"weiqiuDisturb"];
         } error:^(RCErrorCode status) {
+            [self showHUDComplete:@"设置失败，请重试！"];
             _weiqiuSwitch.on = NO;
         }];
     } else {
         [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_PRIVATE targetId:@"weiqiu" isBlocked:NO success:^(RCConversationNotificationStatus nStatus) {
             [WBUserDefaults setUserDefaultsValue:NO withKey:@"weiqiuDisturb"];
         } error:^(RCErrorCode status) {
+            [self showHUDComplete:@"设置失败，请重试！"];
             _weiqiuSwitch.on = YES;
         }];
     }
@@ -194,6 +189,25 @@
 
 -(void)productViewControllerDidFinish:(SKStoreProductViewController*)viewController{
     [viewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim
+{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.dimBackground = isDim;
+    self.hud.labelText = title;
+}
+-(void)showHUDComplete:(NSString *)title
+{
+    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.labelText = title;
+    [self hideHUD];
+}
+
+-(void)hideHUD
+{
+    [self.hud hide:YES afterDelay:2.0];
 }
 
 - (void)didReceiveMemoryWarning {

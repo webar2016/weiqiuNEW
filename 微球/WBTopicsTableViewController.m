@@ -56,7 +56,7 @@
 -(void)createUI{
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor initWithBackgroundGray];
-    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
