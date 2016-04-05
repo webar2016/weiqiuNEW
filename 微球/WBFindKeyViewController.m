@@ -88,9 +88,6 @@
     [[vertifyButton layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
     vertifyButton.layer.borderWidth= 1.0f;
     [vertifyButton addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    //    [_sendButton addTarget:self action:@selector(btnClicked) forControlEvents:UIControlEventTouchUpInside];
-    
-    
     
     _verifyNumber = [[UITextField alloc]initWithFrame:CGRectMake(30, _telephoneField.frame.origin.y+52 , SCREENWIDTH-60, 43)];
     _verifyNumber.placeholder = @"验证码";

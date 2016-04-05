@@ -171,6 +171,7 @@
 - (void)btnClicked:(UIButton *)btn{
    //登陆
     if (btn.tag==102) {
+        [self showHUD:@"正在获取个人信息并保存" isDim:YES];
        // NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
         [parameters setValue:_account.text forKey:@"username"];
@@ -201,6 +202,7 @@
             }
         } andFailure:^(NSString *error) {
             //初始化提示框；
+            [self hideHUD];
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号或密码错误" preferredStyle: UIAlertControllerStyleAlert];
             
             [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -323,12 +325,8 @@
 -(void)saveData{
     _number++;
     if (_number == 4) {
-        
+        [self showHUDComplete:@"保存完毕"];
         [self dismissViewControllerAnimated:YES completion:nil];
-        
-        
-        
-        
     }
 }
 
