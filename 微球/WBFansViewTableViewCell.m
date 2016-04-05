@@ -63,30 +63,28 @@
 }
 
 -(void)rightBtnClicked{
-
-    
     if ([_rightButton.titleLabel.text isEqualToString:@"已关注"]) {
-        NSLog(@" _model.fansId %@",_model);
+        [self.delegate showHUD:@"正在取消关注" isDim:YES];
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
                 _rightButton.backgroundColor = [UIColor initWithGreen];
                 [_rightButton setTitle:@"关注" forState:UIControlStateNormal];
             }
-            
+            [self.delegate showHUDComplete:@"取消关注成功"];
         } andFailure:^(NSString *error) {
             
         }];
     }else{
         
-        
+        [self.delegate showHUD:@"正在关注" isDim:YES];
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
                 _rightButton.backgroundColor = [UIColor initWithBackgroundGray];
                 [_rightButton setTitle:@"已关注" forState:UIControlStateNormal];
             }
-            
+            [self.delegate showHUDComplete:@"关注成功"];
         } andFailure:^(NSString *error) {
             
         }];
@@ -94,7 +92,6 @@
     
     
 }
-
 
 
 - (void)awakeFromNib {

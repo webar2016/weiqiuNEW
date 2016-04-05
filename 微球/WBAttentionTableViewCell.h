@@ -8,11 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "WBFansModel.h"
+#import "MBProgressHUD.h"
+
+@protocol progressState <NSObject>
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
+-(void)showHUDComplete:(NSString *)title;
+-(void)hideHUD;
+
+@end
 
 @interface WBAttentionTableViewCell : UITableViewCell
 
 
 @property (nonatomic,strong)WBFansModel *model;
 @property (nonatomic,copy)NSString *fansId;
+
+@property(nonatomic,assign)id<progressState>delegate;
 
 @end

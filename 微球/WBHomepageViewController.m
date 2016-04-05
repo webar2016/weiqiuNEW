@@ -283,14 +283,9 @@
 #pragma mark - load data
 
 -(void)loadUserInfo{
-    NSString *url;
-    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
-        url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",self.userId,self.userId];
-    }else{
-        url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",self.userId,[WBUserDefaults getSingleUserDefaultsWithUserDefaultsKey:@"userId"]];
-        NSLog(@"%@",url);
-    }
-    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",self.userId,[WBUserDefaults userId]];
+    
+        [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSDictionary *userInfo = [result objectForKey:@"userInfo"];
