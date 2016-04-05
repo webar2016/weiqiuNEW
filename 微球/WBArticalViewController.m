@@ -11,10 +11,12 @@
 
 #import "WBAttributeTextView.h"
 #import "WBTextAttachment.h"
+#import "TopicDetailModel.h"
 
 #import "MyDownLoadManager.h"
 #import "UIImageView+WebCache.h"
 #import "UIImage+MultiFormat.h"
+#import "MJExtension.h"
 
 @interface WBArticalViewController () <UITextViewDelegate>
 
@@ -42,6 +44,8 @@
 //分数
 @property (nonatomic, assign) float score;
 
+@property (nonatomic, strong) TopicDetailModel *artical;
+
 @end
 
 @implementation WBArticalViewController
@@ -53,7 +57,7 @@
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
     
-//    [self loadData];
+    [self loadData];
     
     [self showHUD:@"正在努力加载" isDim:NO];
 }
@@ -64,21 +68,21 @@
 
 #pragma mark - 创建子控件
 
-//-(void)loadData{
-//    NSString *url = [NSString stringWithFormat:ANSWERURL,(long)self.answerId];
-//    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
-//        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+-(void)loadData{
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/tq/getCommentById?commentId=%ld",(long)self.commentId];
+    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
 
-//        self.singleAnswer = [WBSingleAnswerModel mj_objectWithKeyValues:result[@"answer"]];
+        self.artical = [TopicDetailModel mj_objectWithKeyValues:result[@"topic"]];
         
-//        [self hideHUD];
-//        [self setUpArticalWraper];
-//        
-//    } andFailure:^(NSString *error) {
-//        NSLog(@"%@------",error);
-//    }];
-//    
-//}
+        [self hideHUD];
+        [self setUpArticalWraper];
+        
+    } andFailure:^(NSString *error) {
+        NSLog(@"%@------",error);
+    }];
+    
+}
 
 -(void)setUpArticalWraper{
     self.wraperView = [[UIView alloc] initWithFrame:CGRectMake(0, MARGINOUTSIDE, SCREENWIDTH, SCREENHEIGHT- 10 - MARGINOUTSIDE)];
@@ -218,7 +222,7 @@
 }
 
 -(void)upLoadLikeTap{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",self.commentId,[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)self.commentId,[WBUserDefaults userId],(long)self.userId] whenSuccess:^(id representData) {
         
     } andFailure:^(NSString *error) {
         

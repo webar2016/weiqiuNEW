@@ -114,6 +114,7 @@ username = 15001125798;
  */
 
 +(id)getSingleUserDefaultsWithUserDefaultsKey:(NSString *)key;
++(BOOL)getBoolForKey:(NSString *)key;
 +(NSDictionary *)getAllUserDefaults;
 +(NSDictionary *)getNeededUserDefaults:(NSArray *)userDefaultsKeyArray;
 +(void)setMutableUserDefaults:(NSDictionary *)userInfos;

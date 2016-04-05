@@ -15,7 +15,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface WBDataModifiedViewController ()<UITextFieldDelegate,UIActionSheetDelegate,PassPositionDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface WBDataModifiedViewController ()<UITextFieldDelegate,UIActionSheetDelegate,PassPositionDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextInputTraits>
 {
     
     UIImageView *_bigImageView;
@@ -33,6 +33,7 @@
     NSNumber *_cityId;
     
     UITextView *_introduceTextView;
+    UITextField *_textField;
     UILabel *_placeHoldLabel;
     
     UIImagePickerController *_imagePicker;
@@ -59,7 +60,6 @@
 -(void)createNavi{
     //设置标题
     self.navigationItem.title = @"资料修改";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     //设置返回按钮
     UIBarButtonItem *item = (UIBarButtonItem *)self.navigationController.navigationBar.topItem;
     item.title = @"返回";
@@ -80,7 +80,7 @@
 
 
 -(void)createUI{
-    _bigImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 168)];
+    _bigImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 140)];
     _bigImageView.backgroundColor = [UIColor initWithBackgroundGray];
     _bigImageView.image = [WBUserDefaults coverImage];
     [self.view addSubview:_bigImageView];
@@ -102,7 +102,7 @@
     [_rightLabelName addObject:@"2000-09-09"];
     [_rightLabelName addObject:@""];
     for (NSInteger i =0; i<4; i++) {
-        UIImageView *imageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 168+40*i, SCREENWIDTH, 39)];
+        UIImageView *imageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 140+40*i, SCREENWIDTH, 39)];
         imageView.backgroundColor = [UIColor whiteColor];
         imageView.tag = 100+i;
         imageView.userInteractionEnabled = YES;
@@ -110,7 +110,7 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(TapBtnClick:)];
         [imageView addGestureRecognizer:tap];
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, 178+40*i, 100, 20)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, 150+40*i, 100, 20)];
         label.text = _leftLabelName[i];
         label.font = MAINFONTSIZE;
         label.textColor = [UIColor initWithLightGray];
@@ -118,7 +118,7 @@
         
         
         if (i!=0) {
-            UILabel *rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 178+40*i, 200, 20)];
+            UILabel *rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 150+40*i, 200, 20)];
             rightLabel.textColor =[UIColor initWithLightGray];
             rightLabel.font = MAINFONTSIZE;
             rightLabel.text = [_rightLabelName objectAtIndex:i-1];
@@ -127,16 +127,17 @@
         }
     }
     
-    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(100, 178, 200, 20)];
-    textField.placeholder = @"昵称";
-    textField.font = MAINFONTSIZE;
-    textField.textColor = [UIColor initWithLightGray];
-    textField.delegate = self;
-    textField.tag = 200;
-    [self.view addSubview:textField];
+    _textField = [[UITextField alloc]initWithFrame:CGRectMake(100, 150, 200, 20)];
+    _textField.placeholder = @"昵称";
+    _textField.font = MAINFONTSIZE;
+    _textField.textColor = [UIColor initWithLightGray];
+    _textField.delegate = self;
+    _textField.tag = 200;
+    _textField.returnKeyType = UIReturnKeyDone;
+    [self.view addSubview:_textField];
     
     
-    UIView *introduceView = [[UIView alloc]initWithFrame:CGRectMake(0, 328+9, SCREENWIDTH, 117)];
+    UIView *introduceView = [[UIView alloc]initWithFrame:CGRectMake(0, 300+9, SCREENWIDTH, 117)];
     introduceView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:introduceView];
     introduceView.tag = 500;
@@ -153,8 +154,9 @@
     _introduceTextView.font = MAINFONTSIZE;
     _introduceTextView.delegate = self;
     _introduceTextView.tag = 204;
+    _introduceTextView.returnKeyType = UIReturnKeyDone;
     _introduceTextView.keyboardType = UIKeyboardTypeDefault;
-    // [_introduceTextView becomeFirstResponder];
+    _introduceTextView.textColor = [UIColor initWithLightGray];
     
 
     
@@ -267,6 +269,8 @@
 #pragma mark - === 提示框 图片选择===
 - (void)headImagePick
 {
+    [_textField resignFirstResponder];
+    [_introduceTextView resignFirstResponder];
     _imagePicker = [[UIImagePickerController alloc]init];
       //相机类型（拍照、录像...）字符串需要做相应的类型转换
     _imagePicker.delegate = self;
@@ -348,18 +352,17 @@
 
 
 -(void)TapBtnClick:(UITapGestureRecognizer *)tap{
-   // NSLog(@"-----------");
+    [_textField resignFirstResponder];
+    [_introduceTextView resignFirstResponder];
     if (tap.view.tag == 101) {
         UILabel *label = (UILabel *)[self.view viewWithTag:201];
         
         UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }];
-        //拍照：
         UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"男" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
             label.text = @"男";
         }];
-        //相册
         UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             label.text = @"女";
         }];
@@ -369,10 +372,6 @@
         [aleVC addAction:act2];
         [aleVC addAction:act3];
         [self presentViewController:aleVC animated:YES completion:nil];
-        
-        
-
-        
         
     }else if (tap.view.tag == 102){
         
@@ -405,37 +404,56 @@
 
 
 #pragma mark -------textView delegate ------
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return NO;
+    
+}
+//- (void)textFieldDidBeginEditing:(UITextField *)textField{
+//    CGRect frame = textField.frame;
+//    int offset = frame.origin.y + 32 - (self.view.frame.size.height - 216.0);//键盘高度216
+//    NSTimeInterval animationDuration = 0.30f;
+//    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    float width = self.view.frame.size.width;
+//    float height = self.view.frame.size.height;
+//    if(offset > 0)
+//    {
+//        CGRect rect = CGRectMake(0.0f, -offset,width,height);
+//        self.view.frame = rect;
+//    } 
+//    [UIView commitAnimations];
+//}
+
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    
-    [_introduceTextView becomeFirstResponder];
-    
-    
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = CGRectMake(0.0f, -150,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
-    [_introduceTextView resignFirstResponder];
-    
+    NSTimeInterval animationDuration = 0.20f;
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = CGRectMake(0.0f, 64.0,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
 }
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 
-{    if (![text isEqualToString:@""])
-    
-{
-    
-    _placeHoldLabel.hidden = YES;
-    
-}
-    
-    if ([text isEqualToString:@""] && range.location == 0 && range.length == 1)
-        
-    {
-        
-        _placeHoldLabel.hidden = NO;
-        
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if (![text isEqualToString:@""]){
+        _placeHoldLabel.hidden = YES;
     }
-    
+    if ([text isEqualToString:@""] && range.location == 0 && range.length == 1){
+        _placeHoldLabel.hidden = NO;
+    }
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
     return YES;
-    
 }
 
 
@@ -445,15 +463,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

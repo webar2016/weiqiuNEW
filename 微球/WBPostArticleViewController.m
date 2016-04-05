@@ -355,7 +355,7 @@
     [UIView commitAnimations];
 }
 
-- (void)textViewDidEndEditing:(UITextField *)textField{
+- (void)textViewDidEndEditing:(UITextView *)textView{
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.275f];

@@ -158,6 +158,11 @@
     return [userDefaults objectForKey:key];
 }
 
++(BOOL)getBoolForKey:(NSString *)key{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults boolForKey:key];
+}
+
 +(NSDictionary *)getAllUserDefaults{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];

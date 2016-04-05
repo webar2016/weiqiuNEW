@@ -51,7 +51,6 @@
     [self setUpScores];
     
     [self setUpSelections];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -158,7 +157,7 @@
 
 #pragma mark -----Income -------
 -(void)IncomeBtnClicked{
-    //NSLog(@"------income------");
+    [_profile resignFirstResponder];
     [self.sideMenuViewController hideMenuViewController];
     WBIndividualIncomeViewController *IVC = [[WBIndividualIncomeViewController alloc]init];
     [IVC setHidesBottomBarWhenPushed:YES];
@@ -175,6 +174,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [_profile resignFirstResponder];
     [self.sideMenuViewController hideMenuViewController];
     switch (indexPath.row) {
         case 0:{
@@ -216,6 +216,7 @@
 }
 
 -(void)enterHomepage{
+    [_profile resignFirstResponder];
     [self.sideMenuViewController hideMenuViewController];
     WBHomepageViewController *homepageVC = [[WBHomepageViewController alloc] init];
     homepageVC.userId = [NSString stringWithFormat:@"%@",[WBUserDefaults userId]];

@@ -349,7 +349,7 @@
 #pragma mark ---cell delegate----
 -(void)gotoHomePage:(NSIndexPath *)indexPath{
     WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
-    HVC.userId = [NSString stringWithFormat:@"%ld",((TopicDetailModel *)_dataArray[indexPath.row]).userId ];
+    HVC.userId = [NSString stringWithFormat:@"%ld",(long)((TopicDetailModel *)_dataArray[indexPath.row]).userId ];
     [self.navigationController pushViewController:HVC animated:YES];
 
 
