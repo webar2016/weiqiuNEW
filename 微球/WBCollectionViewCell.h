@@ -10,6 +10,13 @@
 #import "WBCollectionViewModel.h"
 #define CollectionCellWidth (SCREENWIDTH-30)/2
 
+
+@protocol CollectionGoHomePage <NSObject>
+
+-(void)goHomepage:(NSString *)userId;
+
+@end
+
 @interface WBCollectionViewCell : UICollectionViewCell
 {
    
@@ -31,4 +38,8 @@
 
 @property(nonatomic,weak)WBCollectionViewModel *model;
 - (void)setModel:(WBCollectionViewModel *)model imageHeight:(CGFloat)imageHeight;
+
+@property(nonatomic,assign)id <CollectionGoHomePage> delegate;
+
 @end
+

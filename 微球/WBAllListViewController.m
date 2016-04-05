@@ -13,6 +13,7 @@
 #import "WBCollectionViewCell.h"
 #import "WBGetSizeOfObject.h"
 #import "WBHelpGroupsDetailViewController.h"
+#import "WBHomepageViewController.h"
 
 #import "TopCell.h"
 
@@ -30,7 +31,7 @@
 #define kCellReuseId @"collectionViewCellId"
 #define CollectionCellWidth (SCREENWIDTH-30)/2
 
-@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate>
+@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,CollectionGoHomePage>
 {
     UICollectionView *_collectionView;
     NSInteger _page;
@@ -123,6 +124,9 @@
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"helpGroup"]];
           //  NSLog(@"result=%@",result);
+            [self.dataSource removeAllObjects];
+            [_cellHeightArray removeAllObjects];
+            
             self.dataSource =[WBCollectionViewModel mj_objectArrayWithKeyValuesArray:arrayList];
             
           //  NSLog(@"count = %@",self.dataSource);
@@ -192,16 +196,9 @@
     static NSString * CellIdentifier = kCellReuseId;
     
     WBCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-//    if (cell == nil) {
-//        WBCollectionViewCell *cell = [[WBCollectionViewCell alloc]init];
-//    }
-   
-  //  NSLog(@"WBALLList定义   cell---%@",_dataSource[indexPath.row]);
-  //  [cell setModel:_dataSource[indexPath.row] imageHeight:100];
-  //  _cellHeightArray[indexPath.row] = [NSString stringWithFormat:@"%d",100+65];
-   // [self collectionView:_collectionView layout:[[MyCollectionViewFlowLayout alloc]init] sizeForItemAtIndexPath:indexPath];
     [cell setModel:_dataSource[indexPath.row] imageHeight:[_cellHeightArray[indexPath.row] floatValue]*CollectionCellWidth];
       //  NSLog(@"UICollectionViewCell = %ld",indexPath.row);
+    cell.delegate = self;
     return cell;
     
     
@@ -260,6 +257,16 @@
                          }];
     }
 }
+
+#pragma mark  ----去个人主页-----
+-(void)goHomepage:(NSString *)userId{
+    WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
+    HVC.userId = userId;
+    [self.navigationController pushViewController:HVC animated:YES];
+
+
+}
+
 
 #pragma mark - HUD
 

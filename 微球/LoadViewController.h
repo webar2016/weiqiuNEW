@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBRefreshViewController.h"
 
 
 @protocol BackDelegate <NSObject>
@@ -18,7 +19,7 @@
 
 
 
-@interface LoadViewController : UIViewController
+@interface LoadViewController :WBRefreshViewController
 
 @property (nonatomic, assign) id <BackDelegate> delegate;
 

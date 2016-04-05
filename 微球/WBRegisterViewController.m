@@ -48,9 +48,6 @@
 
 
 -(void)createUI{
-    
-    
-    
     //取消按钮
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
