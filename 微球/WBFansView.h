@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBRefreshViewController.h"
 
-@interface WBFansView : UIViewController
+@interface WBFansView :WBRefreshViewController
 @property (nonatomic,copy)NSString *showUserId;
 @end

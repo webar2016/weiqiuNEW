@@ -14,7 +14,7 @@
 #import "WBHomepageViewController.h"
 
 
-@interface WBFansView ()<UITableViewDataSource,UITableViewDelegate>
+@interface WBFansView ()<UITableViewDataSource,UITableViewDelegate,progressState>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArray;
@@ -51,7 +51,7 @@
 
 
 -(void)loadData{
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/relationship/fansList?userId=%@&showUserId=%@",@"29",@"29"];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/relationship/fansList?userId=%@&showUserId=%@",[WBUserDefaults userId],_showUserId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {
@@ -85,7 +85,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setModel:_dataArray[indexPath.row]];
-    
+    cell.delegate = self;
     return cell;
 }
 
