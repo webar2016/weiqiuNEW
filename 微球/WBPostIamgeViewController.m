@@ -189,7 +189,7 @@
         
     }else{
         //如果是视频
-//        NSURL *url = info[UIImagePickerControllerMediaURL];
+     //   NSURL *url = info[UIImagePickerControllerMediaURL];
 
     }
     [self dismissViewControllerAnimated:YES completion:nil];

@@ -42,7 +42,7 @@
     
     NSInteger _page;
     
-    UIView *_backgroundView;
+
     
     //悬浮按钮
     UIImageView *_imageViewMenu;
@@ -114,22 +114,7 @@
 #pragma mark - mutable choose button
 
 -(void)createMenuButton{
-    //点击悬浮按钮后的透明度
-    _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
-    _backgroundView.alpha = 0;
-    _backgroundView.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:_backgroundView];
-    
-    //旋转菜单按钮
-    _imageViewMenu= [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-60, self.view.frame.size.height-150, 37, 37)];
-    
-    _imageViewMenu.image = [UIImage imageNamed:@"btn_cancel.png"];
-    _imageViewMenu.transform = CGAffineTransformMakeRotation(M_PI/4);
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(menuBtnClicled)];
-    _imageViewMenu.userInteractionEnabled = YES;
-    [_imageViewMenu addGestureRecognizer:tap];
-    [self.view addSubview:_imageViewMenu];
-    
+    [super createMenuButton];
     //上传照片
     UITapGestureRecognizer *tapPhoto = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(photoBtnClicled)];
     _photoImageView.userInteractionEnabled = YES;
@@ -243,54 +228,7 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-#pragma mark --------菜单栏按钮动画效果----------
-
--(void)menuBtnClicled{
-    if (_backgroundView.alpha == 0) {
-        _photoImageView.alpha = 1;
-        _videoImageView.alpha = 1;
-        _textImageView.alpha  = 1;
-        _backgroundView.alpha = 0.5;
-        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            _imageViewMenu.transform = CGAffineTransformMakeRotation(0);
-        } completion:^(BOOL finished) {
-        }];
-        [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            CGRect frame1 = _photoImageView.frame;
-            frame1.origin.y -=70;
-            _photoImageView.frame = frame1;
-            CGRect frame2 = _videoImageView.frame;
-            frame2.origin.y -=140;
-            _videoImageView.frame = frame2;
-            CGRect frame3 = _textImageView.frame;
-            frame3.origin.y -=210;
-            _textImageView.frame = frame3;
-        } completion:^(BOOL finished) {
-        }];
-    }
-    else{
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            _backgroundView.alpha = 0;
-            _imageViewMenu.transform = CGAffineTransformMakeRotation(M_PI/4);
-            CGRect frame1 = _photoImageView.frame;
-            frame1.origin.y +=70;
-            _photoImageView.frame = frame1;
-            CGRect frame2 = _videoImageView.frame;
-            frame2.origin.y +=140;
-            _videoImageView.frame = frame2;
-            CGRect frame3 = _textImageView.frame;
-            frame3.origin.y +=210;
-            _textImageView.frame = frame3;
-        } completion:^(BOOL finished) {
-            _photoImageView.alpha = 0;
-            _videoImageView.alpha = 0;
-            _textImageView.alpha  = 0;
-        }];
-    }
-}
-
-#pragma mark --------loadData----------
-
+//加载数据
 -(void) loadData{
     NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
