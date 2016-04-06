@@ -13,10 +13,15 @@
 #import "WBPrivateViewController.h"
 #import "WBAnswerListController.h"
 #import "WBAnswerDetailController.h"
-#import "WBHomeFirstPageTableViewCell.h"
+
 #import "WBQuestionTableViewCell.h"
 #import "WBFansView.h"
 #import "WBAttentionView.h"
+#import "WBTopicDetailTableViewCell.h"
+#import "WBTopicDetailTableViewCell2.h"
+#import "WBTopicDetailTableViewCell3.h"
+
+
 
 #import "TopicDetailModel.h"
 #import "WBSingleAnswerModel.h"
@@ -24,7 +29,7 @@
 #import "UIImageView+WebCache.h"
 #import "MJExtension.h"
 
-@interface WBHomepageViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,WBQuestionTableViewCellDelegate,ModefyData,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
+@interface WBHomepageViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,WBQuestionTableViewCellDelegate,ModefyData,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TransformValue,TransformValue2,TransformValue3> {
     
     UIView              *_headView;//头部视图
     UITableView         *_topicTableView;
@@ -33,6 +38,9 @@
     UIImageView         *_coverImage;//封面图片
     UIImageView         *_headicon;
     UILabel             *_nicknameLabel;
+    UIButton            *_sexButton;
+    UILabel             *_profileLabel;
+    
     UIButton            *_followButton;
     UIButton            *_attentionLeftButton;
     UIButton            *_attentionRightButton;
@@ -154,11 +162,17 @@
    // _nickname.text = [WBUserDefaults nickname];
     [_headView addSubview:_nicknameLabel];
 
-    
+    _sexButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_headView addSubview:_sexButton];
 
+    _profileLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 168+32+20+30, SCREENWIDTH, 18)];
+    _profileLabel.font = SMALLFONTSIZE;
+    _profileLabel.textAlignment = NSTextAlignmentCenter;
+    _profileLabel.textColor = [UIColor initWithLightGray];
+    [_headView addSubview:_profileLabel];
     
     _attentionLeftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _attentionLeftButton.frame = CGRectMake(SCREENWIDTH/2-100, 168+32+20+30, 95, 20);
+    _attentionLeftButton.frame = CGRectMake(SCREENWIDTH/2-100, 168+32+20+30+30, 95, 20);
     [_headView addSubview:_attentionLeftButton];
     _attentionLeftButton.titleLabel.font = MAINFONTSIZE;
     _attentionLeftButton.tag = 500;
@@ -166,7 +180,7 @@
     [_attentionLeftButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     [_attentionLeftButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
     
-    UILabel *followAndCare = [[UILabel alloc] initWithFrame:CGRectMake(0, 250, SCREENWIDTH, 14)];
+    UILabel *followAndCare = [[UILabel alloc] initWithFrame:CGRectMake(0, 250+33, SCREENWIDTH, 14)];
     followAndCare.font = MAINFONTSIZE;
     followAndCare.textColor = [UIColor initWithNormalGray];
     followAndCare.textAlignment = NSTextAlignmentCenter;
@@ -174,7 +188,7 @@
     [_headView addSubview:followAndCare];
     
     _attentionRightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _attentionRightButton.frame = CGRectMake(SCREENWIDTH/2+5, 168+32+20+30, 95, 20);
+    _attentionRightButton.frame = CGRectMake(SCREENWIDTH/2+5, 168+32+20+30+30, 95, 20);
     [_headView addSubview:_attentionRightButton];
     _attentionRightButton.titleLabel.font = MAINFONTSIZE;
     _attentionRightButton.tag = 501;
@@ -190,16 +204,16 @@
     
     if (![self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
         _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
-        _followButton.center = CGPointMake(SCREENWIDTH / 2, 300);
+        _followButton.center = CGPointMake(SCREENWIDTH / 2, 330);
         _followButton.layer.masksToBounds = YES;
         _followButton.layer.cornerRadius = 4;
         _followButton.tag = 50;
         [_followButton addTarget:self action:@selector(concernsOperation:) forControlEvents:UIControlEventTouchUpInside];
         [_headView addSubview:_followButton];
         
-        point = CGPointMake(0, 330);
+        point = CGPointMake(0, 360);
     } else {
-        point = CGPointMake(0, 270);
+        point = CGPointMake(0, 300);
     }
     
     _topicButton = [[UIButton alloc] initWithFrame:(CGRect){point,buttonSize}];
@@ -232,6 +246,8 @@
 }
 
 -(void)setConfigHeadView{
+    
+
     if ([_userInfo objectForKey:@"personalImage"]) {
         
         [_coverImage sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"personalImage"]] placeholderImage:[UIImage imageNamed:@"cover.png"]];
@@ -239,6 +255,20 @@
     [_headicon sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"dir"]]];
 
     _nicknameLabel.text = [_userInfo objectForKey:@"nickname"];
+    
+    
+    CGSize size = [_nicknameLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:_nicknameLabel.font,NSFontAttributeName, nil]];
+    NSLog(@"%f,%f",size.height,size.width);
+    _sexButton.frame = CGRectMake(SCREENWIDTH/2+size.width-10, _nicknameLabel.frame.origin.y+5, 28, 10);
+    _sexButton.layer.masksToBounds = YES;
+    _sexButton.layer.cornerRadius = 2;
+    _sexButton.backgroundColor = [UIColor initWithGreen];
+    [_sexButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
+    [_sexButton setTitle:[NSString stringWithFormat:@"%@",[_userInfo objectForKey:@"sex"]]  forState:UIControlStateNormal];
+    _sexButton.backgroundColor = [UIColor initWithGreen];
+    _sexButton.titleLabel.font = SMALLFONTSIZE;
+    
+    _profileLabel.text = [NSString stringWithFormat:@"简介：%@",[_userInfo objectForKey:@"profile"]];
     
     [_attentionLeftButton setTitle:[NSString stringWithFormat:@"%@关注",[_userInfo objectForKey:@"concerns"]] forState:UIControlStateNormal];
     [_attentionRightButton setTitle:[NSString stringWithFormat:@"%@粉丝",[_userInfo objectForKey:@"fans"]] forState:UIControlStateNormal];
@@ -283,8 +313,10 @@
 #pragma mark - load data
 
 -(void)loadUserInfo{
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",self.userId,[WBUserDefaults userId]];
     
+    
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",self.userId,[WBUserDefaults userId]];
+        NSLog(@"%@",url);
         [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {
@@ -339,14 +371,54 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView.tag == 100) {
-        static NSString *FirstPageCell = @"FirstPageCell";
-        WBHomeFirstPageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FirstPageCell];
-        if (cell == nil)
-        {   cell = [[WBHomeFirstPageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FirstPageCell ];
+        if (((TopicDetailModel *)_topicsArray[indexPath.row]).newsType == 1) {
+            static NSString *topCellID = @"detailCellID";
+            WBTopicDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:topCellID];
+            if (cell == nil)
+            {    cell = [[WBTopicDetailTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID ];
+                
+            }
+            TopicDetailModel *model = _topicsArray[indexPath.row];
+            //  cell.backgroundColor = [UIColor initWithBackgroundGray];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell setModel:model  labelHeight:[_labelHeightArrayOne[indexPath.row] floatValue]];
+            cell.delegate = self;
+            cell.indexPath = indexPath;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+        }else if(((TopicDetailModel *)_topicsArray[indexPath.row]).newsType == 2){
+            static NSString *topCellID2 = @"detailCellID2";
+            WBTopicDetailTableViewCell2 *cell = [tableView dequeueReusableCellWithIdentifier:topCellID2];
+            if (cell == nil)
+            {    cell = [[WBTopicDetailTableViewCell2 alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID2 ];
+                
+            }
+            TopicDetailModel *model = _topicsArray[indexPath.row];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell setModel:model  labelHeight:[_labelHeightArrayOne[indexPath.row] floatValue]];
+            cell.delegate = self;
+            cell.indexPath = indexPath;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+            
+        }else{
+            static NSString *topCellID3 = @"detailCellID3";
+            WBTopicDetailTableViewCell3 *cell = [tableView dequeueReusableCellWithIdentifier:topCellID3];
+            if (cell == nil)
+            {    cell = [[WBTopicDetailTableViewCell3 alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID3 ];
+                
+            }
+            TopicDetailModel *model = _topicsArray[indexPath.row];
+            //  cell.backgroundColor = [UIColor initWithBackgroundGray];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell setModel:model  labelHeight:[_labelHeightArrayOne[indexPath.row] floatValue]];
+            cell.delegate = self;
+            cell.indexPath = indexPath;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+            
+            
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell setModel:_topicsArray[indexPath.row] withLabelHeight:[_labelHeightArrayOne[indexPath.row] floatValue]];
-        return cell;
     } else {
         static NSString *SecondPageCell = @"SecondPageCell";
         WBQuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SecondPageCell];
@@ -364,17 +436,57 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView.tag == 100) {
-        if (((TopicDetailModel *)_topicsArray[indexPath.row]).newsType == 1) {
+        if (((TopicDetailModel *)_topicsArray[indexPath.row]).newsType==3) {
+            
+            return 175+[_labelHeightArrayOne[indexPath.row] floatValue]+120+20;
+        }else if (((TopicDetailModel *)_topicsArray[indexPath.row]).newsType==1){
+            return   [((TopicDetailModel *)_topicsArray[indexPath.row]).imgRate floatValue]*SCREENWIDTH+[_labelHeightArrayOne[indexPath.row] floatValue]+132;
+        }else{
             return [((TopicDetailModel *)_topicsArray[indexPath.row]).imgRate floatValue]*SCREENWIDTH+[_labelHeightArrayOne[indexPath.row] floatValue]+132;
         }
-        return 380;//168+32+20+30+41+20+29+40;
     } else {
         UITableViewCell *cell = [self tableView:_answerTableView cellForRowAtIndexPath:indexPath];
         return cell.frame.size.height;
     }
 }
 
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]){
+    return   UITableViewCellEditingStyleDelete;
+    }else{
+    
+        return UITableViewCellEditingStyleNone;
+    }
+}
 
+/*改变删除按钮的title*/
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
+/*删除用到的函数*/
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]){
+    
+      if (editingStyle ==UITableViewCellEditingStyleDelete)
+       {
+          if (_topicTableView.hidden) {
+          }else{
+             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",((TopicDetailModel *)_topicsArray[indexPath.row]). commentId] whenSuccess:^(id representData) {
+                 NSLog(@"----success-----");
+                 [_topicsArray removeObjectAtIndex:indexPath.row];
+                
+                 [_topicTableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];
+             } andFailure:^(NSString *error) {
+                
+             }];
+        }
+      }
+    }
+}
 
 #pragma mark - other operations
 //获取粉丝和关注列表
@@ -434,23 +546,14 @@
 }
 
 -(CGFloat)calculateStationWidth:(NSString *)string andWithTextWidth:(CGFloat)textWidth anfont:(CGFloat)fontSize{
-    
     UIFont * tfont = [UIFont systemFontOfSize:fontSize];
-    
     //高度估计文本大概要显示几行，宽度根据需求自己定义。 MAXFLOAT 可以算出具体要多高
-    
     CGSize size =CGSizeMake(textWidth,CGFLOAT_MAX);
-    
     //    获取当前文本的属性
-    
     NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:tfont,NSFontAttributeName,nil];
-    
     //ios7方法，获取文本需要的size，限制宽度
-    
     CGSize  actualsize =[string boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
-    
     return actualsize.height;
-    
 }
 
 -(void)changeSelectedPage:(UIButton *)sender{
@@ -558,6 +661,7 @@
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        [self showHUD:@"正在上传" isDim:YES];
         [_coverImage setImage:info[UIImagePickerControllerEditedImage]];
         
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
@@ -567,9 +671,9 @@
         } andSuccess:^(id representData) {
             
             [WBUserDefaults setCoverImage:_coverImage.image];
-            NSLog(@"----success---");
+            [self showHUDComplete:@"上传成功"];
         } andFailure:^(NSString *error) {
-            
+            [self showHUDComplete:@"上传失败"];
         }];
         
     }else{
@@ -644,6 +748,94 @@
     })];
     [self presentViewController:alert animated:YES completion:nil];
 }
+#pragma mark ---cell delegate----
+-(void)alertViewIntergeal:(NSString *)messageContent messageOpreation:(NSString *)opreation cancelMessage:(NSString *)cancelMessage{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:messageContent message:nil preferredStyle:UIAlertControllerStyleAlert];
+    if (!(cancelMessage == nil || cancelMessage == NULL)) {
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:cancelMessage style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+    }else{
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+    }
+    
+    NSLog(@"%@",opreation);
+    if (!(opreation == nil || opreation == NULL)) {
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:opreation style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            }];
+            action;
+        })];
+    }
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)gotoHomePage:(NSIndexPath *)indexPath{
+    WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
+    HVC.userId = [NSString stringWithFormat:@"%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.row]).userId ];
+    [self.navigationController pushViewController:HVC animated:YES];
+}
+
+
+-(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
+    [self loadUserInfo];
+}
+
+-(void)commentClickedPushView:(NSIndexPath *)indexPath{
+    WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
+    commentView.commentId =((TopicDetailModel *)_topicsArray[indexPath.row]).commentId;
+    commentView.userId =[NSString stringWithFormat:@"%ld", ((TopicDetailModel *)_topicsArray[indexPath.row]).userId];
+    [self.navigationController pushViewController:commentView animated:YES];
+}
+
+-(void)playMedio:(NSIndexPath *)indexPath{
+    NSString *url = ((TopicDetailModel *)_topicsArray[indexPath.row]).dir;
+    _player = [[MPMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:url]];
+    //1设置播放器的大小
+    _player.movieSourceType=MPMovieSourceTypeStreaming;
+    [_player.view setFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)]; //16:9是主流媒体的样式
+    //2将播放器视图添加到根视图
+    [self.view addSubview:_player.view];
+    [self.navigationController setNavigationBarHidden:YES animated:TRUE];
+    [_player play];
+    //[self.player stop];
+    //通过通知中心，以观察者模式监听视频播放状态
+    //1 监听播放状态
+    // [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stateChange) name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
+    //    //2 监听播放完成
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(finishedPlay) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    //    //3视频截图
+    //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(caputerImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
+    //    //3视频截图
+    //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(caputerImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
+    //
+    //    //4退出全屏通知
+    //   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(exitFullScreen) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
+    
+    //异步视频截图,可以在attimes指定一个或者多个时间。
+    //[player requestThumbnailImagesAtTimes:@[@10.0f, @20.0f] timeOption:MPMovieTimeOptionNearestKeyFrame];
+    
+    //    UIImageView *thumbnailImageView = [[UIImageView alloc]initWithFrame:CGRectMake(80, 200, 160, 90)];
+    //    self.imageView = thumbnailImageView;
+    //    [self.view addSubview:thumbnailImageView];
+    
+}
+
+#pragma mark 播放完成
+- (void)finishedPlay
+{
+    NSLog(@"播放完成");
+    [_player.view removeFromSuperview];
+    [self.navigationController setNavigationBarHidden:NO animated:TRUE];
+}
+
+
+
 
 #pragma mark - MBprogress
 -(void)showHUD:(NSString *)title isDim:(BOOL)isDim

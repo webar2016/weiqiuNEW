@@ -223,7 +223,7 @@
 #pragma mark ----右键保存------
 -(void)rightBtnClicked{
     
-    
+    [self showHUD:@"正在保存数据" isDim:YES];
    
     
     WBPositionList *positionList =[[WBPositionList alloc] init];
@@ -232,7 +232,7 @@
     NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"provinceId":positionArray[2],@"homeCityId":positionArray[1],@"profile":_introduceTextView.text};
       //  NSLog(@"parameters = %@",parameters);
     
-    
+   // __weak WBDataModifiedViewController *wself = self;
     [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
@@ -244,6 +244,9 @@
         }
        
     } whenProgress:^(NSProgress *FieldDataBlock) {
+        
+        
+        //[wself showHUD:[NSString stringWithFormat:@"%f",(float)FieldDataBlock.completedUnitCount/(float)FieldDataBlock.totalUnitCount] isDim:YES];
         
     } andSuccess:^(id representData) {
       //  NSLog(@"%@",representData);
@@ -259,9 +262,11 @@
         
         
         [self.delegate ModefyViewDelegate];
+        [self showHUDComplete:@"上传成功"];
     } andFailure:^(NSString *error) {
         NSLog(@"failure");
         NSLog(@"%@",error.localizedCapitalizedString);
+        [self showHUDComplete:@"上传失败"];
     }];
     
 }

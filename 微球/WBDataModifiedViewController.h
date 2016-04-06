@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBRefreshViewController.h"
 
 
 @protocol ModefyData <NSObject>
@@ -14,7 +15,7 @@
 @end
 
 
-@interface WBDataModifiedViewController : UIViewController
+@interface WBDataModifiedViewController : WBRefreshViewController
 @property (nonatomic,retain) UIDatePicker *datePicker;
 
 @property (nonatomic,copy) NSDictionary *userInfo;

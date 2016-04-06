@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBRefreshViewController.h"
 
-@interface WBPostVideoViewController : UIViewController
+@interface WBPostVideoViewController : WBRefreshViewController
 @property (nonatomic,assign) NSInteger topicID;
 
 @end

@@ -37,7 +37,7 @@
     UIImageView *_headImageView;
     UILabel *_nickName;
     UILabel *_timeLabel;
-    UIButton *_attentionButton;
+
     UIImageView *_mainImageView;
     UILabel *_contentLabel;
     

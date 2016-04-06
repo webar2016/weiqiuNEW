@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface WBHomepageViewController : UIViewController
 
@@ -20,5 +21,5 @@
 -(void)showHUDComplete:(NSString *)title;
 -(void)hideHUD;
 
-
+@property (strong, nonatomic) MPMoviePlayerController *player;
 @end

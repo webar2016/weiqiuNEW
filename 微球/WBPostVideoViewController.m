@@ -54,6 +54,7 @@
     rightBtton.titleLabel.font = MAINFONTSIZE;
     rightBtton.layer.cornerRadius = 5;
     [rightBtton setTitle:@"发布" forState:UIControlStateNormal];
+    [rightBtton addTarget: self action:@selector(rightBtnclicked) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]initWithCustomView:rightBtton];
     self.navigationItem.rightBarButtonItem = rightBarButton;
@@ -132,6 +133,36 @@
 
 }
 
+
+#pragma mark ----点击发布视频-----
+
+-(void)rightBtnclicked{
+    [self showHUD:@"正在上传视频" isDim:YES];
+    NSData  *fileData = [NSData dataWithContentsOfFile:_sourceURL.path];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
+    
+    [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
+    [parameters setObject:@"2" forKey:@"newsType"];
+    [parameters setObject:_textView.text forKey:@"comment"];
+    [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
+    
+    [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:fileData name:@"1234" fileName:@"video1.mov" mimeType:@"video/quicktime"];
+        
+    } whenProgress:^(NSProgress *FieldDataBlock) {
+        
+    } andSuccess:^(id representData) {
+        [self showHUDComplete:@"上传视频成功"];
+        [self.navigationController popViewControllerAnimated:YES];
+    } andFailure:^(NSString *error) {
+        [self showHUDComplete:@"上传视频失败"];
+    }];
+
+
+
+}
+
+
 #pragma mark 从摄像头获取图片或视频
 - (void)selectImageFromCamera
 {
@@ -182,27 +213,9 @@
     //判断资源类型
     if ([mediaType isEqualToString:(NSString*)kUTTypeMovie]){
         //如果是视频
-        NSURL *url = info[UIImagePickerControllerMediaURL];
         
-        NSData  *fileData = [NSData dataWithContentsOfFile:url.path];
-        NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
+        _sourceURL = info[UIImagePickerControllerMediaURL];
         
-                [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
-                [parameters setObject:@"2" forKey:@"newsType"];
-               // [parameters setObject:_textView.text forKey:@"comment"];
-                [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
-        
-        [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
-            [formData appendPartWithFileData:fileData name:@"1234" fileName:@"video1.mov" mimeType:@"video/quicktime"];
-        
-        } whenProgress:^(NSProgress *FieldDataBlock) {
-          
-        } andSuccess:^(id representData) {
-            NSLog(@"success");
-            [self.navigationController popViewControllerAnimated:YES];
-        } andFailure:^(NSString *error) {
-             NSLog(@"failure");
-        }];
         
         
         
