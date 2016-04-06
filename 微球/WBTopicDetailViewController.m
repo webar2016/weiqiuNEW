@@ -108,7 +108,6 @@
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
-    
     [self createMenuButton];
 }
 
@@ -132,8 +131,6 @@
     [self.view addSubview:_imageViewMenu];
     
     //上传照片
-    _photoImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-80-30+15, self.view.frame.size.height-150, 64  , 30)];
-    _photoImageView.image = [UIImage imageNamed:@"btn_photo.png"];
     UITapGestureRecognizer *tapPhoto = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(photoBtnClicled)];
     _photoImageView.userInteractionEnabled = YES;
     [_photoImageView addGestureRecognizer:tapPhoto];
@@ -141,17 +138,10 @@
     [self.view addSubview:_photoImageView];
     
     //上传视频
-    _videoImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-80-30, self.view.frame.size.height-150, 79  , 30)];
-    _videoImageView.image = [UIImage imageNamed:@"icon_video.png"];
     UITapGestureRecognizer *tapMedio = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoBtnClicled)];
     _videoImageView.userInteractionEnabled = YES;
     [_videoImageView addGestureRecognizer:tapMedio];
-    _videoImageView.alpha = 0;
-    [self.view addSubview:_videoImageView];
-    
     //上传文字
-    _textImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-80-30, self.view.frame.size.height-150, 79  , 30)];
-    _textImageView.image = [UIImage imageNamed:@"btn_ariticle.png"];
     UITapGestureRecognizer *tapText = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(textBtnClicled)];
     _textImageView.userInteractionEnabled = YES;
     [_textImageView addGestureRecognizer:tapText];
@@ -310,7 +300,6 @@
             
             [_rowHeightArray removeAllObjects];
         }
-        
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"topicCommentList"]];
             NSMutableArray *arrayTemp = [NSMutableArray array];
@@ -367,7 +356,6 @@
         })];
     }
     
-    NSLog(@"%@",opreation);
     if (!(opreation == nil || opreation == NULL)) {
         [alert addAction:({
             UIAlertAction *action = [UIAlertAction actionWithTitle:opreation style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

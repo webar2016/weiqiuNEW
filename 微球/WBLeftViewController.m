@@ -23,7 +23,7 @@
 @interface WBLeftViewController () <UITableViewDataSource,UITableViewDelegate,UITextInputTraits,UITextViewDelegate,BackDelegate> {
     UIImageView     *_userIcon;
     UILabel         *_nickName;
-    UITextView      *_profile;
+    UILabel         *_profile;
     UILabel         *_totalScoreNumber;
     UILabel         *_todayScoreNumber;
 }
@@ -82,12 +82,10 @@
     _nickName.font = MAINFONTSIZE;
     [self.userInfosView addSubview:_nickName];
     
-    _profile = [[UITextView alloc] initWithFrame:CGRectMake(95, 45, (self.size.width*0.7-100), 60)];
+    _profile = [[UILabel alloc] initWithFrame:CGRectMake(95, 45, (self.size.width*0.7-100), 60)];
     _profile.backgroundColor = [UIColor clearColor];
     _profile.textColor = [UIColor whiteColor];
     _profile.font = MAINFONTSIZE;
-    _profile.returnKeyType = UIReturnKeyDone;
-    _profile.delegate = self;
     [self.userInfosView addSubview:_profile];
     
     [self.view addSubview:self.userInfosView];
@@ -256,29 +254,6 @@
     cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
     
     return cell;
-}
-
-#pragma mark - profile
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    if ([text isEqualToString:@"\n"]) {
-        [_profile resignFirstResponder];
-        [self postCurrentProfile];
-        return NO;
-    }
-    return YES;
-}
-- (void)postCurrentProfile{
-    NSString *string = _profile.text;
-    if (![string isEqualToString:[WBUserDefaults profile]]) {
-        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/user/updateUser" withParameters:@{@"columType":@"profile",@"userId":[WBUserDefaults userId],@"value":string} whenProgress:^(NSProgress *FieldDataBlock) {
-        } andSuccess:^(id representData) {
-            NSLog(@"成功");
-            [WBUserDefaults setProfile:string];
-        } andFailure:^(NSString *error) {
-            NSLog(@"失败");
-        }];
-    }
 }
 
 #pragma mark  -----loadView delegate -----

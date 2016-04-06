@@ -53,13 +53,6 @@
         _timeLabel.textColor = [UIColor initWithLightGray];
         [_mainView addSubview:_timeLabel];
         
-//        _attentionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        _attentionButton.frame = CGRectMake(SCREENWIDTH-70, 14+9, 60, 22) ;
-//        _attentionButton.titleLabel.font = MAINFONTSIZE;
-//        _attentionButton.layer.cornerRadius = 5.0f;
-//        [_attentionButton addTarget:self action:@selector(attentionBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-//        [self.contentView addSubview:_attentionButton];
-        
         _mainImageView = [[UIImageView alloc]init];
         [_background addSubview:_mainImageView];
 
@@ -109,16 +102,8 @@
         _zanBtn=[[CatZanButton alloc] init];
         [self.contentView addSubview:_zanBtn];
         [_zanBtn setType:CatZanButtonTypeFirework];
-        __unsafe_unretained WBTopicDetailTableViewCell *wfindShopVC = self;
         
-        [_zanBtn setClickHandler:^(CatZanButton *zanButton) {
-            if (zanButton.isZan) {
-                NSLog(@"Zan!");
-                [wfindShopVC praiseBtnClicked];
-            }else{
-                NSLog(@"Cancel zan!");
-            }
-        }];
+       
         //点赞跳出的提示框
         _imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"点赞转积分提示.png"]];
         _imageView.frame = CGRectMake(_praiseButton.frame.origin.x-124, _praiseButton.frame.origin.y-5, 124, 23);
@@ -148,6 +133,25 @@
     _praiseButton.frame =CGRectMake(SCREENWIDTH-120,  60+imageHeight+17+labelHeight+10+10, 100,16);
     _zanBtn.frame = CGRectMake(SCREENWIDTH-120, 60+imageHeight+17+labelHeight+10+10, 20, 20);
     
+    __unsafe_unretained WBTopicDetailTableViewCell *wfindShopVC = self;
+    [_zanBtn setClickHandler:^(CatZanButton *zanButton) {
+        if (_model.userId ==[[WBUserDefaults userId] integerValue]) {
+            
+            [zanButton setIsZan:NO];
+        }else{
+            if (zanButton.isZan) {
+                NSLog(@"Zan!");
+                [wfindShopVC praiseBtnClicked];
+            }else{
+                NSLog(@"Cancel zan!");
+            }
+
+        
+        
+        }
+            }];
+    
+    
     _imageView.frame = CGRectMake(_praiseButton.frame.origin.x-124, _praiseButton.frame.origin.y-5, 124, 23);
     
     
@@ -156,31 +160,12 @@
     _headImageView.layer.cornerRadius = 20;
     
     _nickName.text =model.tblUser.nickname;
-    // NSLog(@"nick = %@",);
     _timeLabel.text = model.timeStr;
-    // NSLog(@"model.timeStr = %@",model.timeStr);
-    
-//    if (model.userId ==[[WBUserDefaults userId] integerValue]) {
-//        
-//        _attentionButton.alpha = 0;
-//    }else{
-//        
-//        if (model.isFriend) {
-//            [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
-//            _attentionButton.backgroundColor = [UIColor initWithBackgroundGray];
-//            
-//        }else{
-//            [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
-//            _attentionButton.backgroundColor = [UIColor initWithGreen];
-//        }
-//        
-//    }
-    //图片
         [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
         _contentLabel.text = model.comment;
         [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
         [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
-        //s视频
+
 }
 
 
@@ -196,12 +181,12 @@
 //分享事件
 -(void)shareBtnClicked{
     
-    NSArray* imageArray = @[[UIImage imageNamed:@"icon_unclockmesg.png"]];
+    NSArray* imageArray = @[_mainImageView.image];
     // （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
     if (imageArray) {
         
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-        [shareParams SSDKSetupShareParamsByText:@"分享内容"
+        [shareParams SSDKSetupShareParamsByText:_contentLabel.text
                                          images:imageArray
                                             url:[NSURL URLWithString:@"http://mob.com"]
                                           title:@"分享标题"
@@ -284,7 +269,6 @@
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",_model.commentId,[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
         [self.delegate changeGetIntegralValue:123 indexPath:_indexPath];
         [UIView animateWithDuration:0.5f animations:^{
-             NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);
             _imageView.alpha = 1;
         } completion:^(BOOL finished) {
             [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0.5f];
@@ -302,34 +286,5 @@
         _imageView.alpha = 0;
     }];
 }
-//
-//-(void)attentionBtnClicked{
-//    if ([_attentionButton.titleLabel.text isEqualToString:@"关注"]) {
-//        NSLog(@"_model.userId%ld",_model.userId);
-//        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%ld",[WBUserDefaults userId],_userId] whenSuccess:^(id representData) {
-//            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-//            if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
-//                [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
-//                [_attentionButton setBackgroundColor:[UIColor initWithBackgroundGray]];
-//            }
-//            
-//        } andFailure:^(NSString *error) {
-//            
-//        }];
-//        
-//    }else{
-//        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%ld",[WBUserDefaults userId],_userId] whenSuccess:^(id representData) {
-//            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-//            if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
-//                [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
-//                [_attentionButton setBackgroundColor:[UIColor initWithGreen]];
-//            }
-//            
-//        } andFailure:^(NSString *error) {
-//            
-//        }];
-//        
-//    }
-//}
 
 @end

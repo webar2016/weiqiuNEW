@@ -347,14 +347,13 @@ didRegisterUserNotificationSettings:
      *  在此事件中写入连接代码。第四个参数则为配置本地社交平台时触发，根据返回的平台类型来配置平台信息。
      *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
      */
+    
     [ShareSDK registerApp:@"10d26d341cf86"
      
           activePlatforms:@[
                             @(SSDKPlatformTypeSinaWeibo),
-                            @(SSDKPlatformTypeWechat),
-                            @(SSDKPlatformTypeQQ),
-                            @(SSDKPlatformTypeWhatsApp),
-                            @(SSDKPlatformTypeSMS)]
+                            @(SSDKPlatformTypeWechat)
+                            ]
                  onImport:^(SSDKPlatformType platformType)
      {
          switch (platformType)
@@ -382,7 +381,7 @@ didRegisterUserNotificationSettings:
                  //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
                  [appInfo SSDKSetupSinaWeiboByAppKey:@"2242391106"
                                            appSecret:@"81f549b888d2c040e648399023fd74df"
-                                         redirectUri:@"http://www.sharesdk.cn"
+                                         redirectUri:@"http://sns.whalecloud.com/sina2/callback"
                                             authType:SSDKAuthTypeBoth];
                  break;
              case SSDKPlatformTypeWechat:                 

@@ -89,15 +89,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cb7-ZU-Npa">
-                                <rect key="frame" x="333" y="4" width="46" height="28"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="2fH-Cz-uSv"/>
-                                    <constraint firstAttribute="height" constant="22" id="PjX-Zu-lQX"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="Button"/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fYA-OA-8mK" userLabel="contentLabel">
                                 <rect key="frame" x="15" y="118" width="364" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -112,14 +103,12 @@
                         <constraints>
                             <constraint firstItem="moM-RV-dmJ" firstAttribute="leading" secondItem="eWW-Y5-91K" secondAttribute="trailing" constant="10" id="CxC-gt-HKi"/>
                             <constraint firstItem="fYA-OA-8mK" firstAttribute="top" secondItem="RrX-pf-7aJ" secondAttribute="bottom" constant="14" id="Hd0-Mo-IIj"/>
-                            <constraint firstAttribute="trailing" secondItem="cb7-ZU-Npa" secondAttribute="trailing" constant="10" id="JJn-AN-Seg"/>
                             <constraint firstItem="zMu-S8-8CE" firstAttribute="leading" secondItem="eWW-Y5-91K" secondAttribute="trailing" constant="10" id="SSm-yW-0ER"/>
                             <constraint firstAttribute="bottom" secondItem="fYA-OA-8mK" secondAttribute="bottom" constant="17" id="bX6-3X-9hi"/>
                             <constraint firstAttribute="trailing" secondItem="fYA-OA-8mK" secondAttribute="trailing" constant="10" id="diL-pT-cgf"/>
                             <constraint firstItem="RrX-pf-7aJ" firstAttribute="top" secondItem="vFR-cM-gOb" secondAttribute="top" constant="49" id="gBP-cy-ocV"/>
                             <constraint firstItem="eWW-Y5-91K" firstAttribute="leading" secondItem="vFR-cM-gOb" secondAttribute="leading" constant="15" id="kHE-o7-EcD"/>
                             <constraint firstItem="fYA-OA-8mK" firstAttribute="leading" secondItem="vFR-cM-gOb" secondAttribute="leading" constant="10" id="kWf-On-fvF"/>
-                            <constraint firstItem="cb7-ZU-Npa" firstAttribute="top" secondItem="vFR-cM-gOb" secondAttribute="top" constant="15" id="lm2-oh-SVI"/>
                             <constraint firstItem="eWW-Y5-91K" firstAttribute="top" secondItem="vFR-cM-gOb" secondAttribute="top" constant="5" id="omL-0m-aKZ"/>
                         </constraints>
                     </view>
@@ -137,7 +126,6 @@
             <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
             <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
             <connections>
-                <outlet property="attentionButton" destination="cb7-ZU-Npa" id="ot6-nL-Dxq"/>
                 <outlet property="contentLabel" destination="fYA-OA-8mK" id="PP2-no-KHs"/>
                 <outlet property="headImageView" destination="eWW-Y5-91K" id="Oe7-dh-c34"/>
                 <outlet property="mainImageView" destination="RrX-pf-7aJ" id="XDG-HM-ED8"/>

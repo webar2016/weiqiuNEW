@@ -121,6 +121,7 @@
 		2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */; };
 		2D2733671CB2BD5500F5E967 /* WBFindKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */; };
 		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
+		2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */; };
 		2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */; };
 		2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE61C8840B000555532 /* MyModel.xcdatamodeld */; };
 		2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D6161C869FDC008EE96B /* WBTopTableViewCell.m */; };
@@ -401,6 +402,8 @@
 		2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindKeyViewController.m; sourceTree = "<group>"; };
 		2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindAndHelpViewController.h; sourceTree = "<group>"; };
 		2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindAndHelpViewController.m; sourceTree = "<group>"; };
+		2D3775851CB4EE85003E6FE4 /* WBMenuBtnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMenuBtnViewController.h; sourceTree = "<group>"; };
+		2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMenuBtnViewController.m; sourceTree = "<group>"; };
 		2D465FE31C88316000555532 /* WBTopicCommentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicCommentTableViewController.h; sourceTree = "<group>"; };
 		2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicCommentTableViewController.m; sourceTree = "<group>"; };
 		2D465FE71C8840B000555532 /* MyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyModel.xcdatamodel; sourceTree = "<group>"; };
@@ -1140,6 +1143,8 @@
 		2D49D61E1C86F0AD008EE96B /* 频道专题 */ = {
 			isa = PBXGroup;
 			children = (
+				2D3775851CB4EE85003E6FE4 /* WBMenuBtnViewController.h */,
+				2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */,
 				2D49D61B1C86C1E0008EE96B /* WBTopicDetailViewController.h */,
 				2D49D61C1C86C1E0008EE96B /* WBTopicDetailViewController.m */,
 				054303811CB4F6210041902D /* WBTopicDetailCell.h */,
@@ -1644,6 +1649,7 @@
 				2D1DE0081C92D10D0059CD89 /* WBBig_AreaModel.m in Sources */,
 				2D62D6821C8967ED00E4D05E /* WBTopicCommentTableViewCell.m in Sources */,
 				05DB3F6B1C87196900CBCC54 /* UILabel+label.m in Sources */,
+				2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */,
 				2DF2A93E1C9FC220002C3A2A /* WBFansModel.m in Sources */,
 				2DB20EF21C8573BF005C542F /* WBTopicTableViewCell.m in Sources */,
 				2D02B6A01C8198C300FADFFB /* RESideMenu.m in Sources */,
