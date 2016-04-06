@@ -138,9 +138,9 @@
         NSDictionary *userIntegral = result[@"userIntegral"];
         NSString *integral = [userIntegral objectForKey:@"integral"];
         
-        _moneyLabel.text = [NSString stringWithFormat:@"¥%.01f",[integral floatValue]/100];
+        _moneyLabel.text = [NSString stringWithFormat:@"¥%.2f",[integral floatValue]/100];
         _scorelabel.text =[NSString stringWithFormat:@"%.0f",[integral floatValue] ];
-        _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%.01f",[integral floatValue]/100];
+        _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%.2f",[integral floatValue]/100];
         
     } andFailure:^(NSString *error) {
     }];

@@ -136,6 +136,10 @@
     _backgroundView.alpha = 0;
     _backgroundView.backgroundColor = [UIColor grayColor];
     [self.view addSubview:_backgroundView];
+    _backgroundView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *BGTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(menuBtnClicled)];
+    [_backgroundView addGestureRecognizer:BGTap];
+    
     
     //旋转菜单按钮
     _imageViewMenu= [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-60, self.view.frame.size.height-150, 37, 37)];

@@ -174,12 +174,12 @@
 //分享事件
 -(void)shareBtnClicked{
     
-    NSArray* imageArray = @[[UIImage imageNamed:@"icon_unclockmesg.png"]];
+    NSArray* imageArray = @[_mainImageView.image];
     // （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
     if (imageArray) {
         
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-        [shareParams SSDKSetupShareParamsByText:@"分享内容"
+        [shareParams SSDKSetupShareParamsByText:_contentLabel.text
                                          images:imageArray
                                             url:[NSURL URLWithString:@"http://mob.com"]
                                           title:@"分享标题"
