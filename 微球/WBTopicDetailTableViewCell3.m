@@ -298,69 +298,62 @@
     
 }
 
+#pragma mark -------点赞事件-------
 //点赞事件
 -(void)praiseBtnClicked{
     [self checkoutConfigDetail];
 }
 
 //检查积分配置信息
-
 -(void)checkoutConfigDetail{
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/getIntegralConfigDetil?typeFlag=5"] whenSuccess:^(id representData) {
-        
         NSString *str = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         // NSLog(@"getIntegral = %ld",_model.getIntegral);
         [self checkoutIntegral:str];
-        
     } andFailure:^(NSString *error) {
-        
+        [self.delegate alertViewIntergeal:@"查询积分出错" messageOpreation:nil cancelMessage:@"取消"];
     }];
-    
 }
 
 //检查用户积分是否够用
 -(void)checkoutIntegral:(NSString *)config{
-    NSLog(@"url = %@",@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5");
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
-        BOOL isEnough = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
-        if (isEnough) {
+        NSString *isEnough = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
+        if ([isEnough isEqualToString:@"true"]) {
             [self uploadInformation];
         }else{
+            [self.delegate alertViewIntergeal:@"你当前的积分不足，请充值后再来打赏吧！" messageOpreation:@"充值" cancelMessage:@"算了"];
+            [_zanBtn setIsZan:NO];
         }
     } andFailure:^(NSString *error) {
     }];
 }
 
 
-
+//上传积分信息
 -(void)uploadInformation{
-    
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",_model.commentId,[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
         [self.delegate changeGetIntegralValue:123 indexPath:_indexPath];
-        //[_praiseButton setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
         [UIView animateWithDuration:0.5f animations:^{
-            //  _praiseButton.transform = CGAffineTransformScale(_praiseButton.transform, 2, 2);
-            //_praiseButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
             NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);
             _imageView.alpha = 1;
         } completion:^(BOOL finished) {
             [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0.5f];
         }];
     } andFailure:^(NSString *error) {
+        [self.delegate alertViewIntergeal:@"点赞失败" messageOpreation:nil cancelMessage:@"算了"];
+        [_zanBtn setIsZan:NO];
     }];
 }
 
 //点赞事件动画消失
-
 - (void)hideWindow:(id)object
 {
     [UIView animateWithDuration:0.5f animations:^{
-        // _praiseButton.transform = CGAffineTransformScale(_praiseButton.transform, 0.5, 0.5);
-        // _praiseButton.transform = CGAffineTransformMakeScale(1,1);
-        NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);
         _imageView.alpha = 0;
     }];
 }
+//
 
 
 
