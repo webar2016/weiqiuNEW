@@ -450,7 +450,36 @@
     }
 }
 
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return   UITableViewCellEditingStyleDelete;
+}
 
+/*改变删除按钮的title*/
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
+/*删除用到的函数*/
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (editingStyle ==UITableViewCellEditingStyleDelete)
+    {
+        if (_topicTableView.hidden) {
+        }else{
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",((TopicDetailModel *)_topicsArray[indexPath.row]).commentId] whenSuccess:^(id representData) {
+                NSLog(@"----success-----");
+                [_topicsArray removeObjectAtIndex:indexPath.row];
+                
+                [_topicTableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];
+            } andFailure:^(NSString *error) {
+                
+            }];
+        }
+    }
+}
 
 #pragma mark - other operations
 //获取粉丝和关注列表
@@ -510,23 +539,14 @@
 }
 
 -(CGFloat)calculateStationWidth:(NSString *)string andWithTextWidth:(CGFloat)textWidth anfont:(CGFloat)fontSize{
-    
     UIFont * tfont = [UIFont systemFontOfSize:fontSize];
-    
     //高度估计文本大概要显示几行，宽度根据需求自己定义。 MAXFLOAT 可以算出具体要多高
-    
     CGSize size =CGSizeMake(textWidth,CGFLOAT_MAX);
-    
     //    获取当前文本的属性
-    
     NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:tfont,NSFontAttributeName,nil];
-    
     //ios7方法，获取文本需要的size，限制宽度
-    
     CGSize  actualsize =[string boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
-    
     return actualsize.height;
-    
 }
 
 -(void)changeSelectedPage:(UIButton *)sender{
@@ -751,30 +771,21 @@
     WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
     HVC.userId = [NSString stringWithFormat:@"%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.row]).userId ];
     [self.navigationController pushViewController:HVC animated:YES];
-    
-    
 }
 
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
-    
     [self loadUserInfo];
-    
 }
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{
-    
     WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
     commentView.commentId =((TopicDetailModel *)_topicsArray[indexPath.row]).commentId;
     commentView.userId =[NSString stringWithFormat:@"%ld", ((TopicDetailModel *)_topicsArray[indexPath.row]).userId];
-    
     [self.navigationController pushViewController:commentView animated:YES];
-    
 }
 
 -(void)playMedio:(NSIndexPath *)indexPath{
-    
-    
     NSString *url = ((TopicDetailModel *)_topicsArray[indexPath.row]).dir;
     _player = [[MPMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:url]];
     //1设置播放器的大小
@@ -782,9 +793,7 @@
     [_player.view setFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)]; //16:9是主流媒体的样式
     //2将播放器视图添加到根视图
     [self.view addSubview:_player.view];
-    
     [self.navigationController setNavigationBarHidden:YES animated:TRUE];
-    
     [_player play];
     //[self.player stop];
     //通过通知中心，以观察者模式监听视频播放状态
