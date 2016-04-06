@@ -185,7 +185,7 @@
 - (void)btnClicked:(UIButton *)btn{
    //登陆
     if (btn.tag==102) {
-        [self showHUD:@"正在获取个人信息并保存" isDim:YES];
+        [self showHUD:@"登录中" isDim:YES];
        // NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
         [parameters setValue:_account.text forKey:@"username"];

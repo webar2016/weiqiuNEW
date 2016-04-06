@@ -29,6 +29,7 @@
 #import "WBPostArticleViewController.h"
 #import "WBPostVideoViewController.h"
 #import "WBArticalViewController.h"
+#import <ALBBQuPaiPlugin/ALBBQuPaiPlugin.h>
 
 #define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
 
@@ -61,7 +62,13 @@
 
 @implementation WBTopicDetailViewController
 
-
+-(instancetype)init{
+    if (self = [super init]) {
+        QupaiSDK *sdk = [QupaiSDK shared];
+        [sdk setDelegte:(id<QupaiSDKDelegate>)self];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,7 +83,6 @@
     [self createNavi];
     [self createUI];
     [self showHUD:@"正在努力加载" isDim:NO];
-    [self loadData];
     
     _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     _background.center = CGPointMake(SCREENWIDTH / 2, 170);
@@ -99,6 +105,12 @@
         [self loadData];
         
     }];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _page = 1;
+    [self loadData];
 }
 
 -(void) createNavi{
@@ -197,6 +209,7 @@
     [self menuBtnClicled];
     [self.navigationController pushViewController:VVC animated:YES];
 }
+
 #pragma mark --------上传图文----------
 -(void)textBtnClicled{
     if (![WBUserDefaults userId]) {
