@@ -337,15 +337,8 @@
     }];
 }
 
-
-
-
-
 //计算文字高度
 -(CGFloat)calculateLabelHeight:(NSString *)str{
-    // CGSize titleSize = [str sizeWithFont:MAINFONTSIZE constrainedToSize:CGSizeMake(SCREENWIDTH-20, MAXFLOAT)];
-    //return titleSize.height;
-    //[_labelHeightArray addObject:[NSString stringWithFormat:@"%f",titleSize.height]];
     NSDictionary *attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:17]};
     CGSize size = [str boundingRectWithSize:CGSizeMake(SCREENWIDTH-20, MAXFLOAT) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
     return size.height;
@@ -353,6 +346,32 @@
 
 
 #pragma mark ---cell delegate----
+-(void)alertViewIntergeal:(NSString *)messageContent messageOpreation:(NSString *)opreation cancelMessage:(NSString *)cancelMessage{
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:messageContent message:nil preferredStyle:UIAlertControllerStyleAlert];
+    if (!(cancelMessage == nil || cancelMessage == NULL)) {
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:cancelMessage style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+    }else{
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+    }
+    
+    NSLog(@"%@",opreation);
+    if (!(opreation == nil || opreation == NULL)) {
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:opreation style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            }];
+            action;
+        })];
+    }
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 -(void)gotoHomePage:(NSIndexPath *)indexPath{
     WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
     HVC.userId = [NSString stringWithFormat:@"%ld",(long)((TopicDetailModel *)_dataArray[indexPath.row]).userId ];
@@ -363,7 +382,7 @@
 
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
-    
+  
     [self loadData];
     
 }

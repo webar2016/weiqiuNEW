@@ -12,6 +12,7 @@
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 #import "MyDownLoadManager.h"
 #import "WBTopicCommentTableViewController.h"
+#import "WBIndividualIncomeViewController.h"
 
 @implementation WBTopicDetailTableViewCell
 {
@@ -88,11 +89,10 @@
         //评论页面
         _commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_commentButton setImage:[UIImage imageNamed:@"icon_comment.png"] forState:UIControlStateNormal];
-        
         [_commentButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
         [self.contentView addSubview:_commentButton];
         
-        
+
         _commentButton.titleLabel.font = MAINFONTSIZE;
         [_commentButton addTarget: self action:@selector(commentBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         
@@ -110,18 +110,15 @@
         [self.contentView addSubview:_zanBtn];
         [_zanBtn setType:CatZanButtonTypeFirework];
         __unsafe_unretained WBTopicDetailTableViewCell *wfindShopVC = self;
+        
         [_zanBtn setClickHandler:^(CatZanButton *zanButton) {
             if (zanButton.isZan) {
                 NSLog(@"Zan!");
-                
                 [wfindShopVC praiseBtnClicked];
             }else{
                 NSLog(@"Cancel zan!");
             }
         }];
-        
-
-        
         //点赞跳出的提示框
         _imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"点赞转积分提示.png"]];
         _imageView.frame = CGRectMake(_praiseButton.frame.origin.x-124, _praiseButton.frame.origin.y-5, 124, 23);
@@ -134,14 +131,10 @@
 
 - (void)setModel:(TopicDetailModel *)model  labelHeight:(CGFloat)labelHeight{
     //尺寸设置
+    _model = model;
     CGFloat imageHeight = [model.imgRate floatValue]*SCREENWIDTH;
     _background.frame = CGRectMake(0, 0, SCREENWIDTH, 120+labelHeight+imageHeight);
     
-    if (model.createUser==[[WBUserDefaults userId] integerValue]) {
-        NSLog(@"---------");
-        _attentionButton.alpha = 0;
-        
-    }
     _userId = model.userId;
     
     _mainView.frame = CGRectMake(0, 9, SCREENWIDTH, 60+imageHeight+17+labelHeight+10);
@@ -184,12 +177,8 @@
 //    }
     //图片
         [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
-        
         _contentLabel.text = model.comment;
-        
-        
         [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
-        
         [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
         //s视频
 }
@@ -258,66 +247,58 @@
     //  NSLog(@" id = %ld",self.model.commentId);
     [self.delegate commentClickedPushView:self.indexPath];
 }
-
+#pragma mark -------点赞事件-------
 //点赞事件
 -(void)praiseBtnClicked{
     [self checkoutConfigDetail];
 }
 
 //检查积分配置信息
-
 -(void)checkoutConfigDetail{
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/getIntegralConfigDetil?typeFlag=5"] whenSuccess:^(id representData) {
-        
-        NSString *str = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
-        // NSLog(@"getIntegral = %ld",_model.getIntegral);
-        [self checkoutIntegral:str];
-        
+            NSString *str = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
+            // NSLog(@"getIntegral = %ld",_model.getIntegral);
+            [self checkoutIntegral:str];
     } andFailure:^(NSString *error) {
-        
+        [self.delegate alertViewIntergeal:@"查询积分出错" messageOpreation:nil cancelMessage:@"取消"];
     }];
-    
 }
 
 //检查用户积分是否够用
 -(void)checkoutIntegral:(NSString *)config{
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
-        BOOL isEnough = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
-        if (isEnough) {
+        NSString *isEnough = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
+        if ([isEnough isEqualToString:@"true"]) {
             [self uploadInformation];
         }else{
+            [self.delegate alertViewIntergeal:@"你当前的积分不足，请充值后再来打赏吧！" messageOpreation:@"充值" cancelMessage:@"算了"];
+            [_zanBtn setIsZan:NO];
         }
     } andFailure:^(NSString *error) {
     }];
 }
 
 
-
+//上传积分信息
 -(void)uploadInformation{
-    
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",_model.commentId,[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
         [self.delegate changeGetIntegralValue:123 indexPath:_indexPath];
-       // [_praiseButton setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
         [UIView animateWithDuration:0.5f animations:^{
-            //  _praiseButton.transform = CGAffineTransformScale(_praiseButton.transform, 2, 2);
-            //_praiseButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
-            NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);
+             NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);
             _imageView.alpha = 1;
         } completion:^(BOOL finished) {
             [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0.5f];
         }];
     } andFailure:^(NSString *error) {
+        [self.delegate alertViewIntergeal:@"点赞失败" messageOpreation:nil cancelMessage:@"算了"];
+        [_zanBtn setIsZan:NO];
     }];
 }
 
 //点赞事件动画消失
-
 - (void)hideWindow:(id)object
 {
     [UIView animateWithDuration:0.5f animations:^{
-        // _praiseButton.transform = CGAffineTransformScale(_praiseButton.transform, 0.5, 0.5);
-        // _praiseButton.transform = CGAffineTransformMakeScale(1,1);
-        NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);
         _imageView.alpha = 0;
     }];
 }

@@ -24,6 +24,8 @@
 -(void)playMedio:(NSIndexPath *)indexPath;
 //去个人主页
 -(void)gotoHomePage:(NSIndexPath *)indexPath;
+//积分不够提醒
+-(void)alertViewIntergeal:(NSString *)messageContent messageOpreation:(NSString *)opreation  cancelMessage:(NSString *)cancelMessage;
 @end
 
 @interface WBTopicDetailTableViewCell2 : UITableViewCell

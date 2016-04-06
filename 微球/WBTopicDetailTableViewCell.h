@@ -19,6 +19,9 @@
 -(void)gotoHomePage:(NSIndexPath *)indexPath;
 //播放视频
 -(void)playMedio:(NSIndexPath *)indexPath;
+//积分不够提醒
+-(void)alertViewIntergeal:(NSString *)messageContent messageOpreation:(NSString *)opreation  cancelMessage:(NSString *)cancelMessage;
+
 @end
 
 
@@ -33,7 +36,7 @@
     UIImageView *_headImageView;
     UILabel *_nickName;
     UILabel *_timeLabel;
-    UIButton *_attentionButton;
+
     UIImageView *_mainImageView;
     UILabel *_contentLabel;
     

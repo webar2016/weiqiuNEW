@@ -25,6 +25,8 @@
     UIView *_imageBackgroungView;
     //预留选择图片控制器
     UIImageView *_placeHoldImageView;
+    
+    NSURL *_sourceURL ;
 }
 @end
 
@@ -145,7 +147,7 @@
     //UIImagePickerControllerQualityTypeMedium中等质量
     //UIImagePickerControllerQualityTypeLow低质量
     //UIImagePickerControllerQualityType640x480
-    _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeLow;
+    _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
     
     //设置摄像头模式（拍照，录制视频）为录像模式
     _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
@@ -194,7 +196,7 @@
             [formData appendPartWithFileData:fileData name:@"1234" fileName:@"video1.mov" mimeType:@"video/quicktime"];
         
         } whenProgress:^(NSProgress *FieldDataBlock) {
-            
+          
         } andSuccess:^(id representData) {
             NSLog(@"success");
             [self.navigationController popViewControllerAnimated:YES];
@@ -202,35 +204,6 @@
              NSLog(@"failure");
         }];
         
-             //   [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fileData:fileData name:@"dsad" fileName:@"dsadad.jpg" mimeType:@"image/jpeg" whenProgress:^(NSProgress *uploadProgress) {
-//        
-//                } andSuccess:^(id representData) {
-//                    NSLog(@"success");
-//                } andFailure:^(NSString *error) {
-//                    NSLog(@"failure");
-//                }];
-
-        // Compress movie first
-        
-        //播放视频
-        //        _moviePlayer.contentURL = url;
-        //        [_moviePlayer play];
-        //        //保存视频至相册（异步线程）
-        //        NSString *urlStr = [url path];
-        //
-        //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //            if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(urlStr)) {
-        //
-        //                UISaveVideoAtPathToSavedPhotosAlbum(urlStr, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
-        //            }
-        //        });
-        //        NSData *videoData = [NSData dataWithContentsOfURL:url];
-        //        //视频上传
-        //        [self uploadVideoWithData:videoData];
-        //如果是图片
-        
-        //添加
-
         
         
         
@@ -264,7 +237,28 @@
     }
 }
 
-
+#pragma mark ---获取视屏大小----
+- (CGFloat) getFileSize:(NSString *)path
+{
+    NSFileManager *fileManager = [[NSFileManager alloc] init] ;
+    float filesize = -1.0;
+    if ([fileManager fileExistsAtPath:path]) {
+        NSDictionary *fileDic = [fileManager attributesOfItemAtPath:path error:nil];//获取文件的属性
+        unsigned long long size = [[fileDic objectForKey:NSFileSize] longLongValue];
+        filesize = 1.0*size/1024;
+    }
+    
+    return filesize;
+}//此方法可以获取文件的大小，返回的是单位是KB。
+- (CGFloat) getVideoLength:(NSURL *)URL
+{
+    NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO]
+                                                     forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:URL options:opts];
+    float second = 0;
+    second = urlAsset.duration.value/urlAsset.duration.timescale;
+    return second;
+}//此方法可以获取视频文件的时长。
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
