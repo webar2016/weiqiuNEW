@@ -15,7 +15,7 @@
 
 @implementation WBTopicDetailTableViewCell3
 {
-    UIImageView *_backgroungImage;
+    UIView *_background;
     
     
     UIView *_mainView;
@@ -24,6 +24,7 @@
     UILabel *_timeLabel;
 
     UIImageView *_mainImageView;
+    UIImageView *_tipImageView;
     UILabel *_contentLabel;
     
     
@@ -42,16 +43,15 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         //   NSLog(@"height = %f,width = %f",imageHeight,labelHeight);
-        _backgroungImage = [[UIImageView alloc]init];
-        _backgroungImage.backgroundColor = [UIColor initWithBackgroundGray];
-        _backgroungImage.userInteractionEnabled = YES;
+        _background = [[UIView alloc]init];
+        _background.backgroundColor = [UIColor initWithBackgroundGray];
+        _background.userInteractionEnabled = YES;
         
         _mainView = [[UIView alloc]init];
         _mainView.backgroundColor = [UIColor whiteColor];
-        [_backgroungImage addSubview:_mainView];
-        _mainView.layer.cornerRadius = 5.0f;
+        [_background addSubview:_mainView];
         
-        [self.contentView addSubview:_backgroungImage];
+        [self.contentView addSubview:_background];
         
         _headImageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 5, 40, 40)];
         [_mainView addSubview:_headImageView];
@@ -61,30 +61,41 @@
         
         _nickName = [[UILabel alloc]initWithFrame:CGRectMake(65, 5, 100, 30)];
         _nickName.font =MAINFONTSIZE;
+        _nickName.textColor = [UIColor initWithLightGray];
         [_mainView addSubview:_nickName];
         
         _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(65, 31, 100, 15)];
         _timeLabel.font = SMALLFONTSIZE;
+        _timeLabel.textColor = [UIColor initWithLightGray];
         [_mainView addSubview:_timeLabel];
         
-
+//        _attentionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        _attentionButton.frame = CGRectMake(SCREENWIDTH-70, 14+9, 60, 22) ;
+//        _attentionButton.titleLabel.font = MAINFONTSIZE;
+//        _attentionButton.layer.cornerRadius = 5.0f;
+//        [_attentionButton addTarget:self action:@selector(attentionBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+//        [self.contentView addSubview:_attentionButton];
         
         
         _mainImageView = [[UIImageView alloc]init];
-        [_backgroungImage addSubview:_mainImageView];
-        _mainImageView.layer.cornerRadius = 5.0f;
+        [_background addSubview:_mainImageView];
         _mainImageView.layer.masksToBounds = YES;
+        
+        _tipImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"btn_ariticle"]];
+        _tipImageView.frame = CGRectMake(SCREENWIDTH - 90, 145, 59.5, 22.5);
+        [_mainImageView addSubview:_tipImageView];
         
         
         _contentLabel = [[UILabel alloc]init];
         _contentLabel.numberOfLines = 0;
         _contentLabel.font = MAINFONTSIZE;
-        [_backgroungImage addSubview:_contentLabel];
+        _contentLabel.textColor = [UIColor initWithLightGray];
+        [_background addSubview:_contentLabel];
         
         
         _footerView = [[UIView alloc]init];
         _footerView.backgroundColor = [UIColor whiteColor];
-        [_backgroungImage addSubview:_footerView];
+        [_background addSubview:_footerView];
         
         //分享画面
         
@@ -150,7 +161,7 @@
     //尺寸设置
     _model = model;
     CGFloat imageHeight = 175;
-    _backgroungImage.frame = CGRectMake(0, 0, SCREENWIDTH, 120+labelHeight+imageHeight);
+    _background.frame = CGRectMake(0, 0, SCREENWIDTH, 120+labelHeight+imageHeight);
     
     _mainView.frame = CGRectMake(0, 9, SCREENWIDTH, 60+imageHeight+17+labelHeight+10);
     

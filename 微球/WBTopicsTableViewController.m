@@ -59,8 +59,6 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-        //NSLog(@"进入刷新状态后会自动调用这个block1");
         _page=1;
         [self loadDataCell];
         
@@ -68,14 +66,16 @@
     header.lastUpdatedTimeLabel.hidden = YES;
 
     self.tableView.mj_header = header;
-
-    self.tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-      //  NSLog(@"进入刷新状态后会自动调用这个block2");
+    
+    MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         _page++;
         [self loadMoreData];
-
+        
     }];
+    
+    [footer setTitle:@"" forState:MJRefreshStateIdle];
+    
+    self.tableView.mj_footer = footer;
 }
 
 
@@ -131,7 +131,9 @@
             NSMutableArray *tempArray = [NSMutableArray array];
             tempArray =[WBTopicModel mj_objectArrayWithKeyValuesArray:arrayList];
            // NSLog(@"tempArray = %@",tempArray);
-            
+            if (tempArray.count == 0) {
+                [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
+            }
             for (WBTopicModel *model  in tempArray) {
              //   NSLog(@"qwertrty%@",model);
                 [_dataList addObject:model];

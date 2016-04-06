@@ -29,7 +29,7 @@
 
 {
     
-    UIImageView *_backgroungImage;//背景
+    UIView *_background;//背景
     
     
     UIView *_mainView;  

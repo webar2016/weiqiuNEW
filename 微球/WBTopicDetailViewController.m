@@ -29,8 +29,9 @@
 #import "WBPostArticleViewController.h"
 #import "WBPostVideoViewController.h"
 #import "WBArticalViewController.h"
+#import <ALBBQuPaiPlugin/ALBBQuPaiPlugin.h>
 
-#define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld&&userId=%@"
+#define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
 
 @interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue,TransformValue2,TransformValue3,TransformXibValue>
 {
@@ -61,7 +62,13 @@
 
 @implementation WBTopicDetailViewController
 
-
+-(instancetype)init{
+    if (self = [super init]) {
+        QupaiSDK *sdk = [QupaiSDK shared];
+        [sdk setDelegte:(id<QupaiSDKDelegate>)self];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,7 +83,6 @@
     [self createNavi];
     [self createUI];
     [self showHUD:@"正在努力加载" isDim:NO];
-    [self loadData];
     
     _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     _background.center = CGPointMake(SCREENWIDTH / 2, 170);
@@ -99,6 +105,12 @@
         [self loadData];
         
     }];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _page = 1;
+    [self loadData];
 }
 
 -(void) createNavi{
@@ -201,6 +213,7 @@
     [self menuBtnClicled];
     [self.navigationController pushViewController:VVC animated:YES];
 }
+
 #pragma mark --------上传图文----------
 -(void)textBtnClicled{
     if (![WBUserDefaults userId]) {
@@ -280,7 +293,7 @@
 
 //加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID,[WBUserDefaults userId]]; //TopicCommentURL
+    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID]; //TopicCommentURL
     NSLog(@"url %@" ,url);
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];

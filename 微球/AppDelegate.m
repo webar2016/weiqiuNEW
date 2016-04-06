@@ -24,6 +24,7 @@
 #import <RongIMLib/RCIMClient.h>
 #import <RongIMLib/RCUserInfo.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <ALBBQuPaiPlugin/ALBBQuPaiPlugin.h>
 
 #define SELECTED_INDEX ((UITabBarController *)self.window.rootViewController.childViewControllers.lastObject).selectedIndex
 
@@ -65,6 +66,8 @@
     [self setAVOSCloud];
     
     [self shareSDK];
+    
+    [self qupaiSDK];
     
 //    NSArray *array = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation].allKeys;
 //    
@@ -322,6 +325,16 @@ didRegisterUserNotificationSettings:
 -(void)setAVOSCloud{
     [AVOSCloud setApplicationId:@"sIlqbrQJ9bJYs40UYF6MjOUG"
                       clientKey:@"EmA5l51bsV67447EHbr6BYGw"];
+}
+
+#pragma nark - 趣拍sdk
+
+-(void)qupaiSDK{
+    [[QupaiSDK shared] registerAppWithKey:@"206ab04f6e94b74" secret:@"068e513360e04f1bad5694e507c32a12" space:[WBUserDefaults userId] success:^(NSString *accessToken) {
+        NSLog(@"%@",accessToken);
+    } failure:^(NSError *error) {
+        NSLog(@"初始化失败");
+    }];
 }
 
 #pragma mark - 分享设置

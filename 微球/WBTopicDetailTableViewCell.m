@@ -27,17 +27,15 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        //   NSLog(@"height = %f,width = %f",imageHeight,labelHeight);
-        _backgroungImage = [[UIImageView alloc]init];
-        _backgroungImage.backgroundColor = [UIColor initWithBackgroundGray];
-        _backgroungImage.userInteractionEnabled = YES;
+        _background = [[UIView alloc]init];
+        _background.backgroundColor = [UIColor initWithBackgroundGray];
+        _background.userInteractionEnabled = YES;
         
         _mainView = [[UIView alloc]init];
         _mainView.backgroundColor = [UIColor whiteColor];
-        [_backgroungImage addSubview:_mainView];
-        _mainView.layer.cornerRadius = 5.0f;
+        [_background addSubview:_mainView];
         
-        [self.contentView addSubview:_backgroungImage];
+        [self.contentView addSubview:_background];
         
         _headImageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 5, 40, 40)];
         _headImageView.userInteractionEnabled =YES;
@@ -46,27 +44,35 @@
         [_mainView addSubview:_headImageView];
         
         _nickName = [[UILabel alloc]initWithFrame:CGRectMake(65, 5, 100, 30)];
-        _nickName.font =MAINFONTSIZE;
+        _nickName.font = MAINFONTSIZE;
+        _nickName.textColor = [UIColor initWithLightGray];
         [_mainView addSubview:_nickName];
         
         _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(65, 31, 100, 15)];
         _timeLabel.font = SMALLFONTSIZE;
+        _timeLabel.textColor = [UIColor initWithLightGray];
         [_mainView addSubview:_timeLabel];
         
+//        _attentionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        _attentionButton.frame = CGRectMake(SCREENWIDTH-70, 14+9, 60, 22) ;
+//        _attentionButton.titleLabel.font = MAINFONTSIZE;
+//        _attentionButton.layer.cornerRadius = 5.0f;
+//        [_attentionButton addTarget:self action:@selector(attentionBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+//        [self.contentView addSubview:_attentionButton];
+        
         _mainImageView = [[UIImageView alloc]init];
-        [_backgroungImage addSubview:_mainImageView];
+        [_background addSubview:_mainImageView];
 
-        
-        
         _contentLabel = [[UILabel alloc]init];
         _contentLabel.numberOfLines = 0;
         _contentLabel.font = MAINFONTSIZE;
-        [_backgroungImage addSubview:_contentLabel];
+        _contentLabel.textColor = [UIColor initWithLightGray];
+        [_background addSubview:_contentLabel];
         
         
         _footerView = [[UIView alloc]init];
         _footerView.backgroundColor = [UIColor whiteColor];
-        [_backgroungImage addSubview:_footerView];
+        [_background addSubview:_footerView];
         
         //分享画面
         
@@ -127,7 +133,7 @@
     //尺寸设置
     _model = model;
     CGFloat imageHeight = [model.imgRate floatValue]*SCREENWIDTH;
-    _backgroungImage.frame = CGRectMake(0, 0, SCREENWIDTH, 120+labelHeight+imageHeight);
+    _background.frame = CGRectMake(0, 0, SCREENWIDTH, 120+labelHeight+imageHeight);
     
     _userId = model.userId;
     
@@ -153,6 +159,22 @@
     // NSLog(@"nick = %@",);
     _timeLabel.text = model.timeStr;
     // NSLog(@"model.timeStr = %@",model.timeStr);
+    
+//    if (model.userId ==[[WBUserDefaults userId] integerValue]) {
+//        
+//        _attentionButton.alpha = 0;
+//    }else{
+//        
+//        if (model.isFriend) {
+//            [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
+//            _attentionButton.backgroundColor = [UIColor initWithBackgroundGray];
+//            
+//        }else{
+//            [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
+//            _attentionButton.backgroundColor = [UIColor initWithGreen];
+//        }
+//        
+//    }
     //图片
         [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
         _contentLabel.text = model.comment;
@@ -281,15 +303,33 @@
     }];
 }
 //
-
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
-}
+//-(void)attentionBtnClicked{
+//    if ([_attentionButton.titleLabel.text isEqualToString:@"关注"]) {
+//        NSLog(@"_model.userId%ld",_model.userId);
+//        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%ld",[WBUserDefaults userId],_userId] whenSuccess:^(id representData) {
+//            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+//            if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
+//                [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
+//                [_attentionButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+//            }
+//            
+//        } andFailure:^(NSString *error) {
+//            
+//        }];
+//        
+//    }else{
+//        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%ld",[WBUserDefaults userId],_userId] whenSuccess:^(id representData) {
+//            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+//            if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
+//                [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];
+//                [_attentionButton setBackgroundColor:[UIColor initWithGreen]];
+//            }
+//            
+//        } andFailure:^(NSString *error) {
+//            
+//        }];
+//        
+//    }
+//}
 
 @end

@@ -11,8 +11,8 @@
 
 #define UNLOCK_URL @"http://121.40.132.44:92/album/unlockApplication"
 
-@interface WBUnlockViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
-    UIScrollView *_scrollView;
+@interface WBUnlockViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate,UITextInputTraits> {
+    UIScrollView    *_scrollView;
     UILabel         *_unlockInfo;
     UIButton        *_imagePicker;
     UITextView      *_contentview;
@@ -48,10 +48,16 @@
     UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]initWithCustomView:rightBtton];
     self.navigationItem.rightBarButtonItem = rightBarButton;
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyboard)];
+    [self.view addGestureRecognizer:tap];
+    
     [self setUpUI];
     [self setUpDatePicker];
     [self setUpImagePicker];
-    
+}
+
+-(void)resignKeyboard{
+    [_contentview resignFirstResponder];
 }
 
 -(void)setUpUI{
@@ -97,6 +103,8 @@
     _contentview.backgroundColor = [UIColor whiteColor];
     _contentview.font = FONTSIZE16;
     _contentview.textColor = [UIColor initWithNormalGray];
+    _contentview.delegate = self;
+    _contentview.returnKeyType = UIReturnKeyDone;
     
     UILabel *titleFour = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 464, 64, 16)];
     titleFour.font = FONTSIZE16;
@@ -199,12 +207,14 @@
 }
 
 -(void)showDatePicker{
+    [_contentview resignFirstResponder];
     [UIView animateWithDuration:0.3 animations:^{
         _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4 + 60);
     }];
 }
 
 -(void)unlockCity{
+    [_contentview resignFirstResponder];
     if ([_dateButton.currentTitle isEqualToString:@"请选择"]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择拍摄时间" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
@@ -248,6 +258,32 @@
 
 -(void)dismissView{
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+#pragma mak - text view delegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.275f];
+    _scrollView.frame = CGRectMake(0.0f, - 150.0,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.275f];
+    _scrollView.frame = CGRectMake(0.0f, 0.0f,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark - MBprogress

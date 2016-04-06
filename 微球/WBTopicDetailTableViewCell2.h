@@ -30,7 +30,7 @@
 
 @interface WBTopicDetailTableViewCell2 : UITableViewCell
 {
-    UIImageView *_backgroungImage;
+    UIView *_background;
     
     
     UIView *_mainView;

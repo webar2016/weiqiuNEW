@@ -56,6 +56,9 @@
     [super viewDidLoad];
     NSLog(@"%@",self.targetId);
     
+    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
+    self.navigationItem.backBarButtonItem = back;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(msgPush:)
                                                  name:@"msgPush"
@@ -71,13 +74,14 @@
     [self showHUD:@"正在努力加载" isDim:NO];
     [self getQuestionTotalNumber];
     
-    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
-    self.navigationItem.backBarButtonItem = back;
-    
     UIBarButtonItem *setting = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_groupsetting"] style:UIBarButtonItemStylePlain target:self action:@selector(groupSetting)];
     self.navigationItem.rightBarButtonItem = setting;
     
     self.chatSessionInputBarControl.inputTextView.textColor = [UIColor initWithNormalGray];
+}
+
+-(void)popBack{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)msgPush:(NSNotification*)sender{
@@ -88,10 +92,6 @@
             self.isPush = NO;
         }
     }
-}
-
--(void)popBack{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 消息发送前拦截,创建问题

@@ -175,12 +175,7 @@
 
 -(void)contentPreview{
     if (_textView.textStorage.length == 0) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"写点内容再预览吧！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-            action;
-        })];
-        [self presentViewController:alert animated:YES completion:nil];
+        [self showHUDComplete:@"写点内容再预览吧！"];
         return;
     }
     
