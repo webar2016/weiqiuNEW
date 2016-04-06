@@ -69,12 +69,7 @@
         _timeLabel.textColor = [UIColor initWithLightGray];
         [_mainView addSubview:_timeLabel];
         
-//        _attentionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        _attentionButton.frame = CGRectMake(SCREENWIDTH-70, 14+9, 60, 22) ;
-//        _attentionButton.titleLabel.font = MAINFONTSIZE;
-//        _attentionButton.layer.cornerRadius = 5.0f;
-//        [_attentionButton addTarget:self action:@selector(attentionBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-//        [self.contentView addSubview:_attentionButton];
+
         
         
         _mainImageView = [[UIImageView alloc]init];

@@ -15,60 +15,48 @@
 #import "UIImageView+WebCache.h"
 #import "WBHomepageViewController.h"
 #import "LoadViewController.h"
+#import "NSString+string.h"
 
 
 #import "WBTopicCommentTableViewController.h"
 #import "UIImageView+WebCache.h"
-#import "WBTopicDetailTableViewCell.h"
-#import "WBTopicDetailTableViewCell2.h"
-#import "WBTopicDetailTableViewCell3.h"
-#import "WBTopicXibTableViewCell.h"
+#import "WBTopicDetailCell.h"
 
 
 #import "WBPostIamgeViewController.h"
 #import "WBPostArticleViewController.h"
-#import "WBPostVideoViewController.h"
 #import "WBArticalViewController.h"
 #import <ALBBQuPaiPlugin/ALBBQuPaiPlugin.h>
 
 #define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
 
-@interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue,TransformValue2,TransformValue3,TransformXibValue>
+@interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue>
 {
     
     UITableView *_tableView;
     
-    
     NSMutableArray *_dataArray;
-    NSMutableArray *_labelHeightArray;
+    NSMutableArray *_rowHeightArray;
     
     UIImageView *_background;
     
     NSInteger _page;
     
     UIView *_backgroundView;
+    
     //悬浮按钮
     UIImageView *_imageViewMenu;
     //photo
     UIImageView *_photoImageView;
-    //段视频按钮
+    //vedio
     UIImageView *_videoImageView;
-    //text
+    //artical
     UIImageView *_textImageView;
-    
 }
 
 @end
 
 @implementation WBTopicDetailViewController
-
--(instancetype)init{
-    if (self = [super init]) {
-        QupaiSDK *sdk = [QupaiSDK shared];
-        [sdk setDelegte:(id<QupaiSDKDelegate>)self];
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,20 +64,20 @@
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     _dataArray = [NSMutableArray array];
-    //缓冲标志
-    _labelHeightArray = [NSMutableArray array];
-    _page = 1;
-    [self createNavi];
-    [self createUI];
-    [self showHUD:@"正在努力加载" isDim:NO];
+    _rowHeightArray = [NSMutableArray array];
     
     _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     _background.center = CGPointMake(SCREENWIDTH / 2, 170);
     
+    [self createNavi];
+    [self createUI];
+    [self showHUD:@"正在努力加载" isDim:NO];
+    _page = 1;
+    [self loadData];
+    
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-        //NSLog(@"进入刷新状态后会自动调用这个block1");
         _page=1;
         [self loadData];
         
@@ -99,21 +87,12 @@
     _tableView.mj_header = header;
     
     _tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-        //  NSLog(@"进入刷新状态后会自动调用这个block2");
         _page++;
         [self loadData];
-        
     }];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    _page = 1;
-    [self loadData];
-}
-
--(void) createNavi{
+-(void)createNavi{
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
 }
@@ -123,7 +102,7 @@
 }
 
 -(void)createUI{
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height-64)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height-64) style:UITableViewStyleGrouped];
     _tableView.backgroundColor = [UIColor initWithBackgroundGray];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -131,16 +110,9 @@
     [self.view addSubview:_tableView];
     
     [self createMenuButton];
-    
-    
-    
-    
-    // WBPostMenuButton *buttonView = [[WBPostMenuButton alloc]initWithFrame:self.view.frame PointX:100 PointY:400 superView:self.view];
-    // [self.view addSubview:buttonView];
-    
 }
 
-//创建悬浮按钮
+#pragma mark - mutable choose button
 
 -(void)createMenuButton{
     //点击悬浮按钮后的透明度
@@ -158,6 +130,7 @@
     _imageViewMenu.userInteractionEnabled = YES;
     [_imageViewMenu addGestureRecognizer:tap];
     [self.view addSubview:_imageViewMenu];
+    
     //上传照片
     _photoImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-80-30+15, self.view.frame.size.height-150, 64  , 30)];
     _photoImageView.image = [UIImage imageNamed:@"btn_photo.png"];
@@ -166,6 +139,7 @@
     [_photoImageView addGestureRecognizer:tapPhoto];
     _photoImageView.alpha = 0;
     [self.view addSubview:_photoImageView];
+    
     //上传视频
     _videoImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-80-30, self.view.frame.size.height-150, 79  , 30)];
     _videoImageView.image = [UIImage imageNamed:@"icon_video.png"];
@@ -183,11 +157,10 @@
     [_textImageView addGestureRecognizer:tapText];
     _textImageView.alpha = 0;
     [self.view addSubview:_textImageView];
-    
-    
-    
 }
+
 #pragma mark --------上传图片----------
+
 -(void)photoBtnClicled{
     if (![WBUserDefaults userId]) {
         [self alertLogin];
@@ -198,32 +171,74 @@
     [self  menuBtnClicled];
     [self.navigationController pushViewController:PIVC animated:YES];
 }
+
 #pragma mark --------上传视频----------
+
 -(void)videoBtnClicled{
     if (![WBUserDefaults userId]) {
         [self alertLogin];
         return;
     }
-    WBPostVideoViewController *VVC = [[WBPostVideoViewController alloc]init];
-    VVC.topicID = _topicID;
     [self menuBtnClicled];
-    [self.navigationController pushViewController:VVC animated:YES];
+    
+    QupaiSDK *sdk = [QupaiSDK shared];
+    [sdk setDelegte:(id<QupaiSDKDelegate>)self];
+    sdk.thumbnailCompressionQuality = 0.8;
+    sdk.tintColor = [UIColor initWithGreen];
+    UIViewController *recordController = [sdk createRecordViewControllerWithMinDuration:2 maxDuration:10 bitRate:1500000 videoSize:CGSizeMake(480, 480)];
+    [self presentViewController:recordController animated:YES completion:nil];
+}
+
+- (void)qupaiSDKCancel:(QupaiSDK *)sdk{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)qupaiSDK:(QupaiSDK *)sdk compeleteVideoPath:(NSString *)videoPath thumbnailPath:(NSString *)thumbnailPath
+{
+    if (videoPath) {
+        UISaveVideoAtPathToSavedPhotosAlbum(videoPath, nil, nil, nil);
+        [self showHUD:@"正在上传视频" isDim:YES];
+        NSData  *fileData = [NSData dataWithContentsOfFile:videoPath];
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
+        
+        [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
+        [parameters setObject:@"2" forKey:@"newsType"];
+        [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
+        
+        [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+            [formData appendPartWithFileData:fileData name:@"1234" fileName:@"video1.mov" mimeType:@"video/quicktime"];
+            
+        } whenProgress:^(NSProgress *FieldDataBlock) {
+            
+        } andSuccess:^(id representData) {
+            [self showHUDComplete:@"上传视频成功"];
+            _page = 1;
+            [self loadData];
+        } andFailure:^(NSString *error) {
+            [self showHUDComplete:@"上传视频失败"];
+        }];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark --------上传图文----------
+
 -(void)textBtnClicled{
     if (![WBUserDefaults userId]) {
         [self alertLogin];
         return;
     }
     WBPostArticleViewController *articleViewController = [[WBPostArticleViewController alloc]init];
+    articleViewController.navigationItem.title = @"发布长图文";
     articleViewController.topicID = [NSString stringWithFormat:@"%ld",(long)self.topicID];
     [self  menuBtnClicled];
     [self.navigationController pushViewController:articleViewController animated:YES];
 }
 
+#pragma mark --------登陆提示----------
+
 -(void)alertLogin{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登陆后即可发布啦！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登陆后即可进行更多操作！" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
         action;
@@ -238,7 +253,8 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-//菜单栏按钮动画效果
+#pragma mark --------菜单栏按钮动画效果----------
+
 -(void)menuBtnClicled{
     if (_backgroundView.alpha == 0) {
         _photoImageView.alpha = 1;
@@ -283,56 +299,36 @@
     }
 }
 
+#pragma mark --------loadData----------
 
-
-
-
-//加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID]; //TopicCommentURL
-    NSLog(@"url %@" ,url);
+    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if (_page == 1) {
             [_dataArray removeAllObjects];
             
-            [_labelHeightArray removeAllObjects];
+            [_rowHeightArray removeAllObjects];
         }
         
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"topicCommentList"]];
             NSMutableArray *arrayTemp = [NSMutableArray array];
             arrayTemp = [TopicDetailModel mj_objectArrayWithKeyValuesArray:arrayList];
-            //  NSLog(@"%d",arrayTemp.count);
             for (NSInteger i=0; i<arrayTemp.count; i++) {
-                // NSLog(@"comment = %@",((TopicDetailModel *)_dataArray[i]).comment) ;
-                //  NSLog(@"dir = %@",((TopicDetailModel *)_dataArray[i]).dir) ;
-                if (((TopicDetailModel *)arrayTemp[i]).newsType == 1) {
-                    [_dataArray addObject:arrayTemp[i]];
-                    [_labelHeightArray addObject:[NSString stringWithFormat:@"%f",[self calculateLabelHeight:((TopicDetailModel *)arrayTemp[i]).comment]]];
-                }else if(((TopicDetailModel *)arrayTemp[i]).newsType == 2){
-                    [_dataArray addObject:arrayTemp[i]];
-                    [_labelHeightArray addObject:[NSString stringWithFormat:@"%f",[self calculateLabelHeight:((TopicDetailModel *)arrayTemp[i]).comment]]];
-                }else{
-                    NSArray *labelComponents = [((TopicDetailModel *)arrayTemp[i]).comment componentsSeparatedByString:IMAGE];
-                    NSArray *imageComponents = [((TopicDetailModel *)arrayTemp[i]).dir componentsSeparatedByString:@";"];
-                    if (labelComponents[0]==nil) {
-                        ((TopicDetailModel *)arrayTemp[i]).comment = labelComponents[1];
-                    }else{
-                        ((TopicDetailModel *)arrayTemp[i]).comment = labelComponents[0];
-                    }
-                    
-                    //  ((TopicDetailModel *)arrayTemp[i]).dir= nil;
-                    ((TopicDetailModel *)arrayTemp[i]).dir = imageComponents[0];
-                    // NSLog(@"dir = %@",((TopicDetailModel *)arrayTemp[i]).dir);
-                    [_dataArray addObject:arrayTemp[i]];
-                    [_labelHeightArray addObject:[NSString stringWithFormat:@"%f",[self calculateLabelHeight:((TopicDetailModel *)arrayTemp[i]).comment]]];
-                    
+                TopicDetailModel *model = arrayTemp[i];
+                if (model.newsType == 1) {
+                    CGFloat labelHeight = [model.comment adjustSizeWithWidth:(SCREENWIDTH - 40) andFont:MAINFONTSIZE].height;
+                    CGFloat imageHieght = SCREENWIDTH * [model.imgRate floatValue];
+                    [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(120.0 + imageHieght + labelHeight)]];
+                } else if (model.newsType == 2) {
+                    [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(110.0 + SCREENWIDTH)]];
+                } else {
+                    [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",285.0]];
                 }
-                
+                [_dataArray addObject:model];
             }
             [_tableView reloadData];
-            //[self performSelector:@selector(hideHUD) withObject:nil afterDelay:5];
             if (_page == 1) {
                 [self hideHUD];
                 [_tableView.mj_header endRefreshing];
@@ -350,15 +346,12 @@
     }];
 }
 
-//计算文字高度
--(CGFloat)calculateLabelHeight:(NSString *)str{
-    NSDictionary *attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:17]};
-    CGSize size = [str boundingRectWithSize:CGSizeMake(SCREENWIDTH-20, MAXFLOAT) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
-    return size.height;
+#pragma mark ---cell delegate----
+
+-(void)unloginAlert{
+    [self alertLogin];
 }
 
-
-#pragma mark ---cell delegate----
 -(void)alertViewIntergeal:(NSString *)messageContent messageOpreation:(NSString *)opreation cancelMessage:(NSString *)cancelMessage{
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:messageContent message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -389,15 +382,11 @@
     WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
     HVC.userId = [NSString stringWithFormat:@"%ld",(long)((TopicDetailModel *)_dataArray[indexPath.row]).userId ];
     [self.navigationController pushViewController:HVC animated:YES];
-
-
 }
 
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
-  
     [self loadData];
-    
 }
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{
@@ -410,47 +399,27 @@
     
 }
 
+#pragma mark -----------play vedio-------------
+
 -(void)playMedio:(NSIndexPath *)indexPath{
-    
-    
     NSString *url = ((TopicDetailModel *)_dataArray[indexPath.row]).dir;
     _player = [[MPMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:url]];
-    //1设置播放器的大小
     _player.movieSourceType=MPMovieSourceTypeStreaming;
-    [_player.view setFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)]; //16:9是主流媒体的样式
-    //2将播放器视图添加到根视图
+    [_player.view setFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    UIButton *closeVedio = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 40, 35)];
+    [closeVedio setTitle:@"关闭" forState:UIControlStateNormal];
+    [closeVedio setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [closeVedio addTarget:self action:@selector(finishedPlay) forControlEvents:UIControlEventTouchUpInside];
+    [_player.view addSubview:closeVedio];
     [self.view addSubview:_player.view];
-    
     [self.navigationController setNavigationBarHidden:YES animated:TRUE];
-    
     [_player play];
-    //[self.player stop];
-    //通过通知中心，以观察者模式监听视频播放状态
-    //1 监听播放状态
-   // [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stateChange) name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
-//    //2 监听播放完成
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(finishedPlay) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-//    //3视频截图
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(caputerImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
-//    //3视频截图
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(caputerImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
-//    
-//    //4退出全屏通知
- //   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(exitFullScreen) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
-    
-    //异步视频截图,可以在attimes指定一个或者多个时间。
-    //[player requestThumbnailImagesAtTimes:@[@10.0f, @20.0f] timeOption:MPMovieTimeOptionNearestKeyFrame];
-    
-//    UIImageView *thumbnailImageView = [[UIImageView alloc]initWithFrame:CGRectMake(80, 200, 160, 90)];
-//    self.imageView = thumbnailImageView;
-//    [self.view addSubview:thumbnailImageView];
-
 }
 
-#pragma mark 播放完成
 - (void)finishedPlay
 {
-    NSLog(@"播放完成");
+    [_player stop];
     [_player.view removeFromSuperview];
     [self.navigationController setNavigationBarHidden:NO animated:TRUE];
 }
@@ -458,98 +427,63 @@
 #pragma mark --------tableView delegate---------
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    
-    if (((TopicDetailModel *)_dataArray[indexPath.row]).newsType==3) {
-        
-        return 175+[_labelHeightArray[indexPath.row] floatValue]+120+20;
-    }else if (((TopicDetailModel *)_dataArray[indexPath.row]).newsType==1){
-        return   [((TopicDetailModel *)_dataArray[indexPath.row]).imgRate floatValue]*SCREENWIDTH+[_labelHeightArray[indexPath.row] floatValue]+132;
-    }else{
-        return [((TopicDetailModel *)_dataArray[indexPath.row]).imgRate floatValue]*SCREENWIDTH+[_labelHeightArray[indexPath.row] floatValue]+132;
-    }
+    return [_rowHeightArray[indexPath.section] floatValue];
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return _dataArray.count;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-
-    return _dataArray.count;
-    
+    return 1;
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 9;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    static NSString *cellId = @"TopDetailCellID";
-//    
-//    WBTopicXibTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-//    
-//    if (nil == cell) {
-//        cell = [[[NSBundle mainBundle] loadNibNamed:@"WBTopicXibTableViewCell" owner:nil options:nil] firstObject];
-//        
-//    }
-//    //显示数据
-//    cell.delegate = self;
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    TopicDetailModel *model = _dataArray[indexPath.row];
-//    [cell configModel:model indexPath:indexPath];
-//    return cell;
-    
-    if (((TopicDetailModel *)_dataArray[indexPath.row]).newsType == 1) {
-        static NSString *topCellID = @"detailCellID";
-        WBTopicDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:topCellID];
-        if (cell == nil)
-        {    cell = [[WBTopicDetailTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID ];
-            
+    TopicDetailModel *model = _dataArray[indexPath.section];
+    if (model.newsType == 1) {
+        static NSString *cellID1 = @"detailCellID1";
+        WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID1];
+        if (cell == nil) {
+            cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID1 withModel:model];
         }
-        TopicDetailModel *model = _dataArray[indexPath.row];
-        //  cell.backgroundColor = [UIColor initWithBackgroundGray];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
-        cell.delegate = self;
         cell.indexPath = indexPath;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.delegate = self;
         return cell;
-    }else if(((TopicDetailModel *)_dataArray[indexPath.row]).newsType == 2){
-        static NSString *topCellID2 = @"detailCellID2";
-        WBTopicDetailTableViewCell2 *cell = [tableView dequeueReusableCellWithIdentifier:topCellID2];
-        if (cell == nil)
-        {    cell = [[WBTopicDetailTableViewCell2 alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID2 ];
-            
+    } else if (model.newsType == 2) {
+        static NSString *cellID2 = @"detailCellID2";
+        WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID2];
+        if (cell == nil) {
+            cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2 withModel:model];
         }
-        TopicDetailModel *model = _dataArray[indexPath.row];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
-        cell.delegate = self;
         cell.indexPath = indexPath;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.delegate = self;
         return cell;
-        
-    }else{
-        static NSString *topCellID3 = @"detailCellID3";
-        WBTopicDetailTableViewCell3 *cell = [tableView dequeueReusableCellWithIdentifier:topCellID3];
-        if (cell == nil)
-        {    cell = [[WBTopicDetailTableViewCell3 alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID3 ];
-            
+    } else {
+        static NSString *cellID3 = @"detailCellID3";
+        WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID3];
+        if (cell == nil) {
+            cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID3 withModel:model];
         }
-        TopicDetailModel *model = _dataArray[indexPath.row];
-        //  cell.backgroundColor = [UIColor initWithBackgroundGray];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell setModel:model  labelHeight:[_labelHeightArray[indexPath.row] floatValue]];
-        cell.delegate = self;
         cell.indexPath = indexPath;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.delegate = self;
         return cell;
-        
-        
     }
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (![WBUserDefaults userId]) {
-        [self alertLogin];
-        return;
-    }
-    TopicDetailModel *model = _dataArray[indexPath.row];
+    TopicDetailModel *model = _dataArray[indexPath.section];
     if (model.newsType == 3) {
         WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
         articalVC.navigationItem.title = self.navigationItem.title;
@@ -561,10 +495,6 @@
         [self.navigationController pushViewController:articalVC animated:YES];
         return;
     }
-    WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
-    commentView.commentId = ((TopicDetailModel *)_dataArray[indexPath.row]).commentId;
-    [self.navigationController pushViewController:commentView animated:YES];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -584,7 +514,7 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self hideHUD];
+    [self.hud hide:YES afterDelay:2];
 }
 
 -(void)hideHUD

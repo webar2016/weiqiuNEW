@@ -31,6 +31,7 @@
 		052F30D61C93F9FA00D15322 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052F30D41C93F9FA00D15322 /* city.plist */; };
 		052F30D71C93F9FA00D15322 /* province.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052F30D51C93F9FA00D15322 /* province.plist */; };
 		052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6047EE1C93F86000A88BAA /* WBHelp_Group_Sign.m */; };
+		054303831CB4F6210041902D /* WBTopicDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 054303821CB4F6210041902D /* WBTopicDetailCell.m */; };
 		054452BD1C9ADFEC00F8969E /* WBUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 054452BC1C9ADFEC00F8969E /* WBUserDefaults.m */; };
 		054452C51C9C45A100F8969E /* WBSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 054452C41C9C45A100F8969E /* WBSearchViewController.m */; };
 		054452C91C9CFC4E00F8969E /* WBUserListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 054452C71C9CFC4E00F8969E /* WBUserListTableViewCell.m */; };
@@ -236,6 +237,8 @@
 		052F30D21C93EEB200D15322 /* WBPositionList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPositionList.m; sourceTree = "<group>"; };
 		052F30D41C93F9FA00D15322 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
 		052F30D51C93F9FA00D15322 /* province.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = province.plist; sourceTree = "<group>"; };
+		054303811CB4F6210041902D /* WBTopicDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicDetailCell.h; sourceTree = "<group>"; };
+		054303821CB4F6210041902D /* WBTopicDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailCell.m; sourceTree = "<group>"; };
 		054452BB1C9ADFEC00F8969E /* WBUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUserDefaults.h; sourceTree = "<group>"; };
 		054452BC1C9ADFEC00F8969E /* WBUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUserDefaults.m; sourceTree = "<group>"; };
 		054452C31C9C45A100F8969E /* WBSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSearchViewController.h; sourceTree = "<group>"; };
@@ -1139,6 +1142,8 @@
 			children = (
 				2D49D61B1C86C1E0008EE96B /* WBTopicDetailViewController.h */,
 				2D49D61C1C86C1E0008EE96B /* WBTopicDetailViewController.m */,
+				054303811CB4F6210041902D /* WBTopicDetailCell.h */,
+				054303821CB4F6210041902D /* WBTopicDetailCell.m */,
 				2DF532BC1CAFD2090000E8CB /* WBTopicXibTableViewCell.h */,
 				2DF532BD1CAFD2090000E8CB /* WBTopicXibTableViewCell.m */,
 				2DF532BE1CAFD2090000E8CB /* WBTopicXibTableViewCell.xib */,
@@ -1665,6 +1670,7 @@
 				2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */,
 				05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */,
 				054550531C90165100A6F0E8 /* WBGroupSettingViewController.m in Sources */,
+				054303831CB4F6210041902D /* WBTopicDetailCell.m in Sources */,
 				2D5D72FF1C925C2B00F8C2AE /* WBAllocateScoreViewController.m in Sources */,
 				2D1DE0041C92D03F0059CD89 /* DBManager.m in Sources */,
 				2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */,

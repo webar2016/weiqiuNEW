@@ -17,19 +17,16 @@
 #import "WBQuestionTableViewCell.h"
 #import "WBFansView.h"
 #import "WBAttentionView.h"
-#import "WBTopicDetailTableViewCell.h"
-#import "WBTopicDetailTableViewCell2.h"
-#import "WBTopicDetailTableViewCell3.h"
-
-
+#import "WBTopicDetailCell.h"
 
 #import "TopicDetailModel.h"
 #import "WBSingleAnswerModel.h"
 #import "WBQuestionsListModel.h"
 #import "UIImageView+WebCache.h"
 #import "MJExtension.h"
+#import "NSString+string.h"
 
-@interface WBHomepageViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,WBQuestionTableViewCellDelegate,ModefyData,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TransformValue,TransformValue2,TransformValue3> {
+@interface WBHomepageViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,WBQuestionTableViewCellDelegate,ModefyData,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TransformValue> {
     
     UIView              *_headView;//头部视图
     UITableView         *_topicTableView;
@@ -55,7 +52,7 @@
     
     NSMutableArray      *_topicsArray;
     NSMutableArray      *_answersArray;
-    NSMutableArray      *_labelHeightArrayOne;
+    NSMutableArray      *_rowHeightArray;
     
     NSUInteger          _topicPage;
     NSUInteger          _answerPage;
@@ -65,6 +62,8 @@
     WBWebViewController *_mapVC;
     
     UIImagePickerController *_imagePicker;
+    
+    UIImageView *_background;
 }
 
 @property (nonatomic, assign) int selectedRow;
@@ -78,7 +77,10 @@
     
     _topicsArray = [NSMutableArray array];
     _answersArray = [NSMutableArray array];
-    _labelHeightArrayOne = [NSMutableArray array];
+    _rowHeightArray = [NSMutableArray array];
+    
+    _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+    _background.center = CGPointMake(SCREENWIDTH / 2, 170);
     
     _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     
@@ -136,7 +138,6 @@
     _headicon.layer.cornerRadius = 32;
     _headicon.layer.borderWidth = 2;
     _headicon.layer.borderColor = [UIColor initWithGreen].CGColor;
-   // _headicon.image = [WBUserDefaults headIcon];
     [_headView addSubview:_headicon];
     
     UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -196,11 +197,8 @@
     [_attentionRightButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     [_attentionRightButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     
-    
-    
-    
     CGSize buttonSize = CGSizeMake(SCREENWIDTH / 3, 44);
-   CGPoint point;
+    CGPoint point;
     
     if (![self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
         _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
@@ -258,7 +256,6 @@
     
     
     CGSize size = [_nicknameLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:_nicknameLabel.font,NSFontAttributeName, nil]];
-    NSLog(@"%f,%f",size.height,size.width);
     _sexButton.frame = CGRectMake(SCREENWIDTH/2+size.width-10, _nicknameLabel.frame.origin.y+5, 28, 10);
     _sexButton.layer.masksToBounds = YES;
     _sexButton.layer.cornerRadius = 2;
@@ -288,7 +285,7 @@
 
 
 -(void)setUpTopicTable{
-    _topicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 64)];
+    _topicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 64) style:UITableViewStyleGrouped];
     _topicTableView.tag = 100;
     _topicTableView.delegate = self;
     _topicTableView.dataSource = self;
@@ -313,10 +310,7 @@
 #pragma mark - load data
 
 -(void)loadUserInfo{
-    
-    
     NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/user/userHome?friendId=%@&userId=%@",self.userId,[WBUserDefaults userId]];
-        NSLog(@"%@",url);
         [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {
@@ -333,17 +327,32 @@
 }
 
 -(void)loadTopics{
+    
     NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/tq/getUserComment?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _topicsArray = [TopicDetailModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentList"]];
-        for (NSInteger i = 0 ; i<_topicsArray.count; i++) {
-            _labelHeightArrayOne[i] =[NSString stringWithFormat:@"%f",[self calculateStationWidth:((TopicDetailModel *)_topicsArray[i]).comment andWithTextWidth:SCREENWIDTH-20 anfont:14]];
+        for (NSInteger i=0; i<_topicsArray.count; i++) {
+            TopicDetailModel *model = _topicsArray[i];
+            if (model.newsType == 1) {
+                CGFloat labelHeight = [model.comment adjustSizeWithWidth:(SCREENWIDTH - 40) andFont:MAINFONTSIZE].height;
+                CGFloat imageHieght = SCREENWIDTH * [model.imgRate floatValue];
+                [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(120.0 + imageHieght + labelHeight)]];
+            } else if (model.newsType == 2) {
+                [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(110.0 + SCREENWIDTH)]];
+            } else {
+                [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",285.0]];
+            }
+        }
+        if (_topicsArray.count == 0) {
+            [_topicTableView addSubview:_background];
+        } else {
+            [_background removeFromSuperview];
         }
         [_topicTableView reloadData];
         
     } andFailure:^(NSString *error) {
-        
+        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
     }];
 }
 
@@ -352,72 +361,82 @@
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _answersArray = [WBSingleAnswerModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
+        if (_topicsArray.count == 0) {
+            [_topicTableView addSubview:_background];
+        } else {
+            [_background removeFromSuperview];
+        }
         [_answerTableView reloadData];
         
     } andFailure:^(NSString *error) {
-        
+        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
     }];
 }
 
 #pragma mark - table delegate datasource
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (tableView.tag == 100) {
         return _topicsArray.count;
-    } else {
-        return _answersArray.count;
     }
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView.tag == 100) {
+        return 1;
+    }
+    return _answersArray.count;
+    
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (tableView.tag == 100) {
+        return 9;
+    }
+    return 0;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (tableView.tag == 100) {
+        return 1;
+    }
+    return 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView.tag == 100) {
-        if (((TopicDetailModel *)_topicsArray[indexPath.row]).newsType == 1) {
-            static NSString *topCellID = @"detailCellID";
-            WBTopicDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:topCellID];
-            if (cell == nil)
-            {    cell = [[WBTopicDetailTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID ];
-                
+        TopicDetailModel *model = _topicsArray[indexPath.section];
+        if (model.newsType == 1) {
+            static NSString *cellID1 = @"detailCellID1";
+            WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID1];
+            if (cell == nil) {
+                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID1 withModel:model];
             }
-            TopicDetailModel *model = _topicsArray[indexPath.row];
-            //  cell.backgroundColor = [UIColor initWithBackgroundGray];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell setModel:model  labelHeight:[_labelHeightArrayOne[indexPath.row] floatValue]];
-            cell.delegate = self;
             cell.indexPath = indexPath;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.delegate = self;
             return cell;
-        }else if(((TopicDetailModel *)_topicsArray[indexPath.row]).newsType == 2){
-            static NSString *topCellID2 = @"detailCellID2";
-            WBTopicDetailTableViewCell2 *cell = [tableView dequeueReusableCellWithIdentifier:topCellID2];
-            if (cell == nil)
-            {    cell = [[WBTopicDetailTableViewCell2 alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID2 ];
-                
+        } else if (model.newsType == 2) {
+            static NSString *cellID2 = @"detailCellID2";
+            WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID2];
+            if (cell == nil) {
+                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2 withModel:model];
             }
-            TopicDetailModel *model = _topicsArray[indexPath.row];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell setModel:model  labelHeight:[_labelHeightArrayOne[indexPath.row] floatValue]];
-            cell.delegate = self;
             cell.indexPath = indexPath;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.delegate = self;
             return cell;
-            
-        }else{
-            static NSString *topCellID3 = @"detailCellID3";
-            WBTopicDetailTableViewCell3 *cell = [tableView dequeueReusableCellWithIdentifier:topCellID3];
-            if (cell == nil)
-            {    cell = [[WBTopicDetailTableViewCell3 alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID3 ];
-                
+        } else {
+            static NSString *cellID3 = @"detailCellID3";
+            WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID3];
+            if (cell == nil) {
+                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID3 withModel:model];
             }
-            TopicDetailModel *model = _topicsArray[indexPath.row];
-            //  cell.backgroundColor = [UIColor initWithBackgroundGray];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell setModel:model  labelHeight:[_labelHeightArrayOne[indexPath.row] floatValue]];
-            cell.delegate = self;
             cell.indexPath = indexPath;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.delegate = self;
             return cell;
-            
-            
         }
     } else {
         static NSString *SecondPageCell = @"SecondPageCell";
@@ -436,14 +455,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView.tag == 100) {
-        if (((TopicDetailModel *)_topicsArray[indexPath.row]).newsType==3) {
-            
-            return 175+[_labelHeightArrayOne[indexPath.row] floatValue]+120+20;
-        }else if (((TopicDetailModel *)_topicsArray[indexPath.row]).newsType==1){
-            return   [((TopicDetailModel *)_topicsArray[indexPath.row]).imgRate floatValue]*SCREENWIDTH+[_labelHeightArrayOne[indexPath.row] floatValue]+132;
-        }else{
-            return [((TopicDetailModel *)_topicsArray[indexPath.row]).imgRate floatValue]*SCREENWIDTH+[_labelHeightArrayOne[indexPath.row] floatValue]+132;
-        }
+        return [_rowHeightArray[indexPath.section] floatValue];
     } else {
         UITableViewCell *cell = [self tableView:_answerTableView cellForRowAtIndexPath:indexPath];
         return cell.frame.size.height;
@@ -452,7 +464,7 @@
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]){
+    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]] && tableView.tag == 100){
     return   UITableViewCellEditingStyleDelete;
     }else{
     
@@ -476,7 +488,7 @@
           if (_topicTableView.hidden) {
           }else{
              [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",((TopicDetailModel *)_topicsArray[indexPath.row]). commentId] whenSuccess:^(id representData) {
-                 NSLog(@"----success-----");
+                 
                  [_topicsArray removeObjectAtIndex:indexPath.row];
                 
                  [_topicTableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -489,8 +501,8 @@
 }
 
 #pragma mark - other operations
-//获取粉丝和关注列表
 
+//获取粉丝和关注列表
 -(void)selfBtnClicked:(UIButton *)btn{
     if (btn.tag ==500) {
         WBAttentionView *AVC = [[WBAttentionView alloc]init];
@@ -512,8 +524,6 @@
     
     }
 }
-
-
 
 -(void)concernsOperation:(UIButton *)btn{
     if (btn.tag == 50) {
@@ -605,7 +615,7 @@
 }
 
 - (void)ModefyViewDelegate{
-    NSLog(@"---ModefyViewDelegate----");
+    
     _headicon.image= [WBUserDefaults headIcon];
     
     _nicknameLabel.text = [WBUserDefaults nickname];
@@ -796,46 +806,25 @@
 -(void)playMedio:(NSIndexPath *)indexPath{
     NSString *url = ((TopicDetailModel *)_topicsArray[indexPath.row]).dir;
     _player = [[MPMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:url]];
-    //1设置播放器的大小
     _player.movieSourceType=MPMovieSourceTypeStreaming;
-    [_player.view setFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)]; //16:9是主流媒体的样式
-    //2将播放器视图添加到根视图
+    [_player.view setFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    UIButton *closeVedio = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 40, 35)];
+    [closeVedio setTitle:@"关闭" forState:UIControlStateNormal];
+    [closeVedio setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [closeVedio addTarget:self action:@selector(finishedPlay) forControlEvents:UIControlEventTouchUpInside];
+    [_player.view addSubview:closeVedio];
     [self.view addSubview:_player.view];
     [self.navigationController setNavigationBarHidden:YES animated:TRUE];
     [_player play];
-    //[self.player stop];
-    //通过通知中心，以观察者模式监听视频播放状态
-    //1 监听播放状态
-    // [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stateChange) name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
-    //    //2 监听播放完成
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(finishedPlay) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-    //    //3视频截图
-    //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(caputerImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
-    //    //3视频截图
-    //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(caputerImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
-    //
-    //    //4退出全屏通知
-    //   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(exitFullScreen) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
-    
-    //异步视频截图,可以在attimes指定一个或者多个时间。
-    //[player requestThumbnailImagesAtTimes:@[@10.0f, @20.0f] timeOption:MPMovieTimeOptionNearestKeyFrame];
-    
-    //    UIImageView *thumbnailImageView = [[UIImageView alloc]initWithFrame:CGRectMake(80, 200, 160, 90)];
-    //    self.imageView = thumbnailImageView;
-    //    [self.view addSubview:thumbnailImageView];
-    
 }
 
-#pragma mark 播放完成
+#pragma mark - 播放完成
+
 - (void)finishedPlay
-{
-    NSLog(@"播放完成");
-    [_player.view removeFromSuperview];
+{    [_player.view removeFromSuperview];
     [self.navigationController setNavigationBarHidden:NO animated:TRUE];
 }
-
-
-
 
 #pragma mark - MBprogress
 -(void)showHUD:(NSString *)title isDim:(BOOL)isDim

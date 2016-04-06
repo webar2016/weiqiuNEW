@@ -43,6 +43,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [UINavigationBar appearance].barTintColor = [UIColor initWithGreen];
     
     [self setPushMessageWith:(UIApplication *)application];
     
@@ -330,8 +331,7 @@ didRegisterUserNotificationSettings:
 #pragma nark - 趣拍sdk
 
 -(void)qupaiSDK{
-    [[QupaiSDK shared] registerAppWithKey:@"206ab04f6e94b74" secret:@"068e513360e04f1bad5694e507c32a12" space:[WBUserDefaults userId] success:^(NSString *accessToken) {
-        NSLog(@"%@",accessToken);
+    [[QupaiSDK shared] registerAppWithKey:@"206ab04f6e94b74" secret:@"068e513360e04f1bad5694e507c32a12" space:@"weiqiu-2016" success:^(NSString *accessToken) {
     } failure:^(NSError *error) {
         NSLog(@"初始化失败");
     }];

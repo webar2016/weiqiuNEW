@@ -45,8 +45,7 @@
 
 -(void) createNav{
     //设置标题
-    self.navigationItem.title = @"照片";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor initWithDarkGray]}];
+    self.navigationItem.title = @"发布照片";
     
     UIButton *rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBtton.frame = CGRectMake(0, 0, 48, 22) ;
@@ -190,7 +189,7 @@
         
     }else{
         //如果是视频
-        NSURL *url = info[UIImagePickerControllerMediaURL];
+//        NSURL *url = info[UIImagePickerControllerMediaURL];
 
     }
     [self dismissViewControllerAnimated:YES completion:nil];

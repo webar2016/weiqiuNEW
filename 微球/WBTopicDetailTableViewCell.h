@@ -10,7 +10,7 @@
 #import "TopicDetailModel.h"
 #import "CatZanButton.h"
 //代理反相传旨
-@protocol TransformValue <NSObject>
+@protocol TransformValue1 <NSObject>
 //改变积分
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath;
 //评论页面
@@ -60,7 +60,7 @@
 
 @property (nonatomic,retain) NSIndexPath *indexPath;
 
-@property(nonatomic,assign)id<TransformValue> delegate;//实现代理
+@property(nonatomic,assign)id<TransformValue1> delegate;//实现代理
 
 
 @end
