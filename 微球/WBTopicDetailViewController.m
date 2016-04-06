@@ -46,15 +46,7 @@
     
     NSInteger _page;
     
-    UIView *_backgroundView;
-    //悬浮按钮
-    UIImageView *_imageViewMenu;
-    //photo
-    UIImageView *_photoImageView;
-    //段视频按钮
-    UIImageView *_videoImageView;
-    //text
-    UIImageView *_textImageView;
+
     
 }
 
@@ -129,68 +121,25 @@
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
-    
     [self createMenuButton];
-    
-    
-    
-    
-    // WBPostMenuButton *buttonView = [[WBPostMenuButton alloc]initWithFrame:self.view.frame PointX:100 PointY:400 superView:self.view];
-    // [self.view addSubview:buttonView];
-    
 }
 
-//创建悬浮按钮
-
 -(void)createMenuButton{
-    //点击悬浮按钮后的透明度
-    _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
-    _backgroundView.alpha = 0;
-    _backgroundView.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:_backgroundView];
-    _backgroundView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *BGTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(menuBtnClicled)];
-    [_backgroundView addGestureRecognizer:BGTap];
-    
-    
-    //旋转菜单按钮
-    _imageViewMenu= [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-60, self.view.frame.size.height-150, 37, 37)];
-    
-    _imageViewMenu.image = [UIImage imageNamed:@"btn_cancel.png"];
-    _imageViewMenu.transform = CGAffineTransformMakeRotation(M_PI/4);
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(menuBtnClicled)];
-    _imageViewMenu.userInteractionEnabled = YES;
-    [_imageViewMenu addGestureRecognizer:tap];
-    [self.view addSubview:_imageViewMenu];
+    [super createMenuButton];
     //上传照片
-    _photoImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-80-30+15, self.view.frame.size.height-150, 64  , 30)];
-    _photoImageView.image = [UIImage imageNamed:@"btn_photo.png"];
     UITapGestureRecognizer *tapPhoto = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(photoBtnClicled)];
     _photoImageView.userInteractionEnabled = YES;
     [_photoImageView addGestureRecognizer:tapPhoto];
-    _photoImageView.alpha = 0;
-    [self.view addSubview:_photoImageView];
     //上传视频
-    _videoImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-80-30, self.view.frame.size.height-150, 79  , 30)];
-    _videoImageView.image = [UIImage imageNamed:@"icon_video.png"];
     UITapGestureRecognizer *tapMedio = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoBtnClicled)];
     _videoImageView.userInteractionEnabled = YES;
     [_videoImageView addGestureRecognizer:tapMedio];
-    _videoImageView.alpha = 0;
-    [self.view addSubview:_videoImageView];
-    
     //上传文字
-    _textImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH-80-30, self.view.frame.size.height-150, 79  , 30)];
-    _textImageView.image = [UIImage imageNamed:@"btn_ariticle.png"];
     UITapGestureRecognizer *tapText = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(textBtnClicled)];
     _textImageView.userInteractionEnabled = YES;
     [_textImageView addGestureRecognizer:tapText];
-    _textImageView.alpha = 0;
-    [self.view addSubview:_textImageView];
-    
-    
-    
 }
+
 #pragma mark --------上传图片----------
 -(void)photoBtnClicled{
     if (![WBUserDefaults userId]) {
@@ -226,6 +175,7 @@
     [self.navigationController pushViewController:articleViewController animated:YES];
 }
 
+
 -(void)alertLogin{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登陆后即可发布啦！" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:({
@@ -242,59 +192,9 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-//菜单栏按钮动画效果
--(void)menuBtnClicled{
-    if (_backgroundView.alpha == 0) {
-        _photoImageView.alpha = 1;
-        _videoImageView.alpha = 1;
-        _textImageView.alpha  = 1;
-        _backgroundView.alpha = 0.5;
-        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            _imageViewMenu.transform = CGAffineTransformMakeRotation(0);
-        } completion:^(BOOL finished) {
-        }];
-        [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            CGRect frame1 = _photoImageView.frame;
-            frame1.origin.y -=70;
-            _photoImageView.frame = frame1;
-            CGRect frame2 = _videoImageView.frame;
-            frame2.origin.y -=140;
-            _videoImageView.frame = frame2;
-            CGRect frame3 = _textImageView.frame;
-            frame3.origin.y -=210;
-            _textImageView.frame = frame3;
-        } completion:^(BOOL finished) {
-        }];
-    }
-    else{
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            _backgroundView.alpha = 0;
-            _imageViewMenu.transform = CGAffineTransformMakeRotation(M_PI/4);
-            CGRect frame1 = _photoImageView.frame;
-            frame1.origin.y +=70;
-            _photoImageView.frame = frame1;
-            CGRect frame2 = _videoImageView.frame;
-            frame2.origin.y +=140;
-            _videoImageView.frame = frame2;
-            CGRect frame3 = _textImageView.frame;
-            frame3.origin.y +=210;
-            _textImageView.frame = frame3;
-        } completion:^(BOOL finished) {
-            _photoImageView.alpha = 0;
-            _videoImageView.alpha = 0;
-            _textImageView.alpha  = 0;
-        }];
-    }
-}
-
-
-
-
-
 //加载数据
 -(void) loadData{
     NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID]; //TopicCommentURL
-    NSLog(@"url %@" ,url);
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if (_page == 1) {
@@ -302,7 +202,6 @@
             
             [_labelHeightArray removeAllObjects];
         }
-        
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"topicCommentList"]];
             NSMutableArray *arrayTemp = [NSMutableArray array];
@@ -378,7 +277,6 @@
         })];
     }
     
-    NSLog(@"%@",opreation);
     if (!(opreation == nil || opreation == NULL)) {
         [alert addAction:({
             UIAlertAction *action = [UIAlertAction actionWithTitle:opreation style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -454,7 +352,6 @@
 #pragma mark 播放完成
 - (void)finishedPlay
 {
-    NSLog(@"播放完成");
     [_player.view removeFromSuperview];
     [self.navigationController setNavigationBarHidden:NO animated:TRUE];
 }

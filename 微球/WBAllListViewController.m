@@ -221,10 +221,12 @@
     
     WBHelpGroupsDetailViewController *DVC = [[WBHelpGroupsDetailViewController alloc]init];
     DVC.model = self.dataSource[indexPath.row];
-    [DVC setHidesBottomBarWhenPushed:YES];
-    DVC.imageHeight = [_cellHeightArray[indexPath.row] floatValue]*SCREENWIDTH;
     
-    [self presentViewController:DVC animated:YES completion:nil];
+    DVC.imageHeight = [_cellHeightArray[indexPath.row] floatValue]*SCREENWIDTH;
+    //self.hidesBottomBarWhenPushed = true;
+    
+    [self.navigationController pushViewController:DVC animated:YES];
+    
     
 }
 
@@ -254,6 +256,7 @@
 
 #pragma mark  ----去个人主页-----
 -(void)goHomepage:(NSString *)userId{
+    
     WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
     HVC.userId = userId;
     [self.navigationController pushViewController:HVC animated:YES];

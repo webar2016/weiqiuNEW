@@ -109,17 +109,8 @@
         _zanBtn=[[CatZanButton alloc] init];
         [self.contentView addSubview:_zanBtn];
         [_zanBtn setType:CatZanButtonTypeFirework];
-        __unsafe_unretained WBTopicDetailTableViewCell2 *wfindShopVC = self;
-        [_zanBtn setClickHandler:^(CatZanButton *zanButton) {
-            if (zanButton.isZan) {
-                NSLog(@"Zan!");
-                
-                [wfindShopVC praiseBtnClicked];
-            }else{
-                NSLog(@"Cancel zan!");
-            }
-        }];
 
+        
         //点赞跳出的提示框
         _imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"点赞转积分提示.png"]];
         _imageView.frame = CGRectMake(_praiseButton.frame.origin.x-124, _praiseButton.frame.origin.y-5, 124, 23);
@@ -161,6 +152,22 @@
     _commentButton.frame =CGRectMake(SCREENWIDTH/3+10, 60+imageHeight+17+labelHeight+10+10, 80, 16);
     _praiseButton.frame =CGRectMake(SCREENWIDTH-120,  60+imageHeight+17+labelHeight+10+10, 100,16);
     _zanBtn.frame = CGRectMake(SCREENWIDTH-120, 60+imageHeight+17+labelHeight+10+10, 20, 20);
+    __unsafe_unretained WBTopicDetailTableViewCell2 *wfindShopVC = self;
+    [_zanBtn setClickHandler:^(CatZanButton *zanButton) {
+        if (_model.userId ==[[WBUserDefaults userId] integerValue]) {
+            
+            [zanButton setIsZan:NO];
+        }else{
+            if (zanButton.isZan) {
+                NSLog(@"Zan!");
+                
+                [wfindShopVC praiseBtnClicked];
+            }else{
+                NSLog(@"Cancel zan!");
+            }
+        }
+    }];
+
     _imageView.frame = CGRectMake(_praiseButton.frame.origin.x-124, _praiseButton.frame.origin.y-5, 124, 23);
     
     

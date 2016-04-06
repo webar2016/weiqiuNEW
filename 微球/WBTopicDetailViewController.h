@@ -11,9 +11,10 @@
 #import "MJRefresh.h"
 #import "WBPostMenuButton.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "WBMenuBtnViewController.h"
 
 
-@interface WBTopicDetailViewController : UIViewController
+@interface WBTopicDetailViewController :WBMenuBtnViewController
 
 @property (nonatomic,assign) NSInteger topicID;
 

@@ -11,6 +11,7 @@
 #import "MyDownLoadManager.h"
 #import "LoadViewController.h"
 #import <RongIMKit/RongIMKit.h>
+#import "WBHomepageViewController.h"
 
 
 
@@ -44,8 +45,18 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear: YES];
+    
+   
+    [super viewWillAppear: animated];
+    self.navigationController.navigationBar.hidden = YES;
+    self.tabBarController.tabBar.hidden=YES;
     [self checkInGroup];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.tabBarController.tabBar.hidden=NO;
+     self.navigationController.navigationBar.hidden = NO;
 }
 
 -(void)checkInGroup{
@@ -75,6 +86,7 @@
     // 隐藏水平滚动条
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
+    _scrollView.userInteractionEnabled = YES;
     
     _mainImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, _imageHeight)];
     [_scrollView addSubview:_mainImageView];
@@ -86,6 +98,9 @@
     
     
     _headImageView = [[UIImageView alloc]init];
+    _headImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goHomePage)];
+    [_headImageView addGestureRecognizer:tap];
     [_scrollView addSubview:_headImageView];
     
     _nameLabel = [[UILabel alloc]init];
@@ -198,7 +213,7 @@
 -(void)btnClicked:(UIButton *)btn{
 
     if (btn.tag ==100) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
 
     }else{
         btn.enabled = NO;
@@ -221,6 +236,18 @@
             [self hideHUD];
         }];
     }
+}
+
+
+//进入个人主页
+-(void)goHomePage{
+    
+    WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
+    HVC.userId = [NSString stringWithFormat:@"%ld",_model.userId];
+    
+    self.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:HVC animated:YES];
+    
 }
 
 -(void)dismissView{
