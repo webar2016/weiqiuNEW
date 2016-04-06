@@ -452,7 +452,12 @@
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]){
     return   UITableViewCellEditingStyleDelete;
+    }else{
+    
+        return UITableViewCellEditingStyleNone;
+    }
 }
 
 /*改变删除按钮的title*/
@@ -464,20 +469,22 @@
 /*删除用到的函数*/
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]){
     
-    if (editingStyle ==UITableViewCellEditingStyleDelete)
-    {
-        if (_topicTableView.hidden) {
-        }else{
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",((TopicDetailModel *)_topicsArray[indexPath.row]).commentId] whenSuccess:^(id representData) {
-                NSLog(@"----success-----");
-                [_topicsArray removeObjectAtIndex:indexPath.row];
+      if (editingStyle ==UITableViewCellEditingStyleDelete)
+       {
+          if (_topicTableView.hidden) {
+          }else{
+             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",((TopicDetailModel *)_topicsArray[indexPath.row]). commentId] whenSuccess:^(id representData) {
+                 NSLog(@"----success-----");
+                 [_topicsArray removeObjectAtIndex:indexPath.row];
                 
-                [_topicTableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];
-            } andFailure:^(NSString *error) {
+                 [_topicTableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];
+             } andFailure:^(NSString *error) {
                 
-            }];
+             }];
         }
+      }
     }
 }
 
@@ -654,6 +661,7 @@
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        [self showHUD:@"正在上传" isDim:YES];
         [_coverImage setImage:info[UIImagePickerControllerEditedImage]];
         
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
@@ -663,9 +671,9 @@
         } andSuccess:^(id representData) {
             
             [WBUserDefaults setCoverImage:_coverImage.image];
-            NSLog(@"----success---");
+            [self showHUDComplete:@"上传成功"];
         } andFailure:^(NSString *error) {
-            
+            [self showHUDComplete:@"上传失败"];
         }];
         
     }else{

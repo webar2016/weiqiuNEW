@@ -289,7 +289,7 @@
 
 
 -(void)saveBtnClicked{
-    
+    [self showHUD:@"正在上传" isDim:YES];
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
     
     [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
@@ -310,9 +310,10 @@
     } whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
+        [self showHUDComplete:@"上传成功"];
         [self.navigationController popViewControllerAnimated:YES];
     } andFailure:^(NSString *error) {
-        
+        [self showHUDComplete:@"上传失败"];
     }];
 
 }

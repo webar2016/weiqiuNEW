@@ -167,7 +167,6 @@
 		2DF0499B1C9D833700E92B9E /* WBAttentionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF0499A1C9D833700E92B9E /* WBAttentionView.m */; };
 		2DF0499E1C9D835A00E92B9E /* WBFansView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF0499D1C9D835A00E92B9E /* WBFansView.m */; };
 		2DF26B671CA1925E00B7ED10 /* WBIndividualIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF26B661CA1925E00B7ED10 /* WBIndividualIncomeViewController.m */; };
-		2DF26B6A1CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF26B691CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.m */; };
 		2DF2A93B1C9FC20D002C3A2A /* WBFansViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93A1C9FC20D002C3A2A /* WBFansViewTableViewCell.m */; };
 		2DF2A93E1C9FC220002C3A2A /* WBFansModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93D1C9FC220002C3A2A /* WBFansModel.m */; };
 		2DF2A9411C9FCD44002C3A2A /* WBAttentionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A9401C9FCD44002C3A2A /* WBAttentionModel.m */; };
@@ -487,8 +486,6 @@
 		2DF0499D1C9D835A00E92B9E /* WBFansView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFansView.m; sourceTree = "<group>"; };
 		2DF26B651CA1925E00B7ED10 /* WBIndividualIncomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIndividualIncomeViewController.h; sourceTree = "<group>"; };
 		2DF26B661CA1925E00B7ED10 /* WBIndividualIncomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBIndividualIncomeViewController.m; sourceTree = "<group>"; };
-		2DF26B681CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHomeFirstPageTableViewCell.h; sourceTree = "<group>"; };
-		2DF26B691CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHomeFirstPageTableViewCell.m; sourceTree = "<group>"; };
 		2DF2A9361C9FC0FC002C3A2A /* WBAttentionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAttentionTableViewCell.h; sourceTree = "<group>"; };
 		2DF2A9391C9FC20D002C3A2A /* WBFansViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFansViewTableViewCell.h; sourceTree = "<group>"; };
 		2DF2A93A1C9FC20D002C3A2A /* WBFansViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFansViewTableViewCell.m; sourceTree = "<group>"; };
@@ -802,8 +799,6 @@
 			children = (
 				05D1F93E1C8FBE1A0049D3EC /* WBHomepageViewController.h */,
 				05D1F93F1C8FBE1A0049D3EC /* WBHomepageViewController.m */,
-				2DF26B681CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.h */,
-				2DF26B691CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.m */,
 				2DF0499F1C9D842500E92B9E /* 关注 */,
 				2DF049A01C9D843400E92B9E /* 粉丝 */,
 			);
@@ -1639,7 +1634,6 @@
 				05D6EB7D1C7D414F002D48FF /* main.m in Sources */,
 				054452C51C9C45A100F8969E /* WBSearchViewController.m in Sources */,
 				05D1F9481C8FBE720049D3EC /* WBUnlockViewController.m in Sources */,
-				2DF26B6A1CA193E200B7ED10 /* WBHomeFirstPageTableViewCell.m in Sources */,
 				2D16EF4B1C8407B4002D5F90 /* WBJoinUsViewController.m in Sources */,
 				2DF2A93B1C9FC20D002C3A2A /* WBFansViewTableViewCell.m in Sources */,
 				052F30C41C93BE6700D15322 /* WBGroupInfoController.m in Sources */,

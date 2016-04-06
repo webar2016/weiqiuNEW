@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBRefreshViewController.h"
 
-@interface WBPostIamgeViewController : UIViewController
+@interface WBPostIamgeViewController : WBRefreshViewController
 @property (nonatomic,assign) NSInteger topicID;
 @end
