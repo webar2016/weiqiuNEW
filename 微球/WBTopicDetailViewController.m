@@ -30,7 +30,7 @@
 #import "WBPostVideoViewController.h"
 #import "WBArticalViewController.h"
 
-#define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld&&userId=%@"
+#define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
 
 @interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue,TransformValue2,TransformValue3,TransformXibValue>
 {
@@ -276,7 +276,7 @@
 
 //加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID,[WBUserDefaults userId]]; //TopicCommentURL
+    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID]; //TopicCommentURL
     NSLog(@"url %@" ,url);
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];

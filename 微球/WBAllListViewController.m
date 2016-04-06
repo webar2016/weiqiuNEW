@@ -74,8 +74,6 @@
 -(void) createMJRefresh{
 
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-        //NSLog(@"进入刷新状态后会自动调用这个block1");
         _page=1;
         [self loadData];
         
@@ -84,13 +82,15 @@
     
     _collectionView.mj_header = header;
     
-    _collectionView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-        //  NSLog(@"进入刷新状态后会自动调用这个block2");
+    MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         _page++;
         [self loadMoreData];
         
     }];
+    
+    [footer setTitle:@"" forState:MJRefreshStateIdle];
+    
+    _collectionView.mj_footer = footer;
 
 
 }
@@ -99,7 +99,7 @@
 {
     if (!_collectionView) {
         MyCollectionViewFlowLayout * flowLayout = [[MyCollectionViewFlowLayout alloc]init];
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height - 30) collectionViewLayout:flowLayout];
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height - 64) collectionViewLayout:flowLayout];
         collectionView.backgroundColor = [UIColor whiteColor];
         collectionView.dataSource = self;
         collectionView.delegate = self;
@@ -129,7 +129,6 @@
             
             self.dataSource =[WBCollectionViewModel mj_objectArrayWithKeyValuesArray:arrayList];
             
-          //  NSLog(@"count = %@",self.dataSource);
             for (NSInteger i=0; i<self.dataSource.count; i++) {
                 [_cellHeightArray addObject:((WBCollectionViewModel *)_dataSource[i]).imgRate];
             }
@@ -156,11 +155,6 @@
     NSString *url = [NSString stringWithFormat:@"http://www.xiaohongchun.com/api2/index/gvideo?page=%ld&release=2.0&udid=765879&cid=0",_page];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        
-
-        
-        NSLog(@"wancheng ");
-        
         
        [_collectionView.mj_footer endRefreshing];
         

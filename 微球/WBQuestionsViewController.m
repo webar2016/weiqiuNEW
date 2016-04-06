@@ -119,11 +119,15 @@
     
     self.tableView.mj_header = header;
     
-    self.tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         
         [self loadDataWithPage:self.currentPage];
         
     }];
+    
+    [footer setTitle:@"" forState:MJRefreshStateIdle];
+    
+    self.tableView.mj_footer = footer;
 }
 
 #pragma mark - loadData
@@ -146,16 +150,13 @@
             if (tempArray.count > 0) {
                 if (page == 1) {
                     self.questionsList = tempArray;
-                    self.currentPage ++;
                 }else{
                     [self.questionsList addObjectsFromArray:tempArray];
-                    self.currentPage ++;
                 }
+            } else {
+                [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
             }
-            if (tempArray.count == 0 || tempArray.count < PAGESIZE) {
-                [self.tableView.mj_footer endRefreshingWithNoMoreData];
-            }
-            
+            self.currentPage ++;
             [self.tableView reloadData];
             [self hideHUD];
             [self.tableView.mj_header endRefreshing];
