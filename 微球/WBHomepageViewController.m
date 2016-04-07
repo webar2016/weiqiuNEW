@@ -343,9 +343,7 @@
         for (NSInteger i=0; i<_topicsArray.count; i++) {
             TopicDetailModel *model = _topicsArray[i];
             if (model.newsType == 1) {
-                CGFloat labelHeight = [model.comment adjustSizeWithWidth:(SCREENWIDTH - 40) andFont:MAINFONTSIZE].height;
-                CGFloat imageHieght = SCREENWIDTH * [model.imgRate floatValue];
-                [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(120.0 + imageHieght + labelHeight)]];
+                [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(136.0 + SCREENWIDTH)]];
             } else if (model.newsType == 2) {
                 [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(110.0 + SCREENWIDTH)]];
             } else {
@@ -419,31 +417,34 @@
             static NSString *cellID1 = @"detailCellID1";
             WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID1];
             if (cell == nil) {
-                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID1 withModel:model];
+                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID1];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
+            cell.model = model;
             return cell;
         } else if (model.newsType == 2) {
             static NSString *cellID2 = @"detailCellID2";
             WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID2];
             if (cell == nil) {
-                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2 withModel:model];
+                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
+            cell.model = model;
             return cell;
         } else {
             static NSString *cellID3 = @"detailCellID3";
             WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID3];
             if (cell == nil) {
-                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID3 withModel:model];
+                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID3];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
+            cell.model = model;
             return cell;
         }
     } else {
@@ -813,8 +814,8 @@
 }
 
 -(void)showImageViewer:(NSIndexPath *)indexPath{
-    NSString *dir = ((TopicDetailModel *)_topicsArray[indexPath.section]).dir;
-    WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:dir];
+    TopicDetailModel *model = _topicsArray[indexPath.section];
+    WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:model.dir andContent:model.comment];
     [self presentViewController:viewer animated:YES completion:nil];
 }
 

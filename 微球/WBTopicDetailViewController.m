@@ -28,7 +28,7 @@
 #import "WBArticalViewController.h"
 #import <ALBBQuPaiPlugin/ALBBQuPaiPlugin.h>
 
-#define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld"
+#define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld&p=%ld&ps=%d"
 
 @interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue>
 {
@@ -78,7 +78,6 @@
     _tableView.mj_header = header;
     
     _tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        _page++;
         [self loadData];
     }];
 }
@@ -225,24 +224,22 @@
 
 //加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID];
+    NSLog(@"%ld",_page);
+    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID,_page,PAGESIZE];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if (_page == 1) {
             [_dataArray removeAllObjects];
-            
             [_rowHeightArray removeAllObjects];
         }
         if ([result isKindOfClass:[NSDictionary class]]) {
-            NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"topicCommentList"]];
-            NSMutableArray *arrayTemp = [NSMutableArray array];
-            arrayTemp = [TopicDetailModel mj_objectArrayWithKeyValuesArray:arrayList];
-            for (NSInteger i=0; i<arrayTemp.count; i++) {
-                TopicDetailModel *model = arrayTemp[i];
+            NSArray *tempArray = [TopicDetailModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentList"]];
+            if (tempArray.count > 0) {
+                _page ++;
+            }
+            for (TopicDetailModel *model in tempArray) {
                 if (model.newsType == 1) {
-                    CGFloat labelHeight = [model.comment adjustSizeWithWidth:(SCREENWIDTH - 40) andFont:MAINFONTSIZE].height;
-                    CGFloat imageHieght = SCREENWIDTH * [model.imgRate floatValue];
-                    [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(120.0 + imageHieght + labelHeight)]];
+                    [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(136.0 + SCREENWIDTH)]];
                 } else if (model.newsType == 2) {
                     [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(110.0 + SCREENWIDTH)]];
                 } else {
@@ -250,18 +247,15 @@
                 }
                 [_dataArray addObject:model];
             }
+            [self hideHUD];
             [_tableView reloadData];
-            if (_page == 1) {
-                [self hideHUD];
-                [_tableView.mj_header endRefreshing];
-                if (_dataArray.count == 0) {
-                    [self.view addSubview:_background];
-                }
-            }else{
-                
-                [_tableView.mj_footer endRefreshing];
+            [_tableView.mj_header endRefreshing];
+            [_tableView.mj_footer endRefreshing];
+            if (_page == 1 && _dataArray.count == 0) {
+                [self.view addSubview:_background];
+            } else {
+                [_background removeFromSuperview];
             }
-            
         }
     } andFailure:^(NSString *error) {
         NSLog(@"%@------",error);
@@ -306,8 +300,8 @@
 }
 
 -(void)showImageViewer:(NSIndexPath *)indexPath{
-    NSString *dir = ((TopicDetailModel *)_dataArray[indexPath.section]).dir;
-    WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:dir];
+    TopicDetailModel *model = _dataArray[indexPath.section];
+    WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:model.dir andContent:model.comment];
     [self presentViewController:viewer animated:YES completion:nil];
 }
 
@@ -379,31 +373,34 @@
         static NSString *cellID1 = @"detailCellID1";
         WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID1];
         if (cell == nil) {
-            cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID1 withModel:model];
+            cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID1];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.indexPath = indexPath;
         cell.delegate = self;
+        cell.model = model;
         return cell;
     } else if (model.newsType == 2) {
         static NSString *cellID2 = @"detailCellID2";
         WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID2];
         if (cell == nil) {
-            cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2 withModel:model];
+            cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.indexPath = indexPath;
         cell.delegate = self;
+        cell.model = model;
         return cell;
     } else {
         static NSString *cellID3 = @"detailCellID3";
         WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID3];
         if (cell == nil) {
-            cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID3 withModel:model];
+            cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID3];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.indexPath = indexPath;
         cell.delegate = self;
+        cell.model = model;
         return cell;
     }
 }

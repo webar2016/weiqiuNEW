@@ -9,6 +9,7 @@
 #import "WBImageViewer.h"
 #import "UIImageView+WebCache.h"
 #import "UIImage+MultiFormat.h"
+#import "NSString+string.h"
 
 @implementation WBImageViewer {
     UIImageView *_imageView;
@@ -27,6 +28,16 @@
          self.view.backgroundColor = [UIColor blackColor];
         UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:dir]]];
         [self setUpImageWithImage:image];
+    }
+    return self;
+}
+
+-(instancetype)initWithDir:(NSString *)dir andContent:(NSString *)content{
+    if (self = [super init]) {
+        self.view.backgroundColor = [UIColor blackColor];
+        UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:dir]]];
+        [self setUpImageWithImage:image];
+        [self setUpContentWithContent:content];
     }
     return self;
 }
@@ -59,6 +70,21 @@
     [self.view addSubview:_imageView];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
     [self.view addGestureRecognizer:tap];
+}
+
+-(void)setUpContentWithContent:(NSString *)content{
+    UIView *wraperView = [[UIView alloc] initWithFrame:CGRectZero];
+    wraperView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+    UILabel *contentLabel = [[UILabel alloc] init];
+    contentLabel.font = MAINFONTSIZE;
+    contentLabel.textColor = [UIColor whiteColor];
+    contentLabel.numberOfLines = 0;
+    CGSize labelSize = [content adjustSizeWithWidth:(SCREENWIDTH - 40) andFont:MAINFONTSIZE];
+    contentLabel.frame = CGRectMake(20, 10, SCREENWIDTH - 40, labelSize.height);
+    contentLabel.text = content;
+    [wraperView addSubview:contentLabel];
+    wraperView.frame = CGRectMake(0, SCREENHEIGHT - labelSize.height - 20, SCREENWIDTH, labelSize.height + 20);
+    [self.view addSubview:wraperView];
 }
 
 @end

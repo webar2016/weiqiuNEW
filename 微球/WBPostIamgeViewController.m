@@ -14,7 +14,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface WBPostIamgeViewController ()<UITextViewDelegate,UIScrollViewDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface WBPostIamgeViewController ()<UITextViewDelegate,UIScrollViewDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextInputTraits>
 {
     UILabel *_placeHoldLabel;
     UITextView *_textView;
@@ -71,7 +71,7 @@
     _textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 170)];
     _textView.font = MAINFONTSIZE;
     _textView.delegate = self;
-    _textView.keyboardType = UIKeyboardTypeDefault;
+    _textView.returnKeyType = UIReturnKeyDone;
     [_textView becomeFirstResponder];
   
     [contentView addSubview:_textView];
@@ -92,9 +92,6 @@
     _placeHoldImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imagePickClicked:)];
     [_placeHoldImageView addGestureRecognizer:tap ];
-    
-    
-
 }
 
 
@@ -107,7 +104,7 @@
 }
 
 -(void)imagePickClicked:(UITapGestureRecognizer *)tap{
-    
+    [_textView resignFirstResponder];
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *photo = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self selectImageFromAlbum];
@@ -125,72 +122,36 @@
 }
 
 
-#pragma mark 从摄像头获取图片或视频
+#pragma mark -从摄像头获取图片或视频
 - (void)selectImageFromCamera
 {
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    //录制视频时长，默认10s
-    _imagePickerController.videoMaximumDuration = 15;
-    
-    //相机类型（拍照、录像...）字符串需要做相应的类型转换
     _imagePickerController.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
-    
-    //视频上传质量
-    //UIImagePickerControllerQualityTypeHigh高清
-    //UIImagePickerControllerQualityTypeMedium中等质量
-    //UIImagePickerControllerQualityTypeLow低质量
-    //UIImagePickerControllerQualityType640x480
     _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeLow;
-    
-    //设置摄像头模式（拍照，录制视频）为录像模式
     _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
     [self presentViewController:_imagePickerController animated:YES completion:nil];
 }
 
 
-#pragma mark 从相册获取图片或视频
+#pragma mark -从相册获取图片或视频
 - (void)selectImageFromAlbum
 {
-    //NSLog(@"相册");
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
     [self presentViewController:_imagePickerController animated:YES completion:nil];
 }
 
 
-#pragma mark UIImagePickerControllerDelegate
-//该代理方法仅适用于只选取图片时
+#pragma mark -UIImagePickerControllerDelegate
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    
-    
-    NSLog(@"选择完毕----image:%@-----info:%@",image,editingInfo);
-    
-    
-    
 }
 
 //适用获取所有媒体资源，只需判断资源类型
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
-    //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
-        //如果是图片
-        
-        //添加
         [self addImageInSelf:info[UIImagePickerControllerEditedImage]];
-        //压缩图片
         _selectPic =info[UIImagePickerControllerEditedImage];
-      //  _picData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 0.4);
-        
-       
-        
-        
-        
-        
-    }else{
-        //如果是视频
-     //   NSURL *url = info[UIImagePickerControllerMediaURL];
-
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -198,35 +159,11 @@
 #pragma mark 本体添加图片
 
 -(void)addImageInSelf:(UIImage *)image{
-    
     _placeHoldImageView.image = image;
-
-//    UIImageView *imageView = [[UIImageView alloc]initWithFrame:_placeHoldImageView.frame];
-//    imageView.image = image;
-//   
-//    [_imageBackgroungView addSubview:imageView];
-//    
-//    if (_placeHoldImageView.frame.origin.x==15+(SCREENWIDTH-20)/3*2) {
-//       _placeHoldImageView.frame  = CGRectMake(5, imageView.frame.origin.y+(5+(SCREENWIDTH-20)/3), (SCREENWIDTH-20)/3, (SCREENWIDTH-20)/3);
-//    }else{
-//    
-//     _placeHoldImageView.frame= CGRectMake(_placeHoldImageView.frame.origin.x+(SCREENWIDTH-20)/3+5, _placeHoldImageView.frame.origin.y, (SCREENWIDTH-20)/3, (SCREENWIDTH-20)/3);
-//    }
-
 }
 
 #pragma mark 图片保存完毕的回调
 - (void) image: (UIImage *) image didFinishSavingWithError:(NSError *) error contextInfo: (void *)contextInf{
-    
-}
-
-#pragma mark 视频保存完毕的回调
-- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInf{
-    if (error) {
-        NSLog(@"保存视频过程中发生错误，错误信息:%@",error.localizedDescription);
-    }else{
-        NSLog(@"视频保存成功.");
-    }
 }
 
 #pragma mark -------textView delegate ------
@@ -236,21 +173,21 @@
     }
 }
 
-- (void)textViewDidBeginEditing:(UITextView *)textView{
-    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.25f];
-    self.view.frame = CGRectMake(0.0f, -70.0,SCREENWIDTH,self.view.frame.size.height);
-    [UIView commitAnimations];
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView{
-    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.25f];
-    self.view.frame = CGRectMake(0.0f, 0,SCREENWIDTH,self.view.frame.size.height);
-    [UIView commitAnimations];
-}
+//- (void)textViewDidBeginEditing:(UITextView *)textView{
+//    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+//    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+//    [UIView setAnimationDuration:0.25f];
+//    self.view.frame = CGRectMake(0.0f, -70.0,SCREENWIDTH,self.view.frame.size.height);
+//    [UIView commitAnimations];
+//}
+//
+//- (void)textViewDidEndEditing:(UITextView *)textView{
+//    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+//    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+//    [UIView setAnimationDuration:0.25f];
+//    self.view.frame = CGRectMake(0.0f, 0,SCREENWIDTH,self.view.frame.size.height);
+//    [UIView commitAnimations];
+//}
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView{
 
@@ -259,37 +196,27 @@
 
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-
-{    if (![text isEqualToString:@""])
-    
 {
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
     
-    _placeHoldLabel.hidden = YES;
+    if (![text isEqualToString:@""]){
+        _placeHoldLabel.hidden = YES;
+    }
     
-}
-    
-    if ([text isEqualToString:@""] && range.location == 0 && range.length == 1)
-        
-    {
-        
+    if ([text isEqualToString:@""] && range.location == 0 && range.length == 1){
         _placeHoldLabel.hidden = NO;
-        
     }
     
     return YES;
     
 }
-#pragma mark ====textviewdelegate====
-
-
-
 
 #pragma mark ------btn ----
 -(void)cancelBtnClick{
-    
-    
     [self.navigationController popViewControllerAnimated:YES];
-
 }
 
 
