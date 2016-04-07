@@ -41,9 +41,7 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [UINavigationBar appearance].barTintColor = [UIColor initWithGreen];
     
     [self setPushMessageWith:(UIApplication *)application];
     

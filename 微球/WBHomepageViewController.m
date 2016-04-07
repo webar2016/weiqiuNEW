@@ -486,7 +486,7 @@
        {
           if (_topicTableView.hidden) {
           }else{
-             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",((TopicDetailModel *)_topicsArray[indexPath.row]). commentId] whenSuccess:^(id representData) {
+             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.row]). commentId] whenSuccess:^(id representData) {
                  
                  [_topicsArray removeObjectAtIndex:indexPath.row];
                 
@@ -798,7 +798,7 @@
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{
     WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
     commentView.commentId =((TopicDetailModel *)_topicsArray[indexPath.row]).commentId;
-    commentView.userId =[NSString stringWithFormat:@"%ld", ((TopicDetailModel *)_topicsArray[indexPath.row]).userId];
+    commentView.userId =[NSString stringWithFormat:@"%ld", (long)((TopicDetailModel *)_topicsArray[indexPath.row]).userId];
     [self.navigationController pushViewController:commentView animated:YES];
 }
 

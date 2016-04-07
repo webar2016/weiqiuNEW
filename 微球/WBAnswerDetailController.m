@@ -341,7 +341,7 @@
 
 -(void)enterHomepage{
     WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
-    homepage.userId = [NSString stringWithFormat:@"%ld",self.userId];
+    homepage.userId = [NSString stringWithFormat:@"%ld",(long)self.userId];
     [self.navigationController pushViewController:homepage animated:YES];
 }
 
@@ -392,7 +392,7 @@
 }
 
 -(void)upLoadLikeTap{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/answerPraise?answerId=%ld&userId=%@&toUserId=%ld",self.answerId,[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/answerPraise?answerId=%ld&userId=%@&toUserId=%ld",(long)self.answerId,[WBUserDefaults userId],(long)self.userId] whenSuccess:^(id representData) {
         
     } andFailure:^(NSString *error) {
         

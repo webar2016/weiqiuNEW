@@ -117,7 +117,7 @@
     _loadImageCount = 0;
     _page = 1;
     
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld",_page];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld",(long)_page];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -152,9 +152,9 @@
         return;
     }
     
-    NSString *url = [NSString stringWithFormat:@"http://www.xiaohongchun.com/api2/index/gvideo?page=%ld&release=2.0&udid=765879&cid=0",_page];
+    NSString *url = [NSString stringWithFormat:@"http://www.xiaohongchun.com/api2/index/gvideo?page=%ld&release=2.0&udid=765879&cid=0",(long)_page];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
-        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+//        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
        [_collectionView.mj_footer endRefreshing];
         

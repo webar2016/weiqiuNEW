@@ -200,7 +200,7 @@
                         
                         WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
                         writeAnswerVC.groupId = self.groupId;
-                        writeAnswerVC.questionId = [NSString stringWithFormat:@"%ld",self.questionId];
+                        writeAnswerVC.questionId = [NSString stringWithFormat:@"%ld",(long)self.questionId];
                         writeAnswerVC.isQuestionAnswer = YES;
                         [self.navigationController pushViewController:writeAnswerVC animated:YES];
                         
@@ -241,7 +241,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"关闭问题，小伙伴将无法回答，是否确认关闭？" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"关闭" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/closeQuestion?userId=%@&questionId=%ld",[WBUserDefaults userId],self.questionId] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/closeQuestion?userId=%@&questionId=%ld",[WBUserDefaults userId],(long)self.questionId] whenSuccess:^(id representData) {
                 sender.enabled = NO;
                 sender.backgroundColor = [UIColor initWithNormalGray];
                 [sender setTitle:@"已关闭" forState:UIControlStateNormal];

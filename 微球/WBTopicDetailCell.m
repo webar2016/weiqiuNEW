@@ -195,7 +195,7 @@
         [_mainImage sd_setImageWithURL:[NSURL URLWithString:[model.dir componentsSeparatedByString:@";"].firstObject]];
     }
     
-    [_commentBtn setTitle:[NSString stringWithFormat:@" %ld 评论",model.descussNum] forState:UIControlStateNormal];
+    [_commentBtn setTitle:[NSString stringWithFormat:@" %ld 评论",(long)model.descussNum] forState:UIControlStateNormal];
     
     if (_score > 1000) {
         [_praiseBtn setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
@@ -312,7 +312,7 @@
 }
 
 -(void)upLoadLikeTap{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",_model.commentId,[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
         [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
     } andFailure:^(NSString *error) {
         

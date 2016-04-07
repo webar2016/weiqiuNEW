@@ -198,9 +198,9 @@
         _contentLabel.text = model.comment;
     _medioUrl = model.dir;
     
-        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
+        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",(long)model.descussNum] forState:UIControlStateNormal];
         
-        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
+        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",(long)model.getIntegral] forState:UIControlStateNormal];
         
     
     
@@ -316,7 +316,7 @@
 
 //上传积分信息
 -(void)uploadInformation{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",_model.commentId,[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
         [self.delegate changeGetIntegralValue:123 indexPath:_indexPath];
         [UIView animateWithDuration:0.5f animations:^{
             NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);

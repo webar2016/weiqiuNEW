@@ -236,7 +236,7 @@
 
 -(void)enterHomepage{
     WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
-    homepage.userId = [NSString stringWithFormat:@"%d",self.userId];
+    homepage.userId = [NSString stringWithFormat:@"%ld",(long)self.userId];
     [self.navigationController pushViewController:homepage animated:YES];
 }
 

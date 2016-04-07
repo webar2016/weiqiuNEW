@@ -265,7 +265,7 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.275f];
+    [UIView setAnimationDuration:0.25f];
     _scrollView.frame = CGRectMake(0.0f, - 150.0,SCREENWIDTH,self.view.frame.size.height);
     [UIView commitAnimations];
 }
@@ -273,7 +273,7 @@
 - (void)textViewDidEndEditing:(UITextView *)textView{
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:0.275f];
+    [UIView setAnimationDuration:0.25f];
     _scrollView.frame = CGRectMake(0.0f, 0.0f,SCREENWIDTH,self.view.frame.size.height);
     [UIView commitAnimations];
 }
