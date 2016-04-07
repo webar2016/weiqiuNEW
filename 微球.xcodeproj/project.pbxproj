@@ -33,6 +33,7 @@
 		052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6047EE1C93F86000A88BAA /* WBHelp_Group_Sign.m */; };
 		054303831CB4F6210041902D /* WBTopicDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 054303821CB4F6210041902D /* WBTopicDetailCell.m */; };
 		054303871CB5FC8C0041902D /* WBImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 054303861CB5FC8C0041902D /* WBImageViewer.m */; };
+		0543038A1CB688570041902D /* WBChatImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 054303891CB688570041902D /* WBChatImageViewer.m */; };
 		054452BD1C9ADFEC00F8969E /* WBUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 054452BC1C9ADFEC00F8969E /* WBUserDefaults.m */; };
 		054452C51C9C45A100F8969E /* WBSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 054452C41C9C45A100F8969E /* WBSearchViewController.m */; };
 		054452C91C9CFC4E00F8969E /* WBUserListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 054452C71C9CFC4E00F8969E /* WBUserListTableViewCell.m */; };
@@ -244,6 +245,8 @@
 		054303821CB4F6210041902D /* WBTopicDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailCell.m; sourceTree = "<group>"; };
 		054303851CB5FC8C0041902D /* WBImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageViewer.h; sourceTree = "<group>"; };
 		054303861CB5FC8C0041902D /* WBImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageViewer.m; sourceTree = "<group>"; };
+		054303881CB688570041902D /* WBChatImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBChatImageViewer.h; sourceTree = "<group>"; };
+		054303891CB688570041902D /* WBChatImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBChatImageViewer.m; sourceTree = "<group>"; };
 		054452BB1C9ADFEC00F8969E /* WBUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUserDefaults.h; sourceTree = "<group>"; };
 		054452BC1C9ADFEC00F8969E /* WBUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUserDefaults.m; sourceTree = "<group>"; };
 		054452C31C9C45A100F8969E /* WBSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSearchViewController.h; sourceTree = "<group>"; };
@@ -730,6 +733,8 @@
 			children = (
 				054303851CB5FC8C0041902D /* WBImageViewer.h */,
 				054303861CB5FC8C0041902D /* WBImageViewer.m */,
+				054303881CB688570041902D /* WBChatImageViewer.h */,
+				054303891CB688570041902D /* WBChatImageViewer.m */,
 			);
 			name = "查看大图";
 			sourceTree = "<group>";
@@ -1691,6 +1696,7 @@
 				05D1F9391C8EC0520049D3EC /* WBPostArticleViewController.m in Sources */,
 				2D5D73051C926F4C00F8C2AE /* WBAllocateScoreTableViewCell.m in Sources */,
 				05D6EBC01C7D4BA5002D48FF /* WBFindViewController.m in Sources */,
+				0543038A1CB688570041902D /* WBChatImageViewer.m in Sources */,
 				2D5D73021C926CB700F8C2AE /* WBAllocateScoreModel.m in Sources */,
 				05DB3F681C8587A900CBCC54 /* WBQuestionTableViewCell.m in Sources */,
 				2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */,

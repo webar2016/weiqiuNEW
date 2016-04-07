@@ -242,6 +242,10 @@
 -(void)showHUD:(NSString *)title isDim:(BOOL)isDim
 {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
+//    self.hud.opacity = 0.8;
+    self.hud.activityIndicatorColor = [UIColor initWithNormalGray];
+    self.hud.labelColor = [UIColor initWithNormalGray];
     self.hud.dimBackground = isDim;
     self.hud.labelText = title;
 }

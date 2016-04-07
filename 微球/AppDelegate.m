@@ -25,17 +25,18 @@
 #import <RongIMLib/RCUserInfo.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <ALBBQuPaiPlugin/ALBBQuPaiPlugin.h>
+#import <CoreLocation/CoreLocation.h>
 
 #define SELECTED_INDEX ((UITabBarController *)self.window.rootViewController.childViewControllers.lastObject).selectedIndex
 
-@interface AppDelegate () <RCIMUserInfoDataSource,RCIMGroupInfoDataSource> {
+@interface AppDelegate () <RCIMUserInfoDataSource,RCIMGroupInfoDataSource,CLLocationManagerDelegate> {
     BOOL    _tokenOutOfTime;
 }
 
 @property (strong,nonatomic) WBLeftViewController *leftViewController;
 @property (strong,nonatomic) WBRightViewController *rightViewController;
 @property (strong,nonatomic) WBMainTabBarController *mainTabBarController;
-
+@property (strong, nonatomic) CLLocationManager *locationManager;
 
 @end
 
@@ -66,15 +67,9 @@
     
     [self shareSDK];
     
+    [self startLocation];
+    
     [self qupaiSDK];
-    
-//    NSArray *array = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation].allKeys;
-//    
-//    for (NSString *str in array) {
-//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:str];
-//    }
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-    
     
     return YES;
 }
@@ -326,12 +321,34 @@ didRegisterUserNotificationSettings:
                       clientKey:@"EmA5l51bsV67447EHbr6BYGw"];
 }
 
-#pragma nark - 趣拍sdk
+#pragma mark - 趣拍sdk
 
 -(void)qupaiSDK{
     [[QupaiSDK shared] registerAppWithKey:@"206ab04f6e94b74" secret:@"068e513360e04f1bad5694e507c32a12" space:@"weiqiu-2016" success:^(NSString *accessToken) {
     } failure:^(NSError *error) {
         NSLog(@"初始化失败");
+    }];
+}
+
+#pragma mark - 定位请求
+
+-(void)startLocation{
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.distanceFilter = 10.0f;
+    if([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)])
+    {
+        [self.locationManager requestWhenInUseAuthorization];
+        [self.locationManager requestAlwaysAuthorization];
+    }
+    [self.locationManager startUpdatingLocation];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    [self.locationManager stopUpdatingLocation];
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
     }];
 }
 

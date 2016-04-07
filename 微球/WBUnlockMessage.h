@@ -33,7 +33,12 @@
 @property(nonatomic, strong) NSString *isUnlock;
 
 /*!
- 没用o(╯□╰)o
+ 解锁城市cityId
+ */
+@property(nonatomic, strong) NSString *cityId;
+
+/*!
+图片比例
  */
 @property(nonatomic, strong) NSString *extra;
 

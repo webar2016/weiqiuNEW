@@ -13,6 +13,7 @@
 #import "WBPostArticleViewController.h"
 #import "WBQuestionsViewController.h"
 #import "WBHomepageViewController.h"
+#import "WBChatImageViewer.h"
 
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
@@ -54,7 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%@",self.targetId);
+//    NSLog(@"%@",self.targetId);
     
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
@@ -69,6 +70,7 @@
     
     self.displayUserNameInCell = YES;
     self.enableContinuousReadUnreadVoice = YES;
+    self.enableSaveNewPhotoToLocalSystem = YES;
     self.groupId = self.targetId;
     [self setMessageAvatarStyle:RC_USER_AVATAR_CYCLE];
     [self showHUD:@"正在努力加载" isDim:NO];
@@ -130,7 +132,7 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             _currentQuestionId = responseObject[@"msg"];
-            NSLog(@"%@",_currentQuestionId);
+//            NSLog(@"%@",_currentQuestionId);
         }
         [self getQuestionTotalNumber];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -304,6 +306,15 @@
     WBHomepageViewController *friendPage = [[WBHomepageViewController alloc] init];
     friendPage.userId = userId;
     [self.navigationController pushViewController:friendPage animated:YES];
+}
+
+-(void)didTapMessageCell:(RCMessageModel *)model{
+    if ([model.content isKindOfClass:[RCImageMessage class]]) {
+        WBChatImageViewer *imageViewer = [[WBChatImageViewer alloc] initWithChatModel:model];
+        [self presentViewController:imageViewer animated:YES completion:nil];
+    } else if ([model.content isKindOfClass:[RCLocationMessage class]]) {
+        [self presentLocationViewController:(RCLocationMessage *)model.content];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

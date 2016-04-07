@@ -8,6 +8,7 @@
 
 #import "WBPrivateViewController.h"
 #import "WBHomepageViewController.h"
+#import "WBChatImageViewer.h"
 
 @interface WBPrivateViewController ()
 
@@ -21,6 +22,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
+    self.enableSaveNewPhotoToLocalSystem = YES;
 }
 
 -(void)popBack{
@@ -49,6 +51,15 @@
     }
     friendPage.userId = userId;
     [self.navigationController pushViewController:friendPage animated:YES];
+}
+
+-(void)didTapMessageCell:(RCMessageModel *)model{
+    if ([model.content isKindOfClass:[RCImageMessage class]]) {
+        WBChatImageViewer *imageViewer = [[WBChatImageViewer alloc] initWithChatModel:model];
+        [self presentViewController:imageViewer animated:YES completion:nil];
+    } else if ([model.content isKindOfClass:[RCLocationMessage class]]) {
+        [self presentLocationViewController:(RCLocationMessage *)model.content];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

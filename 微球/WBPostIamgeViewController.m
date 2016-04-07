@@ -221,6 +221,23 @@
 
 
 -(void)saveBtnClicked{
+    [_textView resignFirstResponder];
+    
+    if (!_selectPic) {
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+        self.hud.mode = MBProgressHUDModeText;
+        self.hud.labelText = @"请选择图片";
+        [self.hud hide:YES afterDelay:2.0];
+        return;
+    }
+    if (_textView.text.length == 0) {
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+        self.hud.mode = MBProgressHUDModeText;
+        self.hud.labelText = @"说点什么吧！";
+        [self.hud hide:YES afterDelay:2.0];
+        return;
+    }
+    
     [self showHUD:@"正在上传" isDim:YES];
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
     
@@ -229,7 +246,7 @@
     [parameters setObject:_textView.text forKey:@"comment"];
     [parameters setObject:[NSString stringWithFormat:@"%ld",(long)_topicID] forKey:@"topicId"];
      CGFloat rate =_selectPic.size.height/_selectPic.size.width;
-   [parameters setObject:[NSString stringWithFormat:@"%f",rate] forKey:@"imgRate"];
+    [parameters setObject:[NSString stringWithFormat:@"%f",rate] forKey:@"imgRate"];
     NSData *fileData = UIImageJPEGRepresentation(_selectPic, 0.4);
     
     
@@ -253,17 +270,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -772,9 +772,15 @@
             [MyDownLoadManager postUrl:@"http://121.40.132.44:92/report/reportUser" withParameters:@{@"userId":[WBUserDefaults userId],@"toUserId":self.userId,@"content":alert.textFields.firstObject.text} whenProgress:^(NSProgress *FieldDataBlock) {
                 
             } andSuccess:^(id representData) {
-                [self showHUDComplete:@"举报成功！"];
+                self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+                self.hud.mode = MBProgressHUDModeText;
+                self.hud.labelText = @"举报成功！";
+                [self.hud hide:YES afterDelay:2.0];
             } andFailure:^(NSString *error) {
-                [self showHUDComplete:@"举报失败，请稍后再试"];
+                self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+                self.hud.mode = MBProgressHUDModeText;
+                self.hud.labelText = @"举报失败，请稍后再试";
+                [self.hud hide:YES afterDelay:2.0];
             }];
         }];
         action;
