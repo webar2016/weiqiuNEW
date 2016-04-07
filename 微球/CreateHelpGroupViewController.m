@@ -1,6 +1,7 @@
 #import "CreateHelpGroupViewController.h"
 #import "WBGroupInfoController.h"
 #import "WBUnlockViewController.h"
+#import "WBMyUnlockViewController.h"
 
 #import "WBPositionList.h"
 #import "WBPositionModel.h"
@@ -45,6 +46,8 @@
         self.navigationItem.leftBarButtonItem = leftButton;
         UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(backToLastView)];
         self.navigationItem.backBarButtonItem = back;
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"我的解锁信息" style:UIBarButtonItemStylePlain target:self action:@selector(gotoMyUnlockView)];
+        self.navigationItem.rightBarButtonItem = rightButton;
     }else{
         self.navigationItem.title = @"选择目的地";
         UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(backToLastView)];
@@ -82,6 +85,13 @@
         self.tabBarController.selectedIndex = 2;
     }else{
         self.tabBarController.selectedIndex = 0;
+    }
+}
+
+-(void)gotoMyUnlockView{
+    if (self.fromSlidePage) {
+        WBMyUnlockViewController *MVC = [[WBMyUnlockViewController alloc]init];
+        [self.navigationController pushViewController:MVC animated:YES];
     }
 }
 

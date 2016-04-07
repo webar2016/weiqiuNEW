@@ -73,6 +73,7 @@
     button.layer.masksToBounds = YES;
     button.layer.cornerRadius = 3;
     button.frame = CGRectMake(0, 0, 50, 25);
+    button.tag = 200;
     
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = rightButton;
@@ -163,7 +164,7 @@
 }
 
 -(void)setContent{
-    [WBUserDefaults printUserDefaults];
+   // [WBUserDefaults printUserDefaults];
     
     if ([WBUserDefaults nickname]) {
         ((UITextField *)[self.view viewWithTag:200]).text =[NSString stringWithFormat:@"%@",[WBUserDefaults nickname]];
@@ -226,6 +227,8 @@
     [_textField resignFirstResponder];
     
     [self showHUD:@"正在保存" isDim:YES];
+    UIBarButtonItem *btn = self.navigationItem.rightBarButtonItem;
+    [btn setEnabled:NO];
    
     WBPositionList *positionList =[[WBPositionList alloc] init];
     NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
@@ -251,7 +254,7 @@
         
     } andSuccess:^(id representData) {
       //  NSLog(@"%@",representData);
-       NSLog(@"success-------");
+      // NSLog(@"success-------");
         [WBUserDefaults setNickname:((UITextField*)[self.view viewWithTag:200]).text];
         [WBUserDefaults setSex:((UILabel*)[self.view viewWithTag:201]).text];
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
@@ -264,11 +267,15 @@
         
         [self.delegate ModefyViewDelegate];
         [self showHUDComplete:@"修改成功"];
+        [btn setEnabled:YES];
     } andFailure:^(NSString *error) {
         NSLog(@"failure");
         NSLog(@"%@",error.localizedCapitalizedString);
         [self showHUDComplete:@"上传失败"];
+        [btn setEnabled:YES];
+
     }];
+    
     
 }
 

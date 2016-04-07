@@ -8,6 +8,8 @@
 
 #import "WBUnlockViewController.h"
 #import "MyDownLoadManager.h"
+#import "WBTbl_Unlock_City.h"
+#import "MyDBmanager.h"
 
 #define UNLOCK_URL @"http://121.40.132.44:92/album/unlockApplication"
 
@@ -247,7 +249,27 @@
         
     } andSuccess:^(id representData) {
         _isSuccess = YES;
-        [self showHUDComplete:@"上传成功，正在火速审核中"];
+        
+        WBTbl_Unlock_City *model = [[WBTbl_Unlock_City alloc]init];
+        model.userId =[[WBUserDefaults userId] integerValue];
+        model.cityId =[self.cityId integerValue];
+        MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+        NSArray *tempArray = [NSArray arrayWithArray:[manager searchAllItems]];
+        BOOL isSaved = NO;
+        for (WBTbl_Unlock_City *tempModel in tempArray) {
+            if (model.cityId == tempModel.cityId) {
+                isSaved = YES;
+                break;
+            }
+        }
+        if (!isSaved) {
+            [manager addItem:model];
+            [self showHUDComplete:@"上传成功，正在火速审核中"];
+        }else{
+            [self showHUDComplete:@"这个城市已经解锁"];
+        }
+        [manager closeFBDM];
+        
     } andFailure:^(NSString *error) {
         self.navigationItem.rightBarButtonItem.enabled = YES;
         _isSuccess = NO;
