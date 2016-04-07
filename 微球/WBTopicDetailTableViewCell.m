@@ -136,7 +136,7 @@
     __unsafe_unretained WBTopicDetailTableViewCell *wfindShopVC = self;
     [_zanBtn setClickHandler:^(CatZanButton *zanButton) {
         if (_model.userId ==[[WBUserDefaults userId] integerValue]) {
-            
+            [wfindShopVC.delegate alertViewIntergeal:@"不能给自己充值" messageOpreation:nil cancelMessage:@"取消"];
             [zanButton setIsZan:NO];
         }else{
             if (zanButton.isZan) {
