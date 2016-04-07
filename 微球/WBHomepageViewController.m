@@ -494,12 +494,15 @@
       if (editingStyle ==UITableViewCellEditingStyleDelete)
        {
           if (_topicTableView.hidden) {
+              
+              
           }else{
              [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.section]). commentId] whenSuccess:^(id representData) {
                  
-                 [_topicsArray removeObjectAtIndex:indexPath.section];
-                
+                 
+                 [_topicsArray removeObjectAtIndex:indexPath.row];
                  [_topicTableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];
+                 
              } andFailure:^(NSString *error) {
                 
              }];

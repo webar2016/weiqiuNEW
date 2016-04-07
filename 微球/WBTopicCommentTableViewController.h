@@ -10,7 +10,8 @@
 #import "MBProgressHUD.h"
 #import "MJRefresh.h"
 
-@interface WBTopicCommentTableViewController : UITableViewController
+
+@interface WBTopicCommentTableViewController : UIViewController
 
 @property (nonatomic,assign)NSInteger commentId;
 

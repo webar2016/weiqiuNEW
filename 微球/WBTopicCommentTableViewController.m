@@ -13,15 +13,17 @@
 #import "WBTopicCommentTableViewCell.h"
 
 
-#define commentURL @"http://121.40.132.44:92/tq/getTopicCommentDetil?commentId=%ld"
+#define commentURL @"http://121.40.132.44:92/tq/getTopicCommentDetil?commentId=%ld?p=%ld&ps=%d"
 
 @interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
 {
+    UITableView *_tableView;
     NSMutableArray *_dataArray;
     NSMutableArray *_cellHeightArray;
     NSInteger _page;
     UITextView *_commentTextView;
     UIButton *_rightBtn;
+    UIView *_textBgView;
 }
 
 
@@ -53,17 +55,14 @@
     }];
     header.lastUpdatedTimeLabel.hidden = YES;
     
-    self.tableView.mj_header = header;
+    _tableView.mj_header = header;
     
-    self.tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    _tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
         //  NSLog(@"进入刷新状态后会自动调用这个block2");
         _page++;
         [self loadData];
-        
     }];
-    
-    
 }
 
 -(void) createNavi{
@@ -78,10 +77,20 @@
 }
 
 -(void)createUI{
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+9, SCREENWIDTH, self.view.frame.size.height-64-9)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height-64-50)];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.userInteractionEnabled = YES;
+    [self.view addSubview:_tableView];
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
+    
+    _textBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    [self.view addSubview:_textBgView];
+    _textBgView.backgroundColor = [UIColor initWithBackgroundGray];
+    _textBgView.alpha = 0;
+    _textBgView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewClicked)];
+    [_textBgView addGestureRecognizer:tap];
 
 
 }
@@ -103,15 +112,18 @@
 //输入框
 - (void) registerForKeyboardNotifications
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardDidHideNotification object:nil];
-    
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+-(void)viewClicked{
+
+    [_commentTextView resignFirstResponder];
 }
 
 - (void) keyboardWasShown:(NSNotification *) notif
 {
+    _textBgView.alpha = 0.5;
     NSDictionary *info = [notif userInfo];
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
@@ -122,6 +134,7 @@
 }
 - (void) keyboardWasHidden:(NSNotification *) notif
 {
+    _textBgView.alpha = 0;
     NSDictionary *info = [notif userInfo];
     
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
@@ -141,11 +154,12 @@
     [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setCommentDetil" withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
-        [self showHUDComplete:@"保存成功"];
+        [self showHUDComplete:@"上传成功"];
         [self loadData];
+        _commentTextView.text = @"";
         [_commentTextView resignFirstResponder];
     } andFailure:^(NSString *error) {
-        
+         [self showHUDComplete:@"上传失败"];
     }];
     
     
@@ -157,14 +171,17 @@
     return YES;
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [super touchesBegan:touches withEvent:event];
     NSLog(@"000000");
     if (![_commentTextView isExclusiveTouch]) {
         [_commentTextView resignFirstResponder];
     }
 }
+
 //加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:commentURL,(long)_commentId]; //TopicCommentURL
+    NSString *url = [NSString stringWithFormat:commentURL,(long)_commentId,(long)_page,PAGESIZE]; //TopicCommentURL
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if (_page == 1) {
@@ -198,13 +215,13 @@
             }
             
             
-            [self.tableView reloadData];
+            [_tableView reloadData];
             
             if (_page ==1 ) {
-                [self.tableView.mj_header endRefreshing];
+                [_tableView.mj_header endRefreshing];
                 [self hideHUD];
             }else{
-                [self.tableView.mj_footer endRefreshing];
+                [_tableView.mj_footer endRefreshing];
             }
             
         }
