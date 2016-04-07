@@ -18,4 +18,6 @@
 
 -(instancetype)initWithDir:(NSString *)dir;
 
+-(instancetype)initWithDir:(NSString *)dir andContent:(NSString *)content;
+
 @end

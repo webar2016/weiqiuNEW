@@ -187,7 +187,7 @@
         homepage.userId = message.extra;
         [self.navigationController pushViewController:homepage animated:YES];
     } else if ([model.content isKindOfClass:[WBCommentMessage class]]) {
-        WBCommentMessage *message = (WBCommentMessage *)model.content;//message.extra存储了被评论状态的id
+        WBCommentMessage *message = (WBCommentMessage *)model.content;
         WBTopicCommentTableViewController *TVC = [[WBTopicCommentTableViewController alloc]init];
         TVC.commentId = [message.extra integerValue];
         [self.navigationController pushViewController:TVC animated:YES];

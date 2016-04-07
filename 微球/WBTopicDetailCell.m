@@ -39,14 +39,12 @@
     TopicDetailModel *_model;
 }
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withModel:(TopicDetailModel *)model{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        _model = model;
-        _score = model.getIntegral;
         
         [self setUpUserInfos];
         
-        [self setUpMainContentWithModel:model];
+        [self setUpMainContentWithIdentifiter:reuseIdentifier];
         
         [self setUpToolbar];
         
@@ -58,8 +56,6 @@
         _likeTip.frame = CGRectMake(SCREENWIDTH / 2, _maxHeight - 40, 124, 23);
         _likeTip.alpha = 0;
         [self.contentView addSubview:_likeTip];
-        
-        [self setData:model];
     }
     return self;
 }
@@ -89,26 +85,26 @@
     [self.contentView addSubview:userView];
 }
 
--(void)setUpMainContentWithModel:(TopicDetailModel *)model{
+-(void)setUpMainContentWithIdentifiter:(NSString *)reuseIdentifier{
     _mainContent = [[UIView alloc] initWithFrame:CGRectZero];
     
-    if (model.newsType == 1) {//photo
+    if ([reuseIdentifier isEqualToString:@"detailCellID1"]) {//photo
         
-        CGFloat rate = [model.imgRate floatValue];
-        _mainImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENWIDTH * rate)];
+        _mainImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENWIDTH)];
         _mainImage.backgroundColor = [UIColor initWithBackgroundGray];
+        _mainImage.contentMode = UIViewContentModeScaleAspectFill;
+        _mainImage.layer.masksToBounds = YES;
         
-        CGSize labelSize = [model.comment adjustSizeWithWidth:(SCREENWIDTH - 40) andFont:MAINFONTSIZE];
-        _contentLabel = [[UILabel alloc] initWithFrame:(CGRect){{20,SCREENWIDTH * rate + 10},labelSize}];
+        _contentLabel = [[UILabel alloc] initWithFrame:(CGRect){{20,SCREENWIDTH + 10},{(SCREENWIDTH - 40),16}}];
         _contentLabel.font = MAINFONTSIZE;
-        _contentLabel.numberOfLines = 0;
+        _contentLabel.numberOfLines = 1;
         _contentLabel.textColor = [UIColor initWithLightGray];
         
-        _mainContent.frame = CGRectMake(0, 60, SCREENWIDTH, SCREENWIDTH * rate + labelSize.height + 10);
+        _mainContent.frame = CGRectMake(0, 60, SCREENWIDTH, SCREENWIDTH + 26);
         [_mainContent addSubview:_mainImage];
         [_mainContent addSubview:_contentLabel];
         
-    } else if (model.newsType == 2) {//vedio
+    } else if ([reuseIdentifier isEqualToString:@"detailCellID2"]) {//vedio
         
         _mainImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENWIDTH)];
         _mainImage.backgroundColor = [UIColor initWithBackgroundGray];
@@ -180,7 +176,10 @@
     [self.contentView addSubview:_toolBar];
 }
 
--(void)setData:(TopicDetailModel *)model{
+-(void)setModel:(TopicDetailModel *)model{
+    
+    _model = model;
+    _score = model.getIntegral;
     
     [_headIcon sd_setImageWithURL:[NSURL URLWithString:model.tblUser.dir]];
     _nickname.text =model.tblUser.nickname;

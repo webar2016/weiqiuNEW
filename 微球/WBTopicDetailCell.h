@@ -34,5 +34,9 @@
 
 @property (nonatomic,retain) NSIndexPath *indexPath;
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withModel:(TopicDetailModel *)model;
+@property (nonatomic,retain) TopicDetailModel *model;
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+
+-(void)setModel:(TopicDetailModel *)model;
 @end
