@@ -144,7 +144,7 @@
     [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
     [parameters setObject:@"2" forKey:@"newsType"];
     [parameters setObject:_textView.text forKey:@"comment"];
-    [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
+    [parameters setObject:[NSString stringWithFormat:@"%ld",(long)_topicID] forKey:@"topicId"];
     
     [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:fileData name:@"1234" fileName:@"video1.mov" mimeType:@"video/quicktime"];

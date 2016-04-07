@@ -113,7 +113,7 @@
         _disturbSign.hidden = YES;
     }
     if (model.unreadMessageCount > 0) {
-        _unReadTip.text = [NSString stringWithFormat:@"%ld",model.unreadMessageCount];
+        _unReadTip.text = [NSString stringWithFormat:@"%ld",(long)model.unreadMessageCount];
         [self addSubview:_unReadTip];
     }else{
         [_unReadTip removeFromSuperview];

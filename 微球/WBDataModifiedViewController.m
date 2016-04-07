@@ -415,21 +415,6 @@
     return NO;
     
 }
-//- (void)textFieldDidBeginEditing:(UITextField *)textField{
-//    CGRect frame = textField.frame;
-//    int offset = frame.origin.y + 32 - (self.view.frame.size.height - 216.0);//键盘高度216
-//    NSTimeInterval animationDuration = 0.30f;
-//    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
-//    [UIView setAnimationDuration:animationDuration];
-//    float width = self.view.frame.size.width;
-//    float height = self.view.frame.size.height;
-//    if(offset > 0)
-//    {
-//        CGRect rect = CGRectMake(0.0f, -offset,width,height);
-//        self.view.frame = rect;
-//    } 
-//    [UIView commitAnimations];
-//}
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     NSTimeInterval animationDuration = 0.30f;

@@ -102,21 +102,21 @@
     
     _leftImageView.image = [UIImage imageNamed:@"icon_qiupiao.png"];
     
-        _leftLabel.text = [NSString stringWithFormat:@"%ld球币",model.rewardIntegral];
+        _leftLabel.text = [NSString stringWithFormat:@"%ld球币",(long)model.rewardIntegral];
     _leftLabel.font = FONTSIZE12;
     _leftLabel.textColor = [UIColor initWithLightGray];
     
     _rightImageView.image = [UIImage imageNamed:@"icon_member.png"];
     
     
-    _rightLabel.text = [NSString stringWithFormat:@"%ld团员",model.members];
+    _rightLabel.text = [NSString stringWithFormat:@"%ld团员",(long)model.members];
     _rightLabel.font = FONTSIZE12;
     _rightLabel.textColor = [UIColor initWithLightGray];
 
 }
 //去往个人主页
 -(void)goHomePage:(UITapGestureRecognizer *)tap{
-    [self.delegate goHomepage:[NSString stringWithFormat:@"%ld",_model.userId]];
+    [self.delegate goHomepage:[NSString stringWithFormat:@"%ld",(long)_model.userId]];
 }
 
 

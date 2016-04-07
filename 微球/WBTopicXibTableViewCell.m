@@ -78,7 +78,7 @@
     _contentLabel.text = model.comment;
     _contentLabel.textColor = [UIColor initWithLightGray];
     
-    NSLog(@"1111111  -------%ld",_model.userId);
+    NSLog(@"1111111  -------%ld",(long)_model.userId);
    
     
 }
@@ -157,8 +157,8 @@
 
 -(void)attentionBtnClicked{
     if ([_attentionButton.titleLabel.text isEqualToString:@"关注"]) {
-        NSLog(@"_model.userId%ld",_model.userId);
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%ld",[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
+        NSLog(@"_model.userId%ld",(long)_model.userId);
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%ld",[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
                 [_attentionButton setTitle:@"已关注" forState:UIControlStateNormal];
@@ -170,7 +170,7 @@
         }];
         
     }else{
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%ld",[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%ld",[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
                 [_attentionButton setTitle:@"关注" forState:UIControlStateNormal];

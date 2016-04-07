@@ -137,7 +137,7 @@
    
     
     
-    NSDictionary *paramter = @{@"userId":[WBUserDefaults userId],@"toUserId":_userId,@"commentId":[NSString stringWithFormat:@"%ld",_commentId],@"comment":_commentTextView.text};
+    NSDictionary *paramter = @{@"userId":[WBUserDefaults userId],@"toUserId":_userId,@"commentId":[NSString stringWithFormat:@"%ld",(long)_commentId],@"comment":_commentTextView.text};
     [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setCommentDetil" withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {

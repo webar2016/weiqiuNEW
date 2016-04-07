@@ -136,7 +136,7 @@
                 for (NSUInteger i = 0; i < count; i ++) {
                     _surplus = _surplus - [_cellScoreArray[i] integerValue];
                 }
-                _surplusScore.text = [NSString stringWithFormat:@"%ld%@",_surplus,@"%"];
+                _surplusScore.text = [NSString stringWithFormat:@"%ld%@",(long)_surplus,@"%"];
             }
         }
     } andFailure:^(NSString *error) {
@@ -173,16 +173,16 @@
     if (btn.tag%10 == 1) {
         UILabel *label = [self.view viewWithTag:btn.tag-1];
         if ([label.text integerValue]>0) {
-            label.text = [NSString stringWithFormat:@"%ld",[label.text integerValue]-1];
+            label.text = [NSString stringWithFormat:@"%d",[label.text intValue]-1];
             _surplus++;
-            _surplusScore.text = [NSString stringWithFormat:@"%ld%@",_surplus,@"%"];
+            _surplusScore.text = [NSString stringWithFormat:@"%ld%@",(long)_surplus,@"%"];
         }
     }else{
         UILabel *label = [self.view viewWithTag:btn.tag-2];
         if (_surplus>0) {
-            label.text = [NSString stringWithFormat:@"%ld",[label.text integerValue]+1];
+            label.text = [NSString stringWithFormat:@"%d",[label.text intValue]+1];
             _surplus--;
-            _surplusScore.text = [NSString stringWithFormat:@"%ld%@",_surplus,@"%"];
+            _surplusScore.text = [NSString stringWithFormat:@"%ld%@",(long)_surplus,@"%"];
         }
     }
 
@@ -207,7 +207,7 @@
         for (NSInteger i = 0;i<_dataArray.count;i++) {
             
             UILabel *label = (UILabel *)[self.view viewWithTag:100+10*i];
-            [integral setObject:label.text forKey:[NSString stringWithFormat:@"%ld",((WBAllocateScoreModel *)_dataArray[i]).userId]];
+            [integral setObject:label.text forKey:[NSString stringWithFormat:@"%ld",(long)((WBAllocateScoreModel *)_dataArray[i]).userId]];
 //            [str stringByAppendingString:[NSString stringWithFormat:@"%ld",((WBAllocateScoreModel *)_dataArray[i]).userId]];
 //            [str stringByAppendingString:@":"];
 //            [str stringByAppendingString:label.text];

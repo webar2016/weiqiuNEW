@@ -45,8 +45,7 @@
 
 -(void) createNav{
     //设置标题
-    self.navigationItem.title = @"照片";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor initWithDarkGray]}];
+    self.navigationItem.title = @"发布照片";
     
     UIButton *rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBtton.frame = CGRectMake(0, 0, 48, 22) ;
@@ -238,13 +237,19 @@
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
- 
-    [_textView becomeFirstResponder];
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.25f];
+    self.view.frame = CGRectMake(0.0f, -70.0,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
-    [_textView resignFirstResponder];
-
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.25f];
+    self.view.frame = CGRectMake(0.0f, 0,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
 }
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView{
@@ -295,7 +300,7 @@
     [parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
     [parameters setObject:@"1" forKey:@"newsType"];
     [parameters setObject:_textView.text forKey:@"comment"];
-    [parameters setObject:[NSString stringWithFormat:@"%ld",_topicID] forKey:@"topicId"];
+    [parameters setObject:[NSString stringWithFormat:@"%ld",(long)_topicID] forKey:@"topicId"];
      CGFloat rate =_selectPic.size.height/_selectPic.size.width;
    [parameters setObject:[NSString stringWithFormat:@"%f",rate] forKey:@"imgRate"];
     NSData *fileData = UIImageJPEGRepresentation(_selectPic, 0.4);

@@ -69,12 +69,7 @@
         _timeLabel.textColor = [UIColor initWithLightGray];
         [_mainView addSubview:_timeLabel];
         
-//        _attentionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        _attentionButton.frame = CGRectMake(SCREENWIDTH-70, 14+9, 60, 22) ;
-//        _attentionButton.titleLabel.font = MAINFONTSIZE;
-//        _attentionButton.layer.cornerRadius = 5.0f;
-//        [_attentionButton addTarget:self action:@selector(attentionBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-//        [self.contentView addSubview:_attentionButton];
+
         
         
         _mainImageView = [[UIImageView alloc]init];
@@ -196,9 +191,9 @@
         _contentLabel.text = model.comment;
         
         
-        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
+        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",(long)model.descussNum] forState:UIControlStateNormal];
         
-        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
+        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",(long)model.getIntegral] forState:UIControlStateNormal];
         //s视频
     }else if(model.newsType ==2){
         //图文
@@ -215,10 +210,10 @@
         
         _shareButton.frame = CGRectMake(10, 60+175+17+20+_contentLabel.frame.size.height, 100, 16);
         _commentButton.frame =CGRectMake(SCREENWIDTH/3+10,60+175+17+20+_contentLabel.frame.size.height, 100, 16);
-        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",model.descussNum] forState:UIControlStateNormal];
+        [_commentButton setTitle:[NSString stringWithFormat:@"%ld条评论",(long)model.descussNum] forState:UIControlStateNormal];
         _praiseButton.frame =CGRectMake(SCREENWIDTH-120,  60+175+17+20+_contentLabel.frame.size.height, 100,16);
         
-        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",model.getIntegral] forState:UIControlStateNormal];
+        [_praiseButton setTitle:[NSString stringWithFormat:@"%ld球币",(long)model.getIntegral] forState:UIControlStateNormal];
         
     }
     
@@ -328,7 +323,7 @@
 
 //上传积分信息
 -(void)uploadInformation{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",_model.commentId,[WBUserDefaults userId],_model.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
         [self.delegate changeGetIntegralValue:123 indexPath:_indexPath];
         [UIView animateWithDuration:0.5f animations:^{
             NSLog(@"frame%f,%f",_praiseButton.frame.size.height,_praiseButton.frame.size.width);

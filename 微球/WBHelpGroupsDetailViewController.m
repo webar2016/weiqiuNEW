@@ -60,7 +60,7 @@
 }
 
 -(void)checkInGroup{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%ld",[WBUserDefaults userId],self.model.groupId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%ld",[WBUserDefaults userId],(long)self.model.groupId] whenSuccess:^(id representData) {
         
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString:@"false"]) {
@@ -132,7 +132,7 @@
     
     _ageButton.layer.cornerRadius = 3;
     [_ageButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
-    [_ageButton setTitle:[NSString stringWithFormat:@"%ld",_model.tblUser.age]  forState:UIControlStateNormal];
+    [_ageButton setTitle:[NSString stringWithFormat:@"%ld",(long)_model.tblUser.age]  forState:UIControlStateNormal];
     _ageButton.backgroundColor = [UIColor initWithGreen];
     _ageButton.titleLabel.font = SMALLFONTSIZE;
 
@@ -153,7 +153,7 @@
     }
     
     
-    NSArray *rightLabelNameArray = @[_model.tblUser.position,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%ld人",_model.maxMembers],[NSString stringWithFormat:@"%ld球币",_model.rewardIntegral]];
+    NSArray *rightLabelNameArray = @[_model.tblUser.position,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%ld人",(long)_model.maxMembers],[NSString stringWithFormat:@"%ld球币",(long)_model.rewardIntegral]];
     
     
     
@@ -218,7 +218,7 @@
     }else{
         btn.enabled = NO;
         [self showHUD:@"正在加入" isDim:YES];
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",(long)_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
             _isSuccess = YES;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
             [self showHUDComplete:@"加入成功，可在【我加入的】查看"];
@@ -243,7 +243,7 @@
 -(void)goHomePage{
     
     WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
-    HVC.userId = [NSString stringWithFormat:@"%ld",_model.userId];
+    HVC.userId = [NSString stringWithFormat:@"%ld",(long)_model.userId];
     
     self.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:HVC animated:YES];

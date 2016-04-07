@@ -66,7 +66,7 @@
     _backgroungImage.layer.masksToBounds = YES;
     _backgroungImage.layer.cornerRadius = 5;
     _titleLabel.text = model.topicContent;
-    _contentLabel.text = [NSString stringWithFormat:@"%d条内容",model.commentNum];
+    _contentLabel.text = [NSString stringWithFormat:@"%ld条内容",(long)model.commentNum];
     
 }
 

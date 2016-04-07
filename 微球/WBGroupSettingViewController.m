@@ -192,7 +192,7 @@
     if (indexPath.section == 0) {
         WBUserInfosModel *pageInfo = self.headIconArray[indexPath.row];
         WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
-        homepage.userId = [NSString stringWithFormat:@"%ld",pageInfo.userId];
+        homepage.userId = [NSString stringWithFormat:@"%ld",(long)pageInfo.userId];
         [self.navigationController pushViewController:homepage animated:YES];
     }
 }
@@ -222,7 +222,7 @@
 -(void)closeGroup:(WBGroupSettingTableViewCell *)cell{
     WBAllocateScoreViewController *AVC = [[WBAllocateScoreViewController alloc]init];
     AVC.groupId = _groupId;
-    AVC.rewardIntegral = [NSString stringWithFormat:@"%ld",self.groupDetail.rewardIntegral];
+    AVC.rewardIntegral = [NSString stringWithFormat:@"%ld",(long)self.groupDetail.rewardIntegral];
     [self.navigationController pushViewController:AVC animated:YES];
 }
 

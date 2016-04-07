@@ -22,6 +22,7 @@
     bar.tintColor = [UIColor initWithGreen];
     NSMutableDictionary *attr = [NSMutableDictionary dictionary];
     attr[NSForegroundColorAttributeName] = [UIColor initWithGreen];
+    attr[NSFontAttributeName] = FONTSIZE16;
     [item setTitleTextAttributes:attr forState:UIControlStateNormal];
     bar.titleTextAttributes = attr;
 }

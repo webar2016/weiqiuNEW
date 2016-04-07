@@ -191,8 +191,6 @@
         WBTopicCommentTableViewController *TVC = [[WBTopicCommentTableViewController alloc]init];
         TVC.commentId = [message.extra integerValue];
         [self.navigationController pushViewController:TVC animated:YES];
-        
-        NSLog(@"回复评论");
     }
 }
 
