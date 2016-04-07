@@ -149,7 +149,7 @@
     [introduceView addSubview:introduceLabel];
     
     
-    _introduceTextView = [[UITextView alloc]initWithFrame:CGRectMake(100, 5, SCREENWIDTH-100-20, 117-10)];
+    _introduceTextView = [[UITextView alloc]initWithFrame:CGRectMake(95, 5, SCREENWIDTH-95-10, 117-10)];
     [introduceView addSubview:_introduceTextView];
     _introduceTextView.font = MAINFONTSIZE;
     _introduceTextView.delegate = self;
@@ -432,6 +432,9 @@
     self.view.frame = CGRectMake(0.0f, 64.0,SCREENWIDTH,self.view.frame.size.height);
     [UIView commitAnimations];
 }
+
+
+
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if (![text isEqualToString:@""]){

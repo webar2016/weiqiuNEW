@@ -13,15 +13,17 @@
 #import "WBTopicCommentTableViewCell.h"
 
 
-#define commentURL @"http://121.40.132.44:92/tq/getTopicCommentDetil?commentId=%ld"
+#define commentURL @"http://121.40.132.44:92/tq/getTopicCommentDetil?commentId=%ld&p=%ld&ps=%d"
 
 @interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
 {
+    UITableView *_tableView;
     NSMutableArray *_dataArray;
     NSMutableArray *_cellHeightArray;
     NSInteger _page;
     UITextView *_commentTextView;
     UIButton *_rightBtn;
+    UIView *_textBgView;
 }
 
 
@@ -45,25 +47,19 @@
     [self loadData];
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-        //NSLog(@"进入刷新状态后会自动调用这个block1");
+        
         _page=1;
         [self loadData];
         
     }];
     header.lastUpdatedTimeLabel.hidden = YES;
     
-    self.tableView.mj_header = header;
+    _tableView.mj_header = header;
     
-    self.tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-        //  NSLog(@"进入刷新状态后会自动调用这个block2");
+    _tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         _page++;
         [self loadData];
-        
     }];
-    
-    
 }
 
 -(void) createNavi{
@@ -78,58 +74,85 @@
 }
 
 -(void)createUI{
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+9, SCREENWIDTH, self.view.frame.size.height-64-9)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
+    
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height-64-50)];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.userInteractionEnabled = YES;
+    [self.view addSubview:_tableView];
+    _tableView.backgroundColor = [UIColor initWithBackgroundGray];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    _textBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    [self.view addSubview:_textBgView];
+    _textBgView.backgroundColor = [UIColor initWithBackgroundGray];
+    _textBgView.alpha = 0;
+    _textBgView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewClicked)];
+    [_textBgView addGestureRecognizer:tap];
 
 
 }
 
 -(void)createTextView{
     _commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0  , SCREENHEIGHT-64-50 , SCREENWIDTH-50, 50)];
+    [self.view addSubview:_commentTextView];
+    _commentTextView.layer.borderColor = [UIColor initWithBackgroundGray].CGColor;
+    _commentTextView.layer.borderWidth =1.0;//该属性显示外边框
+    _commentTextView.layer.cornerRadius = 6.0;//通过该值来设置textView边角的弧度
+    _commentTextView.layer.masksToBounds = YES;
+    _commentTextView.font = MAINFONTSIZE;
+    
+    
     _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _rightBtn.frame = CGRectMake(SCREENWIDTH-50,SCREENHEIGHT-64-50, 50, 50);
-    _rightBtn.backgroundColor = [UIColor greenColor];
+    _rightBtn.backgroundColor = [UIColor initWithGreen];
+    _rightBtn.layer.cornerRadius = 6.0;//通过该值来设置textView边角的弧度
+    _rightBtn.layer.masksToBounds = YES;
     [_rightBtn setTitle:@"确认" forState:UIControlStateNormal];
     [_rightBtn addTarget:self action:@selector(textViewClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_rightBtn];
     
     
-    [self.view addSubview:_commentTextView];
 
+
+}
+
+-(void)viewClicked{
+    
+    [_commentTextView resignFirstResponder];
 }
 
 //输入框
 - (void) registerForKeyboardNotifications
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardDidHideNotification object:nil];
-    
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
+
+
 
 - (void) keyboardWasShown:(NSNotification *) notif
 {
+    _textBgView.alpha = 0.5;
     NSDictionary *info = [notif userInfo];
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
     _commentTextView.frame =CGRectMake(0  , SCREENHEIGHT-64-50 -keyboardSize.height, SCREENWIDTH-50, 50);
     _rightBtn.frame = CGRectMake(SCREENWIDTH-50,SCREENHEIGHT-64-50-keyboardSize.height, 50, 50);
-    NSLog(@"keyBoard:%f", keyboardSize.height);  //216
+  //  NSLog(@"keyBoard:%f", keyboardSize.height);  //216
     ///keyboardWasShown = YES;
 }
 - (void) keyboardWasHidden:(NSNotification *) notif
 {
-    NSDictionary *info = [notif userInfo];
+    _textBgView.alpha = 0;
+    //NSDictionary *info = [notif userInfo];
     
-    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGSize keyboardSize = [value CGRectValue].size;
-     _commentTextView.frame =CGRectMake(0  , SCREENHEIGHT-64-50, SCREENWIDTH-50, 50);
+    //NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
+   
+    _commentTextView.frame =CGRectMake(0  , SCREENHEIGHT-64-50, SCREENWIDTH-50, 50);
     _rightBtn.frame = CGRectMake(SCREENWIDTH-50,SCREENHEIGHT-64-50, 50, 50);
-    NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
-    // keyboardWasShown = NO;
     
 }
 -(void)textViewClicked{
@@ -141,11 +164,12 @@
     [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setCommentDetil" withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
-        [self showHUDComplete:@"保存成功"];
+        [self showHUDComplete:@"上传成功"];
         [self loadData];
+        _commentTextView.text = @"";
         [_commentTextView resignFirstResponder];
     } andFailure:^(NSString *error) {
-        
+         [self showHUDComplete:@"上传失败"];
     }];
     
     
@@ -157,14 +181,19 @@
     return YES;
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [super touchesBegan:touches withEvent:event];
     NSLog(@"000000");
     if (![_commentTextView isExclusiveTouch]) {
         [_commentTextView resignFirstResponder];
     }
 }
+
 //加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:commentURL,(long)_commentId]; //TopicCommentURL
+    NSString *url = [NSString stringWithFormat:commentURL,(long)_commentId,(long)_page,PAGESIZE]; //TopicCommentURL
+    
+    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if (_page == 1) {
@@ -173,8 +202,6 @@
         }
         
         if ([result isKindOfClass:[NSDictionary class]]) {
-            [_cellHeightArray removeAllObjects];
-            [_dataArray removeAllObjects];
             NSDictionary *dic = [NSDictionary dictionaryWithDictionary:result[@"pagination"]];
             NSString *titleNumber =[dic objectForKey:@"totalCount"];
             self.navigationItem.title = [NSString stringWithFormat:@"%@条评论",titleNumber];
@@ -183,28 +210,20 @@
             NSArray *tempArray = [WBtopicCommentDetilListModel mj_objectArrayWithKeyValuesArray:arrayList];
             for (NSInteger j =0; j<tempArray.count; j++) {
                 NSDictionary *attributes = @{NSFontAttributeName: MAINFONTSIZE};
-                // NSString class method: boundingRectWithSize:options:attributes:context is
-                // available only on ios7.0 sdk.
                 CGRect rect = [((WBtopicCommentDetilListModel *)tempArray[j]).comment
                                boundingRectWithSize:CGSizeMake(SCREENWIDTH-20-65, MAXFLOAT)
                                             options:NSStringDrawingUsesLineFragmentOrigin
                                           attributes:attributes
                                              context:nil];
-     //           NSLog(@"recxt = %f   tit = %f",rect.size.height,titleSize.height);
-                
                 [_cellHeightArray addObject:[NSString stringWithFormat:@"%f",rect.size.height]];
                 [_dataArray addObject:tempArray[j]];
-                
             }
-            
-            
-            [self.tableView reloadData];
-            
+            [_tableView reloadData];
             if (_page ==1 ) {
-                [self.tableView.mj_header endRefreshing];
+                [_tableView.mj_header endRefreshing];
                 [self hideHUD];
             }else{
-                [self.tableView.mj_footer endRefreshing];
+                [_tableView.mj_footer endRefreshing];
             }
             
         }
@@ -240,6 +259,27 @@
    // NSLog(@"asasasa = %f",[_cellHeightArray[indexPath.row] floatValue]);
     [cell setModel:model];
     return cell;
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return   UITableViewCellEditingStyleDelete;
+}
+
+/*改变删除按钮的title*/
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
+/*删除用到的函数*/
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle ==UITableViewCellEditingStyleDelete)
+    {
+        [_dataArray   removeObjectAtIndex:indexPath.row];  //删除数组里的数据
+        [_tableView   deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];  //删除对应数据的cell
+    }
 }
 
 #pragma mark - 键盘 改变通知 弹键盘
