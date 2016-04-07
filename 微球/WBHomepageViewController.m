@@ -13,6 +13,7 @@
 #import "WBPrivateViewController.h"
 #import "WBAnswerListController.h"
 #import "WBAnswerDetailController.h"
+#import "WBArticalViewController.h"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 
 #import "WBQuestionTableViewCell.h"
 #import "WBFansView.h"
@@ -80,7 +81,7 @@
     _rowHeightArray = [NSMutableArray array];
     
     _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
-    _background.center = CGPointMake(SCREENWIDTH / 2, 170);
+    _background.center = CGPointMake(SCREENWIDTH / 2, self.view.frame.size.height - 200);
     
     _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     
@@ -138,6 +139,7 @@
     _headicon.layer.cornerRadius = 32;
     _headicon.layer.borderWidth = 2;
     _headicon.layer.borderColor = [UIColor initWithGreen].CGColor;
+    _headicon.userInteractionEnabled = YES;
     [_headView addSubview:_headicon];
     
     UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -166,10 +168,11 @@
     _sexButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_headView addSubview:_sexButton];
 
-    _profileLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 168+32+20+30, SCREENWIDTH, 18)];
+    _profileLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREENWIDTH / 4, 168+32+20+27, SCREENWIDTH / 2, 25)];
     _profileLabel.font = SMALLFONTSIZE;
+    _profileLabel.numberOfLines = 2;
     _profileLabel.textAlignment = NSTextAlignmentCenter;
-    _profileLabel.textColor = [UIColor initWithLightGray];
+    _profileLabel.textColor = [UIColor initWithNormalGray];
     [_headView addSubview:_profileLabel];
     
     _attentionLeftButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -251,24 +254,25 @@
         [_coverImage sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"personalImage"]] placeholderImage:[UIImage imageNamed:@"cover.png"]];
     }
     [_headicon sd_setImageWithURL:[NSURL URLWithString:[_userInfo objectForKey:@"dir"]]];
-
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showImageViewer)];
+    [_headicon addGestureRecognizer:tap];
     _nicknameLabel.text = [_userInfo objectForKey:@"nickname"];
     
     
     CGSize size = [_nicknameLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:_nicknameLabel.font,NSFontAttributeName, nil]];
-    _sexButton.frame = CGRectMake(SCREENWIDTH/2+size.width-10, _nicknameLabel.frame.origin.y+5, 28, 10);
+    _sexButton.frame = CGRectMake(SCREENWIDTH/2+size.width/2+15, _nicknameLabel.frame.origin.y + 2, 30, 15);
     _sexButton.layer.masksToBounds = YES;
     _sexButton.layer.cornerRadius = 2;
     _sexButton.backgroundColor = [UIColor initWithGreen];
     [_sexButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
-    [_sexButton setTitle:[NSString stringWithFormat:@"%@",[_userInfo objectForKey:@"sex"]]  forState:UIControlStateNormal];
+    [_sexButton setTitle:[NSString stringWithFormat:@" %@",[_userInfo objectForKey:@"sex"]]  forState:UIControlStateNormal];
     _sexButton.backgroundColor = [UIColor initWithGreen];
     _sexButton.titleLabel.font = SMALLFONTSIZE;
     
-    _profileLabel.text = [NSString stringWithFormat:@"简介：%@",[_userInfo objectForKey:@"profile"]];
+    _profileLabel.text = [NSString stringWithFormat:@"%@",[_userInfo objectForKey:@"profile"]];
     
-    [_attentionLeftButton setTitle:[NSString stringWithFormat:@"%@关注",[_userInfo objectForKey:@"concerns"]] forState:UIControlStateNormal];
-    [_attentionRightButton setTitle:[NSString stringWithFormat:@"%@粉丝",[_userInfo objectForKey:@"fans"]] forState:UIControlStateNormal];
+    [_attentionLeftButton setTitle:[NSString stringWithFormat:@"%@ 关注",[_userInfo objectForKey:@"concerns"]] forState:UIControlStateNormal];
+    [_attentionRightButton setTitle:[NSString stringWithFormat:@"%@ 粉丝",[_userInfo objectForKey:@"fans"]] forState:UIControlStateNormal];
     [_attentionLeftButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     [_attentionRightButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     
@@ -305,6 +309,11 @@
     _topicTableView.tableHeaderView = _headView;
     _answerTableView.hidden = YES;
     [self.view addSubview:_answerTableView];
+}
+
+-(void)showImageViewer{
+    WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_headicon.image];
+    [self presentViewController:viewer animated:YES completion:nil];
 }
 
 #pragma mark - load data
@@ -486,9 +495,9 @@
        {
           if (_topicTableView.hidden) {
           }else{
-             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.row]). commentId] whenSuccess:^(id representData) {
+             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.section]). commentId] whenSuccess:^(id representData) {
                  
-                 [_topicsArray removeObjectAtIndex:indexPath.row];
+                 [_topicsArray removeObjectAtIndex:indexPath.section];
                 
                  [_topicTableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];
              } andFailure:^(NSString *error) {
@@ -496,6 +505,21 @@
              }];
         }
       }
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    TopicDetailModel *model = _topicsArray[indexPath.section];
+    if (model.newsType == 3 && tableView.tag == 100) {
+        WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
+        articalVC.navigationItem.title = self.navigationItem.title;
+        articalVC.nickname = model.tblUser.nickname;
+        articalVC.dir = model.tblUser.dir;
+        articalVC.timeStr = model.timeStr;
+        articalVC.commentId = model.commentId;
+        articalVC.userId = model.userId;
+        [self.navigationController pushViewController:articalVC animated:YES];
+        return;
     }
 }
 
@@ -785,11 +809,14 @@
 }
 
 -(void)gotoHomePage:(NSIndexPath *)indexPath{
-    WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
-    HVC.userId = [NSString stringWithFormat:@"%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.row]).userId ];
-    [self.navigationController pushViewController:HVC animated:YES];
+    return;
 }
 
+-(void)showImageViewer:(NSIndexPath *)indexPath{
+    NSString *dir = ((TopicDetailModel *)_topicsArray[indexPath.section]).dir;
+    WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:dir];
+    [self presentViewController:viewer animated:YES completion:nil];
+}
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
     [self loadUserInfo];
@@ -797,13 +824,13 @@
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{
     WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
-    commentView.commentId =((TopicDetailModel *)_topicsArray[indexPath.row]).commentId;
-    commentView.userId =[NSString stringWithFormat:@"%ld", (long)((TopicDetailModel *)_topicsArray[indexPath.row]).userId];
+    commentView.commentId =((TopicDetailModel *)_topicsArray[indexPath.section]).commentId;
+    commentView.userId =[NSString stringWithFormat:@"%ld", (long)((TopicDetailModel *)_topicsArray[indexPath.section]).userId];
     [self.navigationController pushViewController:commentView animated:YES];
 }
 
 -(void)playMedio:(NSIndexPath *)indexPath{
-    NSString *url = ((TopicDetailModel *)_topicsArray[indexPath.row]).dir;
+    NSString *url = ((TopicDetailModel *)_topicsArray[indexPath.section]).dir;
     _player = [[MPMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:url]];
     _player.movieSourceType=MPMovieSourceTypeStreaming;
     [_player.view setFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];

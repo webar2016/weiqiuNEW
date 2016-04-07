@@ -149,7 +149,7 @@
     [introduceView addSubview:introduceLabel];
     
     
-    _introduceTextView = [[UITextView alloc]initWithFrame:CGRectMake(100, 10, SCREENWIDTH-100-20, 117-10)];
+    _introduceTextView = [[UITextView alloc]initWithFrame:CGRectMake(100, 5, SCREENWIDTH-100-20, 117-10)];
     [introduceView addSubview:_introduceTextView];
     _introduceTextView.font = MAINFONTSIZE;
     _introduceTextView.delegate = self;
@@ -222,10 +222,11 @@
 
 #pragma mark ----右键保存------
 -(void)rightBtnClicked{
+    [_introduceTextView resignFirstResponder];
+    [_textField resignFirstResponder];
     
-    [self showHUD:@"正在保存数据" isDim:YES];
+    [self showHUD:@"正在保存" isDim:YES];
    
-    
     WBPositionList *positionList =[[WBPositionList alloc] init];
     NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
     
@@ -262,7 +263,7 @@
         
         
         [self.delegate ModefyViewDelegate];
-        [self showHUDComplete:@"上传成功"];
+        [self showHUDComplete:@"修改成功"];
     } andFailure:^(NSString *error) {
         NSLog(@"failure");
         NSLog(@"%@",error.localizedCapitalizedString);

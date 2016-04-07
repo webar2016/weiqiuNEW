@@ -244,6 +244,8 @@
 #pragma mark - text view delegate
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(WBTextAttachment *)textAttachment inRange:(NSRange)characterRange{
+    WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:textAttachment.image];
+    [self presentViewController:viewer animated:YES completion:nil];
     return YES;
 }
 
