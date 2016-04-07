@@ -20,6 +20,8 @@
 -(void)gotoHomePage:(NSIndexPath *)indexPath;
 //播放视频
 -(void)playMedio:(NSIndexPath *)indexPath;
+//照片大图
+-(void)showImageViewer:(NSIndexPath *)indexPath;
 //积分不够提醒
 -(void)alertViewIntergeal:(NSString *)messageContent messageOpreation:(NSString *)opreation  cancelMessage:(NSString *)cancelMessage;
 //未登录

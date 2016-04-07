@@ -77,7 +77,7 @@
     [_userIcon addGestureRecognizer:tapIcon];
     [self.userInfosView addSubview:_userIcon];
     
-    _nickName = [[UILabel alloc] initWithFrame:CGRectMake(100, 30, (self.size.width*0.7-100), 15)];
+    _nickName = [[UILabel alloc] initWithFrame:CGRectMake(95, 30, (self.size.width*0.7-100), 15)];
     _nickName.textColor = [UIColor whiteColor];
     _nickName.font = MAINFONTSIZE;
     [self.userInfosView addSubview:_nickName];
@@ -86,6 +86,7 @@
     _profile.backgroundColor = [UIColor clearColor];
     _profile.textColor = [UIColor whiteColor];
     _profile.font = MAINFONTSIZE;
+    _profile.numberOfLines = 3;
     [self.userInfosView addSubview:_profile];
     
     [self.view addSubview:self.userInfosView];

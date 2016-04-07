@@ -188,6 +188,9 @@
     
     if (model.newsType == 1) {
         [_mainImage sd_setImageWithURL:[NSURL URLWithString:model.dir]];
+        _mainImage.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showImageViewer)];
+        [_mainImage addGestureRecognizer:tap];
         _contentLabel.text = model.comment;
     } else if (model.newsType == 2) {
         [_mainImage sd_setImageWithURL:[NSURL URLWithString:model.mediaPic]];
@@ -228,6 +231,10 @@
         return;
     }
     [self shareBtnClicked];
+}
+
+-(void)showImageViewer{
+    [self.delegate showImageViewer:self.indexPath];
 }
 
 #pragma mark - share

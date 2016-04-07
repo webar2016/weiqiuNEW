@@ -172,6 +172,7 @@
 
 
 -(void)btnClickedConfirm{
+    [self viewClicked];
     if (_telephoneUsed == NO) {
         [AVOSCloud verifySmsCode:_registerNumber.text mobilePhoneNumber:_telephoneField.text callback:^(BOOL succeeded, NSError *error) {
             if(succeeded){
@@ -189,10 +190,6 @@
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
                     WBSetInformationViewController *SVC = [[WBSetInformationViewController alloc]init];
                     [self presentViewController:SVC animated:YES completion:nil];
-//                    [self dismissViewControllerAnimated:YES completion:^{
-//                        [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
-//                        [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
-//                    }];
                     
                 } andFailure:^(NSString *error) {
                     NSLog(@"%@",error);
@@ -205,6 +202,7 @@
 }
 
 -(void)btnClicked:(UIButton *)btn{
+    [self viewClicked];
     if (btn.tag==100) {
         //取消
         

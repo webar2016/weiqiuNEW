@@ -94,7 +94,9 @@
     _mainImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _mainImageView.contentMode = UIViewContentModeScaleAspectFill;
     _mainImageView.clipsToBounds = YES;
-    
+    _mainImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showImageViewer)];
+    [_mainImageView addGestureRecognizer:tapImage];
     
     
     _headImageView = [[UIImageView alloc]init];
@@ -248,6 +250,11 @@
     self.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:HVC animated:YES];
     
+}
+
+-(void)showImageViewer{
+    WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_mainImageView.image];
+    [self presentViewController:viewer animated:YES completion:nil];
 }
 
 -(void)dismissView{

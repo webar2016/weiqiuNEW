@@ -9,7 +9,7 @@
 #import "WBFindKeyViewController.h"
 #import "MyDownLoadManager.h"
 
-@interface WBFindKeyViewController ()<UITextFieldDelegate>
+@interface WBFindKeyViewController ()<UITextFieldDelegate,UITextInputTraits>
 {
     UITextField *_telephoneField;
     UITextField *_verifyNumber;
@@ -26,6 +26,16 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self createNavi];
     [self createUI];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyboard)];
+    [self.view addGestureRecognizer:tap];
+}
+
+-(void)resignKeyboard{
+    [_telephoneField resignFirstResponder];
+    [_verifyNumber resignFirstResponder];
+    [_passwordField resignFirstResponder];
+    [_passwordFieldAgain resignFirstResponder];
 }
 
 -(void)createNavi{
@@ -67,6 +77,7 @@
     _telephoneField.leftViewMode = UITextFieldViewModeAlways;
     _telephoneField.textColor = [UIColor initWithNormalGray];
     _telephoneField.delegate = self;
+    _telephoneField.keyboardType = UIKeyboardTypeNumberPad;
     _telephoneField.backgroundColor = [UIColor initWithBackgroundGray];
     _telephoneField.tag = 102;
     _telephoneField.layer.cornerRadius = 3.0f;
@@ -100,6 +111,8 @@
     [_verifyNumber setTextColor:[UIColor initWithNormalGray]];
     _verifyNumber.layer.masksToBounds=YES;
     _verifyNumber.layer.cornerRadius = 3;
+    _verifyNumber.delegate = self;
+    _verifyNumber.keyboardType = UIKeyboardTypeNumberPad;
     [[_verifyNumber layer] setBorderColor:[[UIColor colorWithRed:171.0/255.0 green:171.0/255.0 blue:171.0/255.0 alpha:1.0] CGColor]];
     _verifyNumber.layer.borderWidth= 1.0f;
     _verifyNumber.tag = 104;
@@ -112,6 +125,7 @@
     [_passwordField setTextColor:[UIColor initWithNormalGray]];
     _passwordField.layer.masksToBounds=YES;
     _passwordField.layer.cornerRadius = 3;
+    _passwordField.delegate = self;
     [_passwordField setSecureTextEntry:YES];
     _passwordField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
     _passwordField.leftViewMode = UITextFieldViewModeAlways;
@@ -127,6 +141,7 @@
     [_passwordFieldAgain setTextColor:[UIColor initWithNormalGray]];
     _passwordFieldAgain.layer.masksToBounds=YES;
     _passwordFieldAgain.layer.cornerRadius = 3;
+    _passwordFieldAgain.delegate = self;
     [_passwordFieldAgain setSecureTextEntry:YES];
     _passwordFieldAgain.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
     _passwordFieldAgain.leftViewMode = UITextFieldViewModeAlways;
@@ -152,6 +167,7 @@
 #pragma mark --------点击事件---------
 
 -(void)btnClicked:(UIButton *)btn{
+    [self resignKeyboard];
     if (btn.tag == 100) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }else if (btn.tag == 103){
@@ -186,6 +202,7 @@
 }
 
 -(void)btnClickedConfirm{
+    [self resignKeyboard];
     if ([_passwordFieldAgain.text isEqual:_passwordField.text]&& _passwordField.text.length>5 &&_passwordField.text.length<15) {
         [AVOSCloud verifySmsCode:_verifyNumber.text mobilePhoneNumber:_telephoneField.text callback:^(BOOL succeeded, NSError *error) {
             if(succeeded){
@@ -225,15 +242,32 @@
         [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }]];
         [self presentViewController:alertView animated:YES completion:nil];
-        
-    
     }
-
-
-
 }
 
-//
+#pragma mark  ------textfield delegate ------
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    NSTimeInterval animationDuration = 0.25f;
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = CGRectMake(0.0f, -50,SCREENWIDTH,self.view.frame.size.height);;
+    [UIView commitAnimations];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    NSTimeInterval animationDuration = 0.25f;
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = CGRectMake(0.0f, 0,SCREENWIDTH,self.view.frame.size.height);;
+    [UIView commitAnimations];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

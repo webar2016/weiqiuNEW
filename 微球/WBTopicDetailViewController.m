@@ -306,10 +306,15 @@
 
 -(void)gotoHomePage:(NSIndexPath *)indexPath{
     WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
-    HVC.userId = [NSString stringWithFormat:@"%ld",(long)((TopicDetailModel *)_dataArray[indexPath.row]).userId ];
+    HVC.userId = [NSString stringWithFormat:@"%ld",(long)((TopicDetailModel *)_dataArray[indexPath.section]).userId ];
     [self.navigationController pushViewController:HVC animated:YES];
 }
 
+-(void)showImageViewer:(NSIndexPath *)indexPath{
+    NSString *dir = ((TopicDetailModel *)_dataArray[indexPath.section]).dir;
+    WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:dir];
+    [self presentViewController:viewer animated:YES completion:nil];
+}
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
     [self loadData];
@@ -318,8 +323,8 @@
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{
     
     WBTopicCommentTableViewController *commentView = [[WBTopicCommentTableViewController alloc]init];
-    commentView.commentId =((TopicDetailModel *)_dataArray[indexPath.row]).commentId;
-    commentView.userId =[NSString stringWithFormat:@"%ld", (long)((TopicDetailModel *)_dataArray[indexPath.row]).userId];
+    commentView.commentId =((TopicDetailModel *)_dataArray[indexPath.section]).commentId;
+    commentView.userId =[NSString stringWithFormat:@"%ld", (long)((TopicDetailModel *)_dataArray[indexPath.section]).userId];
     
     [self.navigationController pushViewController:commentView animated:YES];
     
@@ -328,7 +333,7 @@
 #pragma mark -----------play vedio-------------
 
 -(void)playMedio:(NSIndexPath *)indexPath{
-    NSString *url = ((TopicDetailModel *)_dataArray[indexPath.row]).dir;
+    NSString *url = ((TopicDetailModel *)_dataArray[indexPath.section]).dir;
     _player = [[MPMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:url]];
     _player.movieSourceType=MPMovieSourceTypeStreaming;
     [_player.view setFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
