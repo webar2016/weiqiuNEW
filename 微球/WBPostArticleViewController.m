@@ -202,12 +202,10 @@
 
 -(void)releaseArticle{
     if (_textView.textStorage.length == 0) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"写点内容再发布吧！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-            action;
-        })];
-        [self presentViewController:alert animated:YES completion:nil];
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+        self.hud.mode = MBProgressHUDModeText;
+        self.hud.labelText = @"写点内容再发布吧！";
+        [self.hud hide:YES afterDelay:2.0];
         return;
     }
     self.navigationItem.rightBarButtonItem.enabled = NO;

@@ -20,6 +20,7 @@
 #import "WBCommentMsgCell.h"
 #import "WBUnlockMsgCell.h"
 #import "WBTopicCommentTableViewController.h"
+#import "WBChatImageViewer.h"
 
 #import "MyDownLoadManager.h"
 #import "NSString+string.h"
@@ -37,7 +38,7 @@
     
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
-    
+    self.enableSaveNewPhotoToLocalSystem = YES;
     //注册自定义消息cell
     [self registerClass:[WBSystemMsgCell class] forCellWithReuseIdentifier:WBSystemMessageIdentifier];
     [self registerClass:[WBFollowMsgCell class] forCellWithReuseIdentifier:WBFollowMessageIdentifier];
@@ -168,7 +169,6 @@
 #pragma mark - cell点击后的回调
 
 - (void)didTapMessageCell:(RCMessageModel *)model {
-    [super didTapMessageCell:model];
     if ([model.content isKindOfClass:[WBUnlockMessage class]]) {
         WBUnlockMessage *message = (WBUnlockMessage *)model.content;
         if ([message.isUnlock isEqualToString:@"NO"]) {
@@ -191,6 +191,11 @@
         WBTopicCommentTableViewController *TVC = [[WBTopicCommentTableViewController alloc]init];
         TVC.commentId = [message.extra integerValue];
         [self.navigationController pushViewController:TVC animated:YES];
+    } else if ([model.content isKindOfClass:[RCImageMessage class]]) {
+        WBChatImageViewer *imageViewer = [[WBChatImageViewer alloc] initWithChatModel:model];
+        [self presentViewController:imageViewer animated:YES completion:nil];
+    } else if ([model.content isKindOfClass:[RCLocationMessage class]]) {
+        [self presentLocationViewController:(RCLocationMessage *)model.content];
     }
 }
 
