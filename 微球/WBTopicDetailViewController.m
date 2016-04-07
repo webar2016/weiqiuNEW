@@ -74,8 +74,6 @@
     [self createNavi];
     [self createUI];
     [self showHUD:@"正在努力加载" isDim:NO];
-    _page = 1;
-    [self loadData];
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         _page=1;
@@ -90,6 +88,12 @@
         _page++;
         [self loadData];
     }];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _page = 1;
+    [self loadData];
 }
 
 -(void)createNavi{

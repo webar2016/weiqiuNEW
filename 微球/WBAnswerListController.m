@@ -55,7 +55,10 @@
     [self setUpHeaderView];
     
     [self refreshTableView];
-    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
     self.currentPage = 1;
     if (self.currentPage == 1) {
         [self showHUD:@"正在努力加载" isDim:NO];
