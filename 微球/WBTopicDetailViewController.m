@@ -44,14 +44,7 @@
     
 
     
-    //悬浮按钮
-    UIImageView *_imageViewMenu;
-    //photo
-    UIImageView *_photoImageView;
-    //vedio
-    UIImageView *_videoImageView;
-    //artical
-    UIImageView *_textImageView;
+
 }
 
 @end
@@ -76,6 +69,7 @@
     [self showHUD:@"正在努力加载" isDim:NO];
     _page = 1;
     [self loadData];
+    [self createMenuButton];
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         _page=1;
@@ -119,9 +113,6 @@
     UITapGestureRecognizer *tapPhoto = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(photoBtnClicled)];
     _photoImageView.userInteractionEnabled = YES;
     [_photoImageView addGestureRecognizer:tapPhoto];
-    _photoImageView.alpha = 0;
-    [self.view addSubview:_photoImageView];
-    
     //上传视频
     UITapGestureRecognizer *tapMedio = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(videoBtnClicled)];
     _videoImageView.userInteractionEnabled = YES;
@@ -130,17 +121,18 @@
     UITapGestureRecognizer *tapText = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(textBtnClicled)];
     _textImageView.userInteractionEnabled = YES;
     [_textImageView addGestureRecognizer:tapText];
-    _textImageView.alpha = 0;
-    [self.view addSubview:_textImageView];
+
 }
 
 #pragma mark --------上传图片----------
 
 -(void)photoBtnClicled{
+    
     if (![WBUserDefaults userId]) {
         [self alertLogin];
         return;
     }
+    
     WBPostIamgeViewController *PIVC = [[WBPostIamgeViewController alloc]init];
     PIVC.topicID = _topicID;
     [self  menuBtnClicled];
