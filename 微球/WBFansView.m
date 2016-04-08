@@ -51,6 +51,7 @@
 
 
 -(void)loadData{
+    [self showHUDIndicator];
     NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/relationship/fansList?userId=%@&showUserId=%@",[WBUserDefaults userId],_showUserId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -59,7 +60,9 @@
             _dataArray = [WBFansModel mj_objectArrayWithKeyValuesArray:result[@"fansList"]];
             [_tableView reloadData];
         }
+        [self hideHUD];
     } andFailure:^(NSString *error) {
+        [self hideHUD];
         NSLog(@"%@------",error);
     }];
 }

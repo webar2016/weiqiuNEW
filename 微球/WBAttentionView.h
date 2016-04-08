@@ -7,16 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
 
-@interface WBAttentionView : UIViewController
-
+@interface WBAttentionView : WBRefreshViewController
 
 @property (nonatomic,copy)NSString *showUserId;
 
-
-@property (nonatomic,strong)MBProgressHUD *hud;
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
--(void)showHUDComplete:(NSString *)title;
--(void)hideHUD;
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WBGroupInfoController : UIViewController
+@interface WBGroupInfoController : WBRefreshViewController
 
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
 

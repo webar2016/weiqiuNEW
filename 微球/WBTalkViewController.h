@@ -17,8 +17,7 @@
 
 @property (nonatomic,strong)MBProgressHUD *hud;
 
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
--(void)showHUDComplete:(NSString *)title;
+-(void)showHUDIndicator;
 -(void)hideHUD;
 
 @end

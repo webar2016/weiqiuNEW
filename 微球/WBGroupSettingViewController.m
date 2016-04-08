@@ -72,6 +72,7 @@
         
         
     } andFailure:^(NSString *error) {
+        [self showHUDText:@"网络状态不佳，请稍后重试"];
         NSLog(@"%@------",error);
     }];
 }
@@ -88,6 +89,7 @@
         [self.tableView reloadSections:[[NSIndexSet alloc]initWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     } andFailure:^(NSString *error) {
+        [self showHUDText:@"网络状态不佳，请稍后重试"];
         NSLog(@"%@------",error);
     }];
 }
@@ -207,7 +209,7 @@
                 [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
                 [self.navigationController popToRootViewControllerAnimated:NO];
             } andFailure:^(NSString *error) {
-                [self showHUDComplete:@"退出失败，请检查网络后重试"];
+                [self showHUDText:@"退出失败，请检查网络后重试"];
             }];
         }];
         action;
@@ -268,23 +270,13 @@
 
 #pragma mark - MBprogress
 
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
+-(void)showHUDText:(NSString *)title{
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.mode = MBProgressHUDModeText;
+    self.hud.opacity = 0.7;
+    self.hud.dimBackground = NO;
     self.hud.labelText = title;
     [self.hud hide:YES afterDelay:2.0];
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:0.3];
 }
 
 @end

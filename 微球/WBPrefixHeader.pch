@@ -25,6 +25,7 @@
 #import "UIColor+color.h"
 #import "WBPositionList.h"
 #import "WBImageViewer.h"
+#import "WBRefreshViewController.h"
 #import <CoreData/CoreData.h>
 
 

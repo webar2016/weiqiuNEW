@@ -73,6 +73,7 @@
 		05BE5DCE1CAE093200D2DBF1 /* WBTopicDetailTableViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE5DCD1CAE093200D2DBF1 /* WBTopicDetailTableViewCell2.m */; };
 		05BE5DD01CAE095B00D2DBF1 /* WBAttentionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE5DCF1CAE095B00D2DBF1 /* WBAttentionTableViewCell.m */; };
 		05BE5DD61CAE362F00D2DBF1 /* WBAboutWBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE5DD41CAE362F00D2DBF1 /* WBAboutWBViewController.m */; };
+		05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 05CCAAE41CB791A20036A600 /* shareIcon.png */; };
 		05D1F9361C8E78960049D3EC /* WBUpdateIntegral.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9351C8E78960049D3EC /* WBUpdateIntegral.m */; };
 		05D1F9391C8EC0520049D3EC /* WBPostArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F9381C8EC0520049D3EC /* WBPostArticleViewController.m */; };
 		05D1F9401C8FBE1A0049D3EC /* WBHomepageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D1F93F1C8FBE1A0049D3EC /* WBHomepageViewController.m */; };
@@ -309,6 +310,7 @@
 		05BE5DD21CAE0AE100D2DBF1 /* WBTopicDetailTableViewCell2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBTopicDetailTableViewCell2.h; sourceTree = "<group>"; };
 		05BE5DD31CAE362F00D2DBF1 /* WBAboutWBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAboutWBViewController.h; sourceTree = "<group>"; };
 		05BE5DD41CAE362F00D2DBF1 /* WBAboutWBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAboutWBViewController.m; sourceTree = "<group>"; };
+		05CCAAE41CB791A20036A600 /* shareIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareIcon.png; sourceTree = "<group>"; };
 		05D1F9341C8E78960049D3EC /* WBUpdateIntegral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUpdateIntegral.h; sourceTree = "<group>"; };
 		05D1F9351C8E78960049D3EC /* WBUpdateIntegral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUpdateIntegral.m; sourceTree = "<group>"; };
 		05D1F9371C8EC0520049D3EC /* WBPostArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPostArticleViewController.h; sourceTree = "<group>"; };
@@ -916,6 +918,7 @@
 			children = (
 				05D6EB841C7D414F002D48FF /* Main.storyboard */,
 				05D6EB891C7D414F002D48FF /* LaunchScreen.storyboard */,
+				05CCAAE41CB791A20036A600 /* shareIcon.png */,
 				052F30D41C93F9FA00D15322 /* city.plist */,
 				052F30D51C93F9FA00D15322 /* province.plist */,
 				05D6EB8C1C7D414F002D48FF /* Info.plist */,
@@ -1521,6 +1524,7 @@
 				052F30D71C93F9FA00D15322 /* province.plist in Resources */,
 				2DF532C01CAFD2090000E8CB /* WBTopicXibTableViewCell.xib in Resources */,
 				2D62D6651C89346200E4D05E /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,

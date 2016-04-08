@@ -21,13 +21,14 @@
    
     UIImagePickerController *_imagePickerController;
     
-    
     //选照片界面
     UIView *_imageBackgroungView;
     //预留选择图片控制器
     UIImageView *_placeHoldImageView;
     
     UIImage *_selectPic;
+    
+    BOOL _isSuccess;
 }
 @end
 
@@ -229,17 +230,11 @@
     [_textView resignFirstResponder];
     
     if (!_selectPic) {
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-        self.hud.mode = MBProgressHUDModeText;
-        self.hud.labelText = @"请选择图片";
-        [self.hud hide:YES afterDelay:2.0];
+        [self showHUDText:@"请选择图片"];
         return;
     }
     if (_textView.text.length == 0) {
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-        self.hud.mode = MBProgressHUDModeText;
-        self.hud.labelText = @"说点什么吧！";
-        [self.hud hide:YES afterDelay:2.0];
+        [self showHUDText:@"说点什么吧"];
         return;
     }
     
@@ -264,12 +259,31 @@
     } whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
+        _isSuccess = YES;
         [self showHUDComplete:@"上传成功"];
-        [self.navigationController popViewControllerAnimated:YES];
     } andFailure:^(NSString *error) {
-        [self showHUDComplete:@"上传失败"];
+        _isSuccess = NO;
+        [self showHUDComplete:@"上传失败,请稍后再试"];
     }];
 
+}
+
+#pragma mark - MBprogress
+
+-(void)showHUDComplete:(NSString *)title
+{
+    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.labelText = title;
+    self.hud.opacity = 0.7;
+    [self.hud hide:YES afterDelay:2.0];
+    if (_isSuccess) {
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0];
+    }
+}
+
+-(void)dismissView{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

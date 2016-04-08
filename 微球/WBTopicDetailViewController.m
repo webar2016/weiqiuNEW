@@ -62,7 +62,7 @@
     [self createNavi];
     [self createUI];
     
-    [self showHUD:@"正在努力加载" isDim:NO];
+    [self showHUDIndicator];
     
     MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadData];
@@ -85,6 +85,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     _page = 1;
+    [self loadData];
     [super viewWillAppear:YES];
     
 }
@@ -438,26 +439,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - MBprogress
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    [self.hud hide:YES afterDelay:2];
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:0];
-}
-
 
 @end

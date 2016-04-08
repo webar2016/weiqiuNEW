@@ -32,7 +32,7 @@
     self.navigationItem.backBarButtonItem = back;
     self.navigationItem.title = @"设置";
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 8, SCREENWIDTH, 176)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 8, SCREENWIDTH, 132)];
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.separatorColor = [UIColor initWithBackgroundGray];
     _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 0);
@@ -133,7 +133,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 2) {
+//    if (indexPath.row == 2) {
 //        SKStoreProductViewController *vc = [[SKStoreProductViewController alloc] init];
 //        vc.delegate = self;
 //        [vc loadProductWithParameters:
@@ -145,7 +145,8 @@
 //                 [self presentViewController:vc animated:YES completion:nil];
 //             }
 //         }];
-    } else if (indexPath.row == 3) {
+//    } else
+        if (indexPath.row == 2) {
         WBAboutWBViewController *aboutVC = [[WBAboutWBViewController alloc] init];
         [self.navigationController pushViewController:aboutVC animated:YES];
     }
@@ -153,7 +154,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"屏蔽微球小助手",@"给我们鼓励！",@"关于微球"];
+    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"屏蔽微球小助手",@"关于微球"];
     cell.textLabel.text = title[indexPath.row];
     cell.textLabel.textColor = [UIColor initWithNormalGray];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -189,25 +190,6 @@
 
 -(void)productViewControllerDidFinish:(SKStoreProductViewController*)viewController{
     [viewController dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    [self hideHUD];
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:2.0];
 }
 
 - (void)didReceiveMemoryWarning {

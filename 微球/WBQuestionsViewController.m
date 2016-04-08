@@ -63,7 +63,7 @@
     [self setUpSearchBox];
     
     self.currentPage = 1;
-    [self showHUD:@"正在努力加载" isDim:NO];
+    [self showHUDIndicator];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -356,22 +356,13 @@
 
 #pragma mark - MBprogress
 
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
+-(void)showHUDIndicator{
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    [self hideHUD];
+    self.hud.color = [UIColor clearColor];
+    self.hud.activityIndicatorColor = [UIColor blackColor];
 }
 
--(void)hideHUD
-{
+-(void)hideHUD{
     [self.hud hide:YES afterDelay:0.3];
 }
 

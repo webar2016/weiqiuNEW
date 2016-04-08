@@ -46,7 +46,7 @@
         self.navigationItem.leftBarButtonItem = leftButton;
         UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(backToLastView)];
         self.navigationItem.backBarButtonItem = back;
-        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"我的解锁信息" style:UIBarButtonItemStylePlain target:self action:@selector(gotoMyUnlockView)];
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"解锁历史" style:UIBarButtonItemStylePlain target:self action:@selector(gotoMyUnlockView)];
         self.navigationItem.rightBarButtonItem = rightButton;
     }else{
         self.navigationItem.title = @"选择目的地";

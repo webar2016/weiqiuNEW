@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
 #import "MJRefresh.h"
 #import "WBPostMenuButton.h"
 #import <MediaPlayer/MediaPlayer.h>
@@ -18,14 +17,6 @@
 
 @property (nonatomic,assign) NSInteger topicID;
 
-@property (strong, nonatomic) MPMoviePlayerController *player; 
-@property (nonatomic,strong)MBProgressHUD *hud;
-
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
--(void)showHUDComplete:(NSString *)title;
--(void)hideHUD;
-
-
-
+@property (strong, nonatomic) MPMoviePlayerController *player;
 
 @end

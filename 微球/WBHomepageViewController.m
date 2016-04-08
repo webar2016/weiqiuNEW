@@ -26,6 +26,8 @@
 #import "UIImageView+WebCache.h"
 #import "MJExtension.h"
 #import "NSString+string.h"
+#import <ShareSDK/ShareSDK.h>
+#import <ShareSDKUI/ShareSDK+SSUI.h>
 
 @interface WBHomepageViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,WBQuestionTableViewCellDelegate,ModefyData,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TransformValue> {
     
@@ -97,12 +99,9 @@
     [self setUpTopicTable];
     [self setUpAnswerTable];
     
+    [self showHUDIndicator];
+    
     [self loadUserInfo];
-//    [self loadTopics];
-//    [self loadAnswers];
-    
-//    [self setConfigHeadView];
-    
 }
 
 -(void)popBack{
@@ -287,7 +286,6 @@
     
 }
 
-
 -(void)setUpTopicTable{
     _topicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 64) style:UITableViewStyleGrouped];
     _topicTableView.tag = 100;
@@ -355,9 +353,11 @@
         } else {
             [_background removeFromSuperview];
         }
+        [self hideHUD];
         [_topicTableView reloadData];
         
     } andFailure:^(NSString *error) {
+        [self hideHUD];
         [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
     }];
 }
@@ -747,7 +747,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"分享" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //share operations
+            [self shareThisHomePage];
         }];
         action;
     })];
@@ -770,17 +770,10 @@
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             [MyDownLoadManager postUrl:@"http://121.40.132.44:92/report/reportUser" withParameters:@{@"userId":[WBUserDefaults userId],@"toUserId":self.userId,@"content":alert.textFields.firstObject.text} whenProgress:^(NSProgress *FieldDataBlock) {
-                
             } andSuccess:^(id representData) {
-                self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-                self.hud.mode = MBProgressHUDModeText;
-                self.hud.labelText = @"举报成功！";
-                [self.hud hide:YES afterDelay:2.0];
+                [self showHUDText:@"举报成功"];
             } andFailure:^(NSString *error) {
-                self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-                self.hud.mode = MBProgressHUDModeText;
-                self.hud.labelText = @"举报失败，请稍后再试";
-                [self.hud hide:YES afterDelay:2.0];
+                [self showHUDText:@"举报失败，请稍后再试"];
             }];
         }];
         action;
@@ -791,6 +784,54 @@
     })];
     [self presentViewController:alert animated:YES completion:nil];
 }
+
+-(void)shareThisHomePage{
+    NSArray* imageArray = @[[UIImage imageNamed:@"shareIcon.png"]];
+    // （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
+    if (imageArray) {
+        
+        NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+        [shareParams SSDKSetupShareParamsByText:@"我分享了一个微球主页，简直太棒了！"
+                                         images:imageArray
+                                            url:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/map/m?userId=%@",self.userId]]
+                                          title:@"快来微球征服地球！"
+                                           type:SSDKContentTypeAuto];
+        
+        //2、分享（可以弹出我们的分享菜单和编辑界面）
+        [ShareSDK showShareActionSheet:nil //要显示菜单的视图, iPad版中此参数作为弹出菜单的参照视图，只有传这个才可以弹出我们的分享菜单，可以传分享的按钮对象或者自己创建小的view 对象，iPhone可以传nil不会影响
+                                 items:nil
+                           shareParams:shareParams
+                   onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
+                       
+                       switch (state) {
+//                           case SSDKResponseStateSuccess:
+//                           {
+//                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
+//                                                                                   message:nil
+//                                                                                  delegate:nil
+//                                                                         cancelButtonTitle:@"好的"
+//                                                                         otherButtonTitles:nil];
+//                               [alertView show];
+//                               break;
+//                           }
+                           case SSDKResponseStateFail:
+                           {
+                               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败"
+                                                                               message:[NSString stringWithFormat:@"%@",error]
+                                                                              delegate:nil
+                                                                     cancelButtonTitle:@"好的"
+                                                                     otherButtonTitles:nil, nil];
+                               [alert show];
+                               break;
+                           }
+                           default:
+                               break;
+                       }
+                   }
+         ];}
+    
+}
+
 #pragma mark ---cell delegate----
 -(void)alertViewIntergeal:(NSString *)messageContent messageOpreation:(NSString *)opreation cancelMessage:(NSString *)cancelMessage{
     
@@ -861,27 +902,5 @@
 {    [_player.view removeFromSuperview];
     [self.navigationController setNavigationBarHidden:NO animated:TRUE];
 }
-
-#pragma mark - MBprogress
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    [self.hud hide:YES afterDelay:2.0];
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:0.3];
-}
-
-
 
 @end

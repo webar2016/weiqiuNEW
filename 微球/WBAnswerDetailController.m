@@ -91,7 +91,7 @@
     
     [self loadData];
     
-    [self showHUD:@"正在努力加载" isDim:NO];
+    [self showHUDIndicator];
     
     [self addGestureRecognizer];
     
@@ -106,7 +106,7 @@
 -(void)setUpTitleView{
     self.titleIsShow = NO;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithOriginal:@"icon_share"] style:UIBarButtonItemStylePlain target:self action:@selector(shareThisAnswer)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithOriginal:@"icon_share"] style:UIBarButtonItemStylePlain target:self action:@selector(shareThisAnswer)];
     
     self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH * 0.5, 44)];
     
@@ -239,7 +239,7 @@
 }
 
 -(void)shareThisAnswer{
-    NSArray* imageArray = @[[UIImage imageNamed:@"icon_unclockmesg.png"]];
+    NSArray* imageArray = @[[UIImage imageNamed:@"shareIcon.png"]];
     // （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
     if (imageArray) {
         
@@ -257,22 +257,22 @@
                    onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
                        
                        switch (state) {
-                           case SSDKResponseStateSuccess:
-                           {
-                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
-                                                                                   message:nil
-                                                                                  delegate:nil
-                                                                         cancelButtonTitle:@"确定"
-                                                                         otherButtonTitles:nil];
-                               [alertView show];
-                               break;
-                           }
+//                           case SSDKResponseStateSuccess:
+//                           {
+//                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
+//                                                                                   message:nil
+//                                                                                  delegate:nil
+//                                                                         cancelButtonTitle:@"好的"
+//                                                                         otherButtonTitles:nil];
+//                               [alertView show];
+//                               break;
+//                           }
                            case SSDKResponseStateFail:
                            {
                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败"
                                                                                message:[NSString stringWithFormat:@"%@",error]
                                                                               delegate:nil
-                                                                     cancelButtonTitle:@"OK"
+                                                                     cancelButtonTitle:@"好的"
                                                                      otherButtonTitles:nil, nil];
                                [alert show];
                                break;
@@ -390,7 +390,7 @@
         }
         
     } andFailure:^(NSString *error) {
-        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
+        [self showHUDText:@"网络状态不佳，请稍后再试！"];
     }];
 }
 
@@ -419,27 +419,6 @@
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:textAttachment.image];
     [self presentViewController:viewer animated:YES completion:nil];
     return YES;
-}
-
-#pragma mark - MBprogress
-
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    [self.hud hide:YES afterDelay:2.0];
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:0.3];
 }
 
 @end

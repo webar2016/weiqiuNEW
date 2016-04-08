@@ -60,7 +60,7 @@
 
 
 -(void)loadData{
-    [self showHUD:@"正在加载数据" isDim:YES];
+    [self showHUDIndicator];
     NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/relationship/concernsList?userId=%@&showUserId=%@",[WBUserDefaults userId],_showUserId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -69,8 +69,9 @@
             _dataArray = [WBFansModel mj_objectArrayWithKeyValuesArray:result[@"concernsList"]];
             [_tableView reloadData];
         }
-        [self showHUDComplete:@"加载完毕"];
+        [self hideHUD];
     } andFailure:^(NSString *error) {
+        [self hideHUD];
         NSLog(@"%@------",error);
     }];
 
@@ -116,27 +117,5 @@
 
     [super didReceiveMemoryWarning];
 }
-
-#pragma mark - MBprogress
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    [self hideHUD];
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:0.3];
-}
-
-
 
 @end

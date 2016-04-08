@@ -74,12 +74,7 @@
 
 -(void)nextStep{
     if (_tagArray.count == 0) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的行程标签" message:@"你最多可选择三个标签" preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-            action;
-        })];
-        [self presentViewController:alert animated:YES completion:nil];
+        [self showHUDText:@"请选择你的行程标签"];
         return;
     } else {
         NSString *tag = [[NSString alloc] init];
@@ -97,12 +92,7 @@
     if (_beginDate && _endDate) {
         NSDate *earlierDate = [_beginDate earlierDate:_endDate];
         if (![earlierDate isEqualToDate:_beginDate]){
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"结束时间不能早于开始时间\n请重新选择！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:({
-                UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-                action;
-            })];
-            [self presentViewController:alert animated:YES completion:nil];
+            [self showHUDText:@"结束时间不能早于开始时间"];
             return;
         }
     }

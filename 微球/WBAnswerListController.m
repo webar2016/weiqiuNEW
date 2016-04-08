@@ -57,7 +57,7 @@
     [self refreshTableView];
     
     self.currentPage = 1;
-    [self showHUD:@"正在努力加载" isDim:NO];
+    [self showHUDIndicator];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -215,7 +215,7 @@
                         [self.navigationController pushViewController:writeAnswerVC animated:YES];
                         
                     } andFailure:^(NSString *error) {
-                        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
+                        [self showHUDText:@"网络状态不佳，请稍后再试"];
                     }];
                 }];
                 action;
@@ -227,7 +227,7 @@
             [self presentViewController:alert animated:YES completion:nil];
         }
     } andFailure:^(NSString *error) {
-        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
+        [self showHUDText:@"网络状态不佳，请稍后再试"];
     }];
 }
 
@@ -255,9 +255,9 @@
                 sender.enabled = NO;
                 sender.backgroundColor = [UIColor initWithNormalGray];
                 [sender setTitle:@"已关闭" forState:UIControlStateNormal];
-                [self showHUDComplete:@"问题关闭成功"];
+                [self showHUDText:@"问题关闭成功"];
             } andFailure:^(NSString *error) {
-                [self showHUDComplete:@"问题关闭失败，请检查网络后重试"];
+                [self showHUDText:@"问题关闭失败，请检查网络后重试"];
             }];
         }];
         action;
@@ -318,22 +318,22 @@
 
 #pragma mark - MBprogress
 
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
+-(void)showHUDIndicator{
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
+    self.hud.color = [UIColor clearColor];
+    self.hud.activityIndicatorColor = [UIColor blackColor];
 }
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
+
+-(void)showHUDText:(NSString *)title{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeText;
+    self.hud.opacity = 0.7;
+    self.hud.dimBackground = NO;
     self.hud.labelText = title;
     [self.hud hide:YES afterDelay:2.0];
 }
 
--(void)hideHUD
-{
+-(void)hideHUD{
     [self.hud hide:YES afterDelay:0.3];
 }
 

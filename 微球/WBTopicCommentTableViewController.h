@@ -7,19 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
 #import "MJRefresh.h"
 
 
-@interface WBTopicCommentTableViewController : UIViewController
+@interface WBTopicCommentTableViewController : WBRefreshViewController
 
 @property (nonatomic,assign)NSInteger commentId;
 
 @property (nonatomic,copy)NSString *userId;
 
-@property (nonatomic,strong)MBProgressHUD *hud;
-
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
--(void)showHUDComplete:(NSString *)title;
--(void)hideHUD;
 @end
