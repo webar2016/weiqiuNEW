@@ -22,6 +22,7 @@
         self.content = [aDecoder decodeObjectForKey:@"content"];
         self.imageURL = [aDecoder decodeObjectForKey:@"imageURL"];
         self.isUnlock = [aDecoder decodeObjectForKey:@"isUnlock"];
+        self.cityId = [aDecoder decodeObjectForKey:@"cityId"];
         self.extra = [aDecoder decodeObjectForKey:@"extra"];
     }
     return self;
@@ -32,6 +33,7 @@
     [aCoder encodeObject:self.content forKey:@"content"];
     [aCoder encodeObject:self.imageURL forKey:@"imageURL"];
     [aCoder encodeObject:self.isUnlock forKey:@"isUnlock"];
+    [aCoder encodeObject:self.cityId forKey:@"cityId"];
     [aCoder encodeObject:self.extra forKey:@"extra"];
 }
 
@@ -41,6 +43,7 @@
     [dataDict setObject:self.content forKey:@"content"];
     [dataDict setObject:self.imageURL forKey:@"imageURL"];
     [dataDict setObject:self.isUnlock forKey:@"isUnlock"];
+    [dataDict setObject:self.cityId forKey:@"cityId"];
     if (self.extra) {
         [dataDict setObject:self.extra forKey:@"extra"];
     }
@@ -73,6 +76,7 @@
             self.content = dictionary[@"content"];
             self.imageURL = dictionary[@"imageURL"];
             self.isUnlock = dictionary[@"isUnlock"];
+            self.cityId = dictionary[@"cityId"];
             self.extra = dictionary[@"extra"];
             
             NSDictionary *userinfoDic = dictionary[@"user"];
