@@ -24,6 +24,8 @@
 
 #import "MyDownLoadManager.h"
 #import "NSString+string.h"
+#import "MyDBmanager.h"
+#import "WBTbl_Unlock_City.h"
 
 @interface WBSystemViewController () <RCMessageCellDelegate>
 
@@ -105,8 +107,7 @@
 
 #pragma mark - 自定义消息cell展示
 
-- (RCMessageBaseCell *)rcConversationCollectionView:(UICollectionView *)collectionView
-                             cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (RCMessageBaseCell *)rcConversationCollectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     RCMessageModel *model =
     [self.conversationDataRepository objectAtIndex:indexPath.row];
     
@@ -117,6 +118,13 @@
                                  dequeueReusableCellWithReuseIdentifier:WBUnlockMessageIdentifier
                                  forIndexPath:indexPath];
         [cell setDataModel:model];
+        //加入数据库
+        
+//         MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+//         WBTbl_Unlock_City *tempModel = [[WBTbl_Unlock_City alloc]init];
+//        tempModel.cityId = messageContent.cityId;
+        
+        
         [cell setDelegate:self];
         return cell;
     } else if ([messageContent isMemberOfClass:[WBSystemMessage class]]) {

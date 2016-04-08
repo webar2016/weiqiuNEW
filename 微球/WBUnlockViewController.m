@@ -38,6 +38,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self isUnlock];
+    
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     self.navigationItem.title = @"上传照片";
     UIButton *rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -56,7 +58,30 @@
     [self setUpUI];
     [self setUpDatePicker];
     [self setUpImagePicker];
+    
+    
 }
+
+
+-(void)isUnlock{
+//    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+//    NSArray *tempArray = [NSArray arrayWithArray:[manager searchAllItems]];
+//    BOOL isSaved = NO;
+//    for (WBTbl_Unlock_City *tempModel in tempArray) {
+//        if ([_cityId integerValue] == tempModel.cityId) {
+//            isSaved = YES;
+//            break;
+//        }
+//    }
+//    if (isSaved) {
+//        
+//        [self showHUDComplete:@"这个城市已经解锁"];
+//        [manager closeFBDM];
+//    }
+//    [manager closeFBDM];
+    
+}
+
 
 -(void)resignKeyboard{
     [_contentview resignFirstResponder];
