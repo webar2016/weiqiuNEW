@@ -124,6 +124,7 @@
 		2D2733671CB2BD5500F5E967 /* WBFindKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */; };
 		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
 		2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */; };
+		2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */; };
 		2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */; };
 		2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE61C8840B000555532 /* MyModel.xcdatamodeld */; };
 		2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D6161C869FDC008EE96B /* WBTopTableViewCell.m */; };
@@ -410,6 +411,8 @@
 		2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindAndHelpViewController.m; sourceTree = "<group>"; };
 		2D3775851CB4EE85003E6FE4 /* WBMenuBtnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMenuBtnViewController.h; sourceTree = "<group>"; };
 		2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMenuBtnViewController.m; sourceTree = "<group>"; };
+		2D38A2E91CB6666800F4AEC8 /* WBMyUnlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyUnlockViewController.h; sourceTree = "<group>"; };
+		2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyUnlockViewController.m; sourceTree = "<group>"; };
 		2D465FE31C88316000555532 /* WBTopicCommentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicCommentTableViewController.h; sourceTree = "<group>"; };
 		2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicCommentTableViewController.m; sourceTree = "<group>"; };
 		2D465FE71C8840B000555532 /* MyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyModel.xcdatamodel; sourceTree = "<group>"; };
@@ -848,6 +851,8 @@
 			children = (
 				05D1F9461C8FBE720049D3EC /* WBUnlockViewController.h */,
 				05D1F9471C8FBE720049D3EC /* WBUnlockViewController.m */,
+				2D38A2E91CB6666800F4AEC8 /* WBMyUnlockViewController.h */,
+				2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */,
 			);
 			name = unlock;
 			sourceTree = "<group>";
@@ -1605,6 +1610,7 @@
 				05BE5DD01CAE095B00D2DBF1 /* WBAttentionTableViewCell.m in Sources */,
 				05BE5DCE1CAE093200D2DBF1 /* WBTopicDetailTableViewCell2.m in Sources */,
 				05BE5DCC1CAE090100D2DBF1 /* WBPostVideoViewController.m in Sources */,
+				2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */,
 				2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */,
 				2DF791AC1CAD1A0500C14E79 /* WBTopicDetailTableViewCell.m in Sources */,
 				052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */,

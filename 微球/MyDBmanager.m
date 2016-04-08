@@ -17,6 +17,12 @@
     NSString *_tableName;
 }
 
+
+/*MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+ [manager  addItem:model];
+ NSLog(@"1 -------%@",[manager searchAllItems]);
+ [manager closeFBDM];*/
+
 -(instancetype)initWithStyle:(TableName)style
 {
     self = [super init];
@@ -38,6 +44,8 @@
     _tableName = @"tbl_unlock_city";
     }else if(_style == 2){
     _tableName = @"help_group_sign";
+    }else if (_style == 3){
+    _tableName = @"Tbl_unlocking_city";
     }
     NSArray *doucumentDirectory=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *file=[doucumentDirectory objectAtIndex:0];
@@ -75,9 +83,18 @@
                     }else{
                         NSLog(@"表格创建失败");
                     }
-                }else{
+                }else if(_style == 2){
                     //创建数据库help_group_sign
                     NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, sign_id integer,sign text,sign_describe text,type_flag text)",_tableName];
+                    BOOL flag = [_myDataBase executeUpdate:createSql];
+                    if (flag) {
+                        NSLog(@"表格创建成功");
+                    }else{
+                        NSLog(@"表格创建失败");
+                    }
+                }else{
+                    //创建数据库tbl_unlock_city
+                    NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId integer,cityId integer,unlockDate date,areaId integer,marked integer)",_tableName];
                     BOOL flag = [_myDataBase executeUpdate:createSql];
                     if (flag) {
                         NSLog(@"表格创建成功");
@@ -103,9 +120,12 @@
     }else if(_style == 1){
         WBTbl_Unlock_City *cItem =model;
         insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, cityId, unlockDate,areaId,marked) values ('%ld', '%ld','%@', '%ld', '%ld')", _tableName,(long)cItem.userId,(long)cItem.cityId ,cItem.unlockDate,(long)cItem.areaId,(long)cItem.marked];
-    }else{
+    }else if(_style == 2){
         WBHelp_Group_Sign *cItem =model;
         insertSql = [NSString stringWithFormat:@"insert into '%@' (sign_id, sign, sign_describe,type_flag) values ('%ld', '%@','%@', '%@')", _tableName,(long)cItem.sign_id,cItem.sign ,cItem.sign_describe,cItem.type_flag];
+    }else if(_style == 3){
+        WBTbl_Unlock_City *cItem =model;
+        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, cityId, unlockDate,areaId,marked) values ('%ld', '%ld','%@', '%ld', '%ld')", _tableName,(long)cItem.userId,(long)cItem.cityId ,cItem.unlockDate,(long)cItem.areaId,(long)cItem.marked];
     }
     
    // NSLog(@"----");
@@ -132,14 +152,16 @@
     //count(*)是数据库的函数，计算满足条件的数据个数
     //as cnt给数据个数值取一个别名，叫做"cnt"
   //  NSString *selectSql = @"select count(*) as cnt from bigarea where areaId = ?";
-    NSString *selectSql = [NSString stringWithFormat:@"select count(*) as cnt from '%@' where areaId = ?",_tableName];
-    FMResultSet *rs = [_myDataBase executeQuery:selectSql,headId];
+    NSString *selectSql = [NSString string];
     //获取记录的个数
+    if (_style == 1 || _style == 3) {
+        selectSql = [NSString stringWithFormat:@"select count(*) as cnt from '%@' where areaId = ?",_tableName];
+    }
+    FMResultSet *rs = [_myDataBase executeQuery:selectSql,headId];
     int count = 0;
     if ([rs next]) {
         count = [rs intForColumn:@"cnt"];
     }
-    
     if (count > 0) {
         return YES;
     }
@@ -178,7 +200,7 @@
             //添加到数组中
             [resultArray addObject:cItem];
         }
-    }else{
+    }else if (_style ==2){
         FMResultSet *rs = [_myDataBase executeQuery:selectSql];
         while ([rs next]) {
             //创建一个对象
@@ -188,6 +210,20 @@
             cItem.sign = [rs stringForColumn:@"sign"];
             cItem.sign_describe = [rs stringForColumn:@"sign_describe"];
             cItem.type_flag = [rs stringForColumn:@"type_flag"];
+            //添加到数组中
+            [resultArray addObject:cItem];
+        }
+    }else if (_style ==3){
+        FMResultSet *rs = [_myDataBase executeQuery:selectSql];
+        while ([rs next]) {
+            //创建一个对象
+            WBTbl_Unlock_City *cItem = [[WBTbl_Unlock_City alloc] init];
+            cItem.Id = [rs intForColumn:@"id"];
+            cItem.userId = [rs intForColumn:@"userId"];
+            cItem.cityId = [rs intForColumn:@"cityId"];
+            cItem.unlockDate = [rs dateForColumn:@"unlockDate"];
+            cItem.areaId = [rs intForColumn:@"areaId"];
+            cItem.marked = [rs intForColumn:@"marked"];
             //添加到数组中
             [resultArray addObject:cItem];
         }

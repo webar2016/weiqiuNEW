@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, TableName) {
     Big_area = 0,
     Tbl_unlock_city = 1,
     Help_group_sign = 2,
+    Tbl_unlocking_city = 3
     
 };
 
