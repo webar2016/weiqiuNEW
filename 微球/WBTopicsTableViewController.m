@@ -42,14 +42,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //数据初始化
+    
     _dataList = [NSMutableArray array];
     _dataTopList=[NSMutableArray array];
-    //创建UI
+    
     [self createUI];
-    //缓冲标志
+    
+    _page=1;
     [self showHUD:@"正在努力加载" isDim:NO];
-    //加载数据
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
     [self loadDataCell];
 }
 
@@ -58,44 +62,62 @@
     self.tableView.backgroundColor = [UIColor initWithBackgroundGray];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        _page=1;
-        [self loadDataCell];
-        
-    }];
-    header.lastUpdatedTimeLabel.hidden = YES;
-
-    self.tableView.mj_header = header;
-    
     MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        _page++;
-        [self loadMoreData];
-        
+        [self loadDataCell];
     }];
     
-    [footer setTitle:@"" forState:MJRefreshStateIdle];
+    [footer setTitle:@"加载更多话题" forState:MJRefreshStateIdle];
+    [footer setTitle:@"正在加载话题" forState:MJRefreshStateRefreshing];
     
     self.tableView.mj_footer = footer;
+    
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _page = 1;
+        [self loadDataCell];
+        [footer setTitle:@"加载更多话题" forState:MJRefreshStateIdle];
+    }];
+    header.lastUpdatedTimeLabel.hidden = YES;
+    
+    self.tableView.mj_header = header;
 }
-
 
 //加载cell的内容
 -(void)loadDataCell
 {
-    _page = 1;
     NSString *url = [NSString stringWithFormat:CellURL,(long)_page,PAGESIZE];
+    
+    if (_page == 1) {
+        [_dataList removeAllObjects];
+    }
+    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if ([result isKindOfClass:[NSDictionary class]]) {
-            NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"topicList"]];
             
-            _dataList =[WBTopicModel mj_objectArrayWithKeyValuesArray:arrayList];
+            NSArray *tempArray = [WBTopicModel mj_objectArrayWithKeyValuesArray:result[@"topicList"]];
+            [_dataList addObjectsFromArray:tempArray];
+            
+            NSInteger count = tempArray.count;
+            if (count <= PAGESIZE && count != 0) {
+                _page++;
+            }
+            if (_page == 1 && count == 0) {
+                [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"" forState:MJRefreshStateIdle];
+            } else if (_page != 1 && count == 0) {
+                [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
+            }
+            
             [self.tableView reloadData];
             [self hideHUD];
             [self.tableView.mj_header endRefreshing];
+            [self.tableView.mj_footer endRefreshing];
         }
     } andFailure:^(NSString *error) {
+        [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"网络状态不佳，请下拉重试" forState:MJRefreshStateIdle];
+        [self hideHUD];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         NSLog(@"%@------",error);
     }];
 }
@@ -112,44 +134,11 @@
             
             _dataTopList =[WBTopicModel mj_objectArrayWithKeyValuesArray:arrayList];
             
-          //  NSLog(@"number = %@",_dataTopList);
             [self loadDataCell];
         }
     } andFailure:^(NSString *error) {
         NSLog(@"%@------",error);
     }];
-}
-
--(void)loadMoreData{
-
-    NSString *url = [NSString stringWithFormat:CellURL,(long)_page,PAGESIZE];
-    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
-        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-       // NSLog(@"result = %@",result);
-        if ([result isKindOfClass:[NSDictionary class]]) {
-            NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"topicList"]];
-            NSMutableArray *tempArray = [NSMutableArray array];
-            tempArray =[WBTopicModel mj_objectArrayWithKeyValuesArray:arrayList];
-           // NSLog(@"tempArray = %@",tempArray);
-            if (tempArray.count == 0) {
-                [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
-            }
-            for (WBTopicModel *model  in tempArray) {
-             //   NSLog(@"qwertrty%@",model);
-                [_dataList addObject:model];
-               
-            }
-          //   NSLog(@"dsfdsfsdf%@",_dataList);
-            [self.tableView reloadData];
-            [self.tableView.mj_footer endRefreshing];
-            
-        }
-    } andFailure:^(NSString *error) {
-        NSLog(@"%@------",error);
-    }];
-
-
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -159,10 +148,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    //NSLog(@"%lu", (unsigned long)_dataList.count);
    return _dataList.count;
-    
-   
 }
 
 
@@ -170,32 +156,25 @@
     return 178;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row < _dataTopList.count) {
         static NSString *topCellID = @"TopCell";
         WBTopicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:topCellID];
         if (cell == nil)
         {   cell = [[WBTopicTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID cellWidth:self.view.frame.size.width ];
-            
         }
         [cell setModel:_dataTopList[indexPath.row]];
         return cell;
-
     }
     else{
         static NSString *cellID = @"TopicCell";
         WBTopicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil)
         {   cell = [[WBTopicTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID cellWidth:self.view.frame.size.width ];
-        
         }
-       
-
         [cell setModel:_dataList[indexPath.row-_dataTopList.count]];
         return cell;
     }
-
 }
 
 

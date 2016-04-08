@@ -24,15 +24,17 @@
         [self.contentView addSubview:_headImageView];
         
         _nickNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65, 14, 200, 15)];
+        _nickNameLabel.textColor = [UIColor initWithLightGray];
         [self.contentView addSubview:_nickNameLabel];
         _nickNameLabel.font = MAINFONTSIZE;
         
         _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(65, 30, 200, 15)];
+        _timeLabel.textColor = [UIColor initWithLightGray];
         [self.contentView addSubview:_timeLabel];
         _timeLabel.font = SMALLFONTSIZE;
         
         _contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(65, 50, SCREENWIDTH-65-20, height)];
-       
+        _contentLabel.textColor = [UIColor initWithLightGray];
         //_contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
        // _contentLabel.font = [UIFont systemFontOfSize:14];
         _contentLabel.font = MAINFONTSIZE;

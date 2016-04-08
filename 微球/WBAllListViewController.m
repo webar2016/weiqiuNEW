@@ -35,64 +35,59 @@
 {
     UICollectionView *_collectionView;
     NSInteger _page;
-    NSInteger _loadImageCount;
+//    NSInteger _loadImageCount;
     CGFloat _beginScoller;
     //每个cell的高度
     NSMutableArray *_cellHeightArray;
-
     
+//    UIImageView *_background;
 }
-@property (nonatomic, strong) NSMutableArray *dataArray;
 
 @end
 
 @implementation WBAllListViewController
 
-
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _page=1;
     _cellHeightArray = [NSMutableArray array];
     self.dataSource = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+//    _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+//    _background.center = CGPointMake(SCREENWIDTH / 2, 170);
+    
     _collectionView = [self collectionView];
     [self.view addSubview:_collectionView];
     [self createMJRefresh];
-    
+    [self showHUD:@"正在努力加载" isDim:NO];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    _loadImageCount = 0;
+//    _loadImageCount = 0;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self showHUD:@"正在努力加载" isDim:NO];
     [self loadData];;
 }
 
 -(void) createMJRefresh{
+    
+    MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        [self loadData];
+    }];
+    [footer setTitle:@"加载更多帮帮团" forState:MJRefreshStateIdle];
+    [footer setTitle:@"正在加载帮帮团" forState:MJRefreshStateRefreshing];
+    _collectionView.mj_footer = footer;
 
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         _page=1;
         [self loadData];
-        
+        [footer setTitle:@"加载更多帮帮团" forState:MJRefreshStateIdle];
     }];
     header.lastUpdatedTimeLabel.hidden = YES;
     
     _collectionView.mj_header = header;
     
-    MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        _page++;
-        [self loadMoreData];
-        
-    }];
-    
-    [footer setTitle:@"" forState:MJRefreshStateIdle];
-    
-    _collectionView.mj_footer = footer;
-
-
 }
 
 -(UICollectionView *)collectionView
@@ -114,64 +109,53 @@
 
 -(void)loadData
 {
-    _loadImageCount = 0;
-    _page = 1;
+//    _loadImageCount = 0;
     
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld",(long)_page];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
-        if ([result isKindOfClass:[NSDictionary class]]) {
-            NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"helpGroup"]];
-          //  NSLog(@"result=%@",result);
-            [self.dataSource removeAllObjects];
+        if (_page == 1) {
             [_cellHeightArray removeAllObjects];
+            [self.dataSource removeAllObjects];
+        }
+        
+        if ([result isKindOfClass:[NSDictionary class]]) {
             
-            self.dataSource =[WBCollectionViewModel mj_objectArrayWithKeyValuesArray:arrayList];
+            NSArray *tempArray =[WBCollectionViewModel mj_objectArrayWithKeyValuesArray:result[@"helpGroup"]];
+            NSInteger count = tempArray.count;
+            for (NSInteger i=0; i<tempArray.count; i++) {
+                [_cellHeightArray addObject:((WBCollectionViewModel *)tempArray[i]).imgRate];
+                [self .dataSource addObject:tempArray[i]];
+            }
             
-            for (NSInteger i=0; i<self.dataSource.count; i++) {
-                [_cellHeightArray addObject:((WBCollectionViewModel *)_dataSource[i]).imgRate];
+            if (count <= PAGESIZE && count != 0) {
+                _page++;
+            }
+            if (_page == 1 && count == 0) {
+                [(MJRefreshAutoNormalFooter *)_collectionView.mj_footer setTitle:@"" forState:MJRefreshStateIdle];
+            } else if (_page != 1 && count == 0) {
+                [(MJRefreshAutoNormalFooter *)_collectionView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
             }
         }
         
         [_collectionView reloadData];
         [_collectionView.mj_header endRefreshing];
-        
+        [_collectionView.mj_footer endRefreshing];
         [self hideHUD];
 
     } andFailure:^(NSString *error) {
+        [(MJRefreshAutoNormalFooter *)_collectionView.mj_footer setTitle:@"网络状态不佳，请下拉重试" forState:MJRefreshStateIdle];
         [_collectionView.mj_header endRefreshing];
+        [_collectionView.mj_footer endRefreshing];
+        [self hideHUD];
         NSLog(@"%@------",error);
     }];
 }
-
--(void)loadMoreData
-{
-    if (_loadImageCount < self.dataSource.count) {
-        [_collectionView.mj_footer endRefreshing];
-        return;
-    }
-    
-    NSString *url = [NSString stringWithFormat:@"http://www.xiaohongchun.com/api2/index/gvideo?page=%ld&release=2.0&udid=765879&cid=0",(long)_page];
-    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
-//        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        
-       [_collectionView.mj_footer endRefreshing];
-        
-        
-    } andFailure:^(NSString *error) {
-        [_collectionView.mj_footer endRefreshing];
-        NSLog(@"%@------",error);
-    }];
-
-}
-
-
-
-
-#pragma mark ---collectionView代理---
 
 #pragma mark - UICollectionViewDataSource
+
 //定义展示的Section的个数
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
