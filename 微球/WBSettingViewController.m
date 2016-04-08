@@ -72,7 +72,7 @@
             [manager1 deleteAllData];
             [manager1 closeFBDM];
             
-            MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Help_group_sign];
+            MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
             [manager2 deleteAllData];
             [manager2 closeFBDM];
             

@@ -120,6 +120,7 @@
 		2D1DE0081C92D10D0059CD89 /* WBBig_AreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1DE0071C92D10D0059CD89 /* WBBig_AreaModel.m */; };
 		2D1DE00B1C92D2BE0059CD89 /* WBTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1DE00A1C92D2BE0059CD89 /* WBTestViewController.m */; };
 		2D1DE00D1C92E32B0059CD89 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */; };
+		2D2568CA1CB74F9C006AEE5A /* WBTbl_Unlocking_City.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */; };
 		2D26AEC11CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */; };
 		2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */; };
 		2D2733671CB2BD5500F5E967 /* WBFindKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */; };
@@ -404,6 +405,8 @@
 		2D1DE0091C92D2BE0059CD89 /* WBTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTestViewController.h; sourceTree = "<group>"; };
 		2D1DE00A1C92D2BE0059CD89 /* WBTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTestViewController.m; sourceTree = "<group>"; };
 		2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		2D2568C81CB74F9C006AEE5A /* WBTbl_Unlocking_City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTbl_Unlocking_City.h; sourceTree = "<group>"; };
+		2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTbl_Unlocking_City.m; sourceTree = "<group>"; };
 		2D26AEBF1CA2230C003D5DAE /* WBTopicDetailTableViewCell3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicDetailTableViewCell3.h; sourceTree = "<group>"; };
 		2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailTableViewCell3.m; sourceTree = "<group>"; };
 		2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -1136,6 +1139,8 @@
 				2D1DE0071C92D10D0059CD89 /* WBBig_AreaModel.m */,
 				2D6047EA1C93F7D200A88BAA /* WBTbl_Unlock_City.h */,
 				2D6047EB1C93F7D200A88BAA /* WBTbl_Unlock_City.m */,
+				2D2568C81CB74F9C006AEE5A /* WBTbl_Unlocking_City.h */,
+				2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */,
 				2D6047ED1C93F86000A88BAA /* WBHelp_Group_Sign.h */,
 				2D6047EE1C93F86000A88BAA /* WBHelp_Group_Sign.m */,
 			);
@@ -1712,6 +1717,7 @@
 				2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */,
 				05794C851CA229B300F32837 /* WBUnlockMessage.m in Sources */,
 				2DF532BF1CAFD2090000E8CB /* WBTopicXibTableViewCell.m in Sources */,
+				2D2568CA1CB74F9C006AEE5A /* WBTbl_Unlocking_City.m in Sources */,
 				05794C881CA2321A00F32837 /* WBSystemMsgCell.m in Sources */,
 				05BE27911C8038F100B916FB /* WBQuestionsViewController.m in Sources */,
 				0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */,

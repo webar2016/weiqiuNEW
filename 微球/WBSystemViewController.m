@@ -26,6 +26,7 @@
 #import "NSString+string.h"
 #import "MyDBmanager.h"
 #import "WBTbl_Unlock_City.h"
+#import "WBTbl_Unlocking_City.h"
 
 @interface WBSystemViewController () <RCMessageCellDelegate>
 
@@ -119,12 +120,37 @@
                                  forIndexPath:indexPath];
         [cell setDataModel:model];
         //加入数据库
+         WBUnlockMessage *tempModel = [[WBUnlockMessage alloc]init];
+         tempModel= (WBUnlockMessage *)messageContent;
+        NSLog(@"tempModel %@", tempModel);
         
-//         MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
-//         WBTbl_Unlock_City *tempModel = [[WBTbl_Unlock_City alloc]init];
-//        tempModel.cityId = messageContent.cityId;
-        
-        
+        if ([tempModel.isUnlock isEqual:@"YES"]) {
+            //保存到已经解锁
+            
+            WBTbl_Unlock_City *unlockingCity = [[WBTbl_Unlock_City alloc]init];
+            unlockingCity.userId = [[WBUserDefaults userId]integerValue];
+            unlockingCity.cityId = [tempModel.cityId integerValue];
+            
+            
+            MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+            if (![manager isAddedItemsID:tempModel.cityId]) {
+                [manager addItem:unlockingCity];
+                [manager closeFBDM];
+            }else{
+            [manager closeFBDM];
+            }
+            
+            
+            //删掉正在解锁
+            MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+            [manager2 deletedataWithKey:@"cityId" andValue:tempModel.cityId];
+            [manager2 closeFBDM];
+            
+            
+            //解锁成功
+        }else{
+        //解锁失败
+        }
         [cell setDelegate:self];
         return cell;
     } else if ([messageContent isMemberOfClass:[WBSystemMessage class]]) {

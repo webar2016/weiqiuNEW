@@ -45,7 +45,7 @@
     }else if(_style == 2){
     _tableName = @"help_group_sign";
     }else if (_style == 3){
-    _tableName = @"Tbl_unlocking_city";
+    _tableName = @"tbl_unlocking_city";
     }
     NSArray *doucumentDirectory=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *file=[doucumentDirectory objectAtIndex:0];
@@ -94,7 +94,7 @@
                     }
                 }else{
                     //创建数据库tbl_unlock_city
-                    NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId integer,cityId integer,unlockDate date,areaId integer,marked integer)",_tableName];
+                    NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId text,provinceId text,cityId text,provinceName text,cityName text)",_tableName];
                     BOOL flag = [_myDataBase executeUpdate:createSql];
                     if (flag) {
                         NSLog(@"表格创建成功");
@@ -124,8 +124,8 @@
         WBHelp_Group_Sign *cItem =model;
         insertSql = [NSString stringWithFormat:@"insert into '%@' (sign_id, sign, sign_describe,type_flag) values ('%ld', '%@','%@', '%@')", _tableName,(long)cItem.sign_id,cItem.sign ,cItem.sign_describe,cItem.type_flag];
     }else if(_style == 3){
-        WBTbl_Unlock_City *cItem =model;
-        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, cityId, unlockDate,areaId,marked) values ('%ld', '%ld','%@', '%ld', '%ld')", _tableName,(long)cItem.userId,(long)cItem.cityId ,cItem.unlockDate,(long)cItem.areaId,(long)cItem.marked];
+        WBTbl_Unlocking_City *cItem =model;
+        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, provinceId, cityId, provinceName, cityName) values ('%@', '%@','%@', '%@', '%@')", _tableName, cItem.userId,cItem.provinceId ,cItem.cityId,cItem.provinceName,cItem.cityName];
     }
     
    // NSLog(@"----");
@@ -145,7 +145,7 @@
 }
 
 //判断是否已收藏
--(BOOL)isAddedItemsID:(NSInteger)headId
+-(BOOL)isAddedItemsID:(NSString *)cityId
 {
     //查询
     //NSString *selectSql = @"select * from collect where applicationId = ?";
@@ -155,9 +155,9 @@
     NSString *selectSql = [NSString string];
     //获取记录的个数
     if (_style == 1 || _style == 3) {
-        selectSql = [NSString stringWithFormat:@"select count(*) as cnt from '%@' where areaId = ?",_tableName];
+        selectSql = [NSString stringWithFormat:@"select count(*) as cnt from '%@' where cityId = ?",_tableName];
     }
-    FMResultSet *rs = [_myDataBase executeQuery:selectSql,headId];
+    FMResultSet *rs = [_myDataBase executeQuery:selectSql,cityId];
     int count = 0;
     if ([rs next]) {
         count = [rs intForColumn:@"cnt"];
@@ -217,13 +217,13 @@
         FMResultSet *rs = [_myDataBase executeQuery:selectSql];
         while ([rs next]) {
             //创建一个对象
-            WBTbl_Unlock_City *cItem = [[WBTbl_Unlock_City alloc] init];
+            WBTbl_Unlocking_City *cItem = [[WBTbl_Unlocking_City alloc] init];
             cItem.Id = [rs intForColumn:@"id"];
-            cItem.userId = [rs intForColumn:@"userId"];
-            cItem.cityId = [rs intForColumn:@"cityId"];
-            cItem.unlockDate = [rs dateForColumn:@"unlockDate"];
-            cItem.areaId = [rs intForColumn:@"areaId"];
-            cItem.marked = [rs intForColumn:@"marked"];
+            cItem.userId = [rs stringForColumn:@"userId"];
+            cItem.provinceId = [rs stringForColumn:@"provinceId"];
+            cItem.cityId = [rs stringForColumn:@"cityId"];
+            cItem.provinceName = [rs stringForColumn:@"provinceName"];
+            cItem.cityName = [rs stringForColumn:@"cityName"];
             //添加到数组中
             [resultArray addObject:cItem];
         }
@@ -248,23 +248,30 @@
             modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET userId='%ld',cityId='%ld',unlockDate='%@',areaId='%ld',marked='%ld' WHERE id='%d'",_tableName,(long)model.userId,(long)model.cityId,model.unlockDate,(long)model.areaId,(long)model.marked,model.Id];
             [_myDataBase executeUpdate:modifiedSql];
         
-        }else{
+        }else if (_style == 2){
             WBHelp_Group_Sign *model = Item;
-            modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET sign_id='%ld',sign='%@',sign_describe='%@',type_flag='%@' WHERE id='%d'",_tableName,(long)
-                           model.sign_id,model.sign,model.sign_describe,model.type_flag,model.Id];
+            modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET sign_id='%ld',sign='%@',sign_describe='%@',type_flag='%@' WHERE id='%d'",_tableName,(long)model.sign_id,model.sign,model.sign_describe,model.type_flag,model.Id];
+            [_myDataBase executeUpdate:modifiedSql];
+            
+        }else if (_style == 3){
+            WBTbl_Unlocking_City *model = Item;
+            modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET userId='%@',provinceId='%@',cityId='%@',provinceName='%@',cityName='%@' WHERE id='%d'",_tableName,model.userId,model.provinceId,model.cityId,model.provinceName,model.cityName,model.Id];
             [_myDataBase executeUpdate:modifiedSql];
             
         }
     }
 }
 //删除数据
--(void)deletedataWithKey:(NSString *)key andValue:(id)value
+-(void)deletedataWithKey:(NSString *)key andValue:(NSString *)value
 {
     NSString *deleteSql;
     if ([_myDataBase open])
     {
-            deleteSql = [NSString stringWithFormat:@"delete  from '%@' where '%@'='%@'",_tableName,key,value];
-            [_myDataBase executeUpdate:deleteSql];
+        
+            deleteSql = [NSString stringWithFormat:@"delete from '%@' where %@ ='%@'",_tableName,key,value];
+
+        
+        NSLog(@"--------%d",[_myDataBase executeUpdate:deleteSql]);
     }
 }
 

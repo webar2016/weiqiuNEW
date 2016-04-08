@@ -30,6 +30,7 @@
     UIImagePickerController *_imagePickerController;
     
     BOOL            _isSuccess;
+    BOOL            _isUnlock;
 }
 
 @end
@@ -38,7 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self isUnlock];
+    
     
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     self.navigationItem.title = @"上传照片";
@@ -58,27 +59,44 @@
     [self setUpUI];
     [self setUpDatePicker];
     [self setUpImagePicker];
+    [self isUnlock];
     
     
 }
 
 
 -(void)isUnlock{
-//    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
-//    NSArray *tempArray = [NSArray arrayWithArray:[manager searchAllItems]];
-//    BOOL isSaved = NO;
-//    for (WBTbl_Unlock_City *tempModel in tempArray) {
-//        if ([_cityId integerValue] == tempModel.cityId) {
-//            isSaved = YES;
-//            break;
-//        }
-//    }
-//    if (isSaved) {
-//        
-//        [self showHUDComplete:@"这个城市已经解锁"];
-//        [manager closeFBDM];
-//    }
-//    [manager closeFBDM];
+    
+    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+    if ([manager isAddedItemsID:[NSString stringWithFormat:@"%@",self.cityId]]) {
+        //已经存在unlock
+        [manager closeFBDM];
+        _isUnlock = YES;
+        [self showHUD:nil isDim:YES];
+        [self showHUDComplete:@"这个城市已经解锁"];
+    }
+    [manager closeFBDM];
+    
+    
+    
+    
+    WBTbl_Unlock_City *model = [[WBTbl_Unlock_City alloc]init];
+    model.userId =[[WBUserDefaults userId] integerValue];
+    model.cityId =[self.cityId integerValue];
+    
+    
+    MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+    if ([manager2 isAddedItemsID:[NSString stringWithFormat:@"%@",self.cityId]]) {
+        //已经存在unlocking
+        [manager2 closeFBDM];
+        _isUnlock = YES;
+        [self showHUD:nil isDim:YES];
+        [self showHUDComplete:@"这个城市正在解锁中，等待审核"];
+    }else{
+        
+     //   [manager2 addItem:model];
+        [manager2 closeFBDM];
+    }
     
 }
 
@@ -275,25 +293,14 @@
     } andSuccess:^(id representData) {
         _isSuccess = YES;
         
-        WBTbl_Unlock_City *model = [[WBTbl_Unlock_City alloc]init];
-        model.userId =[[WBUserDefaults userId] integerValue];
-        model.cityId =[self.cityId integerValue];
+        WBTbl_Unlocking_City *model = [[WBTbl_Unlocking_City alloc]init];
+        model.userId =[WBUserDefaults userId];
+        model.cityId =[self.cityId stringValue];
         MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
-        NSArray *tempArray = [NSArray arrayWithArray:[manager searchAllItems]];
-        BOOL isSaved = NO;
-        for (WBTbl_Unlock_City *tempModel in tempArray) {
-            if (model.cityId == tempModel.cityId) {
-                isSaved = YES;
-                break;
-            }
-        }
-        if (!isSaved) {
-            [manager addItem:model];
-            [self showHUDComplete:@"上传成功，正在火速审核中"];
-        }else{
-            [self showHUDComplete:@"这个城市已经解锁"];
-        }
+        [manager addItem:model];
         [manager closeFBDM];
+        [self showHUDComplete:@"已经上传，正在火速审核中"];
+        
         
     } andFailure:^(NSString *error) {
         self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -349,7 +356,7 @@
     self.hud.labelText = title;
     self.hud.opacity = 0.7;
     [self.hud hide:YES afterDelay:2.0];
-    if (_isSuccess) {
+    if (_isSuccess||_isUnlock) {
         [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0];
     }
 }
