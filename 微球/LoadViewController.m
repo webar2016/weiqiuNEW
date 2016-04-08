@@ -27,6 +27,7 @@
 #import "WBBig_AreaModel.h"
 #import "WBHelp_Group_Sign.h"
 #import "WBTbl_Unlock_City.h"
+#import "WBTbl_Unlocking_City.h"
 #import "MyDBmanager.h"
 
 
@@ -304,7 +305,7 @@
 
 //数据库
 -(void)saveToDataBase{
-    NSString *unlockCityUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/lr/unlockCity?userId=%@",@"29"];
+    NSString *unlockCityUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/lr/unlockCity?userId=%@",[WBUserDefaults userId]];
         [MyDownLoadManager getNsurl:unlockCityUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSArray *unlockCity = [WBTbl_Unlock_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"unlockCity"]];
@@ -315,23 +316,28 @@
             NSLog(@"1 -------%@",[manager searchAllItems]);
             [manager closeFBDM];
             [self saveData];
+            
+            NSString *unlockingCityUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/map/getChecking?userId=%@",[WBUserDefaults userId]];
+            [MyDownLoadManager getNsurl:unlockingCityUrl whenSuccess:^(id representData) {
+                id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                NSArray *unlockingCity = [WBTbl_Unlocking_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"checkings"]];
+                NSLog(@"1 -------%@",unlockingCity);
+                MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+                for (WBTbl_Unlocking_City *model in unlockingCity) {
+                    [manager  addItem:model];
+                }
+                NSLog(@"2 ------%@",[manager searchAllItems]);
+                [manager closeFBDM];
+                [self saveData];
             } andFailure:^(NSString *error) {
             }];
 
-    NSString *helpGroupSign = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/groupSign"];
-    [MyDownLoadManager getNsurl:helpGroupSign whenSuccess:^(id representData) {
-        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        NSArray *helpGroupSign = [WBHelp_Group_Sign mj_objectArrayWithKeyValuesArray:[result objectForKey:@"sign"]];
-        MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Help_group_sign];
-        for (WBHelp_Group_Sign *model in helpGroupSign) {
-            [manager  addItem:model];
-        }
-        NSLog(@"2 ------%@",[manager searchAllItems]);
-        [manager closeFBDM];
-         [self saveData];
-    } andFailure:^(NSString *error) {
-    }];
-        
+            
+            
+            } andFailure:^(NSString *error) {
+            }];
+
+    
 
 }
 

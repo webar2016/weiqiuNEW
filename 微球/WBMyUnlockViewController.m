@@ -98,7 +98,8 @@
         {   cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2];
         }
         WBPositionList *position = [[WBPositionList alloc]init];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@",[position cityNameWithCityId:[NSNumber numberWithInteger:((WBTbl_Unlock_City *)_unlockingArray[indexPath.row]).cityId]]];
+        
+        cell.textLabel.text = [NSString stringWithFormat:@"%@",[position cityNameWithCityId:[NSNumber numberWithInteger:[((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId integerValue]]]];
         return cell;
     }
    
