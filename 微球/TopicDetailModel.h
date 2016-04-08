@@ -32,6 +32,7 @@
 @property (nonatomic,assign) NSInteger newsType;
 @property (nonatomic,copy) NSString *dir;
 @property (nonatomic,copy) NSString *cover;
+@property (nonatomic,copy) NSString *topicContent;
 @property (nonatomic,copy) NSString *commentTime;
 @property (nonatomic,assign) NSInteger praiseTimes;
 @property (nonatomic,assign) NSInteger praiseUser;

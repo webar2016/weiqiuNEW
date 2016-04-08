@@ -13,19 +13,18 @@
 #import "WBTopicCommentTableViewCell.h"
 
 
-#define commentURL @"http://121.40.132.44:92/tq/getTopicCommentDetil?commentId=%ld&p=%ld&ps=%d"
+#define commentURL @"http://121.40.132.44:92/tq/getTopicCommentDetil?commentId=%ld"
 
-@interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
+@interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UITextInputTraits>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArray;
     NSMutableArray *_cellHeightArray;
-    NSInteger _page;
     UITextView *_commentTextView;
     UIButton *_rightBtn;
+    UILabel *_placeHolder;
     UIView *_textBgView;
 }
-
 
 @end
 
@@ -34,9 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //缓冲标志
-    
-    _page = 1;
     _dataArray = [NSMutableArray array];
     _cellHeightArray = [NSMutableArray array];
     [self createNavi];
@@ -47,19 +43,10 @@
     [self loadData];
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
-        _page=1;
         [self loadData];
-        
     }];
     header.lastUpdatedTimeLabel.hidden = YES;
-    
     _tableView.mj_header = header;
-    
-    _tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        _page++;
-        [self loadData];
-    }];
 }
 
 -(void) createNavi{
@@ -76,7 +63,7 @@
 -(void)createUI{
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height-64-50)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height-64-55)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.userInteractionEnabled = YES;
@@ -85,91 +72,88 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     _textBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
-    [self.view addSubview:_textBgView];
-    _textBgView.backgroundColor = [UIColor initWithBackgroundGray];
-    _textBgView.alpha = 0;
+    _textBgView.backgroundColor = [UIColor clearColor];
     _textBgView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewClicked)];
     [_textBgView addGestureRecognizer:tap];
-
-
 }
 
 -(void)createTextView{
-    _commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0  , SCREENHEIGHT-64-50 , SCREENWIDTH-50, 50)];
+    _commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-64-50 , SCREENWIDTH, 50)];
     [self.view addSubview:_commentTextView];
-    _commentTextView.layer.borderColor = [UIColor initWithBackgroundGray].CGColor;
-    _commentTextView.layer.borderWidth =1.0;//该属性显示外边框
-    _commentTextView.layer.cornerRadius = 6.0;//通过该值来设置textView边角的弧度
     _commentTextView.layer.masksToBounds = YES;
     _commentTextView.font = MAINFONTSIZE;
+    _commentTextView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 0);
+    _commentTextView.textColor = [UIColor initWithLightGray];
+    _commentTextView.delegate = self;
+    _commentTextView.layer.borderColor = [UIColor initWithBackgroundGray].CGColor;
+    _commentTextView.layer.borderWidth = 5;
+    _commentTextView.returnKeyType = UIReturnKeySend;
     
-    
-    _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _rightBtn.frame = CGRectMake(SCREENWIDTH-50,SCREENHEIGHT-64-50, 50, 50);
-    _rightBtn.backgroundColor = [UIColor initWithGreen];
-    _rightBtn.layer.cornerRadius = 6.0;//通过该值来设置textView边角的弧度
-    _rightBtn.layer.masksToBounds = YES;
-    [_rightBtn setTitle:@"确认" forState:UIControlStateNormal];
-    [_rightBtn addTarget:self action:@selector(textViewClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_rightBtn];
-    
-    
-
-
+    _placeHolder = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREENWIDTH - 20, 50)];
+    _placeHolder.text = @"快发表你的神评论！";
+    _placeHolder.textColor = [UIColor initWithNormalGray];
+    _placeHolder.font = MAINFONTSIZE;
+    [_commentTextView addSubview:_placeHolder];
 }
 
 -(void)viewClicked{
-    
     [_commentTextView resignFirstResponder];
 }
 
 //输入框
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]) {
+        [_commentTextView resignFirstResponder];
+        [self textViewClicked];
+        return NO;
+    }
+    return YES;
+}
+
 - (void) registerForKeyboardNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
 
-
-
 - (void) keyboardWasShown:(NSNotification *) notif
 {
-    _textBgView.alpha = 0.5;
+    [self.view addSubview:_textBgView];
+    [_placeHolder removeFromSuperview];
     NSDictionary *info = [notif userInfo];
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
-    _commentTextView.frame =CGRectMake(0  , SCREENHEIGHT-64-50 -keyboardSize.height, SCREENWIDTH-50, 50);
-    _rightBtn.frame = CGRectMake(SCREENWIDTH-50,SCREENHEIGHT-64-50-keyboardSize.height, 50, 50);
-  //  NSLog(@"keyBoard:%f", keyboardSize.height);  //216
-    ///keyboardWasShown = YES;
+    _commentTextView.frame =CGRectMake(0, SCREENHEIGHT-64-50 -keyboardSize.height, SCREENWIDTH, 50);
 }
+
 - (void) keyboardWasHidden:(NSNotification *) notif
 {
-    _textBgView.alpha = 0;
-    //NSDictionary *info = [notif userInfo];
-    
-    //NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
-   
-    _commentTextView.frame =CGRectMake(0  , SCREENHEIGHT-64-50, SCREENWIDTH-50, 50);
-    _rightBtn.frame = CGRectMake(SCREENWIDTH-50,SCREENHEIGHT-64-50, 50, 50);
-    
+    [_textBgView removeFromSuperview];
+    if (_commentTextView.text.length == 0) {
+        [_commentTextView addSubview:_placeHolder];
+    }
+    _commentTextView.frame =CGRectMake(0, SCREENHEIGHT-64-50, SCREENWIDTH, 50);
 }
 -(void)textViewClicked{
-    [self showHUD:@"正在上传" isDim:YES];
-   
+    if (_commentTextView.text.length == 0) {
+        return;
+    }
     
+    [self showHUD:@"评论中" isDim:YES];
     
     NSDictionary *paramter = @{@"userId":[WBUserDefaults userId],@"toUserId":_userId,@"commentId":[NSString stringWithFormat:@"%ld",(long)_commentId],@"comment":_commentTextView.text};
     [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setCommentDetil" withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
-        [self showHUDComplete:@"上传成功"];
+        [self showHUDComplete:@"评论成功"];
+        [_commentTextView addSubview:_placeHolder];
         [self loadData];
         _commentTextView.text = @"";
         [_commentTextView resignFirstResponder];
     } andFailure:^(NSString *error) {
-         [self showHUDComplete:@"上传失败"];
+         [self showHUDComplete:@"评论失败，请稍后再试！"];
     }];
     
     
@@ -191,41 +175,30 @@
 
 //加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:commentURL,(long)_commentId,(long)_page,PAGESIZE]; //TopicCommentURL
-    
+    NSString *url = [NSString stringWithFormat:commentURL,(long)_commentId];
     
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        if (_page == 1) {
-            [_dataArray removeAllObjects];
-            [_cellHeightArray removeAllObjects];
-        }
         
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSDictionary *dic = [NSDictionary dictionaryWithDictionary:result[@"pagination"]];
             NSString *titleNumber =[dic objectForKey:@"totalCount"];
             self.navigationItem.title = [NSString stringWithFormat:@"%@条评论",titleNumber];
-            //NSLog(@"number = %@",titleNumber);
-            NSMutableArray *arrayList = [NSMutableArray arrayWithArray:result[@"topicCommentDetilList"]];
-            NSArray *tempArray = [WBtopicCommentDetilListModel mj_objectArrayWithKeyValuesArray:arrayList];
-            for (NSInteger j =0; j<tempArray.count; j++) {
+            _dataArray = [WBtopicCommentDetilListModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentDetilList"]];
+            [_cellHeightArray removeAllObjects];
+            for (NSInteger j =0; j<_dataArray.count; j++) {
                 NSDictionary *attributes = @{NSFontAttributeName: MAINFONTSIZE};
-                CGRect rect = [((WBtopicCommentDetilListModel *)tempArray[j]).comment
+                CGRect rect = [((WBtopicCommentDetilListModel *)_dataArray[j]).comment
                                boundingRectWithSize:CGSizeMake(SCREENWIDTH-20-65, MAXFLOAT)
                                             options:NSStringDrawingUsesLineFragmentOrigin
                                           attributes:attributes
                                              context:nil];
                 [_cellHeightArray addObject:[NSString stringWithFormat:@"%f",rect.size.height]];
-                [_dataArray addObject:tempArray[j]];
-            }
-            [_tableView reloadData];
-            if (_page ==1 ) {
-                [_tableView.mj_header endRefreshing];
-                [self hideHUD];
-            }else{
-                [_tableView.mj_footer endRefreshing];
             }
             
+            [_tableView reloadData];
+            [_tableView.mj_header endRefreshing];
+            [self hideHUD];
         }
     } andFailure:^(NSString *error) {
         NSLog(@"%@------",error);
@@ -233,13 +206,11 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-   // NSLog(@"%f",[_cellHeightArray[indexPath.row] floatValue]+70);
     return  [_cellHeightArray[indexPath.row] floatValue]+70;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -255,32 +226,32 @@
     {
         cell = [[WBTopicCommentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID cellHeight:[_cellHeightArray[indexPath.row] floatValue]];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     WBtopicCommentDetilListModel *model = _dataArray[indexPath.row];
-   // NSLog(@"asasasa = %f",[_cellHeightArray[indexPath.row] floatValue]);
     [cell setModel:model];
     return cell;
 }
 
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return   UITableViewCellEditingStyleDelete;
-}
+//-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return   UITableViewCellEditingStyleDelete;
+//}
 
 /*改变删除按钮的title*/
--(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @"删除";
-}
+//-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return @"删除";
+//}
 
 /*删除用到的函数*/
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle ==UITableViewCellEditingStyleDelete)
-    {
-        [_dataArray   removeObjectAtIndex:indexPath.row];  //删除数组里的数据
-        [_tableView   deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];  //删除对应数据的cell
-    }
-}
+//-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (editingStyle ==UITableViewCellEditingStyleDelete)
+//    {
+//        [_dataArray   removeObjectAtIndex:indexPath.row];  //删除数组里的数据
+//        [_tableView   deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];  //删除对应数据的cell
+//    }
+//}
 
 #pragma mark - 键盘 改变通知 弹键盘
 

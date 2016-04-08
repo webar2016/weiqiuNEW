@@ -109,6 +109,13 @@
     [rightButton addTarget:self action:@selector(rightBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [rightButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     [self.view addSubview:rightButton];
+    
+    UILabel *tiplabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 42+63+37+40+42+15+13+100, SCREENWIDTH, 20)];
+    tiplabel.text = @"微球提醒：球币大于10000时才可以提现哦！";
+    tiplabel.textAlignment = NSTextAlignmentCenter;
+    tiplabel.textColor = [UIColor initWithGreen];
+    tiplabel.font = FONTSIZE12;
+    [self.view addSubview: tiplabel];
 }
 
 
@@ -140,7 +147,7 @@
         
         _moneyLabel.text = [NSString stringWithFormat:@"¥%.2f",[integral floatValue]/100];
         _scorelabel.text =[NSString stringWithFormat:@"%.0f",[integral floatValue] ];
-        _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%.2f",[integral floatValue]/100];
+        _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%d",(int)[integral floatValue]/100];
         
     } andFailure:^(NSString *error) {
     }];

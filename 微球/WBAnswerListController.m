@@ -55,16 +55,14 @@
     [self setUpHeaderView];
     
     [self refreshTableView];
+    
+    self.currentPage = 1;
+    [self showHUD:@"正在努力加载" isDim:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    self.currentPage = 1;
-    if (self.currentPage == 1) {
-        [self showHUD:@"正在努力加载" isDim:NO];
-    }
-    
-    [self loadDataWithPage:self.currentPage];
+    [self loadData];
 }
 
 -(void)popBack{
@@ -73,20 +71,26 @@
 
 -(void)refreshTableView{
     
+    MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        
+        [self loadData];
+        
+    }];
+    
+    [footer setTitle:@"加载更多回答" forState:MJRefreshStateIdle];
+    [footer setTitle:@"正在加载回答" forState:MJRefreshStateRefreshing];
+    
+    self.tableView.mj_footer = footer;
+    
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
-        [self loadDataWithPage:1];
-        
+        self.currentPage = 1;
+        [self loadData];
+        [footer setTitle:@"加载更多回答" forState:MJRefreshStateIdle];
     }];
     header.lastUpdatedTimeLabel.hidden = YES;
     
     self.tableView.mj_header = header;
     
-    self.tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
-        [self loadDataWithPage:self.currentPage];
-        
-    }];
 }
 
 -(void)setUpHeaderView{
@@ -122,20 +126,11 @@
     }else if (!self.isMaster) {
         [joinButton setTitle:@"我要回答" forState:UIControlStateNormal];
         [joinButton addTarget:self action:@selector(writeAnswer) forControlEvents:UIControlEventTouchUpInside];
-    }
-//    if (self.fromFindView) {
-//        [joinButton setTitle:@"入团回答" forState:UIControlStateNormal];
-//        [joinButton addTarget:self action:@selector(joinHelpGroup) forControlEvents:UIControlEventTouchUpInside];
-//    }else if (!self.fromFindView && !self.isMaster) {
-//        [joinButton setTitle:@"我要回答" forState:UIControlStateNormal];
-//        [joinButton addTarget:self action:@selector(writeAnswer) forControlEvents:UIControlEventTouchUpInside];
-//    }
-    else{
+    }else{
         joinButton.backgroundColor = [UIColor initWithRed];
         [joinButton setTitle:@"关闭问题" forState:UIControlStateNormal];
         [joinButton addTarget:self action:@selector(closeQuestion:) forControlEvents:UIControlEventTouchUpInside];
     }
-    
     
     //headerView
     CGFloat maxHeight = CGRectGetMaxY(scoreLabel.frame);
@@ -149,21 +144,29 @@
 
 }
 
--(void)loadDataWithPage:(int)page{
-    NSString *url = [NSString stringWithFormat:ANSWERLISTURL,(int)self.questionId,page,PAGESIZE];
+-(void)loadData{
+    NSString *url = [NSString stringWithFormat:ANSWERLISTURL,(int)self.questionId,self.currentPage,PAGESIZE];
+    
+    if (self.currentPage == 1) {
+        [self.answerList removeAllObjects];
+    }
+    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"%d",page);
         if ([result isKindOfClass:[NSDictionary class]]){
-            NSMutableArray *tempArray = [NSMutableArray array];
-            tempArray = [WBSingleAnswerModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
-            if (tempArray.count > 0) {
-                if (page == 1) {
-                    self.answerList = tempArray;
-                }else{
-                    [self.answerList addObjectsFromArray:tempArray];
-                }
-                self.currentPage ++;
+            
+            NSArray *tempArray = [WBSingleAnswerModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
+            
+            [self.answerList addObjectsFromArray:tempArray];
+            
+            NSInteger count = tempArray.count;
+            if (count <= PAGESIZE && count != 0) {
+                self.currentPage++;
+            }
+            if (self.currentPage == 1 && count == 0) {
+                [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"" forState:MJRefreshStateIdle];
+            } else if (self.currentPage != 1 && count == 0) {
+                [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
             }
             
             [self.tableView reloadData];
@@ -173,6 +176,10 @@
         }
         
     } andFailure:^(NSString *error) {
+        [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"网络状态不佳，请下拉重试" forState:MJRefreshStateIdle];
+        [self hideHUD];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         NSLog(@"%@------",error);
     }];
     

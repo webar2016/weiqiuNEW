@@ -516,7 +516,7 @@
     TopicDetailModel *model = _topicsArray[indexPath.section];
     if (model.newsType == 3 && tableView.tag == 100) {
         WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
-        articalVC.navigationItem.title = self.navigationItem.title;
+        articalVC.navigationItem.title = model.topicContent;
         articalVC.nickname = model.tblUser.nickname;
         articalVC.dir = model.tblUser.dir;
         articalVC.timeStr = model.timeStr;

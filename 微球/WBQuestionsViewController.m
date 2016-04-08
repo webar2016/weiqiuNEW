@@ -63,15 +63,12 @@
     [self setUpSearchBox];
     
     self.currentPage = 1;
-    if (self.currentPage == 1) {
-        [self showHUD:@"正在努力加载" isDim:NO];
-    }
-    
-    [self loadDataWithPage:self.currentPage];
+    [self showHUD:@"正在努力加载" isDim:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self loadData];
     [[NSNotificationCenter defaultCenter] addObserver:self
                   selector:@selector(showSearchResultView:)
                       name:@"showSearchResultView"
@@ -110,53 +107,60 @@
 
 -(void)refreshTableView{
     
+    MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        
+        [self loadData];
+        
+    }];
+    
+    [footer setTitle:@"加载更多问题" forState:MJRefreshStateIdle];
+    [footer setTitle:@"正在加载问题" forState:MJRefreshStateRefreshing];
+    
+    self.tableView.mj_footer = footer;
+    
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
-        [self loadDataWithPage:1];
-        
+        self.currentPage = 1;
+        [self loadData];
+        [footer setTitle:@"加载更多问题" forState:MJRefreshStateIdle];
     }];
     header.lastUpdatedTimeLabel.hidden = YES;
     
     self.tableView.mj_header = header;
     
-    MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
-        [self loadDataWithPage:self.currentPage];
-        
-    }];
-    
-    [footer setTitle:@"" forState:MJRefreshStateIdle];
-    
-    self.tableView.mj_footer = footer;
 }
 
 #pragma mark - loadData
 
--(void)loadDataWithPage:(int)page{
+-(void)loadData{
     NSString *url = [[NSString alloc] init];
     
     if (self.fromFindView) {
-        url = [NSString stringWithFormat:QUESTION_IN_FIND,page,PAGESIZE];
+        url = [NSString stringWithFormat:QUESTION_IN_FIND,self.currentPage,PAGESIZE];
     }else{
-        url = [NSString stringWithFormat:QUESTION_IN_GROUP,self.groupId,page,PAGESIZE];
+        url = [NSString stringWithFormat:QUESTION_IN_GROUP,self.groupId,self.currentPage,PAGESIZE];
+    }
+    
+    if (self.currentPage == 1) {
+        [self.questionsList removeAllObjects];
     }
     
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if ([result isKindOfClass:[NSDictionary class]]){
-            NSMutableArray *tempArray = [NSMutableArray array];
-            tempArray = [WBQuestionsListModel mj_objectArrayWithKeyValuesArray:result[@"question"]];
-            if (tempArray.count > 0) {
-                if (page == 1) {
-                    self.questionsList = tempArray;
-                }else{
-                    [self.questionsList addObjectsFromArray:tempArray];
-                }
-            } else {
+            NSArray *tempArray = [WBQuestionsListModel mj_objectArrayWithKeyValuesArray:result[@"question"]];
+            [self.questionsList addObjectsFromArray:tempArray];
+            
+            NSInteger count = tempArray.count;
+            if (count <= PAGESIZE && count != 0) {
+                self.currentPage++;
+            }
+            if (self.currentPage == 1 && count == 0) {
+                [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"" forState:MJRefreshStateIdle];
+            } else if (self.currentPage != 1 && count == 0) {
                 [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
             }
-            self.currentPage ++;
+            
             [self.tableView reloadData];
             [self hideHUD];
             [self.tableView.mj_header endRefreshing];
@@ -164,6 +168,10 @@
         }
         
     } andFailure:^(NSString *error) {
+        [(MJRefreshAutoNormalFooter *)self.tableView.mj_footer setTitle:@"网络状态不佳，请下拉重试" forState:MJRefreshStateIdle];
+        [self hideHUD];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         NSLog(@"%@------",error);
     }];
     

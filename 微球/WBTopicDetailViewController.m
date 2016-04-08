@@ -32,7 +32,6 @@
 
 @interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue>
 {
-    
     UITableView *_tableView;
     
     NSMutableArray *_dataArray;
@@ -41,10 +40,6 @@
     UIImageView *_background;
     
     NSInteger _page;
-    
-
-    
-
 }
 
 @end
@@ -66,26 +61,32 @@
     
     [self createNavi];
     [self createUI];
+    
     [self showHUD:@"正在努力加载" isDim:NO];
     
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        _page=1;
+    MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadData];
-        
+    }];
+    
+    [footer setTitle:@"加载更多内容" forState:MJRefreshStateIdle];
+    [footer setTitle:@"正在加载内容" forState:MJRefreshStateRefreshing];
+    
+    _tableView.mj_footer = footer;
+    
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _page = 1;
+        [self loadData];
+        [footer setTitle:@"加载更多内容" forState:MJRefreshStateIdle];
     }];
     header.lastUpdatedTimeLabel.hidden = YES;
     
     _tableView.mj_header = header;
-    
-    _tableView.mj_footer =[ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        [self loadData];
-    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
     _page = 1;
-    [self loadData];
+    [super viewWillAppear:YES];
+    
 }
 
 -(void)createNavi{
@@ -139,6 +140,7 @@
     PIVC.topicID = _topicID;
     [self  menuBtnClicled];
     [self.navigationController pushViewController:PIVC animated:YES];
+    
 }
 
 #pragma mark --------上传视频----------
@@ -225,17 +227,18 @@
 //加载数据
 -(void) loadData{
     NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID,_page,PAGESIZE];
+    
+    if (_page == 1) {
+        [_dataArray removeAllObjects];
+        [_rowHeightArray removeAllObjects];
+    }
+    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        if (_page == 1) {
-            [_dataArray removeAllObjects];
-            [_rowHeightArray removeAllObjects];
-        }
+        
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSArray *tempArray = [TopicDetailModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentList"]];
-            if (tempArray.count > 0) {
-                _page ++;
-            }
+            
             for (TopicDetailModel *model in tempArray) {
                 if (model.newsType == 1) {
                     [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(136.0 + SCREENWIDTH)]];
@@ -246,17 +249,29 @@
                 }
                 [_dataArray addObject:model];
             }
-            [self hideHUD];
+            
+            NSInteger count = tempArray.count;
+            if (count <= PAGESIZE && count != 0) {
+                _page++;
+            }
+            if (_page == 1 && count == 0) {
+                [self.view addSubview:_background];
+                [(MJRefreshAutoNormalFooter *)_tableView.mj_footer setTitle:@"" forState:MJRefreshStateIdle];
+            } else if (_page != 1 && count == 0) {
+                [_background removeFromSuperview];
+                [(MJRefreshAutoNormalFooter *)_tableView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
+            }
+            
             [_tableView reloadData];
+            [self hideHUD];
             [_tableView.mj_header endRefreshing];
             [_tableView.mj_footer endRefreshing];
-            if (_page == 1 && _dataArray.count == 0) {
-                [self.view addSubview:_background];
-            } else {
-                [_background removeFromSuperview];
-            }
         }
     } andFailure:^(NSString *error) {
+        [(MJRefreshAutoNormalFooter *)_tableView.mj_footer setTitle:@"网络状态不佳，请下拉重试" forState:MJRefreshStateIdle];
+        [self hideHUD];
+        [_tableView.mj_header endRefreshing];
+        [_tableView.mj_footer endRefreshing];
         NSLog(@"%@------",error);
     }];
 }
@@ -408,7 +423,7 @@
     TopicDetailModel *model = _dataArray[indexPath.section];
     if (model.newsType == 3) {
         WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
-        articalVC.navigationItem.title = self.navigationItem.title;
+        articalVC.navigationItem.title = model.topicContent;
         articalVC.nickname = model.tblUser.nickname;
         articalVC.dir = model.tblUser.dir;
         articalVC.timeStr = model.timeStr;
