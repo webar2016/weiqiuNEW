@@ -36,6 +36,8 @@
 
 @property (nonatomic,retain) TopicDetailModel *model;
 
+@property (nonatomic,copy) NSString *cover;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 -(void)setModel:(TopicDetailModel *)model;

@@ -71,25 +71,30 @@
     _textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 170)];
     _textView.font = MAINFONTSIZE;
     _textView.delegate = self;
+    _textView.textColor = [UIColor initWithNormalGray];
     _textView.returnKeyType = UIReturnKeyDone;
+    _textView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10);
     [_textView becomeFirstResponder];
   
     [contentView addSubview:_textView];
     
-    _placeHoldLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, SCREENWIDTH, 20)];
+    _placeHoldLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 7, SCREENWIDTH, 20)];
     _placeHoldLabel.text = @"说点什么吧";
-    _placeHoldLabel.font = BIGFONTSIZE;
+    _placeHoldLabel.font = MAINFONTSIZE;
     _placeHoldLabel.textColor = [UIColor initWithNormalGray];
     [contentView addSubview:_placeHoldLabel];
     
     _imageBackgroungView = [[UIView alloc]initWithFrame:CGRectMake(0, 218, SCREENWIDTH, SCREENHEIGHT-218)];
     _imageBackgroungView.backgroundColor = [UIColor whiteColor];
+    
     [self.view addSubview:_imageBackgroungView];
     
     _placeHoldImageView = [[UIImageView alloc]initWithFrame:CGRectMake(5, 5, (SCREENWIDTH-20)/3, (SCREENWIDTH-20)/3)];
     _placeHoldImageView.image = [UIImage imageNamed:@"btn_addimg.png"];
     [_imageBackgroungView addSubview:_placeHoldImageView];
     _placeHoldImageView.userInteractionEnabled = YES;
+    _placeHoldImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _placeHoldImageView.layer.masksToBounds = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imagePickClicked:)];
     [_placeHoldImageView addGestureRecognizer:tap ];
 }

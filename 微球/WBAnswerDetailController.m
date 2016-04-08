@@ -348,6 +348,9 @@
 #pragma mark - 点赞操作
 
 -(void)likeTap{
+    if (![WBUserDefaults userId] || [[WBUserDefaults userId] integerValue] == self.userId) {
+        return;
+    }
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {

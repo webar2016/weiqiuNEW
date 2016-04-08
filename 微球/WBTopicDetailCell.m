@@ -194,7 +194,12 @@
     } else if (model.newsType == 2) {
         [_mainImage sd_setImageWithURL:[NSURL URLWithString:model.mediaPic]];
     } else {
-        [_mainImage sd_setImageWithURL:[NSURL URLWithString:[model.dir componentsSeparatedByString:@";"].firstObject]];
+        if (![model.dir isEqualToString:@";"]) {
+            [_mainImage sd_setImageWithURL:[NSURL URLWithString:[model.dir componentsSeparatedByString:@";"].firstObject]];
+        } else {
+            [_mainImage sd_setImageWithURL:[NSURL URLWithString:model.cover]];
+        }
+        
     }
     
     [_commentBtn setTitle:[NSString stringWithFormat:@" %ld 评论",(long)model.descussNum] forState:UIControlStateNormal];
@@ -289,6 +294,9 @@
 #pragma mark -------点赞-------
 
 -(void)likeTap{
+    if (![WBUserDefaults userId] || [[WBUserDefaults userId] integerValue] == _model.userId) {
+        return;
+    }
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {

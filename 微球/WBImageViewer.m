@@ -68,6 +68,8 @@
     _imageView.center = self.view.center;
     
     [self.view addSubview:_imageView];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
+    [self.view addGestureRecognizer:tap];
 }
 
 -(void)setUpContentWithContent:(NSString *)content{
@@ -83,10 +85,6 @@
     [wraperView addSubview:contentLabel];
     wraperView.frame = CGRectMake(0, SCREENHEIGHT - labelSize.height - 20, SCREENWIDTH, labelSize.height + 20);
     [self.view addSubview:wraperView];
-    [self setUpTap];
-}
-
--(void)setUpTap{
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
     [self.view addGestureRecognizer:tap];
 }
