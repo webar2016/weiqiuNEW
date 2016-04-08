@@ -5,6 +5,7 @@
 
 #import "WBPositionList.h"
 #import "WBPositionModel.h"
+#import "MyDBmanager.h"
 
 @interface CreateHelpGroupViewController () <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate> {
     UITableView *_tableView;
@@ -16,6 +17,8 @@
     UIView      *_overlay;
     
     BOOL        _chooseCity;
+    
+    BOOL        _isUnlock;
 }
 
 @property (nonatomic, strong) WBPositionList *positionList;
@@ -108,11 +111,17 @@
     if (self.fromNextPage) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }if (self.fromSlidePage) {
-        WBUnlockViewController *unlockVC = [[WBUnlockViewController alloc] init];
-        unlockVC.cityName = [self.positionList cityNameWithCityId:_cityId];
-        unlockVC.cityId = _cityId;
-        unlockVC.provinceId = _provinceId;
-        [self.navigationController pushViewController:unlockVC animated:YES];
+        
+        _isUnlock = NO;
+        [self isUnlock];
+        if (!_isUnlock) {
+            WBUnlockViewController *unlockVC = [[WBUnlockViewController alloc] init];
+            unlockVC.cityName = [self.positionList cityNameWithCityId:_cityId];
+            unlockVC.cityId = _cityId;
+            unlockVC.provinceId = _provinceId;
+            [self.navigationController pushViewController:unlockVC animated:YES];
+        }
+       
     }else{
         WBGroupInfoController *groupInfoVC = [[WBGroupInfoController alloc] init];
         groupInfoVC.dataDic[@"destinationId"] = [NSString stringWithFormat:@"%@",_cityId];
@@ -120,6 +129,34 @@
     }
     
 }
+
+
+-(void)isUnlock{
+    
+    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+    if ([manager isAddedItemsID:[NSString stringWithFormat:@"%@",_cityId]]) {
+        //已经存在unlock
+        [manager closeFBDM];
+        _isUnlock = YES;
+        [self showHUD:nil isDim:NO];
+        [self showHUDComplete:@"这个城市已经解锁"];
+        
+    }
+    [manager closeFBDM];
+    
+    
+    MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+    if ([manager2 isAddedItemsID:[NSString stringWithFormat:@"%@",_cityId]]) {
+        [manager2 closeFBDM];
+        _isUnlock = YES;
+         [self showHUD:nil isDim:NO];
+        [self showHUDComplete:@"这个城市正在等待审核中"];
+    }
+    [manager2 closeFBDM];
+
+    
+}
+
 
 -(void)popViewController{
     [self dismissViewControllerAnimated:YES completion:nil];

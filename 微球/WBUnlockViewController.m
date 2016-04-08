@@ -59,46 +59,10 @@
     [self setUpUI];
     [self setUpDatePicker];
     [self setUpImagePicker];
-    [self isUnlock];
-    
-    
+
 }
 
 
--(void)isUnlock{
-    
-    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-    if ([manager isAddedItemsID:[NSString stringWithFormat:@"%@",self.cityId]]) {
-        //已经存在unlock
-        [manager closeFBDM];
-        _isUnlock = YES;
-        [self showHUD:nil isDim:YES];
-        [self showHUDComplete:@"这个城市已经解锁"];
-    }
-    [manager closeFBDM];
-    
-    
-    
-    
-    WBTbl_Unlock_City *model = [[WBTbl_Unlock_City alloc]init];
-    model.userId =[[WBUserDefaults userId] integerValue];
-    model.cityId =[self.cityId integerValue];
-    
-    
-    MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
-    if ([manager2 isAddedItemsID:[NSString stringWithFormat:@"%@",self.cityId]]) {
-        //已经存在unlocking
-        [manager2 closeFBDM];
-        _isUnlock = YES;
-        [self showHUD:nil isDim:YES];
-        [self showHUDComplete:@"这个城市正在解锁中，等待审核"];
-    }else{
-        
-     //   [manager2 addItem:model];
-        [manager2 closeFBDM];
-    }
-    
-}
 
 
 -(void)resignKeyboard{

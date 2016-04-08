@@ -37,8 +37,15 @@
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPq-db-lJS">
                             <rect key="frame" x="247" y="23" width="46" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="25" id="0aP-mZ-uAd"/>
+                                <constraint firstAttribute="width" constant="46" id="yek-Fc-qFt"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="confirmBtnClick:" destination="-1" eventType="touchUpInside" id="Hga-ew-Ymu"/>
+                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIJ-0v-axS" userLabel="nickname">
                             <rect key="frame" x="72" y="30" width="42" height="21"/>
@@ -46,9 +53,13 @@
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1oB-Hi-gf1">
-                            <rect key="frame" x="112" y="29" width="107" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1oB-Hi-gf1">
+                            <rect key="frame" x="122" y="30" width="100" height="30"/>
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="FcA-tX-xA2"/>
+                                <constraint firstAttribute="width" constant="100" id="iMH-nA-8Dh"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
@@ -64,133 +75,9 @@
                         <constraint firstItem="bIJ-0v-axS" firstAttribute="centerY" secondItem="WJJ-kP-R9B" secondAttribute="centerY" id="feh-bR-mne"/>
                         <constraint firstAttribute="height" constant="42" id="iN3-ev-275"/>
                         <constraint firstAttribute="trailing" secondItem="dPq-db-lJS" secondAttribute="trailing" constant="20" id="oe3-uj-BWG"/>
-                        <constraint firstItem="1oB-Hi-gf1" firstAttribute="centerY" secondItem="WJJ-kP-R9B" secondAttribute="centerY" id="zHz-Kt-t34"/>
+                        <constraint firstItem="1oB-Hi-gf1" firstAttribute="centerY" secondItem="WJJ-kP-R9B" secondAttribute="centerY" id="rUj-a5-7oT"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="充值" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U7A-Mj-YxM">
-                    <rect key="frame" x="42" y="131" width="34" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BcL-Z8-6qA">
-                    <rect key="frame" x="0.0" y="223" width="320" height="38"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_qiupiao2" translatesAutoresizingMaskIntoConstraints="NO" id="2Gy-BA-ium">
-                            <rect key="frame" x="25" y="13" width="17" height="17"/>
-                        </imageView>
-                        <button opaque="NO" tag="101" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gRA-rn-Ozr">
-                            <rect key="frame" x="253" y="8" width="46" height="20"/>
-                            <state key="normal" title="¥12"/>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="840个球币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gq2-cy-AaY">
-                            <rect key="frame" x="59" y="11" width="83" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="gRA-rn-Ozr" firstAttribute="centerY" secondItem="gq2-cy-AaY" secondAttribute="centerY" id="5ka-ZJ-E5b"/>
-                        <constraint firstItem="2Gy-BA-ium" firstAttribute="leading" secondItem="BcL-Z8-6qA" secondAttribute="leading" constant="15" id="DqH-Og-blk"/>
-                        <constraint firstItem="gq2-cy-AaY" firstAttribute="leading" secondItem="2Gy-BA-ium" secondAttribute="trailing" constant="15" id="RQw-sU-Irw"/>
-                        <constraint firstAttribute="height" constant="42" id="bFz-B3-R6k"/>
-                        <constraint firstAttribute="trailing" secondItem="gRA-rn-Ozr" secondAttribute="trailing" constant="20" id="f59-JL-ZXi"/>
-                        <constraint firstItem="2Gy-BA-ium" firstAttribute="centerY" secondItem="BcL-Z8-6qA" secondAttribute="centerY" id="qwS-rY-2kX"/>
-                        <constraint firstItem="gq2-cy-AaY" firstAttribute="centerY" secondItem="2Gy-BA-ium" secondAttribute="centerY" id="zlt-G7-A6v"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="584-84-MuU">
-                    <rect key="frame" x="0.0" y="292" width="320" height="38"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_qiupiao2" translatesAutoresizingMaskIntoConstraints="NO" id="YiQ-5M-8t0">
-                            <rect key="frame" x="25" y="13" width="17" height="17"/>
-                        </imageView>
-                        <button opaque="NO" tag="102" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lSh-zY-Tpc">
-                            <rect key="frame" x="253" y="8" width="46" height="20"/>
-                            <state key="normal" title="¥18"/>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1260个球币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nc5-DL-FDC">
-                            <rect key="frame" x="52" y="11" width="90" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="YiQ-5M-8t0" firstAttribute="centerY" secondItem="584-84-MuU" secondAttribute="centerY" id="YEV-Su-4hr"/>
-                        <constraint firstItem="nc5-DL-FDC" firstAttribute="centerY" secondItem="YiQ-5M-8t0" secondAttribute="centerY" id="c0y-A9-3HC"/>
-                        <constraint firstItem="YiQ-5M-8t0" firstAttribute="leading" secondItem="584-84-MuU" secondAttribute="leading" constant="15" id="htd-So-gjP"/>
-                        <constraint firstAttribute="trailing" secondItem="lSh-zY-Tpc" secondAttribute="trailing" constant="20" id="kIU-bz-7JM"/>
-                        <constraint firstAttribute="height" constant="42" id="mCC-G2-xso"/>
-                        <constraint firstItem="lSh-zY-Tpc" firstAttribute="centerY" secondItem="nc5-DL-FDC" secondAttribute="centerY" id="ngX-vh-8Kc"/>
-                        <constraint firstItem="nc5-DL-FDC" firstAttribute="leading" secondItem="YiQ-5M-8t0" secondAttribute="trailing" constant="15" id="tn5-Lv-vXe"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3pJ-PM-YXd">
-                    <rect key="frame" x="0.0" y="347" width="320" height="38"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_qiupiao2" translatesAutoresizingMaskIntoConstraints="NO" id="7HY-u5-lBS">
-                            <rect key="frame" x="25" y="13" width="17" height="17"/>
-                        </imageView>
-                        <button opaque="NO" tag="103" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDg-nL-gFe">
-                            <rect key="frame" x="253" y="8" width="46" height="20"/>
-                            <state key="normal" title="¥24"/>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1680个球币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fm9-zD-Mjx">
-                            <rect key="frame" x="52" y="11" width="90" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="fm9-zD-Mjx" firstAttribute="leading" secondItem="7HY-u5-lBS" secondAttribute="trailing" constant="15" id="BjG-gj-X7L"/>
-                        <constraint firstItem="7HY-u5-lBS" firstAttribute="leading" secondItem="3pJ-PM-YXd" secondAttribute="leading" constant="15" id="Cx4-38-Yb6"/>
-                        <constraint firstItem="7HY-u5-lBS" firstAttribute="centerY" secondItem="3pJ-PM-YXd" secondAttribute="centerY" id="HcH-xM-KyM"/>
-                        <constraint firstItem="gDg-nL-gFe" firstAttribute="centerY" secondItem="fm9-zD-Mjx" secondAttribute="centerY" id="Nde-oF-SFi"/>
-                        <constraint firstItem="fm9-zD-Mjx" firstAttribute="centerY" secondItem="7HY-u5-lBS" secondAttribute="centerY" id="de8-pb-pwU"/>
-                        <constraint firstAttribute="trailing" secondItem="gDg-nL-gFe" secondAttribute="trailing" constant="20" id="g2P-rR-GGc"/>
-                        <constraint firstAttribute="height" constant="42" id="ohb-jR-1iW"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zoX-GM-epQ">
-                    <rect key="frame" x="0.0" y="409" width="320" height="38"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_qiupiao2" translatesAutoresizingMaskIntoConstraints="NO" id="ltH-4t-ECf">
-                            <rect key="frame" x="25" y="13" width="17" height="17"/>
-                        </imageView>
-                        <button opaque="NO" tag="104" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X13-t1-1AD">
-                            <rect key="frame" x="253" y="8" width="46" height="20"/>
-                            <state key="normal" title="¥30"/>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="2100个球币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SuV-tT-kNp">
-                            <rect key="frame" x="52" y="11" width="90" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="ltH-4t-ECf" firstAttribute="centerY" secondItem="zoX-GM-epQ" secondAttribute="centerY" id="8gB-Ur-Xua"/>
-                        <constraint firstAttribute="trailing" secondItem="X13-t1-1AD" secondAttribute="trailing" constant="20" id="ABv-nz-PnE"/>
-                        <constraint firstItem="ltH-4t-ECf" firstAttribute="leading" secondItem="zoX-GM-epQ" secondAttribute="leading" constant="15" id="Tf9-pA-0qc"/>
-                        <constraint firstItem="SuV-tT-kNp" firstAttribute="leading" secondItem="ltH-4t-ECf" secondAttribute="trailing" constant="15" id="dMd-at-VUT"/>
-                        <constraint firstItem="SuV-tT-kNp" firstAttribute="centerY" secondItem="ltH-4t-ECf" secondAttribute="centerY" id="i38-ut-1Hs"/>
-                        <constraint firstItem="X13-t1-1AD" firstAttribute="centerY" secondItem="SuV-tT-kNp" secondAttribute="centerY" id="iaR-Ya-xke"/>
-                        <constraint firstAttribute="height" constant="42" id="ogA-iK-EhF"/>
-                    </constraints>
-                </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="如果登陆后仍不能充值，请在微球APP登陆后再尝试或者联系客服" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9W-sR-EC0">
-                    <rect key="frame" x="-225" y="472" width="491" height="28"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q5K-ND-2MB">
                     <rect key="frame" x="0.0" y="177" width="320" height="38"/>
                     <subviews>
@@ -205,10 +92,17 @@
                         </label>
                         <button opaque="NO" tag="100" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ri-vL-huH">
                             <rect key="frame" x="236" y="4" width="46" height="29"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="46" id="TjW-OR-hCz"/>
+                                <constraint firstAttribute="height" constant="20" id="TpR-AT-A2k"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="¥6">
                                 <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="moneyBtnClick:" destination="-1" eventType="touchUpInside" id="iG4-0e-uly"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -218,8 +112,164 @@
                         <constraint firstAttribute="trailing" secondItem="7ri-vL-huH" secondAttribute="trailing" constant="20" id="WbZ-eH-xjU"/>
                         <constraint firstItem="asz-g4-RnK" firstAttribute="centerY" secondItem="q5K-ND-2MB" secondAttribute="centerY" id="ZDF-03-Iep"/>
                         <constraint firstItem="DY1-1Y-fJm" firstAttribute="centerY" secondItem="asz-g4-RnK" secondAttribute="centerY" id="eXM-F2-npI"/>
-                        <constraint firstAttribute="height" constant="42" id="kHO-FD-QQ6"/>
+                        <constraint firstAttribute="height" constant="50" id="kHO-FD-QQ6"/>
                         <constraint firstItem="7ri-vL-huH" firstAttribute="centerY" secondItem="DY1-1Y-fJm" secondAttribute="centerY" id="s9W-xz-aN9"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="充值" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U7A-Mj-YxM">
+                    <rect key="frame" x="42" y="131" width="34" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="584-84-MuU">
+                    <rect key="frame" x="0.0" y="292" width="320" height="38"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_qiupiao2" translatesAutoresizingMaskIntoConstraints="NO" id="YiQ-5M-8t0">
+                            <rect key="frame" x="25" y="13" width="17" height="17"/>
+                        </imageView>
+                        <button opaque="NO" tag="102" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lSh-zY-Tpc">
+                            <rect key="frame" x="253" y="8" width="46" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="XOO-74-nX2"/>
+                                <constraint firstAttribute="width" constant="46" id="ocK-EW-26k"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="¥18"/>
+                            <connections>
+                                <action selector="moneyBtnClick:" destination="-1" eventType="touchUpInside" id="gjq-zJ-acF"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1260个球币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nc5-DL-FDC">
+                            <rect key="frame" x="52" y="11" width="90" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="YiQ-5M-8t0" firstAttribute="centerY" secondItem="584-84-MuU" secondAttribute="centerY" id="YEV-Su-4hr"/>
+                        <constraint firstItem="nc5-DL-FDC" firstAttribute="centerY" secondItem="YiQ-5M-8t0" secondAttribute="centerY" id="c0y-A9-3HC"/>
+                        <constraint firstItem="YiQ-5M-8t0" firstAttribute="leading" secondItem="584-84-MuU" secondAttribute="leading" constant="15" id="htd-So-gjP"/>
+                        <constraint firstAttribute="trailing" secondItem="lSh-zY-Tpc" secondAttribute="trailing" constant="20" id="kIU-bz-7JM"/>
+                        <constraint firstAttribute="height" constant="50" id="mCC-G2-xso"/>
+                        <constraint firstItem="lSh-zY-Tpc" firstAttribute="centerY" secondItem="nc5-DL-FDC" secondAttribute="centerY" id="ngX-vh-8Kc"/>
+                        <constraint firstItem="nc5-DL-FDC" firstAttribute="leading" secondItem="YiQ-5M-8t0" secondAttribute="trailing" constant="15" id="tn5-Lv-vXe"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3pJ-PM-YXd">
+                    <rect key="frame" x="0.0" y="347" width="320" height="38"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_qiupiao2" translatesAutoresizingMaskIntoConstraints="NO" id="7HY-u5-lBS">
+                            <rect key="frame" x="25" y="13" width="17" height="17"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1680个球币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fm9-zD-Mjx">
+                            <rect key="frame" x="52" y="11" width="90" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" tag="103" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDg-nL-gFe">
+                            <rect key="frame" x="253" y="8" width="46" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="46" id="Ucn-GD-EoR"/>
+                                <constraint firstAttribute="height" constant="20" id="Vni-TW-Wjw"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="¥24"/>
+                            <connections>
+                                <action selector="moneyBtnClick:" destination="-1" eventType="touchUpInside" id="I47-qg-HQI"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="fm9-zD-Mjx" firstAttribute="leading" secondItem="7HY-u5-lBS" secondAttribute="trailing" constant="15" id="BjG-gj-X7L"/>
+                        <constraint firstItem="7HY-u5-lBS" firstAttribute="leading" secondItem="3pJ-PM-YXd" secondAttribute="leading" constant="15" id="Cx4-38-Yb6"/>
+                        <constraint firstItem="7HY-u5-lBS" firstAttribute="centerY" secondItem="3pJ-PM-YXd" secondAttribute="centerY" id="HcH-xM-KyM"/>
+                        <constraint firstItem="gDg-nL-gFe" firstAttribute="centerY" secondItem="fm9-zD-Mjx" secondAttribute="centerY" id="Nde-oF-SFi"/>
+                        <constraint firstItem="fm9-zD-Mjx" firstAttribute="centerY" secondItem="7HY-u5-lBS" secondAttribute="centerY" id="de8-pb-pwU"/>
+                        <constraint firstAttribute="trailing" secondItem="gDg-nL-gFe" secondAttribute="trailing" constant="20" id="g2P-rR-GGc"/>
+                        <constraint firstAttribute="height" constant="50" id="ohb-jR-1iW"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zoX-GM-epQ">
+                    <rect key="frame" x="0.0" y="409" width="320" height="38"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_qiupiao2" translatesAutoresizingMaskIntoConstraints="NO" id="ltH-4t-ECf">
+                            <rect key="frame" x="25" y="13" width="17" height="17"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="2100个球币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SuV-tT-kNp">
+                            <rect key="frame" x="52" y="11" width="90" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" tag="104" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X13-t1-1AD">
+                            <rect key="frame" x="252" y="9" width="46" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="46" id="eb3-nA-Kve"/>
+                                <constraint firstAttribute="height" constant="20" id="kB8-5x-gga"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="¥30"/>
+                            <connections>
+                                <action selector="moneyBtnClick:" destination="-1" eventType="touchUpInside" id="5ZT-JY-Udr"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="ltH-4t-ECf" firstAttribute="centerY" secondItem="zoX-GM-epQ" secondAttribute="centerY" id="8gB-Ur-Xua"/>
+                        <constraint firstAttribute="trailing" secondItem="X13-t1-1AD" secondAttribute="trailing" constant="20" id="ABv-nz-PnE"/>
+                        <constraint firstItem="ltH-4t-ECf" firstAttribute="leading" secondItem="zoX-GM-epQ" secondAttribute="leading" constant="15" id="Tf9-pA-0qc"/>
+                        <constraint firstItem="SuV-tT-kNp" firstAttribute="leading" secondItem="ltH-4t-ECf" secondAttribute="trailing" constant="15" id="dMd-at-VUT"/>
+                        <constraint firstItem="SuV-tT-kNp" firstAttribute="centerY" secondItem="ltH-4t-ECf" secondAttribute="centerY" id="i38-ut-1Hs"/>
+                        <constraint firstItem="X13-t1-1AD" firstAttribute="centerY" secondItem="SuV-tT-kNp" secondAttribute="centerY" id="iaR-Ya-xke"/>
+                        <constraint firstAttribute="height" constant="50" id="ogA-iK-EhF"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="如果登陆后仍不能充值，请在微球APP登陆后再尝试或者联系客服" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9W-sR-EC0">
+                    <rect key="frame" x="-225" y="472" width="491" height="28"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BcL-Z8-6qA">
+                    <rect key="frame" x="0.0" y="223" width="320" height="38"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="icon_qiupiao2" translatesAutoresizingMaskIntoConstraints="NO" id="2Gy-BA-ium">
+                            <rect key="frame" x="25" y="13" width="17" height="17"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="840个球币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gq2-cy-AaY">
+                            <rect key="frame" x="59" y="11" width="83" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" tag="101" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gRA-rn-Ozr">
+                            <rect key="frame" x="256" y="8" width="46" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="46" id="1zU-G9-ucJ"/>
+                                <constraint firstAttribute="height" constant="20" id="hxe-ZM-tGy"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="¥12"/>
+                            <connections>
+                                <action selector="moneyBtnClick:" destination="-1" eventType="touchUpInside" id="yHD-Qb-48a"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="gRA-rn-Ozr" firstAttribute="centerY" secondItem="gq2-cy-AaY" secondAttribute="centerY" id="5ka-ZJ-E5b"/>
+                        <constraint firstItem="2Gy-BA-ium" firstAttribute="leading" secondItem="BcL-Z8-6qA" secondAttribute="leading" constant="15" id="DqH-Og-blk"/>
+                        <constraint firstItem="gq2-cy-AaY" firstAttribute="leading" secondItem="2Gy-BA-ium" secondAttribute="trailing" constant="15" id="RQw-sU-Irw"/>
+                        <constraint firstAttribute="height" constant="50" id="bFz-B3-R6k"/>
+                        <constraint firstAttribute="trailing" secondItem="gRA-rn-Ozr" secondAttribute="trailing" constant="20" id="f59-JL-ZXi"/>
+                        <constraint firstItem="2Gy-BA-ium" firstAttribute="centerY" secondItem="BcL-Z8-6qA" secondAttribute="centerY" id="qwS-rY-2kX"/>
+                        <constraint firstItem="gq2-cy-AaY" firstAttribute="centerY" secondItem="2Gy-BA-ium" secondAttribute="centerY" id="zlt-G7-A6v"/>
                     </constraints>
                 </view>
             </subviews>

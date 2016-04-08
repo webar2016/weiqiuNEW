@@ -7,8 +7,9 @@
 //
 
 #import "WBReChargeViewController.h"
+#import "MyDownLoadManager.h"
 
-@interface WBReChargeViewController ()
+@interface WBReChargeViewController ()<SKProductsRequestDelegate,SKPaymentTransactionObserver>
 
 @end
 
@@ -16,10 +17,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // 监听购买结果
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     [self createNavi];
     [self createUI];
+}
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
 }
 
 -(void)createNavi{
@@ -43,13 +52,45 @@
     
     _contentLabel.layer.masksToBounds = YES;
     _contentLabel.layer.cornerRadius = 3;
+    _contentLabel.backgroundColor = [UIColor initWithBackgroundGray];
+    
     
     _confirmBtn.backgroundColor = [UIColor initWithGreen];
     [_confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
-  //  _confirmBtn
+    _confirmBtn.layer.masksToBounds = YES;
+    _confirmBtn.layer.cornerRadius = 3;
+    [_confirmBtn setEnabled:NO];
+    [_confirmBtn setBackgroundColor:[UIColor initWithBackgroundGray]];
     
+    _btn6.layer.borderWidth = 1;
+    _btn6.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
+    _btn6.layer.masksToBounds = YES;
+    _btn6.layer.cornerRadius = 3;
+    [_btn6 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
+   
+    _btn12.layer.borderWidth = 1;
+    _btn12.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
+    _btn12.layer.masksToBounds = YES;
+    _btn12.layer.cornerRadius = 3;
+    [_btn12 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
+  
+    _btn18.layer.borderWidth = 1;
+    _btn18.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
+    _btn18.layer.masksToBounds = YES;
+    _btn18.layer.cornerRadius = 3;
+    [_btn18 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
     
-
+    _btn24.layer.borderWidth = 1;
+    _btn24.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
+    _btn24.layer.masksToBounds = YES;
+    _btn24.layer.cornerRadius = 3;
+    [_btn24 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
+    
+    _btn30.layer.borderWidth = 1;
+    _btn30.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
+    _btn30.layer.masksToBounds = YES;
+    _btn30.layer.cornerRadius = 3;
+    [_btn30 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
 
 }
 
@@ -57,12 +98,167 @@
 
 
 
+- (IBAction)confirmBtnClick:(id)sender {
+    
+    
+    NSArray *product;//qiupiao_ID
+    if ([_contentLabel.text isEqualToString:@"420个球币"]) {
+        product = [[NSArray alloc] initWithObjects:@"qiupiao_6", nil];//qiupiao_ID
+    }else if ([_contentLabel.text isEqualToString:@"840个球币"]){
+     product = [[NSArray alloc] initWithObjects:@"qiupiao_12", nil];//qiupiao_ID
+    
+    }else if ([_contentLabel.text isEqualToString:@"1260个球币"]){
+        product = [[NSArray alloc] initWithObjects:@"qiupiao_18", nil];//qiupiao_ID
+        
+    }else if ([_contentLabel.text isEqualToString:@"1680个球币"]){
+        product = [[NSArray alloc] initWithObjects:@"qiupiao_24", nil];//qiupiao_ID
+        
+    }else if ([_contentLabel.text isEqualToString:@"2100个球币"]){
+        product = [[NSArray alloc] initWithObjects:@"qiupiao_30", nil];//qiupiao_ID
+        
+    }
+    
+    
+    [self getProductInfo:product];
+}
 
+
+- (IBAction)moneyBtnClick:(id)sender {
+    if (((UIButton *)sender).tag ==100) {
+         _contentLabel.text = @"420个球币";
+       
+    }else if (((UIButton *)sender).tag ==101){
+    
+     _contentLabel.text = @"840个球币";
+    }else if (((UIButton *)sender).tag ==102){
+        
+       _contentLabel.text = @"1260个球币";
+    }else if (((UIButton *)sender).tag ==103){
+        
+      _contentLabel.text = @"1680个球币";
+    }else if (((UIButton *)sender).tag ==104){
+        
+       _contentLabel.text = @"2100个球币";
+    }
+    
+    if (_confirmBtn.enabled == NO) {
+        [_confirmBtn setEnabled:YES];
+        [_confirmBtn setBackgroundColor:[UIColor initWithGreen]];
+    }
+    
+}
+
+
+#pragma mark --------应用内支付------------
+// 下面的ProductId应该是事先在itunesConnect中添加好的，已存在的付费项目。否则查询会失败。
+- (void)getProductInfo:(NSArray *)product{
+    NSSet *set = [NSSet setWithArray:product];
+    SKProductsRequest * request = [[SKProductsRequest alloc] initWithProductIdentifiers:set];
+    request.delegate = self;
+    [request start];
+}
+// 以上查询的回调函数
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
+    NSArray *myProduct = response.products;
+    if (myProduct.count == 0) {
+        NSLog(@"无法获取产品信息，购买失败。");
+        return;
+    }
+    SKPayment * payment = [SKPayment paymentWithProduct:myProduct[0]];
+    [[SKPaymentQueue defaultQueue] addPayment:payment];
+}
+
+//请求失败
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+    NSLog(@"商品信息请求错误:%@", error);
+    
+}
+
+- (void)requestDidFinish:(SKRequest *)request {
+    NSLog(@"请求结束");
+    
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark ------------ 当用户购买的操作有结果时，就会触发下面的回调函数，相应进行处理即可----------
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions {
+    for (SKPaymentTransaction *transaction in transactions)
+    {
+        switch (transaction.transactionState)
+        {
+            case SKPaymentTransactionStatePurchased://交易完成
+                NSLog(@"transactionIdentifier = %@", transaction.transactionIdentifier);
+                [self completeTransaction:transaction];
+                break;
+            case SKPaymentTransactionStateFailed://交易失败
+                [self failedTransaction:transaction];
+                break;
+            case SKPaymentTransactionStateRestored://已经购买过该商品
+                [self restoreTransaction:transaction];
+                break;
+            case SKPaymentTransactionStatePurchasing:      //商品添加进列表
+                NSLog(@"商品添加进列表");
+                break;
+            default:
+                break;
+        }
+    }
+}
+- (void)completeTransaction:(SKPaymentTransaction *)transaction {
+    // Your application should implement these two methods.
+    NSString * productIdentifier = transaction.payment.productIdentifier;
+  //  NSString * receipt = [transaction.transactionReceipt base64EncodedStringWithOptions:0];
+    
+    NSString *receiptData = [[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] base64EncodedStringWithOptions:0];
+    
+
+    
+    //    NSString * productIdentifier = [[NSString alloc] initWithData:transaction.transactionReceipt encoding:NSUTF8StringEncoding];
+    //    NSString * receipt = [[productIdentifier dataUsingEncoding:NSUTF8StringEncoding] base64EncodedString];
+    
+    
+   // NSLog(@"receipt = %@",receipt);
+    //@"http://121.40.132.44:92/iv/IosVerify"//@"http://192.168.1.135/mbapp/iv/IosVerify"
+   // NSLog(@"receiptData = %@",receiptData);
+    if ([productIdentifier length] > 0) {
+        
+        NSDictionary *dic = @{@"receipt":receiptData,@"userId":[WBUserDefaults userId]};
+       // NSLog(@"dic = %@",dic);
+        
+        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
+        } andSuccess:^(id representData) {
+            NSLog(@"%@",representData);
+            NSLog(@"------success-----");
+        } andFailure:^(NSString *error) {
+            NSLog(@"------failure-----");
+        }];
+        
+        // 向自己的服务器验证购买凭证
+        
+    }
+    // Remove the transaction from the payment queue.
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+    
+}
+- (void)failedTransaction:(SKPaymentTransaction *)transaction {
+    if(transaction.error.code != SKErrorPaymentCancelled) {
+        NSLog(@"%@",transaction.error);
+        NSLog(@"购买失败");
+    } else {
+        NSLog(@"用户取消交易");
+    }
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+}
+- (void)restoreTransaction:(SKPaymentTransaction *)transaction {
+    // 对于已购商品，处理恢复购买的逻辑
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+}
+
 
 /*
 #pragma mark - Navigation

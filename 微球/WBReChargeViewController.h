@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WBRefreshViewController.h"
+#import <StoreKit/StoreKit.h>
 
 @interface WBReChargeViewController : WBRefreshViewController
 

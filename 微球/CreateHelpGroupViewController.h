@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "WBMainTabBarController.h"
+#import "WBRefreshViewController.h"
 
-@interface CreateHelpGroupViewController : UIViewController
+@interface CreateHelpGroupViewController : WBRefreshViewController
 
 @property (nonatomic, weak) id<CommonDelegate> commonDelegate;
 
