@@ -9,6 +9,7 @@
 #import "WBIndividualIncomeViewController.h"
 #import <StoreKit/StoreKit.h>
 #import "MyDownLoadManager.h"
+#import "WBReChargeViewController.h"
 
 @interface WBIndividualIncomeViewController ()<SKProductsRequestDelegate,SKPaymentTransactionObserver>
 
@@ -120,6 +121,9 @@
 
 
 -(void)leftBtnClicked{
+    
+
+    
     NSLog(@"1");
     if ([SKPaymentQueue canMakePayments]) {
         // 执行下面提到的第5步：
@@ -132,7 +136,8 @@
 
 -(void)rightBtnClicked{
     NSLog(@"2");
-
+    WBReChargeViewController *RVC = [[WBReChargeViewController alloc]init];
+    [self.navigationController pushViewController:RVC animated:YES];
 
 
 }
@@ -158,7 +163,7 @@
 #pragma mark --------应用内支付------------
 // 下面的ProductId应该是事先在itunesConnect中添加好的，已存在的付费项目。否则查询会失败。
 - (void)getProductInfo {
-    NSArray *product = [[NSArray alloc] initWithObjects:@"qiupiao_ID", nil];//qiupiao_ID
+    NSArray *product = [[NSArray alloc] initWithObjects:@"qiupiao_6", nil];//qiupiao_ID
     NSSet *set = [NSSet setWithArray:product];
     SKProductsRequest * request = [[SKProductsRequest alloc] initWithProductIdentifiers:set];
     request.delegate = self;

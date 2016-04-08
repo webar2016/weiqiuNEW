@@ -120,6 +120,8 @@
 		2D1DE00B1C92D2BE0059CD89 /* WBTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1DE00A1C92D2BE0059CD89 /* WBTestViewController.m */; };
 		2D1DE00D1C92E32B0059CD89 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */; };
 		2D2568CA1CB74F9C006AEE5A /* WBTbl_Unlocking_City.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */; };
+		2D2568D11CB78DAB006AEE5A /* WBReChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */; };
+		2D2568D21CB78DAB006AEE5A /* WBReChargeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D2568D01CB78DAB006AEE5A /* WBReChargeViewController.xib */; };
 		2D26AEC11CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */; };
 		2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */; };
 		2D2733671CB2BD5500F5E967 /* WBFindKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */; };
@@ -405,6 +407,9 @@
 		2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		2D2568C81CB74F9C006AEE5A /* WBTbl_Unlocking_City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTbl_Unlocking_City.h; sourceTree = "<group>"; };
 		2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTbl_Unlocking_City.m; sourceTree = "<group>"; };
+		2D2568CE1CB78DAB006AEE5A /* WBReChargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBReChargeViewController.h; sourceTree = "<group>"; };
+		2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBReChargeViewController.m; sourceTree = "<group>"; };
+		2D2568D01CB78DAB006AEE5A /* WBReChargeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBReChargeViewController.xib; sourceTree = "<group>"; };
 		2D26AEBF1CA2230C003D5DAE /* WBTopicDetailTableViewCell3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicDetailTableViewCell3.h; sourceTree = "<group>"; };
 		2D26AEC01CA2230C003D5DAE /* WBTopicDetailTableViewCell3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailTableViewCell3.m; sourceTree = "<group>"; };
 		2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -1388,6 +1393,9 @@
 			children = (
 				2DF26B651CA1925E00B7ED10 /* WBIndividualIncomeViewController.h */,
 				2DF26B661CA1925E00B7ED10 /* WBIndividualIncomeViewController.m */,
+				2D2568CE1CB78DAB006AEE5A /* WBReChargeViewController.h */,
+				2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */,
+				2D2568D01CB78DAB006AEE5A /* WBReChargeViewController.xib */,
 			);
 			name = "individual income";
 			sourceTree = "<group>";
@@ -1527,6 +1535,7 @@
 				2DF532C01CAFD2090000E8CB /* WBTopicXibTableViewCell.xib in Resources */,
 				2D62D6651C89346200E4D05E /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
+				2D2568D21CB78DAB006AEE5A /* WBReChargeViewController.xib in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
 				05D6EB8B1C7D414F002D48FF /* LaunchScreen.storyboard in Resources */,
@@ -1701,6 +1710,7 @@
 				05D1F9391C8EC0520049D3EC /* WBPostArticleViewController.m in Sources */,
 				2D5D73051C926F4C00F8C2AE /* WBAllocateScoreTableViewCell.m in Sources */,
 				05D6EBC01C7D4BA5002D48FF /* WBFindViewController.m in Sources */,
+				2D2568D11CB78DAB006AEE5A /* WBReChargeViewController.m in Sources */,
 				0543038A1CB688570041902D /* WBChatImageViewer.m in Sources */,
 				2D5D73021C926CB700F8C2AE /* WBAllocateScoreModel.m in Sources */,
 				05DB3F681C8587A900CBCC54 /* WBQuestionTableViewCell.m in Sources */,
