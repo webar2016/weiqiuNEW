@@ -36,13 +36,7 @@
 }
 
 -(void)createNavi{
-    self.navigationItem.title =@"关注";
-    //设置标题
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
-    //设置返回按钮
-    UIBarButtonItem *item = (UIBarButtonItem *)self.navigationController.navigationBar.topItem;
-    item.title = @"返回";
-    self.navigationController.navigationBar.tintColor = [UIColor initWithGreen];
+    self.navigationItem.title =@"关注列表";
 }
 
 

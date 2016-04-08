@@ -91,7 +91,7 @@
     _tipLabel.textColor = [UIColor initWithNormalGray];
     _tipLabel.text = [NSString stringWithFormat:@"共%@积分，剩余",self.rewardIntegral];
     
-    _surplusScore = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH -60, 4.5, 40, 40)];
+    _surplusScore = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH - 40, 4.5, 40, 40)];
     _surplusScore.backgroundColor = [UIColor initWithGreen];
     _surplusScore.textColor = [UIColor whiteColor];
     _surplusScore.font = MAINFONTSIZE;
@@ -162,6 +162,7 @@
     {   cell = [[WBAllocateScoreTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ScoreCell];
         
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setModel:_dataArray[indexPath.row] cellScore:_cellScoreArray[indexPath.row] indexPath:indexPath];
     cell.delegate = self;
     return cell;
@@ -190,12 +191,7 @@
 
 -(void)allocate{
     if (_surplus > 0 && _dataArray.count > 0) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请将球币分配完毕" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
-            action;
-        })];
-        [self presentViewController:alert animated:YES completion:nil];
+        [self showHUDText:@"请将球币分配完毕"];
         return;
     } else if (_surplus == 0 && _dataArray.count > 0) {
 //        _data[@"integral"]
@@ -231,7 +227,7 @@
         [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
         [self.navigationController popToRootViewControllerAnimated:NO];
     } andFailure:^(NSString *error) {
-        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
+        [self showHUDText:@"网络状态不佳，请稍后再试！"];
     }];
 }
 

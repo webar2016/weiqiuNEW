@@ -45,18 +45,8 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    
-   
     [super viewWillAppear: animated];
-    self.navigationController.navigationBar.hidden = YES;
-    self.tabBarController.tabBar.hidden=YES;
     [self checkInGroup];
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.tabBarController.tabBar.hidden=NO;
-     self.navigationController.navigationBar.hidden = NO;
 }
 
 -(void)checkInGroup{
@@ -215,7 +205,7 @@
 -(void)btnClicked:(UIButton *)btn{
 
     if (btn.tag ==100) {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
 
     }else{
         btn.enabled = NO;

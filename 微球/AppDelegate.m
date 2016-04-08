@@ -52,12 +52,11 @@
     
     if ([WBUserDefaults userId]) {
         [self getRCToken];
-    } else {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(getRCToken)
-                                                     name:@"getRCToken"
-                                                   object:nil];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(getRCToken)
+                                                 name:@"getRCToken"
+                                               object:nil];
     
     [self setRootView];
     

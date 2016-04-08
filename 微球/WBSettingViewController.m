@@ -8,7 +8,7 @@
 
 #import "WBSettingViewController.h"
 #import "WBAboutWBViewController.h"
-#import <RongIMLib/RCIMClient.h>
+#import <RongIMKit/RongIMKit.h>
 #import "MyDBmanager.h"
 #import <StoreKit/StoreKit.h>
 
@@ -89,16 +89,20 @@
 -(void)dontDisturb{
     if (_disturbSwitch.on) {
         [[RCIMClient sharedRCIMClient]setNotificationQuietHours:@"22:00:00" spanMins:540 success:^{
+            [RCIM sharedRCIM].disableMessageNotificaiton = YES;
+            [RCIM sharedRCIM].disableMessageAlertSound = YES;
             [WBUserDefaults setUserDefaultsValue:YES withKey:@"dontDisturb"];
         } error:^(RCErrorCode status) {
-            [self showHUDComplete:@"设置失败，请重试！"];
+            [self showHUDText:@"设置失败，请重试！"];
             _disturbSwitch.on = NO;
         }];
     } else {
         [[RCIMClient sharedRCIMClient] removeNotificationQuietHours:^{
+            [RCIM sharedRCIM].disableMessageNotificaiton = NO;
+            [RCIM sharedRCIM].disableMessageAlertSound = NO;
             [WBUserDefaults setUserDefaultsValue:NO withKey:@"dontDisturb"];
         } error:^(RCErrorCode status) {
-            [self showHUDComplete:@"设置失败，请重试！"];
+            [self showHUDText:@"设置失败，请重试！"];
             _disturbSwitch.on = YES;
         }];
     }
@@ -109,14 +113,14 @@
         [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_PRIVATE targetId:@"weiqiu" isBlocked:YES success:^(RCConversationNotificationStatus nStatus) {
             [WBUserDefaults setUserDefaultsValue:YES withKey:@"weiqiuDisturb"];
         } error:^(RCErrorCode status) {
-            [self showHUDComplete:@"设置失败，请重试！"];
+            [self showHUDText:@"设置失败，请重试！"];
             _weiqiuSwitch.on = NO;
         }];
     } else {
         [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_PRIVATE targetId:@"weiqiu" isBlocked:NO success:^(RCConversationNotificationStatus nStatus) {
             [WBUserDefaults setUserDefaultsValue:NO withKey:@"weiqiuDisturb"];
         } error:^(RCErrorCode status) {
-            [self showHUDComplete:@"设置失败，请重试！"];
+            [self showHUDText:@"设置失败，请重试！"];
             _weiqiuSwitch.on = YES;
         }];
     }

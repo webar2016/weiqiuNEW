@@ -206,9 +206,8 @@
     DVC.model = self.dataSource[indexPath.row];
     
     DVC.imageHeight = [_cellHeightArray[indexPath.row] floatValue]*SCREENWIDTH;
-    //self.hidesBottomBarWhenPushed = true;
     
-    [self.navigationController pushViewController:DVC animated:YES];
+    [self presentViewController:DVC animated:YES completion:nil];
     
     
 }

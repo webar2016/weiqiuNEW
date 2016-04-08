@@ -66,7 +66,8 @@
     
     UIImagePickerController *_imagePicker;
     
-    UIImageView *_background;
+    UIImageView *_backgroundTopic;
+    UIImageView *_backgroundAnswer;
 }
 
 @property (nonatomic, assign) int selectedRow;
@@ -81,9 +82,6 @@
     _topicsArray = [NSMutableArray array];
     _answersArray = [NSMutableArray array];
     _rowHeightArray = [NSMutableArray array];
-    
-    _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
-    _background.center = CGPointMake(SCREENWIDTH / 2, self.view.frame.size.height - 200);
     
     _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     
@@ -102,6 +100,11 @@
     [self showHUDIndicator];
     
     [self loadUserInfo];
+    
+    _backgroundTopic = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+    _backgroundAnswer = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+    _backgroundTopic.center = CGPointMake(SCREENWIDTH / 2, _headHeight + 80);
+    _backgroundAnswer.center = _backgroundTopic.center;
 }
 
 -(void)popBack{
@@ -349,9 +352,9 @@
             }
         }
         if (_topicsArray.count == 0) {
-            [_topicTableView addSubview:_background];
+            [_topicTableView addSubview:_backgroundTopic];
         } else {
-            [_background removeFromSuperview];
+            [_backgroundTopic removeFromSuperview];
         }
         [self hideHUD];
         [_topicTableView reloadData];
@@ -367,10 +370,10 @@
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _answersArray = [WBSingleAnswerModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
-        if (_topicsArray.count == 0) {
-            [_topicTableView addSubview:_background];
+        if (_answersArray.count == 0) {
+            [_answerTableView addSubview:_backgroundAnswer];
         } else {
-            [_background removeFromSuperview];
+            [_backgroundAnswer removeFromSuperview];
         }
         [_answerTableView reloadData];
         

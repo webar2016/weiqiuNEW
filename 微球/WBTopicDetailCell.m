@@ -256,8 +256,9 @@
 
 -(void)shareBtnClicked{
     
-    NSArray* imageArray = @[[UIImage imageNamed:@"shareIcon.png"]];
-    // （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
+    NSArray *imageArray = @[[UIImage imageNamed:@"shareIcon.png"]];
+    NSString *shareURL = [NSString stringWithFormat:@"http://121.40.132.44:92/share/topic?commentId=%ld&newsType=%ld",_model.commentId,_cellType];
+    
     if (imageArray) {
         
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
@@ -265,14 +266,14 @@
         if (_cellType == 1) {
             [shareParams SSDKSetupShareParamsByText:@"这种照片太棒了，小伙伴们也快来看看吧！"
                                              images:@[_model.dir]
-                                                url:[NSURL URLWithString:@"http://mob.com"]
+                                                url:[NSURL URLWithString:shareURL]
                                               title:@"我分享了一个微球专题"
                                                type:SSDKContentTypeAuto];
 
         } else if (_cellType == 2) {
             [shareParams SSDKSetupShareParamsByText:@"这个视频太赞了，小伙伴们也快来看看吧！"
                                              images:@[_model.mediaPic]
-                                                url:[NSURL URLWithString:@"http://mob.com"]
+                                                url:[NSURL URLWithString:shareURL]
                                               title:@"我分享了一个微球专题"
                                                type:SSDKContentTypeAuto];
 
@@ -285,7 +286,7 @@
             }
             [shareParams SSDKSetupShareParamsByText:@"这篇文章太绝了，小伙伴们也快来看看吧！"
                                              images:@[image]
-                                                url:[NSURL URLWithString:@"http://mob.com"]
+                                                url:[NSURL URLWithString:shareURL]
                                               title:@"我分享了一个微球专题"
                                                type:SSDKContentTypeAuto];
 

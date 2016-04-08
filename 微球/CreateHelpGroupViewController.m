@@ -70,6 +70,11 @@
     if (self.fromNextPage) {
         UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)];
         self.navigationItem.leftBarButtonItem = leftButton;
+    }else if (self.fromSlidePage) {
+        UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(backToLastView)];
+        self.navigationItem.leftBarButtonItem = leftButton;
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"解锁历史" style:UIBarButtonItemStylePlain target:self action:@selector(gotoMyUnlockView)];
+        self.navigationItem.rightBarButtonItem = rightButton;
     }else{
         UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(backToLastView)];
         self.navigationItem.leftBarButtonItem = leftButton;
