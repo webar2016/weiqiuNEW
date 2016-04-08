@@ -229,16 +229,15 @@
 -(void) loadData{
     NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID,_page,PAGESIZE];
     
-    if (_page == 1) {
-        [_dataArray removeAllObjects];
-        [_rowHeightArray removeAllObjects];
-    }
-    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if ([result isKindOfClass:[NSDictionary class]]) {
             NSArray *tempArray = [TopicDetailModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentList"]];
+            if (_page == 1) {
+                [_dataArray removeAllObjects];
+                [_rowHeightArray removeAllObjects];
+            }
             
             for (TopicDetailModel *model in tempArray) {
                 if (model.newsType == 1) {

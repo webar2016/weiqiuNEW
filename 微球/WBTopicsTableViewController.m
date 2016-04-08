@@ -85,17 +85,16 @@
 -(void)loadDataCell
 {
     NSString *url = [NSString stringWithFormat:CellURL,(long)_page,PAGESIZE];
-    
-    if (_page == 1) {
-        [_dataList removeAllObjects];
-    }
-    
+
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if ([result isKindOfClass:[NSDictionary class]]) {
             
             NSArray *tempArray = [WBTopicModel mj_objectArrayWithKeyValuesArray:result[@"topicList"]];
+            if (_page == 1) {
+                [_dataList removeAllObjects];
+            }
             [_dataList addObjectsFromArray:tempArray];
             
             NSInteger count = tempArray.count;

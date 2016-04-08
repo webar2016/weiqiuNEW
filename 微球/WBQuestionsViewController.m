@@ -140,15 +140,14 @@
         url = [NSString stringWithFormat:QUESTION_IN_GROUP,self.groupId,self.currentPage,PAGESIZE];
     }
     
-    if (self.currentPage == 1) {
-        [self.questionsList removeAllObjects];
-    }
-    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if ([result isKindOfClass:[NSDictionary class]]){
             NSArray *tempArray = [WBQuestionsListModel mj_objectArrayWithKeyValuesArray:result[@"question"]];
+            if (self.currentPage == 1) {
+                [self.questionsList removeAllObjects];
+            }
             [self.questionsList addObjectsFromArray:tempArray];
             
             NSInteger count = tempArray.count;

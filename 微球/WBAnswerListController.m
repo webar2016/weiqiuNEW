@@ -147,16 +147,14 @@
 -(void)loadData{
     NSString *url = [NSString stringWithFormat:ANSWERLISTURL,(int)self.questionId,self.currentPage,PAGESIZE];
     
-    if (self.currentPage == 1) {
-        [self.answerList removeAllObjects];
-    }
-    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]){
             
             NSArray *tempArray = [WBSingleAnswerModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
-            
+            if (self.currentPage == 1) {
+                [self.answerList removeAllObjects];
+            }
             [self.answerList addObjectsFromArray:tempArray];
             
             NSInteger count = tempArray.count;
