@@ -7,20 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
 
-@interface WBPostArticleViewController : UIViewController
+@interface WBPostArticleViewController : WBRefreshViewController
 
 @property (nonatomic, assign) BOOL isQuestionAnswer;
 
 @property (nonatomic, copy) NSString *groupId;
 @property (nonatomic, copy) NSString *questionId;
 @property (nonatomic,copy) NSString *topicID;
-
-@property (nonatomic,strong)MBProgressHUD *hud;
-
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
--(void)showHUDComplete:(NSString *)title;
--(void)hideHUD;
 
 @end

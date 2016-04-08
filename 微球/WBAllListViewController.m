@@ -22,7 +22,6 @@
 #import "NSString+Frame.h"
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
-#import "MBProgressHUD.h"
 #import "MJRefresh.h"
 
 
@@ -60,7 +59,7 @@
     _collectionView = [self collectionView];
     [self.view addSubview:_collectionView];
     [self createMJRefresh];
-    [self showHUD:@"正在努力加载" isDim:NO];
+    [self showHUDIndicator];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
 //    _loadImageCount = 0;
@@ -207,9 +206,8 @@
     DVC.model = self.dataSource[indexPath.row];
     
     DVC.imageHeight = [_cellHeightArray[indexPath.row] floatValue]*SCREENWIDTH;
-    //self.hidesBottomBarWhenPushed = true;
     
-    [self.navigationController pushViewController:DVC animated:YES];
+    [self presentViewController:DVC animated:YES completion:nil];
     
     
 }
@@ -247,30 +245,6 @@
 
 
 }
-
-
-#pragma mark - HUD
-
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    [self hideHUD];
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:0.3];
-}
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

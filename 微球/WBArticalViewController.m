@@ -60,7 +60,7 @@
     
     [self loadData];
     
-    [self showHUD:@"正在努力加载" isDim:NO];
+    [self showHUDIndicator];
 }
 
 -(void)popBack{
@@ -173,6 +173,9 @@
 #pragma mark - 点赞操作
 
 -(void)likeTap{
+    if (![WBUserDefaults userId] || [[WBUserDefaults userId] integerValue] == self.userId) {
+        return;
+    }
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {
@@ -212,7 +215,7 @@
         }
         
     } andFailure:^(NSString *error) {
-        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
+        [self showHUDText:@"网络状态不佳，请稍后再试！"];
     }];
 }
 
@@ -247,27 +250,6 @@
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:textAttachment.image];
     [self presentViewController:viewer animated:YES completion:nil];
     return YES;
-}
-
-#pragma mark - MBprogress
-
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    [self.hud hide:YES afterDelay:2.0];
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:0.3];
 }
 
 @end

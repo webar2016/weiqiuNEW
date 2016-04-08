@@ -173,6 +173,7 @@
 {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.dimBackground = isDim;
+    self.hud.opacity = 0.7;
     self.hud.labelText = title;
 }
 -(void)showHUDComplete:(NSString *)title
@@ -180,6 +181,7 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
+    self.hud.opacity = 0.7;
     [self hideHUD];
 }
 

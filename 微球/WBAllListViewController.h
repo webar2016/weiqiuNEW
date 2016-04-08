@@ -8,14 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "MJRefresh.h"
-#import "MBProgressHUD.h"
 
-
-@interface WBAllListViewController : UIViewController
+@interface WBAllListViewController : WBRefreshViewController
 @property(strong,nonatomic)NSMutableArray *dataSource;
-@property (nonatomic,strong)MBProgressHUD *hud;
 
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
--(void)showHUDComplete:(NSString *)title;
--(void)hideHUD;
 @end

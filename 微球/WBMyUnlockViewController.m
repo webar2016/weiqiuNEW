@@ -29,12 +29,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
-    [self showHUD:@"正在加载" isDim:YES];
+    [self showHUDIndicator];
     [self createNavi];
     [self createUI];
-    [self showHUDComplete:@"加载完毕"];
-    
-    
 }
 
 -(void)createNavi{
@@ -69,10 +66,6 @@
 #pragma mark ------uitableView delegate--------
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    /*MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-     [manager  addItem:model];
-     NSLog(@"1 -------%@",[manager searchAllItems]);
-     [manager closeFBDM];*/
     if (_segmentControl.selectedSegmentIndex == 0) {
         return _unlockArray.count;
     }else{
@@ -82,44 +75,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (_segmentControl.selectedSegmentIndex == 0) {
-        static NSString *cellID = @"unlockID";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        if (cell == nil)
-        {   cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-        }
-        WBPositionList *position = [[WBPositionList alloc]init];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@",[position cityNameWithCityId:[NSNumber numberWithInteger:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId]]];
-        return cell;
-    }else{
-        static NSString *cellID2 = @"unlockingID";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID2];
-        if (cell == nil)
-        {   cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2];
-        }
-        WBPositionList *position = [[WBPositionList alloc]init];
-        
-        cell.textLabel.text = [NSString stringWithFormat:@"%@",[position cityNameWithCityId:[NSNumber numberWithInteger:[((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId integerValue]]]];
-        return cell;
+    static NSString *cellID = @"unlock";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil)
+    {   cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-   
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.textColor = [UIColor initWithNormalGray];
+    WBPositionList *position = [[WBPositionList alloc]init];
+    
+    if (_segmentControl.selectedSegmentIndex == 0) {
+        cell.textLabel.text = [NSString stringWithFormat:@"%@",[position cityNameWithCityId:[NSNumber numberWithInteger:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId]]];
+    }else{
+        cell.textLabel.text = [NSString stringWithFormat:@"%@",[position cityNameWithCityId:[NSNumber numberWithInteger:[((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId integerValue]]]];
+    }
+   return cell;
 }
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

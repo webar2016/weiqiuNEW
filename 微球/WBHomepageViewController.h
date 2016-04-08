@@ -7,19 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface WBHomepageViewController : UIViewController
+@interface WBHomepageViewController : WBRefreshViewController
 
 @property (nonatomic,copy) NSString *userId;
-
-
-
-@property (nonatomic,strong)MBProgressHUD *hud;
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
--(void)showHUDComplete:(NSString *)title;
--(void)hideHUD;
-
 @property (strong, nonatomic) MPMoviePlayerController *player;
+
 @end

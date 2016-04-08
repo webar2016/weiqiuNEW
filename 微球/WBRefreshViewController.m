@@ -14,36 +14,45 @@
 
 @implementation WBRefreshViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+-(void)showHUDText:(NSString *)title{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeText;
+    self.hud.opacity = 0.7;
+    self.hud.dimBackground = NO;
+    self.hud.labelText = title;
+    [self hideHUDDelay:2.0];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)showHUDIndicator{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.color = [UIColor clearColor];
+    self.hud.activityIndicatorColor = [UIColor blackColor];
 }
 
-
-
-#pragma mark - MBprogress
 -(void)showHUD:(NSString *)title isDim:(BOOL)isDim
 {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.opacity = 0.7;
     self.hud.dimBackground = isDim;
     self.hud.labelText = title;
 }
+
 -(void)showHUDComplete:(NSString *)title
 {
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
-    [self.hud hide:YES afterDelay:2.0];
+    self.hud.opacity = 0.7;
+    [self hideHUDDelay:2.0];
 }
 
 -(void)hideHUD
 {
     [self.hud hide:YES afterDelay:0.3];
+}
+
+-(void)hideHUDDelay:(NSTimeInterval)delay{
+    [self.hud hide:YES afterDelay:delay];
 }
 
 /*

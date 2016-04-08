@@ -175,7 +175,7 @@
 
 -(void)contentPreview{
     if (_textView.textStorage.length == 0) {
-        [self showHUDComplete:@"写点内容再预览吧！"];
+        [self showHUDText:@"写点内容再预览吧！"];
         return;
     }
     
@@ -202,10 +202,7 @@
 
 -(void)releaseArticle{
     if (_textView.textStorage.length == 0) {
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-        self.hud.mode = MBProgressHUDModeText;
-        self.hud.labelText = @"写点内容再发布吧！";
-        [self.hud hide:YES afterDelay:2.0];
+        [self showHUDText:@"写点内容再发布吧"];
         return;
     }
     self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -367,26 +364,16 @@
 
 #pragma mark - MBprogress
 
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
 -(void)showHUDComplete:(NSString *)title
 {
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
+    self.hud.opacity = 0.7;
     self.hud.labelText = title;
     [self.hud hide:YES afterDelay:2.0];
     if (_isSuccess) {
         [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0];
     }
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:0.3];
 }
 
 -(void)dismissView{

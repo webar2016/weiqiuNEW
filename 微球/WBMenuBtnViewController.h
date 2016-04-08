@@ -11,7 +11,7 @@
 #import "WBPostArticleViewController.h"
 #import "WBPostVideoViewController.h"
 
-@interface WBMenuBtnViewController : UIViewController
+@interface WBMenuBtnViewController : WBRefreshViewController
 {
     UIView *_backgroundView;
     //悬浮按钮

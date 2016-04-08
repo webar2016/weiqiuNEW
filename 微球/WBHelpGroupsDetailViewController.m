@@ -45,18 +45,8 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    
-   
     [super viewWillAppear: animated];
-    self.navigationController.navigationBar.hidden = YES;
-    self.tabBarController.tabBar.hidden=YES;
     [self checkInGroup];
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.tabBarController.tabBar.hidden=NO;
-     self.navigationController.navigationBar.hidden = NO;
 }
 
 -(void)checkInGroup{
@@ -215,7 +205,7 @@
 -(void)btnClicked:(UIButton *)btn{
 
     if (btn.tag ==100) {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
 
     }else{
         btn.enabled = NO;
@@ -266,6 +256,7 @@
 {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.dimBackground = isDim;
+    self.hud.opacity = 0.7;
     self.hud.labelText = title;
 }
 -(void)showHUDComplete:(NSString *)title
@@ -273,6 +264,7 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
+    self.hud.opacity = 0.7;
     [self.hud hide:YES afterDelay:2];
     if (_isSuccess) {
         [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0f];

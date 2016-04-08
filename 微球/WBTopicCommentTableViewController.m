@@ -24,6 +24,7 @@
     UIButton *_rightBtn;
     UILabel *_placeHolder;
     UIView *_textBgView;
+    UIImageView *_background;
 }
 
 @end
@@ -35,11 +36,13 @@
     
     _dataArray = [NSMutableArray array];
     _cellHeightArray = [NSMutableArray array];
+    _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+    _background.center = CGPointMake(SCREENWIDTH / 2, 170);
     [self createNavi];
     [self createUI];
     [self registerForKeyboardNotifications];
     [self createTextView];
-    [self showHUD:@"正在努力加载" isDim:NO];
+    [self showHUDIndicator];
     [self loadData];
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -153,7 +156,7 @@
         _commentTextView.text = @"";
         [_commentTextView resignFirstResponder];
     } andFailure:^(NSString *error) {
-         [self showHUDComplete:@"评论失败，请稍后再试！"];
+         [self showHUDComplete:@"评论失败，请稍后再试"];
     }];
     
     
@@ -167,7 +170,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
     [super touchesBegan:touches withEvent:event];
-    NSLog(@"000000");
+    
     if (![_commentTextView isExclusiveTouch]) {
         [_commentTextView resignFirstResponder];
     }
@@ -185,6 +188,11 @@
             NSString *titleNumber =[dic objectForKey:@"totalCount"];
             self.navigationItem.title = [NSString stringWithFormat:@"%@条评论",titleNumber];
             _dataArray = [WBtopicCommentDetilListModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentDetilList"]];
+            if (_dataArray.count == 0) {
+                [self.view addSubview:_background];
+            } else {
+                [_background removeFromSuperview];
+            }
             [_cellHeightArray removeAllObjects];
             for (NSInteger j =0; j<_dataArray.count; j++) {
                 NSDictionary *attributes = @{NSFontAttributeName: MAINFONTSIZE};
@@ -201,6 +209,8 @@
             [self hideHUD];
         }
     } andFailure:^(NSString *error) {
+        [_tableView.mj_header endRefreshing];
+        [self hideHUD];
         NSLog(@"%@------",error);
     }];
 }
@@ -252,27 +262,5 @@
 //        [_tableView   deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];  //删除对应数据的cell
 //    }
 //}
-
-#pragma mark - 键盘 改变通知 弹键盘
-
-#pragma mark - MBprogress
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim
-{
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.dimBackground = isDim;
-    self.hud.labelText = title;
-}
--(void)showHUDComplete:(NSString *)title
-{
-    self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    self.hud.mode = MBProgressHUDModeCustomView;
-    self.hud.labelText = title;
-    [self hideHUD];
-}
-
--(void)hideHUD
-{
-    [self.hud hide:YES afterDelay:0.3];
-}
 
 @end

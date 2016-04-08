@@ -37,14 +37,24 @@
     CGFloat     _score;
     
     TopicDetailModel *_model;
+    
+    NSInteger   _cellType;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
+        if ([reuseIdentifier isEqualToString:@"detailCellID1"]) {//photo
+            _cellType = 1;
+        } else if ([reuseIdentifier isEqualToString:@"detailCellID2"]) {//vedio
+            _cellType = 2;
+        } else {//arctial
+            _cellType = 3;
+        }
+        
         [self setUpUserInfos];
         
-        [self setUpMainContentWithIdentifiter:reuseIdentifier];
+        [self setUpMainContent];
         
         [self setUpToolbar];
         
@@ -85,10 +95,10 @@
     [self.contentView addSubview:userView];
 }
 
--(void)setUpMainContentWithIdentifiter:(NSString *)reuseIdentifier{
+-(void)setUpMainContent{
     _mainContent = [[UIView alloc] initWithFrame:CGRectZero];
     
-    if ([reuseIdentifier isEqualToString:@"detailCellID1"]) {//photo
+    if (_cellType == 1) {//photo
         
         _mainImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENWIDTH)];
         _mainImage.backgroundColor = [UIColor initWithBackgroundGray];
@@ -104,16 +114,17 @@
         [_mainContent addSubview:_mainImage];
         [_mainContent addSubview:_contentLabel];
         
-    } else if ([reuseIdentifier isEqualToString:@"detailCellID2"]) {//vedio
+    } else if (_cellType == 2) {//vedio
         
         _mainImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENWIDTH)];
         _mainImage.backgroundColor = [UIColor initWithBackgroundGray];
         _mainImage.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(videoPlay)];
+        [_mainImage addGestureRecognizer:tap];
         
-        UIButton *playBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH / 6, SCREENWIDTH / 6)];
-        [playBtn setBackgroundImage:[UIImage imageNamed:@"icon_broadcast.png"] forState:UIControlStateNormal];
+        UIImageView *playBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH / 6, SCREENWIDTH / 6)];
+        playBtn.image = [UIImage imageNamed:@"icon_broadcast.png"];
         playBtn.center = _mainImage.center;
-        [playBtn addTarget:self action:@selector(videoPlay) forControlEvents:UIControlEventTouchUpInside];
         [_mainImage addSubview:playBtn];
         
         _mainContent.frame = CGRectMake(0, 60, SCREENWIDTH, SCREENWIDTH);
@@ -245,16 +256,41 @@
 
 -(void)shareBtnClicked{
     
-    NSArray* imageArray = @[[UIImage imageNamed:@"icon_unclockmesg.png"]];
-    // （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
+    NSArray *imageArray = @[[UIImage imageNamed:@"shareIcon.png"]];
+    NSString *shareURL = [NSString stringWithFormat:@"http://121.40.132.44:92/share/topic?commentId=%ld&newsType=%ld",_model.commentId,_cellType];
+    
     if (imageArray) {
         
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-        [shareParams SSDKSetupShareParamsByText:@"分享内容"
-                                         images:imageArray
-                                            url:[NSURL URLWithString:@"http://mob.com"]
-                                          title:@"分享标题"
-                                           type:SSDKContentTypeAuto];
+        
+        if (_cellType == 1) {
+            [shareParams SSDKSetupShareParamsByText:@"这种照片太棒了，小伙伴们也快来看看吧！"
+                                             images:@[_model.dir]
+                                                url:[NSURL URLWithString:shareURL]
+                                              title:@"我分享了一个微球专题"
+                                               type:SSDKContentTypeAuto];
+
+        } else if (_cellType == 2) {
+            [shareParams SSDKSetupShareParamsByText:@"这个视频太赞了，小伙伴们也快来看看吧！"
+                                             images:@[_model.mediaPic]
+                                                url:[NSURL URLWithString:shareURL]
+                                              title:@"我分享了一个微球专题"
+                                               type:SSDKContentTypeAuto];
+
+        } else {
+            NSString *image = [[NSString alloc] init];
+            if (![_model.dir isEqualToString:@";"]) {
+                image = [_model.dir componentsSeparatedByString:@";"].firstObject;
+            } else {
+                image = _model.cover;
+            }
+            [shareParams SSDKSetupShareParamsByText:@"这篇文章太绝了，小伙伴们也快来看看吧！"
+                                             images:@[image]
+                                                url:[NSURL URLWithString:shareURL]
+                                              title:@"我分享了一个微球专题"
+                                               type:SSDKContentTypeAuto];
+
+        }
         
         //2、分享（可以弹出我们的分享菜单和编辑界面）
         [ShareSDK showShareActionSheet:nil //要显示菜单的视图, iPad版中此参数作为弹出菜单的参照视图，只有传这个才可以弹出我们的分享菜单，可以传分享的按钮对象或者自己创建小的view 对象，iPhone可以传nil不会影响
@@ -263,22 +299,22 @@
                    onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
                        
                        switch (state) {
-                           case SSDKResponseStateSuccess:
-                           {
-                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
-                                                                                   message:nil
-                                                                                  delegate:nil
-                                                                         cancelButtonTitle:@"确定"
-                                                                         otherButtonTitles:nil];
-                               [alertView show];
-                               break;
-                           }
+//                           case SSDKResponseStateSuccess:
+//                           {
+//                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
+//                                                                                   message:nil
+//                                                                                  delegate:nil
+//                                                                         cancelButtonTitle:@"好的"
+//                                                                         otherButtonTitles:nil];
+//                               [alertView show];
+//                               break;
+//                           }
                            case SSDKResponseStateFail:
                            {
                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败"
                                                                                message:[NSString stringWithFormat:@"%@",error]
                                                                               delegate:nil
-                                                                     cancelButtonTitle:@"OK"
+                                                                     cancelButtonTitle:@"好的"
                                                                      otherButtonTitles:nil, nil];
                                [alert show];
                                break;

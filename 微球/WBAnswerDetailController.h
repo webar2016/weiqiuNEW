@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
 
-@interface WBAnswerDetailController : UIViewController
+@interface WBAnswerDetailController : WBRefreshViewController
 
 @property (nonatomic, copy) NSString *questionText;
 @property (nonatomic, assign) NSInteger answerId;
@@ -31,12 +30,5 @@
 @property (nonatomic, assign) BOOL fromFindView;
 @property (nonatomic, assign) BOOL fromHomePage;
 @property (nonatomic, assign) BOOL isMaster;
-
-
-@property (nonatomic,strong) MBProgressHUD *hud;
-
--(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
--(void)showHUDComplete:(NSString *)title;
--(void)hideHUD;
 
 @end
