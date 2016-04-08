@@ -30,6 +30,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     self.conversationListTableView.backgroundColor = [UIColor initWithBackgroundGray];
+    self.emptyConversationView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+    self.emptyConversationView.center = CGPointMake(SCREENWIDTH / 2, 170);
     self.conversationListTableView.separatorColor = [UIColor whiteColor];
     self.conversationListTableView.frame = CGRectMake((self.view.frame.size.width * 0.2), 20, (self.view.frame.size.width * 0.8), (self.view.frame.size.height - 20));
     [self notifyUpdateUnreadMessageCount];

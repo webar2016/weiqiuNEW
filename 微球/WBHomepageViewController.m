@@ -504,7 +504,8 @@
               
              [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.section]). commentId] whenSuccess:^(id representData) {
                  
-                 [_topicsArray removeObjectAtIndex:indexPath.row];
+                 [_topicsArray removeObjectAtIndex:indexPath.section];
+                 [_rowHeightArray removeObjectAtIndex:indexPath.section];
                  [_topicTableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
                  
                  
@@ -682,7 +683,7 @@
         
     }];
     
-    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"个人主页封面" message:@"选一张你喜欢的照片作为你的个人主页封面吧！" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"个人主页封面" message:@"选一张你喜欢的照片\n作为你的个人主页封面吧！" preferredStyle:UIAlertControllerStyleActionSheet];
     [aleVC addAction:act1];
     [aleVC addAction:act2];
     [aleVC addAction:act3];

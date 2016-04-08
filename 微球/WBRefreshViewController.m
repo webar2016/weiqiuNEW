@@ -48,7 +48,7 @@
 
 -(void)hideHUD
 {
-    [self.hud hide:YES afterDelay:0.3];
+    [self hideHUDDelay:0];
 }
 
 -(void)hideHUDDelay:(NSTimeInterval)delay{

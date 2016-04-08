@@ -331,7 +331,7 @@
 }
 
 -(void)hideHUD{
-    [self.hud hide:YES afterDelay:0.3];
+    [self.hud hide:YES afterDelay:0];
 }
 
 @end

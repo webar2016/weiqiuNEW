@@ -152,9 +152,6 @@ didRegisterUserNotificationSettings:
 
 //系统冻结时捕获消息
 -(void)showRemotePushMessageWithOptions:(NSDictionary *)launchOptions{
-    // 远程推送的内容
-    NSDictionary *remoteNotificationUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    NSLog(@"%@",remoteNotificationUserInfo);
 }
 
 //系统未冻结时捕获消息
@@ -195,7 +192,7 @@ didRegisterUserNotificationSettings:
 #pragma mark - 实时通讯相关操作
 
 -(void)setRongCloud{
-    [[RCIM sharedRCIM] initWithAppKey:@"z3v5yqkbvtkt0"];
+    [[RCIM sharedRCIM] initWithAppKey:@"vnroth0kru0uo"];
     [RCIM sharedRCIM].globalMessageAvatarStyle = RC_USER_AVATAR_CYCLE;
     
     //设置未注册消息显示方式
@@ -212,8 +209,6 @@ didRegisterUserNotificationSettings:
     [[RCIM sharedRCIM] registerMessageType:[WBUnlockMessage class]];
     [[RCIM sharedRCIM] registerMessageType:[WBFollowMessage class]];
     [[RCIM sharedRCIM] registerMessageType:[WBCommentMessage class]];
-    
- //   [[RCIMClient sharedRCIMClient] clearConversations:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
 }
 
 -(void)getRCToken{
