@@ -14,10 +14,9 @@
 
 #endif /* WBPrefixHeader_pch */
 
-#ifndef DEBUG_MODE
-#define WBLog(...) NSLog(__VA_ARGS__)
-#else //RELEASE_MODE
-#define WBLog(...) {}
+#ifdef DEBUG
+#else
+#define NSLog(...){};
 #endif
 
 //import files
