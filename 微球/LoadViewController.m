@@ -311,7 +311,9 @@
             NSArray *unlockCity = [WBTbl_Unlock_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"unlockCity"]];
             MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
             for (WBTbl_Unlock_City *model in unlockCity) {
-                [manager  addItem:model];
+                if (model.cityId>100000) {
+                    [manager  addItem:model];
+                }
             }
             NSLog(@"1 -------%@",[manager searchAllItems]);
             [manager closeFBDM];
@@ -324,7 +326,9 @@
                 NSLog(@"1 -------%@",unlockingCity);
                 MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
                 for (WBTbl_Unlocking_City *model in unlockingCity) {
-                    [manager  addItem:model];
+                    if ([model.cityId integerValue]>100000) {
+                        [manager  addItem:model];
+                    }
                 }
                 NSLog(@"2 ------%@",[manager searchAllItems]);
                 [manager closeFBDM];

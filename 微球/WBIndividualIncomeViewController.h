@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBRefreshViewController.h"
 
-@interface WBIndividualIncomeViewController : UIViewController
+@interface WBIndividualIncomeViewController : WBRefreshViewController
 
 @end
