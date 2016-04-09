@@ -72,7 +72,7 @@
 -(void) createMJRefresh{
     
     MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-      //  [self loadData];
+        [self loadData];
     }];
     [footer setTitle:@"加载更多帮帮团" forState:MJRefreshStateIdle];
     [footer setTitle:@"正在加载帮帮团" forState:MJRefreshStateRefreshing];
@@ -80,8 +80,8 @@
 
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         _page=1;
-       // [self loadData];
-       // [footer setTitle:@"加载更多帮帮团" forState:MJRefreshStateIdle];
+        [self loadData];
+        [footer setTitle:@"加载更多帮帮团" forState:MJRefreshStateIdle];
     }];
     header.lastUpdatedTimeLabel.hidden = YES;
     
