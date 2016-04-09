@@ -140,7 +140,7 @@
     [_ageButton setTitle:[NSString stringWithFormat:@"%ld",(long)model.tblUser.age]  forState:UIControlStateNormal];
     _ageButton.titleLabel.font = SMALLFONTSIZE;
     
-    _localLabel.text =  model.tblUser.position;
+    _localLabel.text =  model.destination;
 
     _leftImageView.image = [UIImage imageNamed:@"icon_qiupiao.png"];
     
