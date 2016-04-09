@@ -19,6 +19,7 @@
     if (self = [super init]) {
          self.view.backgroundColor = [UIColor blackColor];
         [self setUpImageWithImage:image];
+        [self setUpSaveButtonForImage];
     }
     return self;
 }
@@ -28,6 +29,7 @@
          self.view.backgroundColor = [UIColor blackColor];
         UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:dir]]];
         [self setUpImageWithImage:image];
+        [self setUpSaveButtonForImage];
     }
     return self;
 }
@@ -38,6 +40,7 @@
         UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:dir]]];
         [self setUpImageWithImage:image];
         [self setUpContentWithContent:content];
+        [self setUpSaveButtonForImage];
     }
     return self;
 }
@@ -87,6 +90,22 @@
     [self.view addSubview:wraperView];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
     [self.view addGestureRecognizer:tap];
+}
+
+-(void)setUpSaveButtonForImage{
+    UIButton *saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH - 50, 10, 40, 35)];
+    [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
+    [saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [saveBtn addTarget:self action:@selector(saveThisImage) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:saveBtn];
+}
+
+-(void)saveThisImage{
+    UIImageWriteToSavedPhotosAlbum(_imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+- (void) image: (UIImage *) image didFinishSavingWithError:(NSError *) error contextInfo: (void *)contextInfo{
+    [self showHUDText:@"保存成功"];
 }
 
 @end

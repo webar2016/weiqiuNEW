@@ -31,9 +31,29 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)imageDownloadDone{
+    [self setUpSaveButtonForImage];
+}
+
+-(void)setUpSaveButtonForImage{
+    UIButton *saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH - 50, 10, 40, 35)];
+    [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
+    [saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [saveBtn addTarget:self action:@selector(saveThisImage) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:saveBtn];
+}
+
+-(void)saveThisImage{
+    UIImageWriteToSavedPhotosAlbum(self.originalImageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+- (void) image: (UIImage *) image didFinishSavingWithError:(NSError *) error contextInfo: (void *)contextInfo{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeText;
+    self.hud.opacity = 0.7;
+    self.hud.dimBackground = NO;
+    self.hud.labelText = @"保存成功";
+    [self.hud hide:YES afterDelay:2.0];
 }
 
 @end

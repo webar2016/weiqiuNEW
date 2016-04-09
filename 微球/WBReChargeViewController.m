@@ -155,7 +155,7 @@
         return;
     }
     
-    
+    [self showHUD:@"正在连接" isDim:YES];
     [self getProductInfo:product];
 }
 
@@ -175,6 +175,7 @@
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     NSArray *myProduct = response.products;
     if (myProduct.count == 0) {
+        [self showHUDText:@"无法获取购买信息，请稍后重试"];
         NSLog(@"无法获取产品信息，购买失败。");
         return;
     }
@@ -184,14 +185,13 @@
 
 //请求失败
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+    [self showHUDText:@"连接错误，请稍后重试"];
     NSLog(@"商品信息请求错误:%@", error);
-    
 }
 
 - (void)requestDidFinish:(SKRequest *)request {
+    [self hideHUD];
     NSLog(@"请求结束");
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -246,9 +246,11 @@
         
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
         } andSuccess:^(id representData) {
+            [self showHUDText:@"充值成功，若未到账请联系【微球】公众号"];
             NSLog(@"%@",representData);
             NSLog(@"------success-----");
         } andFailure:^(NSString *error) {
+            [self showHUDText:@"充值失败，请稍后重试"];
             NSLog(@"------failure-----");
         }];
         // 向自己的服务器验证购买凭证
@@ -260,8 +262,10 @@
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
     if(transaction.error.code != SKErrorPaymentCancelled) {
         NSLog(@"%@",transaction.error);
+        [self showHUDText:@"充值失败，请稍后重试"];
         NSLog(@"购买失败");
     } else {
+        [self showHUDText:@"您已取消充值，感谢您的支持"];
         NSLog(@"用户取消交易");
     }
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
@@ -270,16 +274,5 @@
     // 对于已购商品，处理恢复购买的逻辑
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -194,7 +194,7 @@
     self.likeButton.titleLabel.font = MAINFONTSIZE;
     _score = self.getIntegral;
     if (self.getIntegral > 1000) {
-        [self.likeButton setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
+        [self.likeButton setTitle:[NSString stringWithFormat:@" %dk球币",(int)_score/1000] forState:UIControlStateNormal];
     }else{
         [self.likeButton setTitle:[NSString stringWithFormat:@" %ld球币",(long)_score] forState:UIControlStateNormal];
     }

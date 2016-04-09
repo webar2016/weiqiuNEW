@@ -185,44 +185,12 @@
 #pragma mark - Table view delegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *cellID = [[NSString alloc] init];
-    switch (indexPath.row % 10) {
-        case 0:
-            cellID = @"reuse0";
-            break;
-        case 1:
-            cellID = @"reuse1";
-            break;
-        case 2:
-            cellID = @"reuse2";
-            break;
-        case 3:
-            cellID = @"reuse3";
-            break;
-        case 4:
-            cellID = @"reuse4";
-            break;
-        case 5:
-            cellID = @"reuse5";
-            break;
-        case 6:
-            cellID = @"reuse6";
-            break;
-        case 7:
-            cellID = @"reuse7";
-            break;
-        case 8:
-            cellID = @"reuse8";
-            break;
-        case 9:
-            cellID = @"reuse9";
-            break;
-    }
+    static NSString *cellID = @"reuse";
     
     WBQuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil)
     {
-        cell = [[WBQuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID withData:self.questionsList[indexPath.row]];
+        cell = [[WBQuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     cell.tag = indexPath.row;
     cell.delegate = self;
@@ -233,8 +201,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-    return cell.frame.size.height;
+    return [WBQuestionTableViewCell getCellHeightWithModel:self.questionsList[indexPath.row]];
 }
 
 #pragma mark - cell click delegate

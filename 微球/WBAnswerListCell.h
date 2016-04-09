@@ -20,6 +20,8 @@
 
 @property (nonatomic, strong) WBSingleAnswerModel *model;
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(WBAnswerListCell *)model;
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+
++(CGFloat)getCellHeightWithModel:(WBSingleAnswerModel *)model;
 
 @end
