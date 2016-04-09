@@ -363,7 +363,7 @@
 
 -(void)upLoadLikeTap{
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
-        [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
+       // [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
     } andFailure:^(NSString *error) {
         
     }];
