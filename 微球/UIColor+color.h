@@ -22,4 +22,6 @@
 
 +(instancetype)initWithBackgroundGray;
 
++(instancetype)initWithPink;
+
 @end

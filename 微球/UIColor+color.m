@@ -34,4 +34,8 @@
     return [UIColor colorWithRed:236/255.0 green:240/255.0 blue:241/255.0 alpha:1];
 }
 
++(instancetype)initWithPink{
+    return [UIColor colorWithRed:253.f/255.f green:151.f/255.f blue:186.f/255.f alpha:1];
+}
+
 @end
