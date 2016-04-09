@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WBPositionList.h"
+#import "WBRefreshViewController.h"
 
 @interface WBSetInformationViewController : UIViewController
 

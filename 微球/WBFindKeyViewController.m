@@ -167,6 +167,7 @@
 #pragma mark --------点击事件---------
 
 -(void)btnClicked:(UIButton *)btn{
+    [self showHUD:@"正在发送验证码" isDim:YES];
     [self resignKeyboard];
     if (btn.tag == 100) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -184,8 +185,10 @@
                 [AVOSCloud requestSmsCodeWithPhoneNumber:_telephoneField.text templateName:@"update" variables:dict callback:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         //操作成功
+                        [self showHUDComplete:@"发送成功，请等待"];
                         NSLog(@"success");
                     } else {
+                        [self showHUDComplete:@"发送失败"];
                         NSLog(@"%@", error);
                     }
                 }];
@@ -202,6 +205,7 @@
 }
 
 -(void)btnClickedConfirm{
+    [self showHUD:@"正在审核" isDim:YES];
     [self resignKeyboard];
     if ([_passwordFieldAgain.text isEqual:_passwordField.text]&& _passwordField.text.length>5 &&_passwordField.text.length<15) {
         [AVOSCloud verifySmsCode:_verifyNumber.text mobilePhoneNumber:_telephoneField.text callback:^(BOOL succeeded, NSError *error) {
@@ -219,14 +223,15 @@
                    // [WBUserDefaults setUserId:[NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]]];
                    // [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
                    // [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
-                    
+                    [self showHUDComplete:@"密码修改成功"];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 } andFailure:^(NSString *error) {
-                    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"网络出错" preferredStyle:UIAlertControllerStyleAlert];
-                    [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    }]];
-                    [self presentViewController:alertView animated:YES completion:nil];
-                    NSLog(@"%@",error);
+                    [self showHUDComplete:@"密码修改失败"];
+//                    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"网络出错" preferredStyle:UIAlertControllerStyleAlert];
+//                    [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//                    }]];
+//                    [self presentViewController:alertView animated:YES completion:nil];
+//                    NSLog(@"%@",error);
                 }];
             }else{
                 UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"验证码有误" preferredStyle:UIAlertControllerStyleAlert];

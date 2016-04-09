@@ -237,9 +237,7 @@
         } andFailure:^(NSString *error) {
             NSLog(@"------failure-----");
         }];
-        
         // 向自己的服务器验证购买凭证
-        
     }
     // Remove the transaction from the payment queue.
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
