@@ -28,7 +28,9 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+    if ([WBUserDefaults userId]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 
 }
 
@@ -174,6 +176,7 @@
 -(void)btnClickedConfirm{
     [self viewClicked];
     if (_telephoneUsed == NO) {
+        [self showHUD:@"正在注册" isDim:YES];
         [AVOSCloud verifySmsCode:_registerNumber.text mobilePhoneNumber:_telephoneField.text callback:^(BOOL succeeded, NSError *error) {
             if(succeeded){
                 //验证成功
@@ -190,14 +193,21 @@
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
                     WBSetInformationViewController *SVC = [[WBSetInformationViewController alloc]init];
                     [self presentViewController:SVC animated:YES completion:nil];
-                    
+                    [self showHUDComplete:@"注册成功"];
                 } andFailure:^(NSString *error) {
                     NSLog(@"%@",error);
+                    [self showHUDComplete:@"注册失败"];
                 }];
             }else{
                 NSLog(@"failure");
+                [self showHUDComplete:@"验证码验证失败"];
             }
         }];
+    }else{
+        UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"该号码已经注册" preferredStyle:UIAlertControllerStyleAlert];
+        [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }]];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
 }
 
@@ -215,19 +225,25 @@
     }else if (btn.tag == 103){
         //短信验证
         //判断是否注册
+        [self showHUD:@"正在发送验证码" isDim:YES];
+        UIButton *button = (UIButton *)[self.view viewWithTag:103];
+        [button setEnabled:NO];
        // http://121.40.132.44:92/pt/checkUser?userName=15651039809
         NSString *vertifyUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/pt/checkUser?userName=%@",_telephoneField.text];
         [MyDownLoadManager getNsurl:vertifyUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"%@",result);
             if ([[result objectForKey:@"error"] isEqualToString:@"1"]) {
-                UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:[result objectForKey:@"msg"] preferredStyle:UIAlertControllerStyleAlert];
-
                 
-                [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    
-                }]];
-                [self presentViewController:alertView animated:YES completion:nil];
+                [button setEnabled:YES];
+                [self showHUDComplete:[result objectForKey:@"msg"]];
+//                UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:[result objectForKey:@"msg"] preferredStyle:UIAlertControllerStyleAlert];
+//
+//                
+//                [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//                    
+//                }]];
+//                [self presentViewController:alertView animated:YES completion:nil];
                 
                 
             }else{
@@ -238,13 +254,18 @@
                     if (succeeded) {
                         //操作成功
                         NSLog(@"success");
+                        [self showHUDComplete:@"发送验证码请求成功"];
                     } else {
                         NSLog(@"%@", error);
+                        [self showHUDComplete:@"发送验证码请求失败"];
+                        [button setEnabled:YES];
                     }
                 }];
             }
         } andFailure:^(NSString *error) {
-            
+            [self showHUDComplete:@"发送验证码请求失败"];
+            [button setEnabled:YES];
+            [self hideHUD];
         }];
     }
 }

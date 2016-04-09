@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <AVOSCloud/AVOSCloud.h>
+#import "WBRefreshViewController.h"
 
-@interface WBRegisterViewController : UIViewController
+@interface WBRegisterViewController : WBRefreshViewController
 
 @property (nonatomic,assign)BOOL telephoneUsed;
 

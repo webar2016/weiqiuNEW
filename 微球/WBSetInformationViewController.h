@@ -10,7 +10,7 @@
 #import "WBPositionList.h"
 #import "WBRefreshViewController.h"
 
-@interface WBSetInformationViewController : UIViewController
+@interface WBSetInformationViewController : WBRefreshViewController
 
 
 
