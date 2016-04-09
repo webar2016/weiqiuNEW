@@ -11,6 +11,7 @@
 #import "MJExtension.h"
 #import "WBtopicCommentDetilListModel.h"
 #import "WBTopicCommentTableViewCell.h"
+#import "WBHomepageViewController.h"
 
 
 #define commentURL @"http://121.40.132.44:92/tq/getTopicCommentDetil?commentId=%ld"
@@ -240,6 +241,12 @@
     WBtopicCommentDetilListModel *model = _dataArray[indexPath.row];
     [cell setModel:model];
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    WBHomepageViewController *homePage = [[WBHomepageViewController alloc] init];
+    homePage.userId = [NSString stringWithFormat:@"%ld",(long)((WBtopicCommentDetilListModel *)_dataArray[indexPath.row]).userId];
+    [self.navigationController pushViewController:homePage animated:YES];
 }
 
 //-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath

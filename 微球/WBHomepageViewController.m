@@ -686,7 +686,7 @@
         
     }];
     
-    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"个人主页封面" message:@"选一张你喜欢的照片作为你的个人主页封面吧！" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"个人主页封面" message:@"选一张你喜欢的照片\n作为你的个人主页封面吧！" preferredStyle:UIAlertControllerStyleActionSheet];
     [aleVC addAction:act1];
     [aleVC addAction:act2];
     [aleVC addAction:act3];
