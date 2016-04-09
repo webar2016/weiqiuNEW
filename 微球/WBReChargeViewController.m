@@ -32,13 +32,13 @@
 }
 
 -(void)createNavi{
-    self.navigationItem.title =@"我的收益";
-    //设置标题
-    //    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
-    //设置返回按钮
-    UIBarButtonItem *item = (UIBarButtonItem *)self.navigationController.navigationBar.topItem;
-    item.title = @"返回";
-    self.navigationController.navigationBar.tintColor = [UIColor initWithGreen];
+    self.navigationItem.title =@"充值";
+    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
+    self.navigationItem.backBarButtonItem = back;
+}
+
+-(void)popBack{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)createUI{

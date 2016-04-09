@@ -212,9 +212,11 @@ didRegisterUserNotificationSettings:
 }
 
 -(void)getRCToken{
+    
     __weak AppDelegate *weakSelf = self;
     if ([WBUserDefaults token] && !_tokenOutOfTime) {
         [self loginRongCloudWithToken:[WBUserDefaults token]];
+//        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getRCToken" object:nil];
     } else {
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/ry/getToken?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
             
@@ -226,6 +228,8 @@ didRegisterUserNotificationSettings:
                 _tokenOutOfTime = NO;
                 [weakSelf loginRongCloudWithToken:token[@"token"]];
             }
+            
+            
         } andFailure:^(NSString *error) {
             NSLog(@"获取token错误");
         }];

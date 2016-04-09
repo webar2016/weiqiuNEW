@@ -45,12 +45,12 @@
 
 -(void)createNavi{
     self.navigationItem.title =@"我的收益";
-    //设置标题
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
-    //设置返回按钮
-    UIBarButtonItem *item = (UIBarButtonItem *)self.navigationController.navigationBar.topItem;
-    item.title = @"返回";
-    self.navigationController.navigationBar.tintColor = [UIColor initWithGreen];
+    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
+    self.navigationItem.backBarButtonItem = back;
+}
+
+-(void)popBack{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)createUI{
@@ -129,10 +129,8 @@
 }
 
 -(void)rightBtnClicked{
-    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"请到微信公众号中提现" preferredStyle:UIAlertControllerStyleAlert];
-    [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }]];
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"请到微信公众号中提现" message:@"微信搜索【微球】或【webarz】即可" preferredStyle:UIAlertControllerStyleAlert];
+    [alertView addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertView animated:YES completion:nil];
 }
 
