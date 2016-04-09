@@ -247,7 +247,7 @@
     [parameters setObject:[NSString stringWithFormat:@"%ld",(long)_topicID] forKey:@"topicId"];
      CGFloat rate =_selectPic.size.height/_selectPic.size.width;
     [parameters setObject:[NSString stringWithFormat:@"%f",rate] forKey:@"imgRate"];
-    NSData *fileData = UIImageJPEGRepresentation(_selectPic, 0.4);
+    NSData *fileData = UIImageJPEGRepresentation(_selectPic, 0.2);
     
     
     
