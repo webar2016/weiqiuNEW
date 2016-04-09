@@ -243,12 +243,12 @@
             } andFailure:^(NSString *error) {
                 _isSuccess = NO;
                 btn.enabled = YES;
-                [self showHUDText:@"加入失败，请稍后重试"];
+                [self showHUDComplete:@"加入失败，请稍后重试"];
             }];
         }else{
             _isSuccess = NO;
             btn.enabled = YES;
-            [self showHUDText:@"你还没有解锁这个城市，请先解锁后再加入"];
+            [self showHUDComplete:@"你还没有解锁这个城市，请先解锁"];
         }
         [manager closeFBDM];
     }

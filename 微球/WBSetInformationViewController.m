@@ -144,12 +144,9 @@
 
 
 #pragma mark -----点击事件-----
-
+//选择生日
 -(void)tapClick:(UITapGestureRecognizer *)tap{
-
-
     [self showDatePicker];
-
 }
 
 - (IBAction)btnClicked:(id)sender {
@@ -170,7 +167,9 @@
     
     
     }else if (((UIButton *)sender).tag == 400){
-    
+        //开始定位
+        
+        [self showHUD:@"开始定位" isDim:YES];
         NSLog(@"---local----");
         [self startLocation];
     
@@ -239,14 +238,16 @@
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         for (CLPlacemark * placemark in placemarks) {
             NSDictionary *test = [placemark addressDictionary];
-            //  Country(国家)  State(城市)  SubLocality(区)
-//            NSLog(@"%@", test);
-//            NSLog(@"%@", [test objectForKey:@"City"]);
+            
             _cityLabel.text =[test objectForKey:@"City"];
             WBPositionList *positionList =[[WBPositionList alloc] init];
             _cityArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:_cityLabel.text] objectAtIndex:0]];
-            [self finishBtn];
-            
+            if (_cityArray) {
+                [self finishBtn];
+                [self showHUDComplete:@"定位成功"];
+            }else{
+                 [self showHUDComplete:@"定位失败"];
+            }
         }
     }];
 }
@@ -309,7 +310,7 @@
 #pragma mark  ------确认按钮的禁用解锁------
 
 -(void)finishBtn{
-    NSLog(@"_cityArray = %@",_cityArray);
+   // NSLog(@"_cityArray = %@",_cityArray);
     
      if (_cityArray.count&&_headImageView.image ) {
         [_confirmBtn setEnabled:YES];
@@ -324,6 +325,7 @@
 
 -(void)sendDataToUp{
     
+    [self showHUD:@"正在火速上传" isDim:YES];
     if ([_sexManBtn.backgroundColor isEqual:[UIColor initWithGreen]]) {
         _sex = @"男";
     }else{
@@ -353,9 +355,12 @@
         [WBUserDefaults setCity:_cityArray[0]];
         [WBUserDefaults setHeadIcon:_headImageView.image];
         [WBUserDefaults setBirthday:_birthdayPickLabel.text];
+        [self showHUDComplete:@"上传成功"];
         [self dismissViewControllerAnimated:YES completion:nil];
         
+        
     } andFailure:^(NSString *error) {
+        [self showHUDComplete:@"上传失败"];
         NSLog(@"failure");
         NSLog(@"%@",error.localizedCapitalizedString);
     }];

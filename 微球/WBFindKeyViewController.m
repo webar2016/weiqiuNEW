@@ -167,13 +167,14 @@
 #pragma mark --------点击事件---------
 
 -(void)btnClicked:(UIButton *)btn{
-    [self showHUD:@"正在发送验证码" isDim:YES];
+    
     [self resignKeyboard];
     if (btn.tag == 100) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }else if (btn.tag == 103){
         //短信验证
         //判断是否注册
+        [self showHUD:@"正在发送验证码" isDim:YES];
         // http://121.40.132.44:92/pt/checkUser?userName=15651039809
         NSString *vertifyUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/pt/checkUser?userName=%@",_telephoneField.text];
         [MyDownLoadManager getNsurl:vertifyUrl whenSuccess:^(id representData) {
