@@ -77,7 +77,7 @@
                 _rightButton.backgroundColor = [UIColor initWithGreen];
                 [_rightButton setTitle:@"关注" forState:UIControlStateNormal];
             }
-//            [self.delegate showHUDComplete:@"取消关注成功"];
+            [self.delegate showHUDComplete:@"取消关注成功"];
         } andFailure:^(NSString *error) {
             [self.delegate showHUDComplete:@"取消关注失败"];
         }];
@@ -90,7 +90,7 @@
                 _rightButton.backgroundColor = [UIColor initWithBackgroundGray];
                 [_rightButton setTitle:@"已关注" forState:UIControlStateNormal];
             }
-//            [self.delegate showHUDComplete:@"关注成功"];
+            [self.delegate showHUDComplete:@"关注成功"];
         } andFailure:^(NSString *error) {
             [self.delegate showHUDComplete:@"关注失败"];
         }];
