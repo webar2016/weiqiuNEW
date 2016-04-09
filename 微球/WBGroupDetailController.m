@@ -8,6 +8,7 @@
 
 #import "WBGroupDetailController.h"
 #import "LoadViewController.h"
+#import "MyDownLoadManager.h"
 
 #import "AFHTTPSessionManager.h"
 #import <RongIMKit/RongIMKit.h>
@@ -62,7 +63,7 @@
     self.navigationItem.title = @"创建帮帮团";
     
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"上一步" style:UIBarButtonItemStylePlain target:self action:@selector(lastStep)];
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStylePlain target:self action:@selector(nextStep)];
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStylePlain target:self action:@selector(checkIntegral)];
     self.navigationItem.leftBarButtonItem = leftButton;
     self.navigationItem.rightBarButtonItem = rightButton;
     
@@ -82,7 +83,9 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)nextStep{
+
+-(void)checkIntegral{
+    
     if (![WBUserDefaults userId]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你还没有登陆，先去登陆吧！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
@@ -112,6 +115,27 @@
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
+
+    
+    [self showHUD:@"正在校验积分" isDim:NO];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/integral/getUserIntegral?userId=%@",[WBUserDefaults userId]];
+    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        NSDictionary *userIntegral = result[@"userIntegral"];
+        NSString *integral = [userIntegral objectForKey:@"integral"];
+        if ([integral integerValue]>[_scoreLable.text integerValue]) {
+            [self nextStep];
+        }else{
+            [self showHUDComplete:@"积分不足,请充值"];
+        }
+    } andFailure:^(NSString *error) {
+        [self showHUDComplete:@"创建失败，请稍后重试"];
+    }];
+}
+
+
+
+-(void)nextStep{
     
     [self showHUD:@"正在努力上传" isDim:NO];
     self.navigationItem.rightBarButtonItem.enabled = NO;

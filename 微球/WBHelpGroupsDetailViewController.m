@@ -225,10 +225,7 @@
     }else{
         btn.enabled = NO;
         [self showHUD:@"正在加入" isDim:YES];
-        
         MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-        
-        
         WBPositionList *positionList = [[WBPositionList alloc]init];
         NSArray *tempArray =  [[positionList searchCityWithCithName:_model.destination] objectAtIndex:0];
         if ([manager  isAddedItemsID:[NSString stringWithFormat:@"%@",tempArray[1]]]) {
@@ -248,7 +245,6 @@
                 btn.enabled = YES;
                 [self showHUDText:@"加入失败，请稍后重试"];
             }];
-            
         }else{
             _isSuccess = NO;
             btn.enabled = YES;

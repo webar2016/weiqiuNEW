@@ -134,7 +134,7 @@
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     _imagePickerController.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
     _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeLow;
-    _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
+    _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
     [self presentViewController:_imagePickerController animated:YES completion:nil];
 }
 

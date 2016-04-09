@@ -120,10 +120,12 @@
     CGSize  actualsize =[model.beginTime boundingRectWithSize:CGSizeMake(MAXFLOAT, 10) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
     [self createUI:imageHeight withWidth:actualsize.width];
     //大图
-    [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
+   [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
+    
+
    
-    [_headImageView sd_setImageWithURL:[NSURL URLWithString:model.tblUser.dir]];
-   
+   [_headImageView sd_setImageWithURL:[NSURL URLWithString:model.tblUser.dir]];
+
     _nickName.text = model.tblUser.nickname;
     
     _timelabel.text = model.beginTime;

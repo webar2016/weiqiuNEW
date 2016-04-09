@@ -53,57 +53,57 @@
     
     if ([[NSFileManager defaultManager]fileExistsAtPath:dafile])
     {
-        NSLog(@"数据库已存在");
+     //   NSLog(@"数据库已存在");
     }
     
     _myDataBase=[FMDatabase databaseWithPath:dafile];
     
     if (!_myDataBase)
     {
-        NSLog(@"数据库创建不成功");
+       // NSLog(@"数据库创建不成功");
     }
     else
     {   if([_myDataBase open])
-            { NSLog(@"数据库创建成功并打开");
+            { //NSLog(@"数据库创建成功并打开");
                 //创建数据库big_area
                 if (_style == 0) {
                     NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, areaId integer,areaName text,isCountry integer)",_tableName];
                     BOOL flag = [_myDataBase executeUpdate:createSql];
                     if (flag) {
-                        NSLog(@"表格创建成功");
+                    //    NSLog(@"表格创建成功");
                     }else{
-                        NSLog(@"表格创建失败");
+                     //   NSLog(@"表格创建失败");
                     }
                 }else if(_style == 1){
                     //创建数据库tbl_unlock_city
                     NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId integer,cityId integer,unlockDate date,areaId integer,marked integer)",_tableName];
                     BOOL flag = [_myDataBase executeUpdate:createSql];
                     if (flag) {
-                        NSLog(@"表格创建成功");
+                      //  NSLog(@"表格创建成功");
                     }else{
-                        NSLog(@"表格创建失败");
+                       // NSLog(@"表格创建失败");
                     }
                 }else if(_style == 2){
                     //创建数据库help_group_sign
                     NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, sign_id integer,sign text,sign_describe text,type_flag text)",_tableName];
                     BOOL flag = [_myDataBase executeUpdate:createSql];
                     if (flag) {
-                        NSLog(@"表格创建成功");
+                      //  NSLog(@"表格创建成功");
                     }else{
-                        NSLog(@"表格创建失败");
+                      //  NSLog(@"表格创建失败");
                     }
                 }else{
                     //创建数据库tbl_unlock_city
                     NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId text,provinceId text,cityId text,provinceName text,cityName text)",_tableName];
                     BOOL flag = [_myDataBase executeUpdate:createSql];
                     if (flag) {
-                        NSLog(@"表格创建成功");
+                       // NSLog(@"表格创建成功");
                     }else{
-                        NSLog(@"表格创建失败");
+                      //  NSLog(@"表格创建失败");
                     }
                 }
             }else{
-            NSLog(@"数据库打开失败");
+           // NSLog(@"数据库打开失败");
             }
     }
     
@@ -271,7 +271,7 @@
             deleteSql = [NSString stringWithFormat:@"delete from '%@' where %@ ='%@'",_tableName,key,value];
 
         
-        NSLog(@"--------%d",[_myDataBase executeUpdate:deleteSql]);
+     //   NSLog(@"--------%d",[_myDataBase executeUpdate:deleteSql]);
     }
 }
 
