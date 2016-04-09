@@ -184,6 +184,8 @@
 
 #pragma mark ---按钮点击事件－－－
 - (void)btnClicked:(UIButton *)btn{
+    [_account resignFirstResponder];
+    [_password resignFirstResponder];
    //登陆
     if (btn.tag==102) {
         [self showHUD:@"登录中" isDim:YES];
