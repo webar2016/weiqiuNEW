@@ -256,25 +256,23 @@
 
 -(void)shareBtnClicked{
     
-    NSArray *imageArray = @[[UIImage imageNamed:@"shareIcon.png"]];
     NSString *shareURL = [NSString stringWithFormat:@"http://121.40.132.44:92/share/topic?commentId=%ld&newsType=%ld",_model.commentId,_cellType];
     
-    if (imageArray) {
         
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
         
         if (_cellType == 1) {
-            [shareParams SSDKSetupShareParamsByText:@"这种照片太棒了，小伙伴们也快来看看吧！"
+            [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的照片，快来微球看看吧！",_model.tblUser.nickname]
                                              images:@[_model.dir]
                                                 url:[NSURL URLWithString:shareURL]
-                                              title:@"我分享了一个微球专题"
+                                              title:_model.topicContent
                                                type:SSDKContentTypeAuto];
 
         } else if (_cellType == 2) {
-            [shareParams SSDKSetupShareParamsByText:@"这个视频太赞了，小伙伴们也快来看看吧！"
+            [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的视频，拍的太棒了，快来微球看看吧！",_model.tblUser.nickname]
                                              images:@[_model.mediaPic]
                                                 url:[NSURL URLWithString:shareURL]
-                                              title:@"我分享了一个微球专题"
+                                              title:_model.topicContent
                                                type:SSDKContentTypeAuto];
 
         } else {
@@ -284,10 +282,10 @@
             } else {
                 image = _model.cover;
             }
-            [shareParams SSDKSetupShareParamsByText:@"这篇文章太绝了，小伙伴们也快来看看吧！"
+            [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的文章，写得太绝了，快来微球看看吧！",_model.tblUser.nickname]
                                              images:@[image]
                                                 url:[NSURL URLWithString:shareURL]
-                                              title:@"我分享了一个微球专题"
+                                              title:_model.topicContent
                                                type:SSDKContentTypeAuto];
 
         }
@@ -323,7 +321,7 @@
                                break;
                        }
                    }
-         ];}
+         ];
     
 }
 

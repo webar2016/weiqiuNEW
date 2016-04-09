@@ -143,8 +143,7 @@
         //已经存在unlock
         [manager closeFBDM];
         _isUnlock = YES;
-        [self showHUD:nil isDim:NO];
-        [self showHUDComplete:@"这个城市已经解锁"];
+        [self showHUDText:@"该城市已解锁，请重新选择"];
         
     }
     [manager closeFBDM];
@@ -154,8 +153,7 @@
     if ([manager2 isAddedItemsID:[NSString stringWithFormat:@"%@",_cityId]]) {
         [manager2 closeFBDM];
         _isUnlock = YES;
-         [self showHUD:nil isDim:NO];
-        [self showHUDComplete:@"这个城市正在等待审核中"];
+        [self showHUDText:@"该城市正在审核中"];
     }
     [manager2 closeFBDM];
 
