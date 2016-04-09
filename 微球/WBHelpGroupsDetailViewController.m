@@ -13,6 +13,7 @@
 #import <RongIMKit/RongIMKit.h>
 #import "WBHomepageViewController.h"
 #import "MyDBmanager.h"
+#import "WBPositionList.h"
 
 
 
@@ -158,7 +159,7 @@
     }
     
     
-    NSArray *rightLabelNameArray = @[_model.tblUser.position,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%ld人",(long)_model.maxMembers],[NSString stringWithFormat:@"%ld球币",(long)_model.rewardIntegral]];
+    NSArray *rightLabelNameArray = @[_model.destination,_model.endTime, _dataStr,[NSString stringWithFormat:@"%@",_model.groupSign],[NSString stringWithFormat:@"%ld人",(long)_model.maxMembers],[NSString stringWithFormat:@"%ld球币",(long)_model.rewardIntegral]];
     
     
     
@@ -226,9 +227,11 @@
         [self showHUD:@"正在加入" isDim:YES];
         
         MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-        if ([manager  isAddedItemsID:[NSString stringWithFormat:@"%ld",_model.tblUser.cityNum]]) {
-            
-            
+        
+        
+        WBPositionList *positionList = [[WBPositionList alloc]init];
+        NSArray *tempArray =  [[positionList searchCityWithCithName:_model.destination] objectAtIndex:0];
+        if ([manager  isAddedItemsID:[NSString stringWithFormat:@"%@",tempArray[1]]]) {
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",(long)_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
                 _isSuccess = YES;
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
@@ -249,10 +252,7 @@
             btn.enabled = YES;
             [self showHUDText:@"你还没有解锁这个城市，请先解锁后再加入"];
         }
-        
-        
-        
-       
+        [manager closeFBDM];
     }
 }
 
