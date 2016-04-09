@@ -10,7 +10,11 @@
 #import "MyDownLoadManager.h"
 
 @interface WBReChargeViewController ()<SKProductsRequestDelegate,SKPaymentTransactionObserver> {
-    UITableView     *_tableView;
+    
+    UIButton *_rightBtton;
+    UIImageView *_selectedImage;
+    NSString *_moneyString;
+
 }
 
 @end
@@ -37,6 +41,17 @@
     self.navigationItem.title =@"充值";
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
+    
+    _rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _rightBtton.frame = CGRectMake(0, 0, 48, 22) ;
+    _rightBtton.backgroundColor = [UIColor initWithGreen];
+    _rightBtton.titleLabel.font = MAINFONTSIZE;
+    _rightBtton.layer.cornerRadius = 5;
+    [_rightBtton setTitle:@"确认" forState:UIControlStateNormal];
+    [_rightBtton addTarget:self action:@selector(confirmBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]initWithCustomView:_rightBtton];
+    self.navigationItem.rightBarButtonItem = rightBarButton;
 }
 
 -(void)popBack{
@@ -45,70 +60,99 @@
 
 -(void)createUI{
     
+    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREENWIDTH - 20, 30)];
+    tipLabel.font = FONTSIZE12;
+    tipLabel.textColor = [UIColor initWithLightGray];
+    tipLabel.text = @"如遇充值相关问题，请前往微信公众号【微球】咨询客服，感谢支持！";
+    [self.view addSubview: tipLabel];
+    
+    _selectedImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_markcross"]];
+    _selectedImage.center = CGPointMake(SCREENWIDTH - 20, 30);
+    
+    for (int i = 0; i < 5; i ++) {
+        UIButton *productBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, i * 61 + 30, SCREENWIDTH, 61)];
+        productBtn.backgroundColor = [UIColor whiteColor];
+        productBtn.tag = i+1;
+        
+        UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_qiupiao2"]];
+        icon.center = CGPointMake(20, 30);
+        [productBtn addSubview:icon];
+        
+        UILabel *numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, SCREENWIDTH / 2, 60)];
+        numberLabel.text = [NSString stringWithFormat:@"%d个球币",420*(i+1)];
+        numberLabel.textColor = [UIColor initWithLightGray];
+        numberLabel.font = MAINFONTSIZE;
+        [productBtn addSubview:numberLabel];
+        
+        UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 20)];
+        moneyLabel.center = CGPointMake(SCREENWIDTH - 60, 30);
+        moneyLabel.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
+        moneyLabel.layer.borderWidth = 1;
+        moneyLabel.layer.masksToBounds = YES;
+        moneyLabel.layer.cornerRadius = 3;
+        moneyLabel.textColor = [UIColor initWithGreen];
+        moneyLabel.text = [NSString stringWithFormat:@"¥%d",6*(i+1)];
+        moneyLabel.font = MAINFONTSIZE;
+        moneyLabel.textAlignment = NSTextAlignmentCenter;
+        [productBtn addSubview:moneyLabel];
+        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 60, SCREENWIDTH, 1)];
+        line.backgroundColor = [UIColor initWithBackgroundGray];
+        [productBtn addSubview:line];
+        
+        [productBtn addTarget:self action:@selector(moneyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:productBtn];
+    }
+}
 
+- (IBAction)moneyBtnClick:(UIButton *)sender {
     
+    [_selectedImage removeFromSuperview];
+    [sender addSubview:_selectedImage];
     
-    _confirmBtn.backgroundColor = [UIColor initWithGreen];
-    [_confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
-    _confirmBtn.layer.masksToBounds = YES;
-    _confirmBtn.layer.cornerRadius = 3;
-    [_confirmBtn setEnabled:NO];
-    [_confirmBtn setBackgroundColor:[UIColor initWithBackgroundGray]];
+    switch (sender.tag) {
+        case 1:
+            _moneyString = @"420个球币";
+            break;
+        case 2:
+            _moneyString = @"840个球币";
+            break;
+        case 3:
+            _moneyString = @"1260个球币";
+            break;
+        case 4:
+            _moneyString = @"1680个球币";
+            break;
+        case 5:
+            _moneyString = @"2100个球币";
+            break;
+    }
     
-    _btn6.layer.borderWidth = 1;
-    _btn6.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
-    _btn6.layer.masksToBounds = YES;
-    _btn6.layer.cornerRadius = 3;
-    [_btn6 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
-   
-    _btn12.layer.borderWidth = 1;
-    _btn12.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
-    _btn12.layer.masksToBounds = YES;
-    _btn12.layer.cornerRadius = 3;
-    [_btn12 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
-  
-    _btn18.layer.borderWidth = 1;
-    _btn18.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
-    _btn18.layer.masksToBounds = YES;
-    _btn18.layer.cornerRadius = 3;
-    [_btn18 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
-    
-    _btn24.layer.borderWidth = 1;
-    _btn24.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
-    _btn24.layer.masksToBounds = YES;
-    _btn24.layer.cornerRadius = 3;
-    [_btn24 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
-    
-    _btn30.layer.borderWidth = 1;
-    _btn30.layer.borderColor = [[UIColor initWithBackgroundGray] CGColor];
-    _btn30.layer.masksToBounds = YES;
-    _btn30.layer.cornerRadius = 3;
-    [_btn30 setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
-
 }
 
 
-
-
-
-- (IBAction)confirmBtnClick:(id)sender {
+- (void)confirmBtnClick{
     
     
     NSArray *product;//qiupiao_ID
-    if ([_contentLabel.text isEqualToString:@"420个球币"]) {
+    if ([_moneyString isEqualToString:@"420个球币"]) {
         product = [[NSArray alloc] initWithObjects:@"qiupiao_6", nil];//qiupiao_ID
-    }else if ([_contentLabel.text isEqualToString:@"840个球币"]){
-     product = [[NSArray alloc] initWithObjects:@"qiupiao_12", nil];//qiupiao_ID
+        
+    }else if ([_moneyString isEqualToString:@"840个球币"]){
+        product = [[NSArray alloc] initWithObjects:@"qiupiao_12", nil];//qiupiao_ID
     
-    }else if ([_contentLabel.text isEqualToString:@"1260个球币"]){
+    }else if ([_moneyString isEqualToString:@"1260个球币"]){
         product = [[NSArray alloc] initWithObjects:@"qiupiao_18", nil];//qiupiao_ID
         
-    }else if ([_contentLabel.text isEqualToString:@"1680个球币"]){
+    }else if ([_moneyString isEqualToString:@"1680个球币"]){
         product = [[NSArray alloc] initWithObjects:@"qiupiao_24", nil];//qiupiao_ID
         
-    }else if ([_contentLabel.text isEqualToString:@"2100个球币"]){
+    }else if ([_moneyString isEqualToString:@"2100个球币"]){
         product = [[NSArray alloc] initWithObjects:@"qiupiao_30", nil];//qiupiao_ID
         
+    } else {
+        [self showHUDText:@"请选择你要充值的金额"];
+        return;
     }
     
     
@@ -116,30 +160,7 @@
 }
 
 
-- (IBAction)moneyBtnClick:(id)sender {
-    if (((UIButton *)sender).tag ==100) {
-         _contentLabel.text = @"420个球币";
-       
-    }else if (((UIButton *)sender).tag ==101){
-    
-     _contentLabel.text = @"840个球币";
-    }else if (((UIButton *)sender).tag ==102){
-        
-       _contentLabel.text = @"1260个球币";
-    }else if (((UIButton *)sender).tag ==103){
-        
-      _contentLabel.text = @"1680个球币";
-    }else if (((UIButton *)sender).tag ==104){
-        
-       _contentLabel.text = @"2100个球币";
-    }
-    
-    if (_confirmBtn.enabled == NO) {
-        [_confirmBtn setEnabled:YES];
-        [_confirmBtn setBackgroundColor:[UIColor initWithGreen]];
-    }
-    
-}
+
 
 
 #pragma mark --------应用内支付------------
