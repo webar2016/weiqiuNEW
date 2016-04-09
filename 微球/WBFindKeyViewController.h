@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <AVOSCloud/AVOSCloud.h>
+#import "WBRefreshViewController.h"
 
-@interface WBFindKeyViewController : UIViewController
+@interface WBFindKeyViewController : WBRefreshViewController
 
 @end
