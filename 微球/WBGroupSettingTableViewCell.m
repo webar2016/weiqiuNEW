@@ -87,7 +87,7 @@
         }
         NSString *rewardIntegral = [NSString stringWithFormat:@"%ld",(long)self.detail.rewardIntegral];
         
-        infos = (NSMutableArray *)@[self.detail.destination,self.detail.beginTime,travelTime,self.detail.groupSignStr,memberLimit,rewardIntegral];
+        infos = (NSMutableArray *)@[self.detail.destination,self.detail.endTime,travelTime,self.detail.groupSignStr,memberLimit,rewardIntegral];
     }else{
         infos = (NSMutableArray *)@[@"目的地",@"闭团日期",@"行程日期",@"标签",@"人数上限",@"悬赏球币"];
     }

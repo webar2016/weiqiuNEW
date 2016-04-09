@@ -146,7 +146,7 @@
 
 -(void)createGroupOne{
     NSArray *imageNameArray = @[@"icon_destination.png",@"icon_cuttime.png",@"icon_traveldate.png",@"icon_tag2.png",@"icon_grouplimit.png",@"icon_qiupiao2.png"];
-    NSArray *labelNameArray = @[@"目的地",@"闭团日期",@"行程日起",@"标签",@"闭团团员人数限制",@"悬赏球币"];
+    NSArray *labelNameArray = @[@"目的地",@"闭团日期",@"行程日起",@"标签",@"人数上限",@"悬赏球币"];
     
     NSArray *cellHeightyArray = @[@13,@51,@89,@131,@173,@211];
     
@@ -243,17 +243,11 @@
             } andFailure:^(NSString *error) {
                 _isSuccess = NO;
                 btn.enabled = YES;
-                [self showHUDComplete:@"加入失败，请稍后重试"];
-                [self hideHUD];
+                [self showHUDText:@"加入失败，请稍后重试"];
             }];
-
-            
-            
         }else{
-            [self showHUDComplete:@"你还没有解锁这个城市，请先去解锁后再来加入"];
-            [self hideHUD];
-        
-        
+            btn.enabled = YES;
+            [self showHUDText:@"你还没有解锁这个城市，请先解锁后再加入"];
         }
         
         
