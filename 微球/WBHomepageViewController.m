@@ -501,13 +501,9 @@
               
               
           }else{
-              
              [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/deleteComment?commentId=%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.section]). commentId] whenSuccess:^(id representData) {
-                 
                  [_topicsArray removeObjectAtIndex:indexPath.row];
                  [_topicTableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-                 
-                 
              } andFailure:^(NSString *error) {
                 
              }];
@@ -559,27 +555,35 @@
 -(void)concernsOperation:(UIButton *)btn{
     if (btn.tag == 50) {
         if ([btn.titleLabel.text isEqualToString:@"关注"]) {
+            [self showHUD:@"正在关注" isDim:YES];
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
                     [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
                     [_followButton setBackgroundColor:[UIColor initWithBackgroundGray]];
+                    [self showHUDComplete:@"关注成功"];
+                }else{
+                [self showHUDComplete:@"关注失败"];
                 }
-                
             } andFailure:^(NSString *error) {
-                
+                [self showHUDComplete:@"关注失败"];
             }];
  
         }else{
+            [self showHUD:@"正在取消关注" isDim:YES];
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
                     [_followButton setTitle:@"关注" forState:UIControlStateNormal];
                     [_followButton setBackgroundColor:[UIColor initWithGreen]];
+                    [self showHUDComplete:@"取消关注成功"];
+                }else{
+                [self showHUDComplete:@"取消关注失败"];
+                
                 }
                 
             } andFailure:^(NSString *error) {
-                
+                [self showHUDComplete:@"取消关注失败"];
             }];
         
         }

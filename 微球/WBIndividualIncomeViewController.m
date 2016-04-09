@@ -129,7 +129,7 @@
 }
 
 -(void)rightBtnClicked{
-    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"去微信公众号中提现" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"请到微信公众号中提现" preferredStyle:UIAlertControllerStyleAlert];
     [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }]];
