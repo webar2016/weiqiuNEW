@@ -122,6 +122,12 @@
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+-(void)viewDidUnload{
+    [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+}
+
 - (void) keyboardWasShown:(NSNotification *) notif
 {
     [self.view addSubview:_textBgView];

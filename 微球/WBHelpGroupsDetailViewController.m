@@ -12,6 +12,7 @@
 #import "LoadViewController.h"
 #import <RongIMKit/RongIMKit.h>
 #import "WBHomepageViewController.h"
+#import "MyDBmanager.h"
 
 
 
@@ -104,9 +105,14 @@
     _ageButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_scrollView addSubview:_ageButton];
     _headImageView.frame = CGRectMake(4, 20+_imageHeight+5, 30, 30);
-    _nameLabel.frame = CGRectMake(40, 20+_imageHeight+10, 80, 10);
+    
     _timeLabel.frame = CGRectMake(40, 20+_imageHeight+10+15, 80, 10);
-    _ageButton.frame = CGRectMake(130, 20+_imageHeight+10, 20, 10);
+    
+    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
+    CGSize  actualsize =[ _model.tblUser.nickname boundingRectWithSize:CGSizeMake(MAXFLOAT, 10) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
+    
+    _nameLabel.frame = CGRectMake(40, 20+_imageHeight+10, actualsize.width, 10);
+    _ageButton.frame = CGRectMake(40+actualsize.width+10, 20+_imageHeight+10, 20, 10);
 
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:_model.tblUser.dir]];
     _headImageView.layer.masksToBounds = YES;
@@ -123,9 +129,16 @@
     _timeLabel.textColor = [UIColor initWithLightGray];
     
     _ageButton.layer.cornerRadius = 3;
-    [_ageButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
+    if ([_model.tblUser.sex isEqualToString:@"男"]) {
+        [_ageButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
+        _ageButton.backgroundColor = [UIColor initWithGreen];
+    }else{
+        [_ageButton setImage:[UIImage imageNamed:@"icon_female.png"] forState:UIControlStateNormal];
+        _ageButton.backgroundColor = [UIColor initWithPink];
+    }
+    
     [_ageButton setTitle:[NSString stringWithFormat:@"%ld",(long)_model.tblUser.age]  forState:UIControlStateNormal];
-    _ageButton.backgroundColor = [UIColor initWithGreen];
+    
     _ageButton.titleLabel.font = SMALLFONTSIZE;
 
     [self createGroupOne];
@@ -203,6 +216,7 @@
 
 // 加入帮帮团
 -(void)btnClicked:(UIButton *)btn{
+    
 
     if (btn.tag ==100) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -210,23 +224,41 @@
     }else{
         btn.enabled = NO;
         [self showHUD:@"正在加入" isDim:YES];
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",(long)_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
-            _isSuccess = YES;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
-            [self showHUDComplete:@"加入成功，可在【我加入的】查看"];
-            UIButton *btn = (UIButton *)[self.view viewWithTag:101];
-            [btn setEnabled:NO];
-            btn.userInteractionEnabled = NO;
-            [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
-            [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+        
+        MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+        if ([manager  isAddedItemsID:[NSString stringWithFormat:@"%ld",_model.tblUser.cityNum]]) {
             
-        } andFailure:^(NSString *error) {
-            _isSuccess = NO;
-            btn.enabled = YES;
-            [self showHUDComplete:@"加入失败，请稍后重试"];
+            
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",(long)_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+                _isSuccess = YES;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
+                [self showHUDComplete:@"加入成功，可在【我加入的】查看"];
+                UIButton *btn = (UIButton *)[self.view viewWithTag:101];
+                [btn setEnabled:NO];
+                btn.userInteractionEnabled = NO;
+                [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+                [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+                
+            } andFailure:^(NSString *error) {
+                _isSuccess = NO;
+                btn.enabled = YES;
+                [self showHUDComplete:@"加入失败，请稍后重试"];
+                [self hideHUD];
+            }];
+
+            
+            
+        }else{
+            [self showHUDComplete:@"你还没有解锁这个城市，请先去解锁后再来加入"];
             [self hideHUD];
-        }];
+        
+        
+        }
+        
+        
+        
+       
     }
 }
 

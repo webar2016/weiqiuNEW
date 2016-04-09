@@ -42,7 +42,6 @@
 @property (nonatomic,assign) BOOL isOpen;
 @property (nonatomic,copy) NSString *destination;
 @property (nonatomic,copy) NSString *groupSignStr;
-
 @property (nonatomic,copy) NSString *theme;
 @property (nonatomic,assign) NSInteger rankFlag;
 @property (nonatomic,copy) NSString *dir;

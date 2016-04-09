@@ -30,8 +30,12 @@
     UIButton *_ageButton;
     UIImageView *_leftImageView;
     UIImageView *_rightImageView;
+    UIImageView *_localImageView;
+    
     UILabel *_leftLabel;
     UILabel *_rightLabel;
+    UILabel *_localLabel;
+    
 }
 
 @property (nonatomic, copy)UIImageView *mainImageView;

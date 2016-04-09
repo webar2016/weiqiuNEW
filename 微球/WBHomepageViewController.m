@@ -266,11 +266,17 @@
     _sexButton.layer.masksToBounds = YES;
     _sexButton.layer.cornerRadius = 2;
     _sexButton.backgroundColor = [UIColor initWithGreen];
-    [_sexButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
-    [_sexButton setTitle:[NSString stringWithFormat:@" %@",[_userInfo objectForKey:@"sex"]]  forState:UIControlStateNormal];
-    _sexButton.backgroundColor = [UIColor initWithGreen];
+    if ([[_userInfo objectForKey:@"sex"] isEqualToString:@"男"]) {
+        [_sexButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
+            _sexButton.backgroundColor = [UIColor initWithGreen];
+    }else{
+        [_sexButton setImage:[UIImage imageNamed:@"icon_female.png"] forState:UIControlStateNormal];
+            _sexButton.backgroundColor = [UIColor initWithPink];
+    }
+
     _sexButton.titleLabel.font = SMALLFONTSIZE;
-    
+    [_sexButton setTitle:[NSString stringWithFormat:@" %@",[_userInfo objectForKey:@"age"]]  forState:UIControlStateNormal];
+
     _profileLabel.text = [NSString stringWithFormat:@"%@",[_userInfo objectForKey:@"profile"]];
     
     [_attentionLeftButton setTitle:[NSString stringWithFormat:@"%@ 关注",[_userInfo objectForKey:@"concerns"]] forState:UIControlStateNormal];
