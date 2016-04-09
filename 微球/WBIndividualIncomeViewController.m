@@ -129,7 +129,7 @@
 }
 
 -(void)rightBtnClicked{
-    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"请到微信公众号中提现" message:@"微信搜索【微球】或【webarz】即可" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"请前往微信公众号提现" message:@"微信搜索【微球】或【webarz】即可" preferredStyle:UIAlertControllerStyleAlert];
     [alertView addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertView animated:YES completion:nil];
 }

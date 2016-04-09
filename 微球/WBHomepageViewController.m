@@ -718,7 +718,7 @@
         [_coverImage setImage:info[UIImagePickerControllerEditedImage]];
         
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
-        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 0.4);
+        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 0.2);
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/user/updateCover" withParameters:parameters fileData:imageData name:[WBUserDefaults userId] fileName:[NSString stringWithFormat:@"%@.jpg",[WBUserDefaults userId]] mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
             
         } andSuccess:^(id representData) {

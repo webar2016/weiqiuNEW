@@ -264,7 +264,7 @@
     [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         for (NSUInteger index = 0; index < count; index ++) {
-            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 0.4);
+            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 0.2);
             [formData appendPartWithFileData:fileData name:self.nameArray[index] fileName:self.nameArray[index] mimeType:@"image/jpeg"];
         }
         
@@ -319,8 +319,12 @@
     NSString *imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
     
     [picker dismissViewControllerAnimated:YES completion:^{
+        
+        NSData *data = UIImageJPEGRepresentation(image, 0.1);
+        UIImage *currentImage = [UIImage imageWithData:data];
+        
         WBTextAttachment *attacment = [[WBTextAttachment alloc] init];
-        attacment.image = image;
+        attacment.image = currentImage;
         attacment.name = imageName;
         attacment.maxSize = CGSizeMake(SCREENWIDTH - MARGININSIDE * 3, 300);
         if (_textView.textStorage.length != 0) {

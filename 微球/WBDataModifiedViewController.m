@@ -242,7 +242,7 @@
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
             [formatter setDateFormat:@"yyyy-MM-dd"];
             NSString *dateTime = [formatter stringFromDate:[NSDate date]];
-            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.2);
+            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.1);
             [formData appendPartWithFileData:imageData name:dateTime fileName:[NSString stringWithFormat:@"%@head.jpg",dateTime] mimeType:@"image/jpeg"];
             
         }
