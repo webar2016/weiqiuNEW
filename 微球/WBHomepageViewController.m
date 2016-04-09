@@ -563,7 +563,6 @@
 -(void)concernsOperation:(UIButton *)btn{
     if (btn.tag == 50) {
         if ([btn.titleLabel.text isEqualToString:@"关注"]) {
-            [self showHUD:@"正在关注" isDim:YES];
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
@@ -578,7 +577,6 @@
             }];
  
         }else{
-            [self showHUD:@"正在取消关注" isDim:YES];
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
@@ -802,13 +800,10 @@
 }
 
 -(void)shareThisHomePage{
-    NSArray* imageArray = @[[UIImage imageNamed:@"shareIcon.png"]];
     // （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
-    if (imageArray) {
-        
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-        [shareParams SSDKSetupShareParamsByText:@"我分享了一个微球主页，简直太棒了！"
-                                         images:imageArray
+        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的微球主页，快来微球看看吧！",self.navigationItem.title]
+                                         images:@[_userInfo[@"dir"]]
                                             url:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/map/m?userId=%@",self.userId]]
                                           title:@"快来微球征服地球！"
                                            type:SSDKContentTypeAuto];
@@ -844,7 +839,7 @@
                                break;
                        }
                    }
-         ];}
+         ];
     
 }
 

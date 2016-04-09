@@ -20,6 +20,12 @@
         _mainImageView = [[UIImageView alloc]init];
         [self.contentView addSubview:_mainImageView];
         
+        _localLabel = [[UILabel alloc] init];
+        _localLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+        _localLabel.textColor = [UIColor whiteColor];
+        _localLabel.font = MAINFONTSIZE;
+        [_mainImageView addSubview:_localLabel];
+        
         _backgroundViewTop = [[UIView alloc]init];
         [self.contentView addSubview:_backgroundViewTop];
         
@@ -47,15 +53,6 @@
         _ageButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.contentView addSubview:_ageButton];
         _ageButton.layer.cornerRadius = 3;
-        
-        _localImageView = [[UIImageView alloc]init];
-        [self.contentView addSubview:_localImageView ];
-        
-        _localLabel = [[UILabel alloc]init];
-        [self.contentView addSubview:_localLabel];
-        _localLabel.font = SMALLFONTSIZE;
-        _localLabel.textColor = [UIColor initWithLightGray];
-
         
         _leftImageView = [[UIImageView alloc]init];
         [_backgroundViewButtom addSubview:_leftImageView];
@@ -87,6 +84,7 @@
 }
 - (void)createUI:(CGFloat)imageHeight withWidth:(CGFloat)labelWidth{
     _mainImageView.frame = CGRectMake(0, 0, CollectionCellWidth, imageHeight);
+    _localLabel.frame = CGRectMake(0, imageHeight - 30, CollectionCellWidth, 30);
     _backgroundViewTop.frame = CGRectMake(0, imageHeight, CollectionCellWidth, 40);
     _headImageView.frame = CGRectMake(4, imageHeight+5, 30, 30);
     
@@ -100,17 +98,11 @@
     _nickName.frame = CGRectMake(40, imageHeight+10, actualsize.width, 10);
     _ageButton.frame = CGRectMake(40+actualsize.width+10, imageHeight+10, 20, 10);
     
-    _localImageView.frame =CGRectMake(_timelabel.frame.origin.x+labelWidth, imageHeight+10+15, 17, 17);
-    _localLabel.frame = CGRectMake(_timelabel.frame.origin.x+labelWidth+20, imageHeight+10+15, 100, 13);
-    
     _backgroundViewButtom.frame = CGRectMake(0, imageHeight+41, CollectionCellWidth, 23);
     _leftImageView.frame = CGRectMake(5, 1, 17, 17);
     _leftLabel.frame =CGRectMake(20, 3, (CollectionCellWidth)/2, 13);
     _rightImageView.frame =CGRectMake((CollectionCellWidth)/2+5, 1, 17, 17);
     _rightLabel.frame = CGRectMake((CollectionCellWidth)/2+20, 3, 100, 13);
-   
-    
-    _localImageView.image = [UIImage imageNamed:@"icon_destination.png"];
 }
 
 - (void)setModel:(WBCollectionViewModel *)model imageHeight:(CGFloat)imageHeight{
@@ -122,7 +114,7 @@
     //大图
    [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
     
-
+    _localLabel.text = [NSString stringWithFormat:@"  %@",model.destination];
    
    [_headImageView sd_setImageWithURL:[NSURL URLWithString:model.tblUser.dir]];
 
@@ -141,8 +133,6 @@
     
     [_ageButton setTitle:[NSString stringWithFormat:@"%ld",(long)model.tblUser.age]  forState:UIControlStateNormal];
     _ageButton.titleLabel.font = SMALLFONTSIZE;
-    
-    _localLabel.text =  model.destination;
 
     _leftImageView.image = [UIImage imageNamed:@"icon_qiupiao.png"];
     
