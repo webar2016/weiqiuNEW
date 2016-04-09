@@ -43,16 +43,16 @@
 
 -(void)createUI{
     
-    _headImageView.layer.masksToBounds = YES;
-    _headImageView.layer.cornerRadius = 18;
-    if ([WBUserDefaults headIcon]) {
-        _headImageView.image =[WBUserDefaults headIcon];
-    }
-    _nicknameLabel.text = [WBUserDefaults nickname];
-    
-    _contentLabel.layer.masksToBounds = YES;
-    _contentLabel.layer.cornerRadius = 3;
-    _contentLabel.backgroundColor = [UIColor initWithBackgroundGray];
+//    _headImageView.layer.masksToBounds = YES;
+//    _headImageView.layer.cornerRadius = 18;
+//    if ([WBUserDefaults headIcon]) {
+//        _headImageView.image =[WBUserDefaults headIcon];
+//    }
+//    _nicknameLabel.text = [WBUserDefaults nickname];
+//    
+//    _contentLabel.layer.masksToBounds = YES;
+//    _contentLabel.layer.cornerRadius = 3;
+//    _contentLabel.backgroundColor = [UIColor initWithBackgroundGray];
     
     
     _confirmBtn.backgroundColor = [UIColor initWithGreen];
