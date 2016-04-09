@@ -320,7 +320,8 @@
 }
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
-    [self loadData];
+    ((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral = ((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral+5;
+    NSLog(@"%ld",((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral);
 }
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{

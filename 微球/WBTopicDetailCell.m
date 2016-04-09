@@ -330,6 +330,7 @@
 #pragma mark -------点赞-------
 
 -(void)likeTap{
+    
     if (![WBUserDefaults userId] || [[WBUserDefaults userId] integerValue] == _model.userId) {
         return;
     }
@@ -346,7 +347,7 @@
 
 -(void)upLoadLikeTap{
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
-       // [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
+        [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
         [_praiseBtn setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
         [UIView animateWithDuration:1.0f animations:^{
             //                _praiseBtn.transform = CGAffineTransformMakeScale(1.5, 1.5);
