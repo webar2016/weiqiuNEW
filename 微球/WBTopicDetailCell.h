@@ -26,6 +26,23 @@
 -(void)alertViewIntergeal:(NSString *)messageContent messageOpreation:(NSString *)opreation  cancelMessage:(NSString *)cancelMessage;
 //未登录
 -(void)unloginAlert;
+
+/**
+ *仅显示文字
+ */
+-(void)showHUDText:(NSString *)title;
+
+/**
+ *仅显示菊花
+ */
+-(void)showHUDIndicator;
+-(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
+-(void)showHUDComplete:(NSString *)title;
+-(void)hideHUD;
+-(void)hideHUDDelay:(NSTimeInterval)delay;
+
+
+
 @end
 
 @interface WBTopicDetailCell : UITableViewCell

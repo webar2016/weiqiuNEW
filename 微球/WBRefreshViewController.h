@@ -22,7 +22,6 @@
  *仅显示菊花
  */
 -(void)showHUDIndicator;
-
 -(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
 -(void)showHUDComplete:(NSString *)title;
 -(void)hideHUD;

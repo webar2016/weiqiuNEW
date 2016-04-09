@@ -336,27 +336,10 @@
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {
-            
             [self upLoadLikeTap];
-            [_praiseBtn setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
-            [UIView animateWithDuration:1.0f animations:^{
-//                _praiseBtn.transform = CGAffineTransformMakeScale(1.5, 1.5);
-                _likeTip.frame = CGRectMake(SCREENWIDTH * 2 / 3, _maxHeight - 40, 124, 23);
-                _likeTip.alpha = 1;
-                _score += 5;
-                if (_score > 1000) {
-                    [_praiseBtn setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
-                }else{
-                    [_praiseBtn setTitle:[NSString stringWithFormat:@" %ld球币",(long)_score] forState:UIControlStateNormal];
-                }
-            } completion:^(BOOL finished) {
-                [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0];
-            }];
-            
         }else{
             [self.delegate alertViewIntergeal:@"你当前的积分不足，请充值后再来打赏吧！" messageOpreation:@"充值" cancelMessage:@"算了"];
         }
-        
     } andFailure:^(NSString *error) {
     }];
 }
@@ -364,7 +347,22 @@
 -(void)upLoadLikeTap{
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
        // [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
+        [_praiseBtn setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
+        [UIView animateWithDuration:1.0f animations:^{
+            //                _praiseBtn.transform = CGAffineTransformMakeScale(1.5, 1.5);
+            _likeTip.frame = CGRectMake(SCREENWIDTH * 2 / 3, _maxHeight - 40, 124, 23);
+            _likeTip.alpha = 1;
+            _score += 5;
+            if (_score > 1000) {
+                [_praiseBtn setTitle:[NSString stringWithFormat:@" %.1fk球币",_score/1000] forState:UIControlStateNormal];
+            }else{
+                [_praiseBtn setTitle:[NSString stringWithFormat:@" %ld球币",(long)_score] forState:UIControlStateNormal];
+            }
+        } completion:^(BOOL finished) {
+            [self performSelector:@selector(hideWindow:) withObject:nil afterDelay:0];
+        }];
     } andFailure:^(NSString *error) {
+        [self.delegate showHUDText:@"网络有问题，请检查网络"];
         
     }];
 }
