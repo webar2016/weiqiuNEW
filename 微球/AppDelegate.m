@@ -212,6 +212,7 @@ didRegisterUserNotificationSettings:
 }
 
 -(void)getRCToken{
+    __weak AppDelegate *weakSelf = self;
     if ([WBUserDefaults token] && !_tokenOutOfTime) {
         [self loginRongCloudWithToken:[WBUserDefaults token]];
     } else {
@@ -223,7 +224,7 @@ didRegisterUserNotificationSettings:
                 NSDictionary *token = [NSDictionary dictionaryWithDictionary:result];
                 [WBUserDefaults setToken:token[@"token"]];
                 _tokenOutOfTime = NO;
-                [self loginRongCloudWithToken:token[@"token"]];
+                [weakSelf loginRongCloudWithToken:token[@"token"]];
             }
         } andFailure:^(NSString *error) {
             NSLog(@"获取token错误");
@@ -232,15 +233,16 @@ didRegisterUserNotificationSettings:
 }
 
 -(void)loginRongCloudWithToken:(NSString *)token{
+    __weak AppDelegate *weakSelf = self;
     [[RCIM sharedRCIM] connectWithToken:token success:^(NSString *userId) {
         NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
-        [self getUnreadMsgNumber];
+        [weakSelf getUnreadMsgNumber];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"setGroupPage" object:self];
     } error:^(RCConnectErrorCode status) {
         NSLog(@"登陆的错误码为:%ld", (long)status);
     } tokenIncorrect:^{
         _tokenOutOfTime = YES;
-        [self getRCToken];
+        [weakSelf getRCToken];
         NSLog(@"token错误，重新获取");
     }];
 }
