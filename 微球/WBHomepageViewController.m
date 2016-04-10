@@ -595,17 +595,6 @@
     }
 }
 
--(CGFloat)calculateStationWidth:(NSString *)string andWithTextWidth:(CGFloat)textWidth anfont:(CGFloat)fontSize{
-    UIFont * tfont = [UIFont systemFontOfSize:fontSize];
-    //高度估计文本大概要显示几行，宽度根据需求自己定义。 MAXFLOAT 可以算出具体要多高
-    CGSize size =CGSizeMake(textWidth,CGFLOAT_MAX);
-    //    获取当前文本的属性
-    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:tfont,NSFontAttributeName,nil];
-    //ios7方法，获取文本需要的size，限制宽度
-    CGSize  actualsize =[string boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
-    return actualsize.height;
-}
-
 -(void)changeSelectedPage:(UIButton *)sender{
     switch (sender.tag) {
         case 111:{
@@ -741,7 +730,7 @@
             [WBUserDefaults setCoverImage:_coverImage.image];
             [self showHUDComplete:@"上传成功"];
         } andFailure:^(NSString *error) {
-            [self showHUDComplete:@"上传失败"];
+            [self showHUDComplete:@"上传失败，请稍后重试"];
         }];
         
     }else{
@@ -817,16 +806,14 @@
 }
 
 -(void)shareThisHomePage{
-    // （注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
         [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的微球主页，快来微球看看吧！",self.navigationItem.title]
-                                         images:@[_userInfo[@"dir"]]
+                                         images:@[[UIImage imageWithData:UIImageJPEGRepresentation(_headicon.image, 0.3)]]
                                             url:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/map/m?userId=%@",self.userId]]
                                           title:@"快来微球征服地球！"
                                            type:SSDKContentTypeAuto];
         
-        //2、分享（可以弹出我们的分享菜单和编辑界面）
-        [ShareSDK showShareActionSheet:nil //要显示菜单的视图, iPad版中此参数作为弹出菜单的参照视图，只有传这个才可以弹出我们的分享菜单，可以传分享的按钮对象或者自己创建小的view 对象，iPhone可以传nil不会影响
+        [ShareSDK showShareActionSheet:nil
                                  items:nil
                            shareParams:shareParams
                    onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
@@ -844,7 +831,7 @@
 //                           }
                            case SSDKResponseStateFail:
                            {
-                               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败"
+                               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败，请稍后重试"
                                                                                message:nil//[NSString stringWithFormat:@"%@",error]
                                                                               delegate:nil
                                                                      cancelButtonTitle:@"好的"
