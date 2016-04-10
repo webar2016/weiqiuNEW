@@ -10,6 +10,10 @@
 #import "WBRefreshViewController.h"
 #import <StoreKit/StoreKit.h>
 
+typedef void (^ReloadDataBlock)(void);
 @interface WBReChargeViewController : WBRefreshViewController
+@property(nonatomic,copy)ReloadDataBlock reloadDataBlock;
+
+
 
 @end

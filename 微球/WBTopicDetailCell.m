@@ -258,12 +258,13 @@
     
     NSString *shareURL = [NSString stringWithFormat:@"http://121.40.132.44:92/share/topic?commentId=%ld&newsType=%ld",_model.commentId,_cellType];
     
-        
+    
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+       //[shareParams SSDKEnableUseClientShare];
         
         if (_cellType == 1) {
             [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的照片，快来微球看看吧！",_model.tblUser.nickname]
-                                             images:@[_model.dir]
+                                             images:@[[UIImage imageNamed:@"icon_gps.png"]]
                                                 url:[NSURL URLWithString:shareURL]
                                               title:_model.topicContent
                                                type:SSDKContentTypeAuto];
@@ -297,24 +298,25 @@
                    onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
                        
                        switch (state) {
-//                           case SSDKResponseStateSuccess:
-//                           {
-//                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
-//                                                                                   message:nil
-//                                                                                  delegate:nil
-//                                                                         cancelButtonTitle:@"好的"
-//                                                                         otherButtonTitles:nil];
-//                               [alertView show];
-//                               break;
-//                           }
+                           case SSDKResponseStateSuccess:
+                           {
+                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
+                                                                                   message:nil
+                                                                                  delegate:nil
+                                                                         cancelButtonTitle:@"好的"
+                                                                         otherButtonTitles:nil];
+                               [alertView show];
+                               break;
+                           }
                            case SSDKResponseStateFail:
                            {
                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败"
-                                                                               message:nil//[NSString stringWithFormat:@"%@",error]
+                                                                               message:[NSString stringWithFormat:@"%@",error]
                                                                               delegate:nil
                                                                      cancelButtonTitle:@"好的"
                                                                      otherButtonTitles:nil, nil];
                                [alert show];
+                               NSLog(@"%@",[NSString stringWithFormat:@"%@",error]);
                                break;
                            }
                            default:

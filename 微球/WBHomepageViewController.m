@@ -655,11 +655,25 @@
     [self.navigationController pushViewController:chatView animated:YES];
 }
 
+
+//返沪修改
 - (void)ModefyViewDelegate{
-    
     _headicon.image= [WBUserDefaults headIcon];
-    
     _nicknameLabel.text = [WBUserDefaults nickname];
+    CGSize size = [_nicknameLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:_nicknameLabel.font,NSFontAttributeName, nil]];
+    _sexButton.frame = CGRectMake(SCREENWIDTH/2+size.width/2+15, _nicknameLabel.frame.origin.y + 2, 30, 15);
+  [_sexButton setTitle:[WBUserDefaults age] forState:UIControlStateNormal];
+    
+    if ([[WBUserDefaults sex]isEqualToString:@"男"]) {
+        [_sexButton setImage:[UIImage imageNamed:@"icon_male.png"] forState:UIControlStateNormal];
+        _sexButton.backgroundColor = [UIColor initWithGreen];
+    }else{
+        [_sexButton setImage:[UIImage imageNamed:@"icon_female.png"] forState:UIControlStateNormal];
+        _sexButton.backgroundColor = [UIColor initWithPink];
+    }
+
+    _profileLabel.text = [WBUserDefaults profile];
+    
 }
 
 
@@ -671,7 +685,7 @@
     _imagePicker.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     _imagePicker.videoQuality = UIImagePickerControllerQualityTypeLow;
     _imagePicker.allowsEditing = YES;
-    _imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
+    _imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     
     UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];

@@ -171,7 +171,7 @@
     _imagePickerController.videoMaximumDuration = 15;
     
     //相机类型（拍照、录像...）字符串需要做相应的类型转换
-    _imagePickerController.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
+    _imagePickerController.mediaTypes = @[(NSString *)kUTTypeMovie];
     
     //视频上传质量
     //UIImagePickerControllerQualityTypeHigh高清

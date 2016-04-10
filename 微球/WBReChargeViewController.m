@@ -132,7 +132,7 @@
 
 
 - (void)confirmBtnClick{
-    
+
     
     NSArray *product;//qiupiao_ID
     if ([_moneyString isEqualToString:@"420个球币"]) {
@@ -157,6 +157,9 @@
     
     
     [self getProductInfo:product];
+    [self showHUD:@"正在请求中，请稍后" isDim:YES];
+    [_rightBtton setEnabled:NO];
+    [_rightBtton setBackgroundColor:[UIColor initWithBackgroundGray]];
 }
 
 
@@ -176,6 +179,9 @@
     NSArray *myProduct = response.products;
     if (myProduct.count == 0) {
         NSLog(@"无法获取产品信息，购买失败。");
+        [self showHUDComplete:@"无法获取产品信息，购买失败。"];
+        [_rightBtton setEnabled:YES];
+        [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
         return;
     }
     SKPayment * payment = [SKPayment paymentWithProduct:myProduct[0]];
@@ -184,6 +190,7 @@
 
 //请求失败
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+    
     NSLog(@"商品信息请求错误:%@", error);
     
 }
@@ -246,12 +253,27 @@
         
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
         } andSuccess:^(id representData) {
+            [self showHUDComplete:@"购买成功"];
+            [_rightBtton setEnabled:YES];
+            [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
+           
+            self.reloadDataBlock();
+
             NSLog(@"%@",representData);
             NSLog(@"------success-----");
         } andFailure:^(NSString *error) {
+            [self showHUDComplete:@"购买失败"];
+            [_rightBtton setEnabled:YES];
+            [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
+
             NSLog(@"------failure-----");
         }];
         // 向自己的服务器验证购买凭证
+    }else{
+    [self showHUDComplete:@"购买失败"];
+    [_rightBtton setEnabled:YES];
+    [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
+
     }
     // Remove the transaction from the payment queue.
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
@@ -261,8 +283,16 @@
     if(transaction.error.code != SKErrorPaymentCancelled) {
         NSLog(@"%@",transaction.error);
         NSLog(@"购买失败");
+        [self showHUDComplete:@"购买失败"];
+        [_rightBtton setEnabled:YES];
+        [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
+
     } else {
         NSLog(@"用户取消交易");
+        [self showHUDComplete:@"用户取消交易"];
+        [_rightBtton setEnabled:YES];
+        [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
+
     }
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
