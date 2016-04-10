@@ -260,7 +260,7 @@
     
     
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-       //[shareParams SSDKEnableUseClientShare];
+       [shareParams SSDKEnableUseClientShare];
         
         if (_cellType == 1) {
             [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的照片，快来微球看看吧！",_model.tblUser.nickname]

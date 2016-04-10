@@ -26,11 +26,10 @@
 			<key>CFBundleURLIconFile</key>
 			<string>shareIcon</string>
 			<key>CFBundleURLName</key>
-			<string>sinaweibo</string>
+			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>sinaweibosso.2242391106</string>
-				<string>2242391106</string>
+				<string>wx09e38bd96e4f93f4</string>
 			</array>
 		</dict>
 		<dict>
@@ -39,10 +38,22 @@
 			<key>CFBundleURLIconFile</key>
 			<string>shareIcon</string>
 			<key>CFBundleURLName</key>
-			<string>weixin</string>
+			<string>sinaweibosso</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx09e38bd96e4f93f4</string>
+				<string>wb2242391106</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>shareIcon</string>
+			<key>CFBundleURLName</key>
+			<string>sinaweibosso</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sinaweibosso.2242391106</string>
 			</array>
 		</dict>
 	</array>
