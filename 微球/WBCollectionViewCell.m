@@ -21,9 +21,15 @@
         [self.contentView addSubview:_mainImageView];
         
         _localLabel = [[UILabel alloc] init];
-        _localLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+     //   _localLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
         _localLabel.textColor = [UIColor whiteColor];
         _localLabel.font = MAINFONTSIZE;
+       // _localLabel.textAlignment = NSTextAlignmentCenter;
+//        _localLabel.layer.masksToBounds = YES;
+//        _localLabel.layer.cornerRadius = 3;
+        _localLabel.shadowOffset = CGSizeMake(1, 1);
+        _localLabel.shadowColor = [UIColor initWithDarkGray];
+        
         [_mainImageView addSubview:_localLabel];
         
         _backgroundViewTop = [[UIView alloc]init];
@@ -84,6 +90,10 @@
 }
 - (void)createUI:(CGFloat)imageHeight withWidth:(CGFloat)labelWidth{
     _mainImageView.frame = CGRectMake(0, 0, CollectionCellWidth, imageHeight);
+    
+//    NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
+//    CGSize  actualsize1=[_model.destination boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
+    
     _localLabel.frame = CGRectMake(0, imageHeight - 30, CollectionCellWidth, 30);
     _backgroundViewTop.frame = CGRectMake(0, imageHeight, CollectionCellWidth, 40);
     _headImageView.frame = CGRectMake(4, imageHeight+5, 30, 30);
@@ -110,6 +120,7 @@
     
     NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
     CGSize  actualsize =[model.beginTime boundingRectWithSize:CGSizeMake(MAXFLOAT, 10) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
+    
     [self createUI:imageHeight withWidth:actualsize.width];
     //大图
    [_mainImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
