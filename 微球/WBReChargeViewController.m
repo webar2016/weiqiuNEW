@@ -132,7 +132,7 @@
 
 
 - (void)confirmBtnClick{
-
+    
     
     NSArray *product;//qiupiao_ID
     if ([_moneyString isEqualToString:@"420个球币"]) {
@@ -193,7 +193,8 @@
 
 //请求失败
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
-    
+    [self showHUDText:@"连接错误，请稍后重试"];
+    self.navigationItem.rightBarButtonItem.enabled = YES;
     NSLog(@"商品信息请求错误:%@", error);
 }
 
