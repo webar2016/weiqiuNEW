@@ -264,7 +264,7 @@
     [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         for (NSUInteger index = 0; index < count; index ++) {
-            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 0.2);
+            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 0.4);
             [formData appendPartWithFileData:fileData name:self.nameArray[index] fileName:self.nameArray[index] mimeType:@"image/jpeg"];
         }
         

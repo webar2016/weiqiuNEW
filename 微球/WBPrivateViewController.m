@@ -46,9 +46,6 @@
         return;
     }
     WBHomepageViewController *friendPage = [[WBHomepageViewController alloc] init];
-    if ([userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
-        userId = [WBUserDefaults userId];
-    }
     friendPage.userId = userId;
     [self.navigationController pushViewController:friendPage animated:YES];
 }

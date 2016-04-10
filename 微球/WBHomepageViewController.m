@@ -160,7 +160,7 @@
         [_headView addSubview:chatBtn];
     }
     
-    _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 220, SCREENWIDTH, 18)];
+    _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 215, SCREENWIDTH, 18)];
     _nicknameLabel.font = BIGFONTSIZE;
     _nicknameLabel.textColor = [UIColor initWithNormalGray];
     _nicknameLabel.textAlignment = NSTextAlignmentCenter;
@@ -719,7 +719,7 @@
         [_coverImage setImage:info[UIImagePickerControllerEditedImage]];
         
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
-        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 0.2);
+        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 0.4);
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/user/updateCover" withParameters:parameters fileData:imageData name:[WBUserDefaults userId] fileName:[NSString stringWithFormat:@"%@.jpg",[WBUserDefaults userId]] mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
             
         } andSuccess:^(id representData) {

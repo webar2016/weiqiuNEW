@@ -155,6 +155,7 @@
         return;
     }
     
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     [self showHUD:@"正在连接" isDim:YES];
     [self getProductInfo:product];
 }
@@ -176,6 +177,7 @@
     NSArray *myProduct = response.products;
     if (myProduct.count == 0) {
         [self showHUDText:@"无法获取购买信息，请稍后重试"];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
         NSLog(@"无法获取产品信息，购买失败。");
         return;
     }
@@ -186,6 +188,7 @@
 //请求失败
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
     [self showHUDText:@"连接错误，请稍后重试"];
+    self.navigationItem.rightBarButtonItem.enabled = YES;
     NSLog(@"商品信息请求错误:%@", error);
 }
 
@@ -247,11 +250,11 @@
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
         } andSuccess:^(id representData) {
             [self showHUDText:@"充值成功，若未到账请联系【微球】公众号"];
+            self.navigationItem.rightBarButtonItem.enabled = YES;
             NSLog(@"%@",representData);
-            NSLog(@"------success-----");
         } andFailure:^(NSString *error) {
             [self showHUDText:@"充值失败，请稍后重试"];
-            NSLog(@"------failure-----");
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         }];
         // 向自己的服务器验证购买凭证
     }
@@ -263,9 +266,11 @@
     if(transaction.error.code != SKErrorPaymentCancelled) {
         NSLog(@"%@",transaction.error);
         [self showHUDText:@"充值失败，请稍后重试"];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
         NSLog(@"购买失败");
     } else {
         [self showHUDText:@"您已取消充值，感谢您的支持"];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
         NSLog(@"用户取消交易");
     }
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
