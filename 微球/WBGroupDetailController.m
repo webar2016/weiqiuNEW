@@ -14,6 +14,7 @@
 #import <RongIMKit/RongIMKit.h>
 
 #import "NSString+string.h"
+#import "WBIndividualIncomeViewController.h"
 
 #define SCORE_STEP 50
 #define ALL_TIME  15*24*60*60
@@ -38,6 +39,8 @@
     
     BOOL        _imageFromAlbum;
     BOOL        _isSuccess;
+    
+    BOOL        _isEnough;
 }
 
 @end
@@ -54,7 +57,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _isEnough = YES;
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
@@ -126,7 +129,15 @@
         if ([integral integerValue]>[_scoreLable.text integerValue]) {
             [self nextStep];
         }else{
-            [self showHUDComplete:@"积分不足,请充值"];
+            _isEnough = NO;
+           [self showHUDComplete:@"积分不足,请充值"];
+            
+//            [self showHUD:@"积分不足,请充值" isDim:YES];
+//            [self hideHUD];
+           // [self showHUDComplete:@"积分不足,请充值"];
+            //WBIndividualIncomeViewController *IVC = [[WBIndividualIncomeViewController alloc]init];
+            
+            
         }
     } andFailure:^(NSString *error) {
         [self showHUDComplete:@"创建失败，请稍后重试"];
@@ -168,9 +179,17 @@
 }
 
 -(void)dismissView{
-    self.tabBarController.selectedIndex = 2;
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (_isSuccess) {
+        self.tabBarController.selectedIndex = 2;
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
+
+            }
+    if (!_isEnough) {
+        WBIndividualIncomeViewController *IVC = [[WBIndividualIncomeViewController alloc]init];
+        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController pushViewController:IVC animated:YES];
+    }
 }
 
 #pragma mark - UI
@@ -392,6 +411,9 @@
     self.hud.labelText = title;
     [self.hud hide:YES afterDelay:2];
     if (_isSuccess) {
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0f];
+    }
+    if (!_isEnough) {
         [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0f];
     }
 }

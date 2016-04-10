@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<true/>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -28,13 +24,36 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLIconFile</key>
-			<string>btn_add@2x.png</string>
+			<string>shareIcon</string>
 			<key>CFBundleURLName</key>
-			<string>微信</string>
+			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wx09e38bd96e4f93f4</string>
-				<string>548201673</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>shareIcon</string>
+			<key>CFBundleURLName</key>
+			<string>sinaweibosso</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wb2242391106</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>shareIcon</string>
+			<key>CFBundleURLName</key>
+			<string>sinaweibosso</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sinaweibosso.2242391106</string>
 			</array>
 		</dict>
 	</array>
@@ -109,6 +128,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

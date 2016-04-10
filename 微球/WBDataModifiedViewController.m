@@ -177,9 +177,11 @@
     if ([WBUserDefaults birthday]) {
         ((UILabel *)[self.view viewWithTag:202]).text = [NSString stringWithFormat:@"%@",[WBUserDefaults birthday]];
     }
+    
     if ([WBUserDefaults city]) {
          ((UILabel *)[self.view viewWithTag:203]).text = [NSString stringWithFormat:@"%@",[WBUserDefaults city]];
     }
+    
     if ([WBUserDefaults headIcon]) {
         _headImageView.image =[WBUserDefaults headIcon];
     }
@@ -217,6 +219,8 @@
     [self.view addSubview:_datePickerView];
     NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];//设置为中文显示3
     _datePicker.locale = locale;
+    
+    
 }
 
 
@@ -265,7 +269,8 @@
         }
         [WBUserDefaults setCity:((UILabel*)[self.view viewWithTag:203]).text];
         [WBUserDefaults setProfile:_introduceTextView.text];
-        
+
+        [WBUserDefaults setAge:[NSString stringWithFormat:@"%ld",[self calculateAge]]];
         
         [self.delegate ModefyViewDelegate];
         [self showHUDComplete:@"修改成功"];
@@ -281,6 +286,37 @@
     
 }
 
+
+-(NSInteger)calculateAge{
+    
+    //转换时间格式
+    NSDateFormatter*df = [[NSDateFormatter alloc]init];//格式化
+    [df setDateFormat:@"yyyy-MM-dd"];
+    [df setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"]];
+    NSLog(@"%@",[df dateFromString:((UILabel *)[self.view viewWithTag:202]).text]);
+       // 出生日期转换 年月日
+    NSDateComponents *components1 = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[df dateFromString:((UILabel *)[self.view viewWithTag:202]).text]];
+    NSInteger brithDateYear  = [components1 year];
+    NSInteger brithDateDay   = [components1 day];
+    NSInteger brithDateMonth = [components1 month];
+    
+    // 获取系统当前 年月日
+    NSDateComponents *components2 = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+    NSInteger currentDateYear  = [components2 year];
+    NSInteger currentDateDay   = [components2 day];
+    NSInteger currentDateMonth = [components2 month];
+    
+    // 计算年龄
+    NSInteger iAge = currentDateYear - brithDateYear - 1;
+    if ((currentDateMonth > brithDateMonth) || (currentDateMonth == brithDateMonth && currentDateDay >= brithDateDay)) {
+        iAge++;
+    }
+    
+    return iAge;
+
+
+}
+
 #pragma mark - === 提示框 图片选择===
 - (void)headImagePick
 {
@@ -292,7 +328,7 @@
     _imagePicker.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     _imagePicker.videoQuality = UIImagePickerControllerQualityTypeLow;
     _imagePicker.allowsEditing = YES;
-    _imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
+    _imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
 
     UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
@@ -359,6 +395,11 @@
 }
 
 -(void)showDatePicker{
+    NSDateFormatter*df = [[NSDateFormatter alloc]init];//格式化
+    [df setDateFormat:@"yyyy-MM-dd"];
+ //   [df setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"]];
+  //  NSLog(@"%@",[df dateFromString:((UILabel *)[self.view viewWithTag:202]).text]);
+    _datePicker.date =[df dateFromString:[WBUserDefaults birthday]];
     [UIView animateWithDuration:0.3 animations:^{
         _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4 + 60);
     }];

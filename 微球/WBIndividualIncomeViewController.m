@@ -28,7 +28,11 @@
     
 
 }
-
+- (void)loadView {
+    [super loadView];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    return;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -125,6 +129,9 @@
 
 -(void)leftBtnClicked{
     WBReChargeViewController *RVC = [[WBReChargeViewController alloc]init];
+    RVC.reloadDataBlock = ^(){
+        [self loadData];
+    };
     [self.navigationController pushViewController:RVC animated:YES];
 }
 
