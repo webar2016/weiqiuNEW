@@ -120,7 +120,7 @@
     }
 
     
-    [self showHUD:@"正在校验积分" isDim:NO];
+    [self showHUD:@"正在创建帮帮团" isDim:NO];
     NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/integral/getUserIntegral?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -148,7 +148,6 @@
 
 -(void)nextStep{
     
-    [self showHUD:@"正在努力上传" isDim:NO];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
     self.dataDic[@"beginTime"] = _currentDate;
@@ -333,7 +332,7 @@
 -(void)imagePickerAlert{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     [alert addAction:({
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"从手机相册选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             _imageFromAlbum = YES;
             [self imagePicker];
         }];
@@ -371,7 +370,7 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     _imageScale = image.size.height / image.size.width;
-    _fileData = UIImageJPEGRepresentation(image, 0.2);
+    _fileData = UIImageJPEGRepresentation(image, 0.4);
     
     if (!_imageFromAlbum) {
         UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);

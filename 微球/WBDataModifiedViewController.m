@@ -83,6 +83,8 @@
 -(void)createUI{
     _bigImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 140)];
     _bigImageView.backgroundColor = [UIColor initWithBackgroundGray];
+    _bigImageView.layer.masksToBounds = YES;
+    _bigImageView.contentMode = UIViewContentModeScaleAspectFill;
     _bigImageView.image = [WBUserDefaults coverImage];
     [self.view addSubview:_bigImageView];
     

@@ -155,7 +155,8 @@
         return;
     }
     
-    
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self showHUD:@"正在连接" isDim:YES];
     [self getProductInfo:product];
     [self showHUD:@"正在请求中，请稍后" isDim:YES];
     [_rightBtton setEnabled:NO];
@@ -178,6 +179,8 @@
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     NSArray *myProduct = response.products;
     if (myProduct.count == 0) {
+        [self showHUDText:@"无法获取购买信息，请稍后重试"];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
         NSLog(@"无法获取产品信息，购买失败。");
         [self showHUDComplete:@"无法获取产品信息，购买失败。"];
         [_rightBtton setEnabled:YES];
@@ -192,13 +195,11 @@
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
     
     NSLog(@"商品信息请求错误:%@", error);
-    
 }
 
 - (void)requestDidFinish:(SKRequest *)request {
+    [self hideHUD];
     NSLog(@"请求结束");
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -260,7 +261,6 @@
             self.reloadDataBlock();
 
             NSLog(@"%@",representData);
-            NSLog(@"------success-----");
         } andFailure:^(NSString *error) {
             [self showHUDComplete:@"购买失败"];
             [_rightBtton setEnabled:YES];
@@ -282,12 +282,16 @@
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
     if(transaction.error.code != SKErrorPaymentCancelled) {
         NSLog(@"%@",transaction.error);
+        [self showHUDText:@"充值失败，请稍后重试"];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
         NSLog(@"购买失败");
         [self showHUDComplete:@"购买失败"];
         [_rightBtton setEnabled:YES];
         [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
 
     } else {
+        [self showHUDText:@"您已取消充值，感谢您的支持"];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
         NSLog(@"用户取消交易");
         [self showHUDComplete:@"用户取消交易"];
         [_rightBtton setEnabled:YES];
@@ -300,16 +304,5 @@
     // 对于已购商品，处理恢复购买的逻辑
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

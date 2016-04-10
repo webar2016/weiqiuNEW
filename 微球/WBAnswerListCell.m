@@ -13,14 +13,13 @@
 
 @interface WBAnswerListCell ()
 
-@property (nonatomic, assign) CGFloat maxHeight;
-
 @end
 
 @implementation WBAnswerListCell
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(WBSingleAnswerModel *)model{
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        
         _margin = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 1)];
         _margin.backgroundColor = [UIColor initWithBackgroundGray];
         
@@ -28,13 +27,11 @@
         
         [self setUpNickName];
         
-        [self setUpAnswerByText:model.answerText];
+        [self setUpAnswer];
         
         [self setUpScore];
         
         [self setUpUnit];
-        
-        _maxHeight = MAX(CGRectGetMaxY(_unit.frame), CGRectGetMaxY(_answer.frame));
         
         [self addSubview:_margin];
         [self addSubview:_nickName];
@@ -42,8 +39,6 @@
         [self addSubview:_answer];
         [self addSubview:_score];
         [self addSubview:_unit];
-        
-        self.frame = CGRectMake(0, 0, SCREENWIDTH, _maxHeight + MARGINOUTSIDE);
     }
     return self;
 }
@@ -62,10 +57,8 @@
     _nickName.textColor = [UIColor initWithLightGray];
 }
 
--(void)setUpAnswerByText:(NSString *)text{
-    CGSize size = [text adjustSizeWithWidth:(SCREENWIDTH -MARGINOUTSIDE * 3 - 35) andFont:MAINFONTSIZE];
-    size.height > 51 ? size.height = 51 : size.height;
-    _answer = [[UILabel alloc] initWithFrame:(CGRect){{MARGINOUTSIDE * 3 + 26, MARGINOUTSIDE * 1.5 + 16}, {size.width,size.height + 14}}];
+-(void)setUpAnswer{
+    _answer = [[UILabel alloc] initWithFrame:CGRectZero];
     _answer.font = MAINFONTSIZE;
     _answer.textColor = [UIColor initWithNormalGray];
 }
@@ -97,17 +90,26 @@
     _nickName.text = model.tblUser.nickname;
     
     _answer.text = [model.answerText replaceImageSign];
+    CGSize size = [_answer.text adjustSizeWithWidth:(SCREENWIDTH -MARGINOUTSIDE * 3 - 35) andFont:MAINFONTSIZE];
+    size.height > 51 ? size.height = 51 : size.height;
     _answer.numberOfLines = 3;
+    _answer.frame = (CGRect){{MARGINOUTSIDE * 3 + 26, MARGINOUTSIDE * 1.5 + 20}, {size.width,size.height + 14}};
     
     [_userIcon sd_setImageWithURL:model.tblUser.dir];
     
     float score = (float)model.getIntegral;
     if (score >= 1000) {
         score = score / 1000;
-        _score.text = [NSString stringWithFormat:@"%.1fk",score];
+        _score.text = [NSString stringWithFormat:@"%dk",(int)score];
     }else{
         _score.text = [NSString stringWithFormat: @"%ld", (long)score];
     }
+}
+
++(CGFloat)getCellHeightWithModel:(WBSingleAnswerModel *)model{
+    CGFloat answerHeight = [[model.answerText replaceImageSign] adjustSizeWithWidth:(SCREENWIDTH -MARGINOUTSIDE * 3 - 35) andFont:MAINFONTSIZE].height;
+    answerHeight > 51 ? answerHeight = 51 : answerHeight;
+    return MAX(MARGINOUTSIDE * 2 + 57, answerHeight + MARGINOUTSIDE * 1.5 + 34);
 }
 
 

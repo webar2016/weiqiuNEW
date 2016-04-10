@@ -284,7 +284,7 @@
     WBAnswerListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil)
     {
-        cell = [[WBAnswerListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID withData:self.answerList[indexPath.row]];
+        cell = [[WBAnswerListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     cell.tag = indexPath.row;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -294,8 +294,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-    return cell.frame.size.height;
+    return [WBAnswerListCell getCellHeightWithModel:self.answerList[indexPath.row]];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

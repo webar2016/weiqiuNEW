@@ -7,8 +7,11 @@
 //
 
 #import <RongIMKit/RongIMKit.h>
+#import "MBProgressHUD.h"
 
 @interface WBChatImageViewer : RCImagePreviewController
+
+@property (nonatomic,strong)MBProgressHUD *hud;
 
 -(instancetype)initWithChatModel:(RCMessageModel *)model;
 

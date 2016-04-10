@@ -34,6 +34,8 @@
 
 @property (nonatomic, retain) id model;
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withData:(id)model;
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+
++(CGFloat)getCellHeightWithModel:(id)model;
 
 @end

@@ -160,7 +160,7 @@
         [_headView addSubview:chatBtn];
     }
     
-    _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 220, SCREENWIDTH, 18)];
+    _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 215, SCREENWIDTH, 18)];
     _nicknameLabel.font = BIGFONTSIZE;
     _nicknameLabel.textColor = [UIColor initWithNormalGray];
     _nicknameLabel.textAlignment = NSTextAlignmentCenter;
@@ -461,7 +461,7 @@
         WBQuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SecondPageCell];
         if (cell == nil)
         {
-            cell = [[WBQuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SecondPageCell withData:_answersArray[indexPath.row]];
+            cell = [[WBQuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SecondPageCell];
         }
         cell.tag = indexPath.row;
         cell.delegate = self;
@@ -475,8 +475,7 @@
     if (tableView.tag == 100) {
         return [_rowHeightArray[indexPath.section] floatValue];
     } else {
-        UITableViewCell *cell = [self tableView:_answerTableView cellForRowAtIndexPath:indexPath];
-        return cell.frame.size.height;
+        return [WBQuestionTableViewCell getCellHeightWithModel:_answersArray[indexPath.row]];
     }
 }
 
@@ -687,10 +686,9 @@
     _imagePicker.allowsEditing = YES;
     _imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     
-    UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-    }];
+    UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     //拍照：
-    UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         //打开相机
         _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:_imagePicker animated:YES completion:^{
@@ -698,18 +696,23 @@
         }];
     }];
     //相册
-    UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"从手机相册选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:_imagePicker animated:YES completion:^{
             
         }];
-        
+    }];
+    //相册
+    UIAlertAction * act4 = [UIAlertAction actionWithTitle:@"查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_coverImage.image];
+        [self presentViewController:viewer animated:YES completion:nil];
     }];
     
-    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"个人主页封面" message:@"选一张你喜欢的照片\n作为你的个人主页封面吧！" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"个人主页封面" message:@"选一张你喜欢的照片\n作为你的个人主页封面吧" preferredStyle:UIAlertControllerStyleActionSheet];
     [aleVC addAction:act1];
-    [aleVC addAction:act2];
     [aleVC addAction:act3];
+    [aleVC addAction:act2];
+    [aleVC addAction:act4];
     [self presentViewController:aleVC animated:YES completion:nil];
 }
 
@@ -730,7 +733,7 @@
         [_coverImage setImage:info[UIImagePickerControllerEditedImage]];
         
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
-        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 0.2);
+        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 0.4);
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/user/updateCover" withParameters:parameters fileData:imageData name:[WBUserDefaults userId] fileName:[NSString stringWithFormat:@"%@.jpg",[WBUserDefaults userId]] mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
             
         } andSuccess:^(id representData) {

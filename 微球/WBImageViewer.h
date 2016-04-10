@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WBImageViewer : UIViewController
+@interface WBImageViewer : WBRefreshViewController
 
 @property (nonatomic, weak) UIImage *image;
 

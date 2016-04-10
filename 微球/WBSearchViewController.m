@@ -149,8 +149,7 @@
         if (self.questionsArray.count == 0) {
             return 40;
         }
-        UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-        return cell.frame.size.height;
+        return [WBQuestionTableViewCell getCellHeightWithModel:self.questionsArray[indexPath.row]];
     } else {
         if (self.usersArray.count == 0) {
             return 40;
@@ -170,29 +169,12 @@
             return  cell;
         }
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        NSString *cellID = [[NSString alloc] init];
-        switch (indexPath.row % 5) {
-            case 0:
-                cellID = @"reuse0";
-                break;
-            case 1:
-                cellID = @"reuse1";
-                break;
-            case 2:
-                cellID = @"reuse2";
-                break;
-            case 3:
-                cellID = @"reuse3";
-                break;
-            case 4:
-                cellID = @"reuse4";
-                break;
-        }
+        static NSString *cellID = @"reuse";
         
         WBQuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil)
         {
-            cell = [[WBQuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID withData:self.questionsArray[indexPath.row]];
+            cell = [[WBQuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
         cell.tag = indexPath.row;
         cell.delegate = self;

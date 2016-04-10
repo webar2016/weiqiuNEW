@@ -112,11 +112,11 @@
 -(void)imagePickClicked:(UITapGestureRecognizer *)tap{
     [_textView resignFirstResponder];
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *photo = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *photo = [UIAlertAction actionWithTitle:@"从手机相册选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self selectImageFromAlbum];
     }];
     
-    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self selectImageFromCamera];
     }];
     
@@ -247,7 +247,7 @@
     [parameters setObject:[NSString stringWithFormat:@"%ld",(long)_topicID] forKey:@"topicId"];
      CGFloat rate =_selectPic.size.height/_selectPic.size.width;
     [parameters setObject:[NSString stringWithFormat:@"%f",rate] forKey:@"imgRate"];
-    NSData *fileData = UIImageJPEGRepresentation(_selectPic, 0.2);
+    NSData *fileData = UIImageJPEGRepresentation(_selectPic, 0.4);
     
     
     

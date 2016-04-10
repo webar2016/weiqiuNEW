@@ -147,7 +147,7 @@
 
 -(void)createGroupOne{
     NSArray *imageNameArray = @[@"icon_destination.png",@"icon_cuttime.png",@"icon_traveldate.png",@"icon_tag2.png",@"icon_grouplimit.png",@"icon_qiupiao2.png"];
-    NSArray *labelNameArray = @[@"目的地",@"闭团日期",@"行程日起",@"标签",@"人数上限",@"悬赏球币"];
+    NSArray *labelNameArray = @[@"目的地",@"闭团日期",@"行程日期",@"标签",@"人数上限",@"悬赏球币"];
     
     NSArray *cellHeightyArray = @[@13,@51,@89,@131,@173,@211];
     
