@@ -21,7 +21,7 @@
         [self.contentView addSubview:_mainImageView];
         
         _localLabel = [[UILabel alloc] init];
-        _localLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+        _localLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
         _localLabel.textColor = [UIColor whiteColor];
         _localLabel.font = MAINFONTSIZE;
         [_mainImageView addSubview:_localLabel];
