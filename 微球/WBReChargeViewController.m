@@ -158,7 +158,7 @@
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [self showHUD:@"正在连接" isDim:YES];
     [self getProductInfo:product];
-    [self showHUD:@"正在请求中，请稍后" isDim:YES];
+    //[self showHUD:@"正在请求中，请稍后" isDim:YES];
     [_rightBtton setEnabled:NO];
     [_rightBtton setBackgroundColor:[UIColor initWithBackgroundGray]];
 }
@@ -179,7 +179,7 @@
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     NSArray *myProduct = response.products;
     if (myProduct.count == 0) {
-        [self showHUDText:@"无法获取购买信息，请稍后重试"];
+       // [self showHUDText:@"无法获取购买信息，请稍后重试"];
         self.navigationItem.rightBarButtonItem.enabled = YES;
         NSLog(@"无法获取产品信息，购买失败。");
         [self showHUDComplete:@"无法获取产品信息，购买失败。"];
@@ -193,6 +193,7 @@
 
 //请求失败
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+    [self hideHUD];
     [self showHUDText:@"连接错误，请稍后重试"];
     self.navigationItem.rightBarButtonItem.enabled = YES;
     NSLog(@"商品信息请求错误:%@", error);
@@ -255,7 +256,7 @@
         
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
         } andSuccess:^(id representData) {
-            [self showHUDComplete:@"购买成功"];
+            [self showHUDText:@"购买成功"];
             [_rightBtton setEnabled:YES];
             [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
            
@@ -263,7 +264,7 @@
 
             NSLog(@"%@",representData);
         } andFailure:^(NSString *error) {
-            [self showHUDComplete:@"购买失败"];
+            [self showHUDText:@"购买失败"];
             [_rightBtton setEnabled:YES];
             [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
 
@@ -271,7 +272,7 @@
         }];
         // 向自己的服务器验证购买凭证
     }else{
-    [self showHUDComplete:@"购买失败"];
+    [self showHUDText:@"购买失败"];
     [_rightBtton setEnabled:YES];
     [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
 
@@ -286,15 +287,13 @@
         [self showHUDText:@"充值失败，请稍后重试"];
         self.navigationItem.rightBarButtonItem.enabled = YES;
         NSLog(@"购买失败");
-        [self showHUDComplete:@"购买失败"];
-        [_rightBtton setEnabled:YES];
+              [_rightBtton setEnabled:YES];
         [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
 
     } else {
         [self showHUDText:@"您已取消充值，感谢您的支持"];
         self.navigationItem.rightBarButtonItem.enabled = YES;
         NSLog(@"用户取消交易");
-        [self showHUDComplete:@"用户取消交易"];
         [_rightBtton setEnabled:YES];
         [_rightBtton setBackgroundColor:[UIColor initWithGreen]];
 
