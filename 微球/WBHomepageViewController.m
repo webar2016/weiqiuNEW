@@ -333,6 +333,7 @@
             NSDictionary *userInfo = [result objectForKey:@"userInfo"];
             _userInfo = userInfo;
             self.navigationItem.title = userInfo[@"nickname"];
+            
         }
         [self setConfigHeadView];
         [self loadTopics];
@@ -661,6 +662,7 @@
     }
 
     _profileLabel.text = [WBUserDefaults profile];
+  //  self.navigationItem.title = [WBUserDefaults nickname];
     
 }
 

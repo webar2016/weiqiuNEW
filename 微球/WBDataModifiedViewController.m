@@ -61,8 +61,8 @@
     //设置标题
     self.navigationItem.title = @"资料修改";
     //设置返回按钮
-    UIBarButtonItem *item = (UIBarButtonItem *)self.navigationController.navigationBar.topItem;
-    item.title = @"返回";
+   // UIBarButtonItem *item = (UIBarButtonItem *)self.navigationController.navigationBar.topItem;
+  //  item.title = @"返回";
     self.navigationController.navigationBar.tintColor = [UIColor initWithGreen];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -102,7 +102,12 @@
     _leftLabelName = @[@"昵称",@"性别",@"生日",@"所在地"];
     
     [_rightLabelName addObject:@"女"];
-    [_rightLabelName addObject:@"2000-09-09"];
+    
+    NSDate *  senddate=[NSDate date];
+    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+    [dateformatter setDateFormat:@"yyyy-MM-dd"];
+    [_rightLabelName addObject:[dateformatter stringFromDate:senddate]];
+    
     [_rightLabelName addObject:@""];
     for (NSInteger i =0; i<4; i++) {
         UIImageView *imageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 140+40*i, SCREENWIDTH, 39)];
@@ -236,13 +241,20 @@
     UIBarButtonItem *btn = self.navigationItem.rightBarButtonItem;
     [btn setEnabled:NO];
    
+    
+    
+    
+    
+    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"profile":_introduceTextView.text};
     WBPositionList *positionList =[[WBPositionList alloc] init];
-    NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
+  //  NSString *temp = ((UILabel *)[self.view viewWithTag:203]).text;
     
-    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"provinceId":positionArray[2],@"homeCityId":positionArray[1],@"profile":_introduceTextView.text};
-      //  NSLog(@"parameters = %@",parameters);
-    
-   // __weak WBDataModifiedViewController *wself = self;
+    if (((UILabel *)[self.view viewWithTag:203]).text==nil||((UILabel *)[self.view viewWithTag:203]).text==NULL||[((UILabel *)[self.view viewWithTag:203]).text isEqualToString:@"" ]) {
+        
+    }else{
+        NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
+        [parameters setValue:@"provinceId" forKey:positionArray[2]];
+    }
     [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
@@ -267,7 +279,9 @@
             [WBUserDefaults setHeadIcon:_headImageView.image];
             
         }
-        [WBUserDefaults setCity:((UILabel*)[self.view viewWithTag:203]).text];
+        if (((UILabel*)[self.view viewWithTag:203]).text) {
+            [WBUserDefaults setCity:((UILabel*)[self.view viewWithTag:203]).text];
+        }
         [WBUserDefaults setProfile:_introduceTextView.text];
 
         [WBUserDefaults setAge:[NSString stringWithFormat:@"%ld",(long)[self calculateAge]]];
@@ -399,7 +413,10 @@
     [df setDateFormat:@"yyyy-MM-dd"];
  //   [df setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"]];
   //  NSLog(@"%@",[df dateFromString:((UILabel *)[self.view viewWithTag:202]).text]);
-    _datePicker.date =[df dateFromString:[WBUserDefaults birthday]];
+    if ([WBUserDefaults birthday]) {
+        _datePicker.date =[df dateFromString:[WBUserDefaults birthday]];
+    }
+    
     [UIView animateWithDuration:0.3 animations:^{
         _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4 + 60);
     }];

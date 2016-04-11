@@ -146,8 +146,11 @@
         
         //删掉正在解锁的信息
         MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+        
         [manager2 deletedataWithKey:@"cityId" andValue:tempModel.cityId];
+        
         [manager2 closeFBDM];
+        
         [cell setDelegate:self];
         return cell;
     } else if ([messageContent isMemberOfClass:[WBSystemMessage class]]) {

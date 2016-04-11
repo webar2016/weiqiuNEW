@@ -269,9 +269,9 @@
     {
         
             deleteSql = [NSString stringWithFormat:@"delete from '%@' where %@ ='%@'",_tableName,key,value];
-
+        [_myDataBase executeUpdate:deleteSql];
         
-     //   NSLog(@"--------%d",[_myDataBase executeUpdate:deleteSql]);
+      //  NSLog(@"--------%d",[_myDataBase executeUpdate:deleteSql]);
     }
 }
 

@@ -75,6 +75,7 @@
     if ([WBUserDefaults userId]) {
         _headIcon = [[WBUserDefaults headIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [_leftBarButton setBackgroundImage:_headIcon forState:UIControlStateNormal];
+       // [_leftBarButton setImage:_headIcon forState:UIControlStateNormal];
     } else {
         _headIcon = [UIImage imageWithOriginal:@"icon_webar"];
         [_leftBarButton setBackgroundImage:_headIcon forState:UIControlStateNormal];

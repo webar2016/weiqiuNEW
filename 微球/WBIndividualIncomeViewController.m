@@ -143,6 +143,7 @@
 
 
 -(void)loadData{
+    [self showHUD:@"正在加载数据" isDim:YES];
     NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/integral/getUserIntegral?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -157,9 +158,9 @@
         }else{
         _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%d",(int)[integral floatValue]/100];
         }
-        
-        
+        [self showHUDComplete:@"加载完毕"];
     } andFailure:^(NSString *error) {
+        [self showHUDComplete:@"加载失败"];
     }];
 }
 
