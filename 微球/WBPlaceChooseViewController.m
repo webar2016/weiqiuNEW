@@ -31,7 +31,7 @@
     
     [self createNavi];
     [self createUI];
-    [self setUpSearchBox];
+//    [self setUpSearchBox];
 }
 
 -(void)createNavi{
@@ -49,7 +49,7 @@
 
 -(void)createUI{
 
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height - 64)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = [UIColor whiteColor];
