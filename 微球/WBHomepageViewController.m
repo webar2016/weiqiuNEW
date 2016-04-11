@@ -431,7 +431,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            cell.model = model;
+            [cell setModel:model withIndexPath:indexPath];
             return cell;
         } else if (model.newsType == 2) {
             static NSString *cellID2 = @"detailCellID2";
@@ -442,7 +442,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            cell.model = model;
+            [cell setModel:model withIndexPath:indexPath];
             return cell;
         } else {
             static NSString *cellID3 = @"detailCellID3";
@@ -453,7 +453,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            cell.model = model;
+            [cell setModel:model withIndexPath:indexPath];
             return cell;
         }
     } else {
@@ -523,7 +523,11 @@
     TopicDetailModel *model = _topicsArray[indexPath.section];
     if (model.newsType == 3 && tableView.tag == 100) {
         WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
-        articalVC.navigationItem.title = model.topicContent;
+        NSString *title = model.topicContent;
+        if (title.length > 15) {
+            title = [[title substringToIndex:15] stringByAppendingString:@"…"];
+        }
+        articalVC.navigationItem.title = title;
         articalVC.nickname = model.tblUser.nickname;
         articalVC.dir = model.tblUser.dir;
         articalVC.timeStr = model.timeStr;
@@ -914,7 +918,9 @@
 #pragma mark - 播放完成
 
 - (void)finishedPlay
-{    [_player.view removeFromSuperview];
+{
+    [_player stop];
+    [_player.view removeFromSuperview];
     [self.navigationController setNavigationBarHidden:NO animated:TRUE];
 }
 
