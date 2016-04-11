@@ -183,7 +183,11 @@
     NSInteger topicId =((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicId;
     WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
     DVC.topicID = topicId;
-    DVC.navigationItem.title = ((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicContent;
+    NSString *title = ((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicContent;
+    if (title.length > 15) {
+        title = [[title substringToIndex:15] stringByAppendingString:@"…"];
+    }
+    DVC.navigationItem.title = title;
     [DVC setHidesBottomBarWhenPushed:YES];
     [self.parentViewController.navigationController pushViewController:DVC animated:YES];
     

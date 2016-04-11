@@ -320,8 +320,8 @@
 }
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
-    ((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral = ((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral+5;
-    NSLog(@"%ld",(long)((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral);
+    ((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral = ((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral+5;
+    NSLog(@"%ld",((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral);
 }
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{
@@ -424,7 +424,7 @@
     TopicDetailModel *model = _dataArray[indexPath.section];
     if (model.newsType == 3) {
         WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
-        articalVC.navigationItem.title = model.topicContent;
+        articalVC.navigationItem.title = self.navigationItem.title;
         articalVC.nickname = model.tblUser.nickname;
         articalVC.dir = model.tblUser.dir;
         articalVC.timeStr = model.timeStr;
