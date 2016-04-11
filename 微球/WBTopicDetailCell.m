@@ -187,10 +187,11 @@
     [self.contentView addSubview:_toolBar];
 }
 
--(void)setModel:(TopicDetailModel *)model{
+-(void)setModel:(TopicDetailModel *)model withIndexPath:(NSIndexPath *)indexPath{
     
     _model = model;
     _score = model.getIntegral;
+    _indexPath = indexPath;
     
     [_headIcon sd_setImageWithURL:[NSURL URLWithString:model.tblUser.dir]];
     _nickname.text =model.tblUser.nickname;
@@ -331,7 +332,9 @@
 
 -(void)upLoadLikeTap{
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
+        NSLog(@"%@",_indexPath);
         [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
+        
         [_praiseBtn setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
         [UIView animateWithDuration:1.0f animations:^{
             //                _praiseBtn.transform = CGAffineTransformMakeScale(1.5, 1.5);
