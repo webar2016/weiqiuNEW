@@ -57,5 +57,5 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
--(void)setModel:(TopicDetailModel *)model withIndexPath:(NSIndexPath *)indexPath;
+-(void)setModel:(TopicDetailModel *)model;
 @end
