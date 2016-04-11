@@ -158,7 +158,7 @@
         }else{
         _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%d",(int)[integral floatValue]/100];
         }
-        [self showHUDComplete:@"加载完毕"];
+        [self hideHUD];
     } andFailure:^(NSString *error) {
         [self showHUDComplete:@"加载失败"];
     }];
