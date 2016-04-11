@@ -367,7 +367,7 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
-    NSTimeInterval animationDuration = 0.25f;
+    NSTimeInterval animationDuration = 0.2f;
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationDuration:animationDuration];
     self.view.frame = CGRectMake(0.0f, -50,SCREENWIDTH,self.view.frame.size.height);;
@@ -375,7 +375,7 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    NSTimeInterval animationDuration = 0.25f;
+    NSTimeInterval animationDuration = 0.2f;
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationDuration:animationDuration];
     self.view.frame = CGRectMake(0.0f, 0,SCREENWIDTH,self.view.frame.size.height);;
@@ -394,14 +394,5 @@
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

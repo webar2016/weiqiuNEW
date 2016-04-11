@@ -83,8 +83,7 @@
 }
 
 -(void)createTextView{
-    _commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-64-50 , SCREENWIDTH, 50)];
-    [self.view addSubview:_commentTextView];
+    _commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50 , SCREENWIDTH, 50)];
     _commentTextView.layer.masksToBounds = YES;
     _commentTextView.font = MAINFONTSIZE;
     _commentTextView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 0);
@@ -99,6 +98,7 @@
     _placeHolder.textColor = [UIColor initWithNormalGray];
     _placeHolder.font = MAINFONTSIZE;
     [_commentTextView addSubview:_placeHolder];
+    [self.view addSubview:_commentTextView];
 }
 
 -(void)viewClicked{
@@ -120,6 +120,7 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 -(void)viewDidUnload{
@@ -135,7 +136,10 @@
     NSDictionary *info = [notif userInfo];
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
-    _commentTextView.frame =CGRectMake(0, SCREENHEIGHT-64-50 -keyboardSize.height, SCREENWIDTH, 50);
+    NSNumber *animationTime = [info objectForKey:@"UIKeyboardAnimationDurationUserInfoKey"];
+    [UIView animateWithDuration:[animationTime doubleValue] animations:^{
+        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50 - keyboardSize.height, SCREENWIDTH, 50);
+    } completion:nil];
 }
 
 - (void) keyboardWasHidden:(NSNotification *) notif
@@ -144,8 +148,20 @@
     if (_commentTextView.text.length == 0) {
         [_commentTextView addSubview:_placeHolder];
     }
-    _commentTextView.frame =CGRectMake(0, SCREENHEIGHT-64-50, SCREENWIDTH, 50);
+    _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50, SCREENWIDTH, 50);
 }
+
+- (void) keyboardWillChangeFrame:(NSNotification *) notif
+{
+    NSDictionary *info = [notif userInfo];
+    CGFloat endKeyboardHeight = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
+    NSNumber *animationTime = [info objectForKey:@"UIKeyboardAnimationDurationUserInfoKey"];
+    [UIView animateWithDuration:[animationTime doubleValue] animations:^{
+        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50 - endKeyboardHeight, SCREENWIDTH, 50);
+    } completion:nil];
+    
+}
+
 -(void)textViewClicked{
     if (_commentTextView.text.length == 0) {
         return;

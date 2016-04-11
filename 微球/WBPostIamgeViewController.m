@@ -179,22 +179,6 @@
     }
 }
 
-//- (void)textViewDidBeginEditing:(UITextView *)textView{
-//    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
-//    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-//    [UIView setAnimationDuration:0.25f];
-//    self.view.frame = CGRectMake(0.0f, -70.0,SCREENWIDTH,self.view.frame.size.height);
-//    [UIView commitAnimations];
-//}
-//
-//- (void)textViewDidEndEditing:(UITextView *)textView{
-//    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
-//    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-//    [UIView setAnimationDuration:0.25f];
-//    self.view.frame = CGRectMake(0.0f, 0,SCREENWIDTH,self.view.frame.size.height);
-//    [UIView commitAnimations];
-//}
-
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView{
 
     [_textView resignFirstResponder];

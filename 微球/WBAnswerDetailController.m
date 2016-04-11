@@ -348,7 +348,12 @@
 #pragma mark - 点赞操作
 
 -(void)likeTap{
-    if (![WBUserDefaults userId] || [[WBUserDefaults userId] integerValue] == self.userId) {
+    if (![WBUserDefaults userId]) {
+        [self showHUDText:@"请登录后再打赏"];
+        return;
+    }
+    if ([[WBUserDefaults userId] integerValue] == self.userId) {
+        [self showHUDText:@"不能打赏自己哦！"];
         return;
     }
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {

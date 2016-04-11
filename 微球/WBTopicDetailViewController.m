@@ -260,7 +260,7 @@
             } else if (_page != 1 && count == 0) {
                 [_background removeFromSuperview];
                 [(MJRefreshAutoNormalFooter *)_tableView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
-            }
+            } else {[_background removeFromSuperview];}
             
             [_tableView reloadData];
             [self hideHUD];
@@ -321,7 +321,7 @@
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
     ((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral = ((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral+5;
-    NSLog(@"%ld",((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral);
+    NSLog(@"%ld",(long)((TopicDetailModel *)_dataArray[indexPath.row]).getIntegral);
 }
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{

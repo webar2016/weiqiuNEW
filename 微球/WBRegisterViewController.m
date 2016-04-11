@@ -325,7 +325,7 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
-    NSTimeInterval animationDuration = 0.25f;
+    NSTimeInterval animationDuration = 0.2f;
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationDuration:animationDuration];
     self.view.frame = CGRectMake(0.0f, -80,SCREENWIDTH,self.view.frame.size.height);;
@@ -333,7 +333,7 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    NSTimeInterval animationDuration = 0.25f;
+    NSTimeInterval animationDuration = 0.2f;
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationDuration:animationDuration];
     self.view.frame = CGRectMake(0.0f, 0,SCREENWIDTH,self.view.frame.size.height);;
