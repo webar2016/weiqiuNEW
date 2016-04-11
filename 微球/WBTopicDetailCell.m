@@ -187,12 +187,10 @@
     [self.contentView addSubview:_toolBar];
 }
 
--(void)setModel:(TopicDetailModel *)model withIndexPath:(NSIndexPath *)indexPath{
+-(void)setModel:(TopicDetailModel *)model{
     
     _model = model;
     _score = model.getIntegral;
-    _indexPath = indexPath;
-    
     [_headIcon sd_setImageWithURL:[NSURL URLWithString:model.tblUser.dir]];
     _nickname.text =model.tblUser.nickname;
     _timeLabel.text = model.timeStr;
