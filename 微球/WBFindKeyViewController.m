@@ -263,7 +263,7 @@
     NSTimeInterval animationDuration = 0.25f;
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationDuration:animationDuration];
-    self.view.frame = CGRectMake(0.0f, -50,SCREENWIDTH,self.view.frame.size.height);;
+    self.view.frame = CGRectMake(0.0f, -140,SCREENWIDTH,self.view.frame.size.height);;
     [UIView commitAnimations];
 }
 
