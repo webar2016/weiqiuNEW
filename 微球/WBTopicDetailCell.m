@@ -258,73 +258,57 @@
     
     NSString *shareURL = [NSString stringWithFormat:@"http://121.40.132.44:92/share/topic?commentId=%ld&newsType=%ld",_model.commentId,_cellType];
     
+    UIImage *shareImage = [UIImage imageWithData:UIImageJPEGRepresentation(_mainImage.image, 0.3)];
     
-        NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-       [shareParams SSDKEnableUseClientShare];
-        
-        if (_cellType == 1) {
-            [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的照片，快来微球看看吧！",_model.tblUser.nickname]
-                                             images:@[[UIImage imageNamed:@"icon_gps.png"]]
-                                                url:[NSURL URLWithString:shareURL]
-                                              title:_model.topicContent
-                                               type:SSDKContentTypeAuto];
-
-        } else if (_cellType == 2) {
-            [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的视频，拍的太棒了，快来微球看看吧！",_model.tblUser.nickname]
-                                             images:@[_model.mediaPic]
-                                                url:[NSURL URLWithString:shareURL]
-                                              title:_model.topicContent
-                                               type:SSDKContentTypeAuto];
-
-        } else {
-            NSString *image = [[NSString alloc] init];
-            if (![_model.dir isEqualToString:@";"]) {
-                image = [_model.dir componentsSeparatedByString:@";"].firstObject;
-            } else {
-                image = _model.cover;
-            }
-            [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的文章，写得太绝了，快来微球看看吧！",_model.tblUser.nickname]
-                                             images:@[image]
-                                                url:[NSURL URLWithString:shareURL]
-                                              title:_model.topicContent
-                                               type:SSDKContentTypeAuto];
-
-        }
-        
-        //2、分享（可以弹出我们的分享菜单和编辑界面）
-        [ShareSDK showShareActionSheet:nil //要显示菜单的视图, iPad版中此参数作为弹出菜单的参照视图，只有传这个才可以弹出我们的分享菜单，可以传分享的按钮对象或者自己创建小的view 对象，iPhone可以传nil不会影响
-                                 items:nil
-                           shareParams:shareParams
-                   onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
-                       
-                       switch (state) {
-                           case SSDKResponseStateSuccess:
-                           {
-                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
-                                                                                   message:nil
-                                                                                  delegate:nil
-                                                                         cancelButtonTitle:@"好的"
-                                                                         otherButtonTitles:nil];
-                               [alertView show];
-                               break;
-                           }
-                           case SSDKResponseStateFail:
-                           {
-                               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败"
-                                                                               message:[NSString stringWithFormat:@"%@",error]
-                                                                              delegate:nil
-                                                                     cancelButtonTitle:@"好的"
-                                                                     otherButtonTitles:nil, nil];
-                               [alert show];
-                               NSLog(@"%@",[NSString stringWithFormat:@"%@",error]);
-                               break;
-                           }
-                           default:
-                               break;
+    NSString *shareText = [NSString string];
+    
+    if (_cellType == 1) {
+        shareText = [NSString stringWithFormat:@"我分享 @%@ 的照片，快来微球看看吧！",_model.tblUser.nickname];
+    } else if (_cellType == 2) {
+        shareText = [NSString stringWithFormat:@"我分享 @%@ 的视频，拍的太棒了，快来微球看看吧！",_model.tblUser.nickname];
+    } else {
+        shareText = [NSString stringWithFormat:@"我分享 @%@ 的文章，写得太绝了，快来微球看看吧！",_model.tblUser.nickname];
+    }
+    
+    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+    [shareParams SSDKEnableUseClientShare];
+    [shareParams SSDKSetupShareParamsByText:shareText
+                                     images:@[shareImage]
+                                        url:[NSURL URLWithString:shareURL]
+                                      title:_model.topicContent
+                                       type:SSDKContentTypeAuto];
+    
+    [ShareSDK showShareActionSheet:nil
+                             items:nil
+                       shareParams:shareParams
+               onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
+                   
+                   switch (state) {
+//                       case SSDKResponseStateSuccess:
+//                       {
+//                           UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功"
+//                                                                               message:nil
+//                                                                              delegate:nil
+//                                                                     cancelButtonTitle:@"好的"
+//                                                                     otherButtonTitles:nil];
+//                           [alertView show];
+//                           break;
+//                       }
+                       case SSDKResponseStateFail:
+                       {
+                           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败，请稍后重试"
+                                                                           message:nil//[NSString stringWithFormat:@"%@",error]
+                                                                          delegate:nil
+                                                                 cancelButtonTitle:@"好的"
+                                                                 otherButtonTitles:nil, nil];
+                           [alert show];
+                           NSLog(@"%@",[NSString stringWithFormat:@"%@",error]);
+                           break;
                        }
+                       default:
+                           break;
                    }
-         ];
-    
+               }];
 }
 
 #pragma mark -------点赞-------
