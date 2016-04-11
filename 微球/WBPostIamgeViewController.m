@@ -187,6 +187,7 @@
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    
     if ([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         return NO;
@@ -201,6 +202,21 @@
     }
     
     return YES;
+    
+}
+
+- (void)textViewDidChange:(UITextView *)textView{
+
+    
+
+    if (![textView.text isEqualToString:@""]){
+        _placeHoldLabel.hidden = YES;
+    }else{
+        _placeHoldLabel.hidden = NO;
+
+    
+    }
+    
     
 }
 
