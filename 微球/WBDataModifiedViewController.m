@@ -245,7 +245,7 @@
     
     
     
-    NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"profile":_introduceTextView.text};
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"profile":_introduceTextView.text}];
     WBPositionList *positionList =[[WBPositionList alloc] init];
   //  NSString *temp = ((UILabel *)[self.view viewWithTag:203]).text;
     
@@ -253,7 +253,9 @@
         
     }else{
         NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
+        
         [parameters setValue:@"provinceId" forKey:positionArray[2]];
+        
     }
     [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {

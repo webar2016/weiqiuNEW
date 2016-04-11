@@ -105,7 +105,7 @@
     _confirmBtn.tag = 500;
     _confirmBtn.backgroundColor = [UIColor initWithBackgroundGray];
     [_confirmBtn setEnabled:NO];
-    
+    [_confirmBtn setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
     _confirmBtn.titleLabel.font = MAINFONTSIZE;
     _confirmBtn.layer.cornerRadius = 3;
     _confirmBtn.frame = CGRectMake(0, 0, 200, 43);
@@ -315,6 +315,7 @@
      if (_cityArray.count&&_headImageView.image ) {
         [_confirmBtn setEnabled:YES];
         _confirmBtn.backgroundColor = [UIColor initWithGreen];
+         [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }
 
 
