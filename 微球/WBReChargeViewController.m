@@ -24,17 +24,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 监听购买结果
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-
+   
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     [self createNavi];
     [self createUI];
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    // 监听购买结果
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
+
+}
+
 - (void)viewDidUnload {
     [super viewDidUnload];
-    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
+    
 }
 
 -(void)createNavi{

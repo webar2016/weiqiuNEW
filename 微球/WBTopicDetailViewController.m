@@ -391,9 +391,8 @@
             cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID1];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.indexPath = indexPath;
         cell.delegate = self;
-        cell.model = model;
+        [cell setModel:model withIndexPath:indexPath];
         return cell;
     } else if (model.newsType == 2) {
         static NSString *cellID2 = @"detailCellID2";
@@ -402,9 +401,8 @@
             cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.indexPath = indexPath;
         cell.delegate = self;
-        cell.model = model;
+        [cell setModel:model withIndexPath:indexPath];
         return cell;
     } else {
         static NSString *cellID3 = @"detailCellID3";
@@ -413,9 +411,8 @@
             cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID3];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.indexPath = indexPath;
+        [cell setModel:model withIndexPath:indexPath];
         cell.delegate = self;
-        cell.model = model;
         return cell;
     }
 }

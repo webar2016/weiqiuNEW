@@ -49,7 +49,7 @@
 
 @property(nonatomic,assign)id <TransformValue> delegate;
 
-@property (nonatomic,retain) NSIndexPath *indexPath;
+@property (nonatomic,copy) NSIndexPath *indexPath;
 
 @property (nonatomic,retain) TopicDetailModel *model;
 
@@ -57,5 +57,5 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
--(void)setModel:(TopicDetailModel *)model;
+-(void)setModel:(TopicDetailModel *)model withIndexPath:(NSIndexPath *)indexPath;
 @end

@@ -151,7 +151,13 @@
         
         _moneyLabel.text = [NSString stringWithFormat:@"¥%.2f",[integral floatValue]/100];
         _scorelabel.text =[NSString stringWithFormat:@"%.0f",[integral floatValue] ];
+        
+        if ([integral floatValue]/100<100) {
+            _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%d",0];
+        }else{
         _withdrawMoneylabel.text =[NSString stringWithFormat:@"¥%d",(int)[integral floatValue]/100];
+        }
+        
         
     } andFailure:^(NSString *error) {
     }];

@@ -189,6 +189,7 @@
                     NSLog(@"success");
                     id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                     [WBUserDefaults setUserId:[NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]]];
+                    [WBUserDefaults setNickname:_telephoneField.text];
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
                     WBSetInformationViewController *SVC = [[WBSetInformationViewController alloc]init];
@@ -328,7 +329,7 @@
     NSTimeInterval animationDuration = 0.2f;
     [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
     [UIView setAnimationDuration:animationDuration];
-    self.view.frame = CGRectMake(0.0f, -80,SCREENWIDTH,self.view.frame.size.height);;
+    self.view.frame = CGRectMake(0.0f, -100,SCREENWIDTH,self.view.frame.size.height);;
     [UIView commitAnimations];
 }
 
