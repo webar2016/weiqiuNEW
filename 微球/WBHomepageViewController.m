@@ -431,7 +431,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            [cell setModel:model withIndexPath:indexPath];
+            [cell setModel:model];
             return cell;
         } else if (model.newsType == 2) {
             static NSString *cellID2 = @"detailCellID2";
@@ -442,7 +442,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            [cell setModel:model withIndexPath:indexPath];
+            [cell setModel:model];
             return cell;
         } else {
             static NSString *cellID3 = @"detailCellID3";
@@ -453,7 +453,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            [cell setModel:model withIndexPath:indexPath];
+            [cell setModel:model];
             return cell;
         }
     } else {
