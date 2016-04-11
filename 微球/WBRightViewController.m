@@ -49,7 +49,9 @@
 -(void)notifyUpdateUnreadMessageCount{
     NSNumber *unRead = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE)]]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
-//    [self checkUnlockCity];
+    
+    NSArray *unlockArray = [[RCIMClient sharedRCIMClient] getLatestMessages:ConversationType_PRIVATE targetId:@"unlock_notice" count:10];
+    [self checkUnlockCity:unlockArray];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -97,35 +99,37 @@
     [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_PRIVATE targetId:model.targetId];
 }
 
--(void)checkUnlockCity{
-    for (RCConversationModel *model in self.conversationListDataSource) {
-        if ([model.targetId isEqualToString: @"unlock_notice"]) {
-            WBUnlockMessage *unlockMsg = (WBUnlockMessage *)model.lastestMessage;
-            if ([unlockMsg.isUnlock isEqual:@"YES"]) {
-                //保存到已经解锁
-                
-                WBTbl_Unlock_City *unlockingCity = [[WBTbl_Unlock_City alloc]init];
-                unlockingCity.userId = [[WBUserDefaults userId]integerValue];
-                unlockingCity.cityId = [unlockMsg.cityId integerValue];
-                
-                
-                MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-                if (![manager isAddedItemsID:unlockMsg.cityId]) {
-                    [manager addItem:unlockingCity];
-                    [manager closeFBDM];
-                }else{
-                    [manager closeFBDM];
-                }
-                //解锁成功
-            }else{
-                //解锁失败
-            }
+-(void)checkUnlockCity:(NSArray *)unlockArray{
+    for (RCMessage *msg in unlockArray) {
+        
+        WBUnlockMessage *unlockMsg = (WBUnlockMessage *)msg.content;
+        
+        if ([unlockMsg.isUnlock isEqual:@"YES"]) {
+            //保存到已经解锁
             
-            //删掉正在解锁的信息
-            MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
-            [manager2 deletedataWithKey:@"cityId" andValue:unlockMsg.cityId];
-            [manager2 closeFBDM];
+            WBTbl_Unlock_City *unlockingCity = [[WBTbl_Unlock_City alloc]init];
+            unlockingCity.userId = [[WBUserDefaults userId]integerValue];
+            unlockingCity.cityId = [unlockMsg.cityId integerValue];
+            
+            
+            MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+            if (![manager isAddedItemsID:unlockMsg.cityId]) {
+                [manager addItem:unlockingCity];
+                [manager closeFBDM];
+            }else{
+                [manager closeFBDM];
+            }
+            //解锁成功
+        }else{
+            //解锁失败
         }
+        
+        //删掉正在解锁的信息
+        MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+        
+        [manager2 deletedataWithKey:@"cityId" andValue:unlockMsg.cityId];
+        
+        [manager2 closeFBDM];
     }
 }
 
