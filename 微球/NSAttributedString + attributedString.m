@@ -30,4 +30,8 @@
     return plainString;
 }
 
+//-(void)replacePlaceHolderImageWithImages:(NSArray *)imageArray{
+//    
+//}
+
 @end

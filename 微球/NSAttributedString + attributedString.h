@@ -12,4 +12,7 @@
 
 - (NSString *)getPlainStringWithImageArray:(NSMutableArray *)imageArray byNameArray:(NSMutableArray *)nameArray byImageRate:(NSMutableArray *)rateArray;
 
+
+//-(void)replacePlaceHolderImageWithImages:(NSArray *)imageArray;
+
 @end

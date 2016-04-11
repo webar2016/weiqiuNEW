@@ -270,7 +270,7 @@
         [WBUserDefaults setCity:((UILabel*)[self.view viewWithTag:203]).text];
         [WBUserDefaults setProfile:_introduceTextView.text];
 
-        [WBUserDefaults setAge:[NSString stringWithFormat:@"%ld",[self calculateAge]]];
+        [WBUserDefaults setAge:[NSString stringWithFormat:@"%ld",(long)[self calculateAge]]];
         
         [self.delegate ModefyViewDelegate];
         [self showHUDComplete:@"修改成功"];

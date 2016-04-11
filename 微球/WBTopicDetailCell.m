@@ -255,7 +255,7 @@
 
 -(void)shareBtnClicked{
     
-    NSString *shareURL = [NSString stringWithFormat:@"http://121.40.132.44:92/share/topic?commentId=%ld&newsType=%ld",_model.commentId,_cellType];
+    NSString *shareURL = [NSString stringWithFormat:@"http://121.40.132.44:92/share/topic?commentId=%ld&newsType=%ld",(long)_model.commentId,_cellType];
     
     UIImage *shareImage = [UIImage imageWithData:UIImageJPEGRepresentation(_mainImage.image, 0.3)];
     
