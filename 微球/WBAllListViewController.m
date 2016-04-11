@@ -203,8 +203,11 @@
 {
     
     WBHelpGroupsDetailViewController *DVC = [[WBHelpGroupsDetailViewController alloc]init];
-    DVC.model = self.dataSource[indexPath.row];
-    
+    WBCollectionViewModel *model = self.dataSource[indexPath.row];
+    DVC.model = model;
+    if (model.members >= model.maxMembers) {
+        DVC.isFull = YES;
+    }
     DVC.imageHeight = [_cellHeightArray[indexPath.row] floatValue]*SCREENWIDTH;
     
     [self presentViewController:DVC animated:YES completion:nil];

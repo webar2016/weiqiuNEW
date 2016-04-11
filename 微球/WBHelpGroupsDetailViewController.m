@@ -55,12 +55,15 @@
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%ld",[WBUserDefaults userId],(long)self.model.groupId] whenSuccess:^(id representData) {
         
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
-        if ([result isEqualToString:@"false"]) {
+        if ([result isEqualToString:@"false"] && !self.isFull) {
             [_ensureBtn setTitle:@"加入帮帮团" forState:UIControlStateNormal];
             _ensureBtn.backgroundColor = [UIColor initWithGreen];
             [_ensureBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        } else {
+        } else if (![result isEqualToString:@"false"]) {
             [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+            _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+        } else if (self.isFull) {
+            [_ensureBtn setTitle:@"团员已满" forState:UIControlStateNormal];
             _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
         }
        
@@ -197,7 +200,7 @@
     _ensureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH/2, self.view.frame.size.height-49, SCREENWIDTH/2, 49)];
     if ([WBUserDefaults userId]) {
         _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
-        [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+        [_ensureBtn setTitle:@"校验中" forState:UIControlStateNormal];
     } else {
         _ensureBtn.backgroundColor = [UIColor initWithGreen];
         [_ensureBtn setTitle:@"登陆加入帮帮团" forState:UIControlStateNormal];
