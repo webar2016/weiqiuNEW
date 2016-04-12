@@ -70,6 +70,9 @@
     
     [self qupaiSDK];
     
+    // 注册通知
+
+    
     return YES;
 }
 
@@ -148,6 +151,8 @@ didRegisterUserNotificationSettings:
      withString:@""];
     
     [[RCIMClient sharedRCIMClient] setDeviceToken:token];
+    
+
 }
 
 //系统冻结时捕获消息
