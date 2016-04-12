@@ -83,7 +83,7 @@
 }
 
 -(void)createTextView{
-    _commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50 , SCREENWIDTH, 50)];
+    _commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 64 - 50 , SCREENWIDTH, 50)];
     _commentTextView.layer.masksToBounds = YES;
     _commentTextView.font = MAINFONTSIZE;
     _commentTextView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 0);
@@ -92,13 +92,12 @@
     _commentTextView.layer.borderColor = [UIColor initWithBackgroundGray].CGColor;
     _commentTextView.layer.borderWidth = 5;
     _commentTextView.returnKeyType = UIReturnKeySend;
-    
+    [self.view addSubview:_commentTextView];
     _placeHolder = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREENWIDTH - 20, 50)];
     _placeHolder.text = @"快发表你的神评论！";
     _placeHolder.textColor = [UIColor initWithNormalGray];
     _placeHolder.font = MAINFONTSIZE;
     [_commentTextView addSubview:_placeHolder];
-    [self.view addSubview:_commentTextView];
 }
 
 -(void)viewClicked{
@@ -138,7 +137,7 @@
     CGSize keyboardSize = [value CGRectValue].size;
     NSNumber *animationTime = [info objectForKey:@"UIKeyboardAnimationDurationUserInfoKey"];
     [UIView animateWithDuration:[animationTime doubleValue] animations:^{
-        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50 - keyboardSize.height, SCREENWIDTH, 50);
+        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 64 - 50 - keyboardSize.height, SCREENWIDTH, 50);
     } completion:nil];
 }
 
@@ -148,7 +147,7 @@
     if (_commentTextView.text.length == 0) {
         [_commentTextView addSubview:_placeHolder];
     }
-    _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50, SCREENWIDTH, 50);
+    _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 64 - 50, SCREENWIDTH, 50);
 }
 
 - (void) keyboardWillChangeFrame:(NSNotification *) notif
@@ -157,7 +156,7 @@
     CGFloat endKeyboardHeight = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
     NSNumber *animationTime = [info objectForKey:@"UIKeyboardAnimationDurationUserInfoKey"];
     [UIView animateWithDuration:[animationTime doubleValue] animations:^{
-        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50 - endKeyboardHeight, SCREENWIDTH, 50);
+        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 64 - 50 - endKeyboardHeight, SCREENWIDTH, 50);
     } completion:nil];
     
 }

@@ -101,12 +101,12 @@
 
     
     _timelabel.frame = CGRectMake(40, imageHeight+10+15, 80, 10);
-    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
-    CGSize  actualsize =[_model.tblUser.nickname boundingRectWithSize:CGSizeMake(MAXFLOAT, 10) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
+//    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
+//    CGSize  actualsize =[_model.tblUser.nickname boundingRectWithSize:CGSizeMake(MAXFLOAT, 10) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
     
     _nickName.font = [UIFont systemFontOfSize:12];
-    _nickName.frame = CGRectMake(40, imageHeight+10, actualsize.width, 10);
-    _ageButton.frame = CGRectMake(40+actualsize.width+10, imageHeight+10, 20, 10);
+    _nickName.frame = CGRectMake(40, imageHeight+10, CollectionCellWidth / 2, 10);
+    _ageButton.frame = CGRectMake(40+CollectionCellWidth / 2+10, imageHeight+10, 20, 10);
     
     _backgroundViewButtom.frame = CGRectMake(0, imageHeight+41, CollectionCellWidth, 23);
     _leftImageView.frame = CGRectMake(5, 1, 17, 17);

@@ -12,4 +12,5 @@
 @interface WBHelpGroupsDetailViewController : WBRefreshViewController
 @property (nonatomic,retain) WBCollectionViewModel *model;
 @property (nonatomic,assign) CGFloat imageHeight;
+@property (nonatomic, assign) BOOL isFull;
 @end

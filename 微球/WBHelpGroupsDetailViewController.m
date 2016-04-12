@@ -55,12 +55,15 @@
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%ld",[WBUserDefaults userId],(long)self.model.groupId] whenSuccess:^(id representData) {
         
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
-        if ([result isEqualToString:@"false"]) {
+        if ([result isEqualToString:@"false"] && !self.isFull) {
             [_ensureBtn setTitle:@"加入帮帮团" forState:UIControlStateNormal];
             _ensureBtn.backgroundColor = [UIColor initWithGreen];
             [_ensureBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        } else {
+        } else if (![result isEqualToString:@"false"]) {
             [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+            _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+        } else if (self.isFull) {
+            [_ensureBtn setTitle:@"团员已满" forState:UIControlStateNormal];
             _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
         }
        
@@ -197,7 +200,7 @@
     _ensureBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH/2, self.view.frame.size.height-49, SCREENWIDTH/2, 49)];
     if ([WBUserDefaults userId]) {
         _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
-        [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+        [_ensureBtn setTitle:@"校验中" forState:UIControlStateNormal];
     } else {
         _ensureBtn.backgroundColor = [UIColor initWithGreen];
         [_ensureBtn setTitle:@"登陆加入帮帮团" forState:UIControlStateNormal];
@@ -230,15 +233,33 @@
         NSArray *tempArray =  [[positionList searchCityWithCithName:_model.destination] objectAtIndex:0];
         if ([manager  isAddedItemsID:[NSString stringWithFormat:@"%@",tempArray[1]]]) {
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",(long)_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
-                _isSuccess = YES;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
-                [self showHUDComplete:@"加入成功，可在【我加入的】查看"];
-                UIButton *btn = (UIButton *)[self.view viewWithTag:101];
-                [btn setEnabled:NO];
-                btn.userInteractionEnabled = NO;
-                [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
-                [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+                
+                id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                
+                if ( [result isKindOfClass:[NSDictionary class]]) {
+                    NSString *error = result[@"error"];
+                    if ([error isEqualToString:@"0"]) {
+                        _isSuccess = YES;
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
+                        [self showHUDComplete:@"加入成功，可在【我加入的】查看"];
+                        UIButton *btn = (UIButton *)[self.view viewWithTag:101];
+                        [btn setEnabled:NO];
+                        [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
+                        [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                        _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+                    } else if ([error isEqualToString:@"2"]) {
+                        _isSuccess = NO;
+                        [btn setEnabled:NO];
+                        [self showHUDComplete:@"帮帮团团员已满"];
+                        _ensureBtn.backgroundColor = [UIColor initWithNormalGray];
+                        [_ensureBtn setTitle:@"团员已满" forState:UIControlStateNormal];
+                        [_ensureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    } else {
+                        _isSuccess = NO;
+                        btn.enabled = YES;
+                        [self showHUDComplete:@"加入失败，请稍后重试"];
+                    }
+                }
                 
             } andFailure:^(NSString *error) {
                 _isSuccess = NO;

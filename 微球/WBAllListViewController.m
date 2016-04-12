@@ -93,7 +93,7 @@
 {
     if (!_collectionView) {
         MyCollectionViewFlowLayout * flowLayout = [[MyCollectionViewFlowLayout alloc]init];
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height - 64) collectionViewLayout:flowLayout];
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height - 64 - 49) collectionViewLayout:flowLayout];
         collectionView.backgroundColor = [UIColor whiteColor];
         collectionView.dataSource = self;
         collectionView.delegate = self;
@@ -203,8 +203,11 @@
 {
     
     WBHelpGroupsDetailViewController *DVC = [[WBHelpGroupsDetailViewController alloc]init];
-    DVC.model = self.dataSource[indexPath.row];
-    
+    WBCollectionViewModel *model = self.dataSource[indexPath.row];
+    DVC.model = model;
+    if (model.members >= model.maxMembers) {
+        DVC.isFull = YES;
+    }
     DVC.imageHeight = [_cellHeightArray[indexPath.row] floatValue]*SCREENWIDTH;
     
     [self presentViewController:DVC animated:YES completion:nil];
@@ -213,28 +216,28 @@
 }
 
 #pragma mark -- UIScrollViewDelegate Methods
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    CGPoint scrollViewOffset = scrollView.contentOffset;
-    _beginScoller = scrollViewOffset.y;
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    CGPoint scrollViewOffset = scrollView.contentOffset;
-    if (scrollViewOffset.y - _beginScoller >= 0) {
-        //往下滑
-        [UIView animateWithDuration:0.3
-                         animations:^{
-                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT,self.view.frame.size.width,49)];
-                         }];
-    }else {
-        [UIView animateWithDuration:0.3
-                         animations:^{
-                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT - 49,self.view.frame.size.width,49)];
-                         }];
-    }
-}
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+//{
+//    CGPoint scrollViewOffset = scrollView.contentOffset;
+//    _beginScoller = scrollViewOffset.y;
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    CGPoint scrollViewOffset = scrollView.contentOffset;
+//    if (scrollViewOffset.y - _beginScoller >= 0) {
+//        //往下滑
+//        [UIView animateWithDuration:0.3
+//                         animations:^{
+//                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT,self.view.frame.size.width,49)];
+//                         }];
+//    }else {
+//        [UIView animateWithDuration:0.3
+//                         animations:^{
+//                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT - 49,self.view.frame.size.width,49)];
+//                         }];
+//    }
+//}
 
 #pragma mark  ----去个人主页-----
 -(void)goHomepage:(NSString *)userId{
