@@ -159,23 +159,18 @@
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 2;
+    return 1;
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 1;
-    }else{
-        
+    
         return self.dataSource.count;
-    }
+
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        return nil;
-    }else{
+
     
         static NSString * CellIdentifier = kCellReuseId;
         WBCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -183,9 +178,7 @@
         //  NSLog(@"UICollectionViewCell = %ld",indexPath.row);
         cell.delegate = self;
         return cell;
-    
-    }
-    
+
     
     
 }
