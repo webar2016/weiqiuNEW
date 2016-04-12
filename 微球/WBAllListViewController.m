@@ -159,24 +159,33 @@
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 1;
+    return 2;
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-     // NSLog(@"%ld", self.dataSource.count);
-    return self.dataSource.count;
-  
+    if (section == 0) {
+        return 1;
+    }else{
+        return self.dataSource.count;
+    }
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString * CellIdentifier = kCellReuseId;
+    if (indexPath.section == 0) {
+        
+        return nil;
+    }else{
     
-    WBCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-    [cell setModel:_dataSource[indexPath.row] imageHeight:[_cellHeightArray[indexPath.row] floatValue]*CollectionCellWidth];
-      //  NSLog(@"UICollectionViewCell = %ld",indexPath.row);
-    cell.delegate = self;
-    return cell;
+        static NSString * CellIdentifier = kCellReuseId;
+        WBCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+        [cell setModel:_dataSource[indexPath.row] imageHeight:[_cellHeightArray[indexPath.row] floatValue]*CollectionCellWidth];
+        //  NSLog(@"UICollectionViewCell = %ld",indexPath.row);
+        cell.delegate = self;
+        return cell;
+    
+    }
+    
     
     
 }
