@@ -99,6 +99,17 @@
     return cityName;
 }
 
+
+-(WBCityModel *)cityModelWithCityId:(NSNumber *)cityId{
+    WBCityModel *model = [[WBCityModel alloc]init];
+    for (WBCityModel *city in self.cityArray) {
+        if ([city.cityId isEqualToNumber:cityId]) {
+            model = city;
+        }
+    }
+    return model;
+}
+
 -(NSArray *)searchCityWithCithName:(NSString *)cityName{
     NSMutableArray *cityArr = [NSMutableArray array];
     for (WBCityModel *city in self.cityArray) {

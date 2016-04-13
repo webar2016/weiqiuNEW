@@ -55,6 +55,7 @@
     
     NSInteger _currentData1Index;
     NSInteger _currentData2Index;
+    NSInteger _data2MainIndex;
     NSInteger _currentData3Index;
 
 }
@@ -113,14 +114,19 @@
     MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
     NSArray *myCityArray = [manager searchAllItems];
     [manager closeFBDM];
-    _myCityNameArray = [NSMutableArray array];
+    
+    
+    _myCityNameArray = [NSMutableArray arrayWithObject:@{@"省份":@"全部",@"城市":@"全部"}];
     WBPositionList *positionList = [[WBPositionList alloc]init];
-    
+    NSMutableArray *myTempCityArray = [NSMutableArray array];
     for (NSInteger i = 0; i<myCityArray.count; i++) {
-       [_myCityNameArray addObject:[positionList cityNameWithCityId:[NSNumber numberWithInteger:((WBTbl_Unlock_City *)myCityArray[i]).cityId]]];
+       [myTempCityArray addObject:[positionList cityModelWithCityId:[NSNumber numberWithInteger:((WBTbl_Unlock_City *)myCityArray[i]).cityId]]];
     }
-    
-    
+   
+    WBPositionModel *myLockCityModel = [[WBPositionModel alloc]init];
+    myLockCityModel.provinceName = @"我解锁过的城市";
+     [_myCityNameArray addObject:@{@"省份":myLockCityModel,@"城市":myTempCityArray}];
+  //  NSLog(@"%@",_myCityNameArray);
     
     
    _allCityNameArray = [NSMutableArray arrayWithObject:@{@"省份":@"全部",@"城市":@"全部"}];
@@ -132,7 +138,7 @@
     _data1 = [NSMutableArray arrayWithObjects:@"全部帮帮团", @"我的帮帮团", nil];
     
     _data2 = [NSMutableArray arrayWithArray:_allCityNameArray];
-    NSLog(@"%@",_data2);
+  // NSLog(@"%@",_data2);
     _data3 = [NSMutableArray arrayWithObjects:@"标签", @"美食", @"佳境", @"购物", @"艳遇", @"历史", @"科技",@"人文", @"其他",@"",nil];
     
     JSDropDownMenu *menu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:30];
@@ -143,8 +149,8 @@
     menu.delegate = self;
     
     [self.view addSubview:menu];
-    
-    
+   
+
     
 }
 
@@ -337,6 +343,7 @@
 -(NSInteger)currentLeftSelectedRow:(NSInteger)column{
     if (column==0) {
         return _currentData1Index;
+        
     }
     if (column==1) {
         return _currentData2Index;
@@ -424,29 +431,74 @@
 - (void)menu:(JSDropDownMenu *)menu didSelectRowAtIndexPath:(JSIndexPath *)indexPath {
     
     if (indexPath.column == 0) {
-        if (_currentData1Index == indexPath.row) {
-            
-        }else{
-            _currentData1Index = indexPath.row;
-            _page = 1;
-            if (_currentData1Index == 0) {
-                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
-            }else{
-            
-                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
-            }
-            [self showHUD:@"正在加载" isDim:YES];
-           [self loadData];
-        }
-       
+        _currentData1Index = indexPath.row;
+        [self changeUrl];
+        [self showHUD:@"正在加载" isDim:YES];
+        [self loadData];
+        
     } else if(indexPath.column == 1){
         
+       
+        
+        if(indexPath.leftOrRight==0){
+           
+            _currentData2Index = indexPath.row;
+            _data2MainIndex = indexPath.leftRow;
+            
+            return;
+        }
+        
         _currentData2Index = indexPath.row;
+        _data2MainIndex = indexPath.leftRow;
+        [self changeUrl];
+        [self showHUD:@"正在加载" isDim:YES];
+        [self loadData];
         
     } else{
         
         _currentData3Index = indexPath.row;
     }
+}
+
+-(void)changeUrl{
+    
+    if (_currentData1Index == 0) {
+       
+        
+        if (_data2MainIndex==0 &&_currentData2Index==0) {
+            
+            _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+        }else{
+        
+            WBPositionList *positionList = [[WBPositionList  alloc]init];
+            WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
+            WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
+            _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?cityId=%@*p=%ld&ps=%d",model.cityId,(long)_page,PAGESIZE];
+        
+        
+        }
+        
+    }else{
+        
+        if (_data2MainIndex==0 &&_currentData2Index==0) {
+            
+            _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
+        }else{
+            
+            WBPositionList *positionList = [[WBPositionList  alloc]init];
+            WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
+            WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
+            _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],model.cityId,(long)_page,PAGESIZE];
+            
+            
+        }
+
+        
+       
+    }
+
+
+
 }
 
 

@@ -285,13 +285,13 @@
         _hadSelected = NO;
         
         //tableView init
-        _leftTableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x, self.frame.origin.y + self.frame.size.height, 0, 0) style:UITableViewStyleGrouped];
-        _leftTableView.rowHeight = 38;
+        _leftTableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x, self.frame.origin.y + self.frame.size.height, SCREENWIDTH/2, 200) style:UITableViewStyleGrouped];
+        _leftTableView.rowHeight =38;
         _leftTableView.separatorColor = [UIColor colorWithRed:220.f/255.0f green:220.f/255.0f blue:220.f/255.0f alpha:1.0];
         _leftTableView.dataSource = self;
         _leftTableView.delegate = self;
         
-        _rightTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.frame.size.width, self.frame.origin.y + self.frame.size.height, 0, 0) style:UITableViewStyleGrouped];
+        _rightTableView = [[UITableView alloc] initWithFrame:CGRectMake(self.frame.size.width, self.frame.origin.y + self.frame.size.height, SCREENWIDTH/2, 200) style:UITableViewStyleGrouped];
         _rightTableView.rowHeight = 38;
         _rightTableView.separatorColor = [UIColor colorWithRed:220.f/255.0f green:220.f/255.0f blue:220.f/255.0f alpha:1.0];
         _rightTableView.dataSource = self;
@@ -858,6 +858,7 @@
         _leftSelectedRow = indexPath.row;
     }
     
+    
     if (self.delegate || [self.delegate respondsToSelector:@selector(menu:didSelectRowAtIndexPath:)]) {
         
         BOOL haveRightTableView = [_dataSource haveRightTableViewInColumn:_currentSelectedMenudIndex];
@@ -867,6 +868,11 @@
         }
         
         [self.delegate menu:self didSelectRowAtIndexPath:[JSIndexPath indexPathWithCol:self.currentSelectedMenudIndex leftOrRight:leftOrRight leftRow:_leftSelectedRow row:indexPath.row]];
+//        if (self.currentSelectedMenudIndex == 0) {
+//            
+//            
+//            [self.delegate menu:self didSelectRowAtIndexPath:[JSIndexPath indexPathWithCol:1 leftOrRight:0 leftRow:0 row:0]];
+//        }
         
         if (leftOrRight==0 && haveRightTableView) {
             if (!_hadSelected) {
