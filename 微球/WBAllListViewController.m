@@ -14,6 +14,11 @@
 #import "WBGetSizeOfObject.h"
 #import "WBHelpGroupsDetailViewController.h"
 #import "WBHomepageViewController.h"
+#import "MyDBmanager.h"
+#import "WBTbl_Unlock_City.h"
+#import "JSDropDownMenu.h"
+#import "WBPositionList.h"
+#import "WBPositionModel.h"
 
 #import "TopCell.h"
 
@@ -30,7 +35,7 @@
 #define kCellReuseId @"collectionViewCellId"
 #define CollectionCellWidth (SCREENWIDTH-30)/2
 
-@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,CollectionGoHomePage>
+@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,CollectionGoHomePage,JSDropDownMenuDataSource,JSDropDownMenuDelegate>
 {
     UICollectionView *_collectionView;
     NSInteger _page;
@@ -39,7 +44,19 @@
     //每个cell的高度
     NSMutableArray *_cellHeightArray;
     
-//    UIImageView *_background;
+    NSString *_urlString;
+    
+    NSMutableArray *_data1;
+    NSMutableArray *_data2;
+    NSMutableArray *_data3;
+    
+    NSMutableArray *_myCityNameArray;
+    NSMutableArray *_allCityNameArray;
+    
+    NSInteger _currentData1Index;
+    NSInteger _currentData2Index;
+    NSInteger _currentData3Index;
+
 }
 
 @end
@@ -49,6 +66,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _page=1;
+    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
     _cellHeightArray = [NSMutableArray array];
     self.dataSource = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -58,6 +76,7 @@
     
     _collectionView = [self collectionView];
     [self.view addSubview:_collectionView];
+    [self createUI];
     [self createMJRefresh];
     [self showHUDIndicator];
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -89,11 +108,53 @@
     
 }
 
+-(void)createUI{
+    
+    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+    NSArray *myCityArray = [manager searchAllItems];
+    [manager closeFBDM];
+    _myCityNameArray = [NSMutableArray array];
+    WBPositionList *positionList = [[WBPositionList alloc]init];
+    
+    for (NSInteger i = 0; i<myCityArray.count; i++) {
+       [_myCityNameArray addObject:[positionList cityNameWithCityId:[NSNumber numberWithInteger:((WBTbl_Unlock_City *)myCityArray[i]).cityId]]];
+    }
+    
+    
+    
+    
+   _allCityNameArray = [NSMutableArray arrayWithObject:@{@"省份":@"全部",@"城市":@"全部"}];
+    
+    for (WBPositionModel *model in positionList.provinceArray) {
+        [_allCityNameArray addObject:@{@"省份":model,@"城市":[positionList getCitiesListWithProvinceId:model.provinceId]}];
+    }
+    
+    _data1 = [NSMutableArray arrayWithObjects:@"全部帮帮团", @"我的帮帮团", nil];
+    
+    _data2 = [NSMutableArray arrayWithArray:_allCityNameArray];
+    NSLog(@"%@",_data2);
+    _data3 = [NSMutableArray arrayWithObjects:@"标签", @"美食", @"佳境", @"购物", @"艳遇", @"历史", @"科技",@"人文", @"其他",@"",nil];
+    
+    JSDropDownMenu *menu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:30];
+    menu.indicatorColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:1.0];
+    menu.separatorColor = [UIColor colorWithRed:210.0f/255.0f green:210.0f/255.0f blue:210.0f/255.0f alpha:1.0];
+    menu.textColor = [UIColor colorWithRed:83.f/255.0f green:83.f/255.0f blue:83.f/255.0f alpha:1.0f];
+    menu.dataSource = self;
+    menu.delegate = self;
+    
+    [self.view addSubview:menu];
+    
+    
+    
+}
+
+
+
 -(UICollectionView *)collectionView
 {
     if (!_collectionView) {
         MyCollectionViewFlowLayout * flowLayout = [[MyCollectionViewFlowLayout alloc]init];
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height - 64 - 49) collectionViewLayout:flowLayout];
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 30, SCREENWIDTH, self.view.frame.size.height - 64 - 49 -30) collectionViewLayout:flowLayout];
         collectionView.backgroundColor = [UIColor whiteColor];
         collectionView.dataSource = self;
         collectionView.delegate = self;
@@ -108,11 +169,7 @@
 
 -(void)loadData
 {
-//    _loadImageCount = 0;
-    
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
-    
-    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:_urlString whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if (_page == 1) {
@@ -128,15 +185,10 @@
                 [_cellHeightArray addObject:((WBCollectionViewModel *)tempArray[i]).imgRate];
                 [self .dataSource addObject:tempArray[i]];
             }
+            if (count != PAGESIZE) {
+               [(MJRefreshAutoNormalFooter *)_collectionView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
+            }
             
-            if (count <= PAGESIZE && count != 0) {
-                _page++;
-            }
-            if (_page == 1 && count == 0) {
-                [(MJRefreshAutoNormalFooter *)_collectionView.mj_footer setTitle:@"" forState:MJRefreshStateIdle];
-            } else if (_page != 1 && count == 0) {
-                [(MJRefreshAutoNormalFooter *)_collectionView.mj_footer setTitle:@"没有更多了！" forState:MJRefreshStateIdle];
-            }
         }
         
         [_collectionView reloadData];
@@ -248,8 +300,155 @@
     HVC.userId = userId;
     [self.navigationController pushViewController:HVC animated:YES];
 
-
 }
+
+
+#pragma mark =====tableView delegate======
+
+//有一个列表
+- (NSInteger)numberOfColumnsInMenu:(JSDropDownMenu *)menu {
+    
+    return 3;
+}
+// 是否需要显示为UICollectionView 默认为否
+-(BOOL)displayByCollectionViewInColumn:(NSInteger)column{
+    if (column==2) {
+        return YES;
+    }
+    return NO;
+}
+//是否需要现实两个表
+-(BOOL)haveRightTableViewInColumn:(NSInteger)column{
+    if (column == 1) {
+        return YES;
+    }
+    return NO;
+}
+/**
+ * 表视图显示时，左边表显示比例
+ */
+-(CGFloat)widthRatioOfLeftColumn:(NSInteger)column{
+    if (column == 1) {
+        return 0.4;
+    }
+    return 1;
+}
+
+-(NSInteger)currentLeftSelectedRow:(NSInteger)column{
+    if (column==0) {
+        return _currentData1Index;
+    }
+    if (column==1) {
+        return _currentData2Index;
+    }
+    return 0;
+}
+
+- (NSInteger)menu:(JSDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column leftOrRight:(NSInteger)leftOrRight leftRow:(NSInteger)leftRow{
+    
+    if (column==0) {
+        return _data1.count;
+    } else if (column==1){
+        if (leftOrRight == 0) {
+            return _data2.count;
+        }else{
+            if (leftRow==0) {
+                
+                return 1;
+            }else{
+                NSDictionary *menuDic = [_data2 objectAtIndex:leftRow];
+                return [[menuDic objectForKey:@"城市"] count];
+            }
+            
+        }
+    } else if (column==2){
+        
+        return _data3.count;
+    }
+    
+    return 0;
+}
+
+- (NSString *)menu:(JSDropDownMenu *)menu titleForColumn:(NSInteger)column{
+    switch (column) {
+        case 0: return _data1[0];
+            break;
+        case 1: return [_data2[0] objectForKey:@"城市"];                       //    ((WBCityModel *)[[_data2[0] objectForKey:@"城市"] objectAtIndex:0]).cityName;
+            break;
+        case 2: return _data3[0];
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
+
+- (NSString *)menu:(JSDropDownMenu *)menu titleForRowAtIndexPath:(JSIndexPath *)indexPath {
+    
+    if (indexPath.column==0) {
+        
+        return _data1[indexPath.row];
+        
+    } else if (indexPath.column==1) {
+        
+        if (indexPath.leftOrRight==0) {
+            if (indexPath.row == 0) {
+                NSDictionary *menuDic = [_data2 objectAtIndex:0];
+                return [menuDic objectForKey:@"省份"];
+            }else{
+                NSDictionary *menuDic = [_data2 objectAtIndex:indexPath.row];
+                return ((WBPositionModel *)[menuDic objectForKey:@"省份"]).provinceName;
+            }
+        } else{
+            
+            NSInteger leftRow = indexPath.leftRow;
+            
+            if (leftRow==0) {
+                 NSDictionary *menuDic = [_data2 objectAtIndex:leftRow];
+                return [menuDic objectForKey:@"城市"];
+            }else{
+            
+                NSDictionary *menuDic = [_data2 objectAtIndex:leftRow];
+                return  ((WBCityModel *)[[menuDic objectForKey:@"城市"] objectAtIndex:indexPath.row]).cityName;
+            }
+            
+        }
+
+        
+    } else {
+        
+        return _data3[indexPath.row];
+    }
+}
+
+- (void)menu:(JSDropDownMenu *)menu didSelectRowAtIndexPath:(JSIndexPath *)indexPath {
+    
+    if (indexPath.column == 0) {
+        if (_currentData1Index == indexPath.row) {
+            
+        }else{
+            _currentData1Index = indexPath.row;
+            _page = 1;
+            if (_currentData1Index == 0) {
+                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+            }else{
+            
+                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
+            }
+            [self showHUD:@"正在加载" isDim:YES];
+           [self loadData];
+        }
+       
+    } else if(indexPath.column == 1){
+        
+        _currentData2Index = indexPath.row;
+        
+    } else{
+        
+        _currentData3Index = indexPath.row;
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
