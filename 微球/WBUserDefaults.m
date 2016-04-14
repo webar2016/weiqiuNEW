@@ -149,6 +149,17 @@
     [self setUserDefaultsArrayWithKey:@"token"];
 }
 
+
++(NSString *)deviceToken{
+return [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"];
+}
+
++(void)setDeviceToken:(NSString *)deviceToken{
+    [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:@"deviceToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self setUserDefaultsArrayWithKey:@"deviceToken"];
+}
+
 +(id)getSingleUserDefaultsWithUserDefaultsKey:(NSString *)key{
     if (![[self keysInUserDefaults] containsObject:key]) {
         NSLog(@"输入的键不存在------%@",key);

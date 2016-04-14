@@ -26,7 +26,11 @@
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager.requestSerializer setValue:[WBUserDefaults deviceToken] forHTTPHeaderField:@"Authorization"];
+    NSLog(@"deviceToken %@",[WBUserDefaults deviceToken]);
     [manager GET:urlStr parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+        
+        
         success(responseObject);
         
     } failure:^(NSURLSessionTask *operation, NSError *error) {

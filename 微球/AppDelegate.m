@@ -149,6 +149,7 @@ didRegisterUserNotificationSettings:
       withString:@""]
      stringByReplacingOccurrencesOfString:@" "
      withString:@""];
+    [WBUserDefaults setDeviceToken:token];
     
     [[RCIMClient sharedRCIMClient] setDeviceToken:token];
     
