@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WBPositionModel.h"
 
 
 @interface WBPositionList : NSObject
@@ -56,7 +57,7 @@
  *根据cityId返回cityName
  */
 -(NSString *)cityNameWithCityId:(NSNumber *)cityId;
-
+-(WBCityModel *)cityModelWithCityId:(NSNumber *)cityId;
 /**
  *根据搜索的城市名显示城市
  *返回数组
