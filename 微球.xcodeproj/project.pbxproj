@@ -126,6 +126,10 @@
 		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
 		2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */; };
 		2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */; };
+		2D3ADCB51CC47A970075E6A0 /* AddressChoicePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3ADCB31CC47A970075E6A0 /* AddressChoicePickerView.m */; };
+		2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D3ADCB41CC47A970075E6A0 /* AddressChoicePickerView.xib */; };
+		2D3ADCBA1CC47A9F0075E6A0 /* Localtion.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */; };
+		2D3ADCBB1CC47A9F0075E6A0 /* AreaObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3ADCB91CC47A9F0075E6A0 /* AreaObject.m */; };
 		2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */; };
 		2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE61C8840B000555532 /* MyModel.xcdatamodeld */; };
 		2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D6161C869FDC008EE96B /* WBTopTableViewCell.m */; };
@@ -414,6 +418,12 @@
 		2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMenuBtnViewController.m; sourceTree = "<group>"; };
 		2D38A2E91CB6666800F4AEC8 /* WBMyUnlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyUnlockViewController.h; sourceTree = "<group>"; };
 		2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyUnlockViewController.m; sourceTree = "<group>"; };
+		2D3ADCB21CC47A970075E6A0 /* AddressChoicePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressChoicePickerView.h; sourceTree = "<group>"; };
+		2D3ADCB31CC47A970075E6A0 /* AddressChoicePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressChoicePickerView.m; sourceTree = "<group>"; };
+		2D3ADCB41CC47A970075E6A0 /* AddressChoicePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressChoicePickerView.xib; sourceTree = "<group>"; };
+		2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Localtion.plist; sourceTree = "<group>"; };
+		2D3ADCB81CC47A9F0075E6A0 /* AreaObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaObject.h; sourceTree = "<group>"; };
+		2D3ADCB91CC47A9F0075E6A0 /* AreaObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaObject.m; sourceTree = "<group>"; };
 		2D465FE31C88316000555532 /* WBTopicCommentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicCommentTableViewController.h; sourceTree = "<group>"; };
 		2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicCommentTableViewController.m; sourceTree = "<group>"; };
 		2D465FE71C8840B000555532 /* MyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyModel.xcdatamodel; sourceTree = "<group>"; };
@@ -1073,6 +1083,7 @@
 				2DF1AD7B1CBDDFBB003D7B5E /* ico_make.png */,
 				2DF1AD7C1CBDDFBB003D7B5E /* JSDropDownMenu.h */,
 				2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */,
+				2D3ADCB11CC47A700075E6A0 /* locatePicker */,
 				2D16EF541C84169C002D5F90 /* waterfall */,
 				2DC665781C9032C700C1FFB3 /* HelpGroupDetail */,
 				2D5D72FC1C925BC400F8C2AE /* 分配悬赏 */,
@@ -1151,6 +1162,19 @@
 				2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */,
 			);
 			name = "找回密码";
+			sourceTree = "<group>";
+		};
+		2D3ADCB11CC47A700075E6A0 /* locatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */,
+				2D3ADCB81CC47A9F0075E6A0 /* AreaObject.h */,
+				2D3ADCB91CC47A9F0075E6A0 /* AreaObject.m */,
+				2D3ADCB21CC47A970075E6A0 /* AddressChoicePickerView.h */,
+				2D3ADCB31CC47A970075E6A0 /* AddressChoicePickerView.m */,
+				2D3ADCB41CC47A970075E6A0 /* AddressChoicePickerView.xib */,
+			);
+			name = locatePicker;
 			sourceTree = "<group>";
 		};
 		2D465FE21C88313900555532 /* commentView */ = {
@@ -1528,11 +1552,13 @@
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
 				2D62D6621C89346200E4D05E /* ShareSDKUI.bundle in Resources */,
 				2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */,
+				2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
 				2DF1AD7E1CBDDFBB003D7B5E /* ico_make.png in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
 				05D6EB881C7D414F002D48FF /* Assets.xcassets in Resources */,
 				05D6EB861C7D414F002D48FF /* Main.storyboard in Resources */,
+				2D3ADCBA1CC47A9F0075E6A0 /* Localtion.plist in Resources */,
 				05665F261CB4D94600FFAA21 /* ALBBQuPaiPlugin.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1671,6 +1697,7 @@
 				2D62D6821C8967ED00E4D05E /* WBTopicCommentTableViewCell.m in Sources */,
 				05DB3F6B1C87196900CBCC54 /* UILabel+label.m in Sources */,
 				2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */,
+				2D3ADCB51CC47A970075E6A0 /* AddressChoicePickerView.m in Sources */,
 				2DF2A93E1C9FC220002C3A2A /* WBFansModel.m in Sources */,
 				2DB20EF21C8573BF005C542F /* WBTopicTableViewCell.m in Sources */,
 				2D02B6A01C8198C300FADFFB /* RESideMenu.m in Sources */,
@@ -1714,6 +1741,7 @@
 				2D5005581C800BCC00DB8BF3 /* CreateHelpGroupViewController.m in Sources */,
 				2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */,
 				2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */,
+				2D3ADCBB1CC47A9F0075E6A0 /* AreaObject.m in Sources */,
 				2DF2A9411C9FCD44002C3A2A /* WBAttentionModel.m in Sources */,
 				05794C8E1CA263C200F32837 /* WBFollowMessage.m in Sources */,
 				054550501C8FEF6F00A6F0E8 /* WBTalkViewController.m in Sources */,

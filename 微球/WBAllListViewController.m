@@ -14,6 +14,7 @@
 #import "WBGetSizeOfObject.h"
 #import "WBHelpGroupsDetailViewController.h"
 #import "WBHomepageViewController.h"
+#import "AddressChoicePickerView.h"
 #import "MyDBmanager.h"
 #import "WBTbl_Unlock_City.h"
 #import "JSDropDownMenu.h"
@@ -57,6 +58,8 @@
     NSInteger _currentData2Index;
     NSInteger _data2MainIndex;
     NSInteger _currentData3Index;
+    
+    UIButton *_locatePickBtn;
 
 }
 
@@ -149,12 +152,31 @@
     menu.delegate = self;
     
     [self.view addSubview:menu];
-   
-
     
+    _locatePickBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _locatePickBtn.frame = CGRectMake(SCREENWIDTH/2, 0, SCREENWIDTH/2, 30);
+    [self.view addSubview:_locatePickBtn];
+    [_locatePickBtn setBackgroundColor:[UIColor colorWithRed:244.0/255.0 green:244.0/255.0 blue:244.0/255.0 alpha:1]];
+    [_locatePickBtn setTitle:@"beijing" forState:UIControlStateNormal];
+    [_locatePickBtn setTitleColor:[UIColor colorWithRed:90.0/255.0 green:90.0/255.0 blue:90.0/255.0 alpha:1] forState:UIControlStateNormal];
+    _locatePickBtn.layer.borderColor = [[UIColor colorWithRed:210.0/255.0 green:210.0/255.0 blue:210.0/255.0 alpha:1] CGColor];
+    // _locatePickBtn.titleEdgeInsets = UIEdgeInsetsMake(0,0 , 0,100);
+    _locatePickBtn.imageEdgeInsets = UIEdgeInsetsMake(0,125, 0,0);
+    [_locatePickBtn setImage:[UIImage imageNamed:@"icon_spread1.png"] forState:UIControlStateNormal];
+    _locatePickBtn.layer.borderWidth = 0.5;
+    [_locatePickBtn addTarget:self action:@selector(loactePickBtn) forControlEvents:UIControlEventTouchUpInside];
 }
 
+-(void)loactePickBtn{
+    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]init];
+    addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate){
+        _locatePickBtn.titleLabel.text = [NSString stringWithFormat:@"%@",locate];
+    };
+    [addressPickerView show];
 
+
+
+}
 
 -(UICollectionView *)collectionView
 {
@@ -314,7 +336,7 @@
 //有一个列表
 - (NSInteger)numberOfColumnsInMenu:(JSDropDownMenu *)menu {
     
-    return 3;
+    return 1;
 }
 // 是否需要显示为UICollectionView 默认为否
 -(BOOL)displayByCollectionViewInColumn:(NSInteger)column{
