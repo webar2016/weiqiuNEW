@@ -152,19 +152,63 @@ didRegisterUserNotificationSettings:
     [WBUserDefaults setDeviceToken:token];
     
     [[RCIMClient sharedRCIMClient] setDeviceToken:token];
-    
+
 
 }
+
+
 
 //系统冻结时捕获消息
 -(void)showRemotePushMessageWithOptions:(NSDictionary *)launchOptions{
+    
+    
 }
+
+//json
+- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString {
+    if (jsonString == nil) {
+        return nil;
+    }
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                         
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    if(err) {
+        
+        NSLog(@"json解析失败：%@",err);
+        
+        return nil;
+        
+    }
+    return dic;
+}
+
 
 //系统未冻结时捕获消息
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // userInfo为远程推送的内容
     NSLog(@"%@",userInfo);
+    
+    NSDictionary *tempStr =[userInfo[@"aps"] objectForKey:@"alert"];
+    
+    NSLog(@"%@",tempStr);
+    
+
+    
+    NSDictionary *tempDic = [self dictionaryWithJsonString:[userInfo[@"aps"] objectForKey:@"alert"]];
+   
+    NSLog(@"%@",tempDic);
+    
+    NSLog(@"%@",[[tempDic objectForKey:@"body"] firstObject]);
+    
+    NSLog(@"%@",[[tempDic objectForKey:@"typeFlag"] firstObject]);
+    
+    
 }
+
+
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     /**

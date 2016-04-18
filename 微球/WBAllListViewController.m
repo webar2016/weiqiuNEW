@@ -466,8 +466,9 @@
        
         
         if (_data2MainIndex==0 &&_currentData2Index==0) {
-            
+           // @"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d"
             _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+            
         }else{
         
             WBPositionList *positionList = [[WBPositionList  alloc]init];

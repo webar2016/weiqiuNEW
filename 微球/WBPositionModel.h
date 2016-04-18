@@ -28,3 +28,25 @@
 @property (nonatomic, weak) NSNumber *provinceId;
 
 @end
+
+
+
+@interface WBBigAreaModel : NSObject
+
+@property (nonatomic, weak) NSNumber *areaId;
+@property (nonatomic, copy) NSString *areaName;
+@property (nonatomic, assign) BOOL isCountry;
+
+@end
+
+
+@interface WBCountryModel : NSObject
+
+@property (nonatomic, weak) NSNumber *id;
+@property (nonatomic, copy) NSString *country;
+@property (nonatomic, copy) NSString *mobile_prefix;
+@property (nonatomic, copy) NSString *area;
+@property (nonatomic, weak) NSNumber *areaId;
+@property (nonatomic, weak) NSNumber *areaSize;
+
+@end
