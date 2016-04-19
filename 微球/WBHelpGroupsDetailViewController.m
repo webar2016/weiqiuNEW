@@ -171,13 +171,13 @@
         headImage.image = [UIImage imageNamed:imageNameArray[i]];
         [_scrollView addSubview:headImage];
         
-        UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(50, _imageHeight+55+[cellHeightyArray[i] integerValue], 150, 16)];
+        UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(50, _imageHeight+55+[cellHeightyArray[i] integerValue], 130, 16)];
         [_scrollView addSubview:labelName];
         labelName.text = labelNameArray[i];
         labelName.font = MAINFONTSIZE;
         labelName.textColor = [UIColor initWithLightGray];
         
-        UILabel *rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, _imageHeight+55+[cellHeightyArray[i] integerValue], SCREENWIDTH-150-20, 16)];
+        UILabel *rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(130, _imageHeight+55+[cellHeightyArray[i] integerValue], SCREENWIDTH-150, 16)];
         rightLabel.textAlignment = NSTextAlignmentRight;
         [_scrollView addSubview:rightLabel];
         rightLabel.text = rightLabelNameArray[i];

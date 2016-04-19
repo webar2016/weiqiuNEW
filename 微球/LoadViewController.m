@@ -351,7 +351,7 @@
 -(void)saveData{
     _number++;
     if (_number == 4) {
-        [self showHUDComplete:@"保存完毕"];
+        [self hideHUD];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
 
         [self dismissViewControllerAnimated:YES completion:nil];

@@ -75,7 +75,8 @@
             [manager2 deleteAllData];
             [manager2 closeFBDM];
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            
             self.tabBarController.selectedIndex = 0;
         }];
         action;
@@ -147,7 +148,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"屏蔽微球小助手",@"给我们鼓励！",@"关于微球"];
+    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"屏蔽微球小助手",@"去App Store评分",@"关于微球"];
     cell.textLabel.text = title[indexPath.row];
     cell.textLabel.textColor = [UIColor initWithNormalGray];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

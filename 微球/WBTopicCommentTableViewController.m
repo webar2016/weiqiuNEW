@@ -125,7 +125,7 @@
 -(void)viewDidUnload{
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    
 }
 
 - (void) keyboardWasShown:(NSNotification *) notif
@@ -137,7 +137,7 @@
     CGSize keyboardSize = [value CGRectValue].size;
     NSNumber *animationTime = [info objectForKey:@"UIKeyboardAnimationDurationUserInfoKey"];
     [UIView animateWithDuration:[animationTime doubleValue] animations:^{
-        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 64 - 50 - keyboardSize.height, SCREENWIDTH, 50);
+        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50 - keyboardSize.height, SCREENWIDTH, 50);
     } completion:nil];
 }
 
@@ -147,7 +147,7 @@
     if (_commentTextView.text.length == 0) {
         [_commentTextView addSubview:_placeHolder];
     }
-    _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 64 - 50, SCREENWIDTH, 50);
+    _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50, SCREENWIDTH, 50);
 }
 
 - (void) keyboardWillChangeFrame:(NSNotification *) notif
@@ -156,7 +156,7 @@
     CGFloat endKeyboardHeight = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
     NSNumber *animationTime = [info objectForKey:@"UIKeyboardAnimationDurationUserInfoKey"];
     [UIView animateWithDuration:[animationTime doubleValue] animations:^{
-        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 64 - 50 - endKeyboardHeight, SCREENWIDTH, 50);
+        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50 - endKeyboardHeight, SCREENWIDTH, 50);
     } completion:nil];
     
 }
@@ -178,7 +178,7 @@
         _commentTextView.text = @"";
         [_commentTextView resignFirstResponder];
     } andFailure:^(NSString *error) {
-         [self showHUDComplete:@"评论失败，请稍后再试"];
+        [self showHUDComplete:@"评论失败，请稍后再试"];
     }];
     
     
@@ -220,9 +220,9 @@
                 NSDictionary *attributes = @{NSFontAttributeName: MAINFONTSIZE};
                 CGRect rect = [((WBtopicCommentDetilListModel *)_dataArray[j]).comment
                                boundingRectWithSize:CGSizeMake(SCREENWIDTH-20-65, MAXFLOAT)
-                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:attributes
-                                             context:nil];
+                               options:NSStringDrawingUsesLineFragmentOrigin
+                               attributes:attributes
+                               context:nil];
                 [_cellHeightArray addObject:[NSString stringWithFormat:@"%f",rect.size.height]];
             }
             
