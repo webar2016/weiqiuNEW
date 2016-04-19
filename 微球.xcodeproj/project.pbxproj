@@ -189,6 +189,9 @@
 		2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B51CAFCE660000E8CB /* UnZan.png */; };
 		2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B61CAFCE660000E8CB /* Zan.png */; };
 		2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */; };
+		2DFECB241CC623DE008BE938 /* BigAreas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DFECB231CC623DE008BE938 /* BigAreas.plist */; };
+		2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DFECB251CC623EF008BE938 /* Countrys.plist */; };
+		2DFECB291CC628D8008BE938 /* WBLocateList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFECB281CC628D8008BE938 /* WBLocateList.m */; };
 		2DFF687F1C969C95000DCDDA /* WBRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */; };
 		2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFF68811C96B1AD000DCDDA /* WBClientModel.m */; };
 		9338262491D79DB4DE91FFAD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0E529E428FEF18D5650182 /* libPods.a */; };
@@ -531,6 +534,10 @@
 		2DF532B51CAFCE660000E8CB /* UnZan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnZan.png; sourceTree = "<group>"; };
 		2DF532B61CAFCE660000E8CB /* Zan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Zan.png; sourceTree = "<group>"; };
 		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDownLoadManager.m; sourceTree = "<group>"; };
+		2DFECB231CC623DE008BE938 /* BigAreas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BigAreas.plist; sourceTree = "<group>"; };
+		2DFECB251CC623EF008BE938 /* Countrys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countrys.plist; sourceTree = "<group>"; };
+		2DFECB271CC628D8008BE938 /* WBLocateList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLocateList.h; sourceTree = "<group>"; };
+		2DFECB281CC628D8008BE938 /* WBLocateList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBLocateList.m; sourceTree = "<group>"; };
 		2DFF687D1C969C95000DCDDA /* WBRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBRegisterViewController.h; sourceTree = "<group>"; };
 		2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBRegisterViewController.m; sourceTree = "<group>"; };
 		2DFF68801C96B1AD000DCDDA /* WBClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBClientModel.h; sourceTree = "<group>"; };
@@ -733,6 +740,13 @@
 				052F30D21C93EEB200D15322 /* WBPositionList.m */,
 				052F30CE1C93EB5B00D15322 /* WBPositionModel.h */,
 				052F30CF1C93EB5B00D15322 /* WBPositionModel.m */,
+				2DFECB271CC628D8008BE938 /* WBLocateList.h */,
+				2DFECB281CC628D8008BE938 /* WBLocateList.m */,
+				2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */,
+				052F30D41C93F9FA00D15322 /* city.plist */,
+				052F30D51C93F9FA00D15322 /* province.plist */,
+				2DFECB231CC623DE008BE938 /* BigAreas.plist */,
+				2DFECB251CC623EF008BE938 /* Countrys.plist */,
 			);
 			name = "省份城市";
 			sourceTree = "<group>";
@@ -926,8 +940,6 @@
 				05D6EB841C7D414F002D48FF /* Main.storyboard */,
 				05D6EB891C7D414F002D48FF /* LaunchScreen.storyboard */,
 				05CCAAE41CB791A20036A600 /* shareIcon.png */,
-				052F30D41C93F9FA00D15322 /* city.plist */,
-				052F30D51C93F9FA00D15322 /* province.plist */,
 				05D6EB8C1C7D414F002D48FF /* Info.plist */,
 				05D6EB7C1C7D414F002D48FF /* main.m */,
 			);
@@ -1167,7 +1179,6 @@
 		2D3ADCB11CC47A700075E6A0 /* locatePicker */ = {
 			isa = PBXGroup;
 			children = (
-				2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */,
 				2D3ADCB81CC47A9F0075E6A0 /* AreaObject.h */,
 				2D3ADCB91CC47A9F0075E6A0 /* AreaObject.m */,
 				2D3ADCB21CC47A970075E6A0 /* AddressChoicePickerView.h */,
@@ -1550,9 +1561,11 @@
 				05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
+				2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
 				05D6EB8B1C7D414F002D48FF /* LaunchScreen.storyboard in Resources */,
 				2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */,
+				2DFECB241CC623DE008BE938 /* BigAreas.plist in Resources */,
 				2D62D6691C89346200E4D05E /* read_me.txt in Resources */,
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
 				2D62D6621C89346200E4D05E /* ShareSDKUI.bundle in Resources */,
@@ -1683,6 +1696,7 @@
 				052E95D41CABDC0700152FC8 /* WBWebViewController.m in Sources */,
 				2D5005621C801B3F00DB8BF3 /* LoadViewController.m in Sources */,
 				2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */,
+				2DFECB291CC628D8008BE938 /* WBLocateList.m in Sources */,
 				05DB3F511C8444A400CBCC54 /* UIColor+color.m in Sources */,
 				052F30D31C93EEB200D15322 /* WBPositionList.m in Sources */,
 				05D1F9401C8FBE1A0049D3EC /* WBHomepageViewController.m in Sources */,

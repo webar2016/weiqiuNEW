@@ -138,7 +138,7 @@
         [_allCityNameArray addObject:@{@"省份":model,@"城市":[positionList getCitiesListWithProvinceId:model.provinceId]}];
     }
     
-    _data1 = [NSMutableArray arrayWithObjects:@"全部帮帮团", @"我的帮帮团", nil];
+    _data1 = [NSMutableArray arrayWithObjects:@"全部帮帮团", @"我可加入的的帮帮团", nil];
     
     _data2 = [NSMutableArray arrayWithArray:_allCityNameArray];
   // NSLog(@"%@",_data2);
@@ -154,23 +154,44 @@
     [self.view addSubview:menu];
     
     _locatePickBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _locatePickBtn.frame = CGRectMake(SCREENWIDTH/2, 0, SCREENWIDTH/2, 30);
+    _locatePickBtn.frame = CGRectMake(SCREENWIDTH/2, -0.5, SCREENWIDTH/2, 30.5);
     [self.view addSubview:_locatePickBtn];
     [_locatePickBtn setBackgroundColor:[UIColor colorWithRed:244.0/255.0 green:244.0/255.0 blue:244.0/255.0 alpha:1]];
-    [_locatePickBtn setTitle:@"beijing" forState:UIControlStateNormal];
+    [_locatePickBtn setTitle:@"全部" forState:UIControlStateNormal];
     [_locatePickBtn setTitleColor:[UIColor colorWithRed:90.0/255.0 green:90.0/255.0 blue:90.0/255.0 alpha:1] forState:UIControlStateNormal];
     _locatePickBtn.layer.borderColor = [[UIColor colorWithRed:210.0/255.0 green:210.0/255.0 blue:210.0/255.0 alpha:1] CGColor];
     // _locatePickBtn.titleEdgeInsets = UIEdgeInsetsMake(0,0 , 0,100);
-    _locatePickBtn.imageEdgeInsets = UIEdgeInsetsMake(0,125, 0,0);
-    [_locatePickBtn setImage:[UIImage imageNamed:@"icon_spread1.png"] forState:UIControlStateNormal];
+//    _locatePickBtn.imageEdgeInsets = UIEdgeInsetsMake(0,125, 0,0);
+//    [_locatePickBtn setImage:[UIImage imageNamed:@"icon_spread1.png"] forState:UIControlStateNormal];
     _locatePickBtn.layer.borderWidth = 0.5;
+    _locatePickBtn.titleLabel.font = MAINFONTSIZE;
     [_locatePickBtn addTarget:self action:@selector(loactePickBtn) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)loactePickBtn{
+    
     AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]init];
     addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate){
-        _locatePickBtn.titleLabel.text = [NSString stringWithFormat:@"%@",locate];
+        if (_currentData1Index == 0) {
+            if (locate.areaId==NULL||locate.areaId==nil) {
+                // @"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d"
+                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+            }else{
+                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?cityId=%@*p=%ld&ps=%d",locate.cityId,(long)_page,PAGESIZE];
+            }
+            
+        }else{
+            
+            if (_data2MainIndex==0 &&_currentData2Index==0) {
+                
+                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
+            }else{
+                
+                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],locate.cityId,(long)_page,PAGESIZE];
+            }
+        }
+        [self loadData];
+        [_locatePickBtn setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
     };
     [addressPickerView show];
 

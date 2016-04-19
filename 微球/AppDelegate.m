@@ -91,8 +91,7 @@
         }
     } 
 
-   
-    
+   [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     
     return YES;
 }
@@ -240,7 +239,7 @@
     NSLog(@"%s",__FUNCTION__);
     NSLog(@"%@",userInfo);
     
-    
+    //completionHandler(UIBackgroundFetchResultNewData);
 }
 
 

@@ -12,7 +12,7 @@
 
 @property (nonatomic, weak) NSNumber *provinceId;
 @property (nonatomic, copy) NSString *provinceName;
-
+@property (nonatomic,copy) NSArray *citys;
 @end
 
 
@@ -36,6 +36,7 @@
 @property (nonatomic, weak) NSNumber *areaId;
 @property (nonatomic, copy) NSString *areaName;
 @property (nonatomic, assign) BOOL isCountry;
+@property (nonatomic,copy) NSArray *countrys;
 
 @end
 
@@ -48,5 +49,6 @@
 @property (nonatomic, copy) NSString *area;
 @property (nonatomic, weak) NSNumber *areaId;
 @property (nonatomic, weak) NSNumber *areaSize;
+@property (nonatomic,copy) NSArray *provinces;
 
 @end

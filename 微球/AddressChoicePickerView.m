@@ -173,14 +173,18 @@
             [self.pickView selectRow:0 inComponent:3 animated:YES];
             
             self.locate.area = self.areaArr[row][@"areaName"];
+            self.locate.areaId = self.areaArr[row][@"areaId"];
             
             self.locate.country = self.countryArr[0][@"country"];
+            self.locate.countryId = self.countryArr[0][@"id"];
             
             if (self.provinceArr.count) {
                 self.locate.province = self.provinceArr[0][@"provinceName"];
+                self.locate.provinceId = self.provinceArr[0][@"provinceId"];
                 
                 if (self.areaArr.count) {
                     self.locate.city = self.cityArr[0][@"cityName"];
+                    self.locate.cityId = self.cityArr[0][@"cityId"];
                 }else{
                     self.locate.city = @"";
                 }
