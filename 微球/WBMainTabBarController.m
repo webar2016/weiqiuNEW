@@ -84,6 +84,14 @@
                                                object:nil];
 }
 
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"unReadTipGroup" object:nil];
+    
+    
+
+}
+
 -(void)unReadGroup:(NSNotification*)sender{
     __weak typeof(self) __weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{

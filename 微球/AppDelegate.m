@@ -11,6 +11,7 @@
 #import "WBRightViewController.h"
 #import "WBMainTabBarController.h"
 #import "WBPrivateViewController.h"
+#import "LoadViewController.h"
 
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
@@ -18,6 +19,7 @@
 #import "WBSystemMessage.h"
 #import "WBUnlockMessage.h"
 #import "WBFollowMessage.h"
+#import "MyDBmanager.h"
 #import "WBCommentMessage.h"
 
 #import <RongIMKit/RongIMKit.h>
@@ -31,6 +33,7 @@
 
 @interface AppDelegate () <RCIMUserInfoDataSource,RCIMGroupInfoDataSource,CLLocationManagerDelegate> {
     BOOL    _tokenOutOfTime;
+    BOOL    _isLoadOtherWhere;
 }
 
 @property (strong,nonatomic) WBLeftViewController *leftViewController;
@@ -58,6 +61,13 @@
                                                  name:@"getRCToken"
                                                object:nil];
     
+    UILocalNotification * remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotification) {
+        //弹出一个alertview,显示相应信息
+        UIAlertView * al = [[UIAlertView alloc]initWithTitle:@"receive remote notification!" message:@"hello" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [al show];
+    }
+    
     [self setRootView];
     
     [self showRemotePushMessageWithOptions:launchOptions];
@@ -71,10 +81,23 @@
     [self qupaiSDK];
     
     // 注册通知
+    if (launchOptions != nil)
+    {
+        NSDictionary* dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (dictionary != nil)
+        {
+            NSLog(@"Launched from push notification: %@", dictionary);
+            [self addMessageFromRemoteNotification:dictionary updateUI:NO];
+        }
+    } 
 
+   
+    
     
     return YES;
 }
+
+
 
 #pragma mark - 设置根窗口
 
@@ -101,7 +124,7 @@
 
 #pragma mark - 推送处理
 
--(void)setPushMessageWith:application{
+-(void)setPushMessageWith:(UIApplication *)application{
     /**
      * 推送处理1
      */
@@ -122,20 +145,20 @@
         [application registerForRemoteNotificationTypes:myTypes];
     }
     
-
+    //注册推送通知（注意iOS8注册方法发生了变化）
+    [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+    [application registerForRemoteNotifications];
 }
 
 /**
  * 推送处理2
  */
 //注册用户通知设置
-- (void)application:(UIApplication *)application
-didRegisterUserNotificationSettings:
-(UIUserNotificationSettings *)notificationSettings {
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     // register to receive notifications
     [application registerForRemoteNotifications];
+    
 }
-
 /**
  * 推送处理3
  */
@@ -161,7 +184,7 @@ didRegisterUserNotificationSettings:
 //系统冻结时捕获消息
 -(void)showRemotePushMessageWithOptions:(NSDictionary *)launchOptions{
     
-    
+    NSLog(@"%s",__FUNCTION__);
 }
 
 //json
@@ -189,6 +212,7 @@ didRegisterUserNotificationSettings:
 //系统未冻结时捕获消息
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // userInfo为远程推送的内容
+    NSLog(@"%s",__FUNCTION__);
     NSLog(@"%@",userInfo);
     
     NSDictionary *tempStr =[userInfo[@"aps"] objectForKey:@"alert"];
@@ -205,15 +229,71 @@ didRegisterUserNotificationSettings:
     
     NSLog(@"%@",[[tempDic objectForKey:@"typeFlag"] firstObject]);
     
+    [self addMessageFromRemoteNotification:userInfo updateUI:YES];
+    
+    
+    
+
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
+    NSLog(@"%s",__FUNCTION__);
+    NSLog(@"%@",userInfo);
+    
     
 }
 
+
+- (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo updateUI:(BOOL)updateUI
+{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号在其它设备上登录" preferredStyle:UIAlertControllerStyleAlert];
+    
+    // Create the actions.
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"知道" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        [self deleData];
+        //        LoadViewController *LVC = [[LoadViewController alloc]init];
+        //
+        //        [(RESideMenu *)self.window.rootViewController presentViewController:LVC animated:YES completion:nil];
+        
+        //[(RESideMenu *)self.window.rootViewController presentRightMenuViewController];
+        
+        [(RESideMenu *)self.window.rootViewController setContentViewController:[[WBMainTabBarController alloc] init] animated:YES];
+        
+        //        self.window.rootViewController = nil;
+        //
+        //        [self setRootView];
+        
+        
+    }];
+    [alertController addAction:cancelAction];
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+    
+}
+
+-(void)deleData{
+    [WBUserDefaults deleteAllUserDefaults];
+    [[RCIMClient sharedRCIMClient] logout];
+    
+    MyDBmanager *manager1 = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+    [manager1 deleteAllData];
+    [manager1 closeFBDM];
+    
+    MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+    [manager2 deleteAllData];
+    [manager2 closeFBDM];
+
+
+
+}
 
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     /**
      * 统计推送打开率3
      */
+    NSLog(@"%s",__FUNCTION__);
     [[RCIMClient sharedRCIMClient] recordLocalNotificationEvent:notification];
 
 //    震动
@@ -238,6 +318,39 @@ didRegisterUserNotificationSettings:
     }
 
 }
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    
+    NSLog(@"%s",__FUNCTION__);
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    NSLog(@"%s",__FUNCTION__);
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
+    application.applicationIconBadgeNumber = unreadMsgCount;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    NSLog(@"%s",__FUNCTION__);
+    
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    NSLog(@"%s",__FUNCTION__);
+    [self setPushMessageWith:application];
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    NSLog(@"%s",__FUNCTION__);
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
 
 #pragma mark - 实时通讯相关操作
 
@@ -465,29 +578,6 @@ didRegisterUserNotificationSettings:
 }
 
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
-    application.applicationIconBadgeNumber = unreadMsgCount;
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
 
 #pragma mark - Core Data stack
 

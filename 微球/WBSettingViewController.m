@@ -79,8 +79,9 @@
             [manager2 deleteAllData];
             [manager2 closeFBDM];
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
             self.tabBarController.selectedIndex = 0;
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
         }];
         action;
     })];

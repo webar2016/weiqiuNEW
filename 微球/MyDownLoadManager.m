@@ -27,7 +27,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager.requestSerializer setValue:[WBUserDefaults deviceToken] forHTTPHeaderField:@"Authorization"];
-    NSLog(@"deviceToken %@",[WBUserDefaults deviceToken]);
+   // NSLog(@"deviceToken %@",[WBUserDefaults deviceToken]);
     [manager GET:urlStr parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         
         
@@ -79,7 +79,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager.requestSerializer setValue:[WBUserDefaults deviceToken] forHTTPHeaderField:@"Authorization"];
-    NSLog(@"deviceToken %@",[WBUserDefaults deviceToken]);
+  //  NSLog(@"deviceToken %@",[WBUserDefaults deviceToken]);
     [manager POST:str
        parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             progress(uploadProgress);
