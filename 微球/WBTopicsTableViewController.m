@@ -184,6 +184,7 @@
     WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
     DVC.topicID = topicId;
     NSString *title = ((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicContent;
+    DVC.title = title;
     if (title.length > 15) {
         title = [[title substringToIndex:15] stringByAppendingString:@"…"];
     }

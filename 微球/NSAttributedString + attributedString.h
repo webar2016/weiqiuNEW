@@ -10,7 +10,7 @@
 
 @interface NSAttributedString (NSAttributedString)
 
-- (NSString *)getPlainStringWithImageArray:(NSMutableArray *)imageArray byNameArray:(NSMutableArray *)nameArray byImageRate:(NSMutableArray *)rateArray;
+- (NSString *)getPlainStringWithImageArray:(NSMutableArray *)imageArray;
 
 
 //-(void)replacePlaceHolderImageWithImages:(NSArray *)imageArray;

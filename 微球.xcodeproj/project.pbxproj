@@ -31,6 +31,8 @@
 		052F30D61C93F9FA00D15322 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052F30D41C93F9FA00D15322 /* city.plist */; };
 		052F30D71C93F9FA00D15322 /* province.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052F30D51C93F9FA00D15322 /* province.plist */; };
 		052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6047EE1C93F86000A88BAA /* WBHelp_Group_Sign.m */; };
+		05427CA11CC4710600C79F61 /* WBAnswerQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05427CA01CC4710600C79F61 /* WBAnswerQuestionViewController.m */; };
+		05427CA41CC475F000C79F61 /* WBMyDraftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05427CA31CC475F000C79F61 /* WBMyDraftViewController.m */; };
 		054303831CB4F6210041902D /* WBTopicDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 054303821CB4F6210041902D /* WBTopicDetailCell.m */; };
 		054303871CB5FC8C0041902D /* WBImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 054303861CB5FC8C0041902D /* WBImageViewer.m */; };
 		0543038A1CB688570041902D /* WBChatImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 054303891CB688570041902D /* WBChatImageViewer.m */; };
@@ -55,9 +57,12 @@
 		0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0545505C1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m */; };
 		0559DD0A1C9287D00062D1BE /* WBMyGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD091C9287D00062D1BE /* WBMyGroupModel.m */; };
 		0559DD0D1C92BFD80062D1BE /* NSAttributedString + attributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD0C1C92BFD80062D1BE /* NSAttributedString + attributedString.m */; };
+		0559F95A1CC1F631001CF2A8 /* WBArticalBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559F9591CC1F631001CF2A8 /* WBArticalBaseViewController.m */; };
+		0559F95D1CC20AFC001CF2A8 /* WBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559F95C1CC20AFC001CF2A8 /* WBImage.m */; };
 		05665F1D1CAFB87D00FFAA21 /* WBArticalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05665F1C1CAFB87D00FFAA21 /* WBArticalViewController.m */; };
 		05665F261CB4D94600FFAA21 /* ALBBQuPaiPlugin.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 05665F241CB4D94600FFAA21 /* ALBBQuPaiPlugin.bundle */; };
 		05665F271CB4D94600FFAA21 /* ALBBQuPaiPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05665F251CB4D94600FFAA21 /* ALBBQuPaiPlugin.framework */; };
+		056CA5E41CBF6D4500E45018 /* WBDraftManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 056CA5E31CBF6D4500E45018 /* WBDraftManager.m */; };
 		05794C7F1CA225FF00F32837 /* WBSystemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C7E1CA225FF00F32837 /* WBSystemViewController.m */; };
 		05794C821CA2299900F32837 /* WBSystemMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C811CA2299900F32837 /* WBSystemMessage.m */; };
 		05794C851CA229B300F32837 /* WBUnlockMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C841CA229B300F32837 /* WBUnlockMessage.m */; };
@@ -241,6 +246,10 @@
 		052F30D21C93EEB200D15322 /* WBPositionList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPositionList.m; sourceTree = "<group>"; };
 		052F30D41C93F9FA00D15322 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
 		052F30D51C93F9FA00D15322 /* province.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = province.plist; sourceTree = "<group>"; };
+		05427C9F1CC4710600C79F61 /* WBAnswerQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAnswerQuestionViewController.h; sourceTree = "<group>"; };
+		05427CA01CC4710600C79F61 /* WBAnswerQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAnswerQuestionViewController.m; sourceTree = "<group>"; };
+		05427CA21CC475F000C79F61 /* WBMyDraftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyDraftViewController.h; sourceTree = "<group>"; };
+		05427CA31CC475F000C79F61 /* WBMyDraftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyDraftViewController.m; sourceTree = "<group>"; };
 		054303811CB4F6210041902D /* WBTopicDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicDetailCell.h; sourceTree = "<group>"; };
 		054303821CB4F6210041902D /* WBTopicDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailCell.m; sourceTree = "<group>"; };
 		054303851CB5FC8C0041902D /* WBImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageViewer.h; sourceTree = "<group>"; };
@@ -276,10 +285,16 @@
 		0559DD091C9287D00062D1BE /* WBMyGroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyGroupModel.m; sourceTree = "<group>"; };
 		0559DD0B1C92BFD80062D1BE /* NSAttributedString + attributedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString + attributedString.h"; sourceTree = "<group>"; };
 		0559DD0C1C92BFD80062D1BE /* NSAttributedString + attributedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString + attributedString.m"; sourceTree = "<group>"; };
+		0559F9581CC1F631001CF2A8 /* WBArticalBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBArticalBaseViewController.h; sourceTree = "<group>"; };
+		0559F9591CC1F631001CF2A8 /* WBArticalBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBArticalBaseViewController.m; sourceTree = "<group>"; };
+		0559F95B1CC20AFC001CF2A8 /* WBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImage.h; sourceTree = "<group>"; };
+		0559F95C1CC20AFC001CF2A8 /* WBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImage.m; sourceTree = "<group>"; };
 		05665F1B1CAFB87D00FFAA21 /* WBArticalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBArticalViewController.h; sourceTree = "<group>"; };
 		05665F1C1CAFB87D00FFAA21 /* WBArticalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBArticalViewController.m; sourceTree = "<group>"; };
 		05665F241CB4D94600FFAA21 /* ALBBQuPaiPlugin.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ALBBQuPaiPlugin.bundle; sourceTree = "<group>"; };
 		05665F251CB4D94600FFAA21 /* ALBBQuPaiPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ALBBQuPaiPlugin.framework; sourceTree = "<group>"; };
+		056CA5E21CBF6D4500E45018 /* WBDraftManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDraftManager.h; sourceTree = "<group>"; };
+		056CA5E31CBF6D4500E45018 /* WBDraftManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBDraftManager.m; sourceTree = "<group>"; };
 		05794C7D1CA225FF00F32837 /* WBSystemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSystemViewController.h; sourceTree = "<group>"; };
 		05794C7E1CA225FF00F32837 /* WBSystemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSystemViewController.m; sourceTree = "<group>"; };
 		05794C801CA2299900F32837 /* WBSystemMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSystemMessage.h; sourceTree = "<group>"; };
@@ -812,6 +827,12 @@
 				05F9E33F1C8D687300DC584F /* WBTextAttachment.m */,
 				052E95CF1CABA04700152FC8 /* WBDraftSave.h */,
 				052E95D01CABA04700152FC8 /* WBDraftSave.m */,
+				056CA5E21CBF6D4500E45018 /* WBDraftManager.h */,
+				056CA5E31CBF6D4500E45018 /* WBDraftManager.m */,
+				0559F9581CC1F631001CF2A8 /* WBArticalBaseViewController.h */,
+				0559F9591CC1F631001CF2A8 /* WBArticalBaseViewController.m */,
+				0559F95B1CC20AFC001CF2A8 /* WBImage.h */,
+				0559F95C1CC20AFC001CF2A8 /* WBImage.m */,
 			);
 			name = "长图文";
 			sourceTree = "<group>";
@@ -976,6 +997,8 @@
 			children = (
 				05DB3F711C87E25600CBCC54 /* WBAnswerDetailController.h */,
 				05DB3F721C87E25600CBCC54 /* WBAnswerDetailController.m */,
+				05427C9F1CC4710600C79F61 /* WBAnswerQuestionViewController.h */,
+				05427CA01CC4710600C79F61 /* WBAnswerQuestionViewController.m */,
 			);
 			name = "答案详情";
 			sourceTree = "<group>";
@@ -1206,6 +1229,8 @@
 				05D1F9451C8FBE5E0049D3EC /* unlock */,
 				05D1F9491C8FBE780049D3EC /* setting */,
 				052048B61C88660800175D14 /* login */,
+				05427CA21CC475F000C79F61 /* WBMyDraftViewController.h */,
+				05427CA31CC475F000C79F61 /* WBMyDraftViewController.m */,
 			);
 			name = leftSlideView;
 			sourceTree = "<group>";
@@ -1611,6 +1636,7 @@
 				2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */,
 				2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */,
 				052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */,
+				0559F95A1CC1F631001CF2A8 /* WBArticalBaseViewController.m in Sources */,
 				05DB3F791C87F33E00CBCC54 /* WBNavigationController.m in Sources */,
 				05794C8B1CA2322C00F32837 /* WBUnlockMsgCell.m in Sources */,
 				2D62D67F1C89632700E4D05E /* WBtopicCommentDetilListModel.m in Sources */,
@@ -1643,6 +1669,7 @@
 				2DED80601CA906FE000BB7EB /* WBSetInformationViewController.m in Sources */,
 				2D16EF4F1C8407E4002D5F90 /* WBMyCreateViewController.m in Sources */,
 				05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */,
+				05427CA11CC4710600C79F61 /* WBAnswerQuestionViewController.m in Sources */,
 				05DB3F701C87E18800CBCC54 /* WBAnswerListController.m in Sources */,
 				2D6047EC1C93F7D200A88BAA /* WBTbl_Unlock_City.m in Sources */,
 				05D1F94F1C8FC9C60049D3EC /* WBGroupTableViewCell.m in Sources */,
@@ -1654,6 +1681,7 @@
 				2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */,
 				05DB3F511C8444A400CBCC54 /* UIColor+color.m in Sources */,
 				052F30D31C93EEB200D15322 /* WBPositionList.m in Sources */,
+				0559F95D1CC20AFC001CF2A8 /* WBImage.m in Sources */,
 				05D1F9401C8FBE1A0049D3EC /* WBHomepageViewController.m in Sources */,
 				2D49D6241C86F232008EE96B /* TopicDetailModel.m in Sources */,
 				052E95D11CABA04700152FC8 /* WBDraftSave.m in Sources */,
@@ -1669,6 +1697,8 @@
 				2DC6657B1C90331E00C1FFB3 /* WBHelpGroupsDetailViewController.m in Sources */,
 				2D1DE0081C92D10D0059CD89 /* WBBig_AreaModel.m in Sources */,
 				2D62D6821C8967ED00E4D05E /* WBTopicCommentTableViewCell.m in Sources */,
+				056CA5E41CBF6D4500E45018 /* WBDraftManager.m in Sources */,
+				05427CA41CC475F000C79F61 /* WBMyDraftViewController.m in Sources */,
 				05DB3F6B1C87196900CBCC54 /* UILabel+label.m in Sources */,
 				2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */,
 				2DF2A93E1C9FC220002C3A2A /* WBFansModel.m in Sources */,

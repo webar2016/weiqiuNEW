@@ -15,6 +15,8 @@
 
 @interface WBTopicDetailViewController :WBMenuBtnViewController
 
+@property (nonatomic, copy) NSString *title;
+
 @property (nonatomic,assign) NSInteger topicID;
 
 @property (strong, nonatomic) MPMoviePlayerController *player;
