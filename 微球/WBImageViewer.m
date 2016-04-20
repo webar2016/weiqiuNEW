@@ -105,6 +105,10 @@
 }
 
 - (void) image: (UIImage *) image didFinishSavingWithError:(NSError *) error contextInfo: (void *)contextInfo{
+    if (error) {//error.userInfo[@"NSLocalizeDescription"] == @"Data unavailable"
+        [self showHUDText:@"保存失败，无相册权限"];
+        return;
+    }
     [self showHUDText:@"保存成功"];
 }
 

@@ -130,6 +130,7 @@
 
 - (void) keyboardWasShown:(NSNotification *) notif
 {
+    _background.hidden = YES;
     [self.view addSubview:_textBgView];
     [_placeHolder removeFromSuperview];
     NSDictionary *info = [notif userInfo];
@@ -143,6 +144,7 @@
 
 - (void) keyboardWasHidden:(NSNotification *) notif
 {
+    _background.hidden = NO;
     [_textBgView removeFromSuperview];
     if (_commentTextView.text.length == 0) {
         [_commentTextView addSubview:_placeHolder];

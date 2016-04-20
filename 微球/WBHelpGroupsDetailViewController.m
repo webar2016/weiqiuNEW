@@ -279,11 +279,8 @@
 //进入个人主页
 -(void)goHomePage{
     
-    WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
-    HVC.userId = [NSString stringWithFormat:@"%ld",(long)_model.userId];
-    
-    self.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:HVC animated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"goToHomePage" object:self userInfo:@{@"userId":[NSString stringWithFormat:@"%ld",(long)_model.userId]}];
+    [self dismissViewControllerAnimated:NO completion:nil];
     
 }
 

@@ -1470,6 +1470,11 @@
 					05D6EB771C7D414F002D48FF = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = ERJ67V2HY6;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					05D6EB901C7D414F002D48FF = {
 						CreatedOnToolsVersion = 7.2.1;

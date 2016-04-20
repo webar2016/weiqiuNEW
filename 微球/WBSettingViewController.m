@@ -138,9 +138,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 2) {
-        NSString *evaluateString = [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1095625702"];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:evaluateString]];
-    } else if (indexPath.row == 3) {
+        NSString *evaluateString = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id1095625702"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:evaluateString]];    } else if (indexPath.row == 3) {
         WBAboutWBViewController *aboutVC = [[WBAboutWBViewController alloc] init];
         [self.navigationController pushViewController:aboutVC animated:YES];
     }
