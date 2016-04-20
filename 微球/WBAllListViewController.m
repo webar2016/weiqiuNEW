@@ -60,6 +60,8 @@
     NSInteger _currentData3Index;
     
     UIButton *_locatePickBtn;
+    
+    CAShapeLayer *_indicator;
 
 }
 
@@ -157,27 +159,57 @@
     _locatePickBtn.frame = CGRectMake(SCREENWIDTH/2, -0.5, SCREENWIDTH/2, 30.5);
     [self.view addSubview:_locatePickBtn];
     [_locatePickBtn setBackgroundColor:[UIColor colorWithRed:244.0/255.0 green:244.0/255.0 blue:244.0/255.0 alpha:1]];
-    [_locatePickBtn setTitle:@"全部" forState:UIControlStateNormal];
+    [_locatePickBtn setTitle:@"全fdssf部" forState:UIControlStateNormal];
     [_locatePickBtn setTitleColor:[UIColor colorWithRed:90.0/255.0 green:90.0/255.0 blue:90.0/255.0 alpha:1] forState:UIControlStateNormal];
     _locatePickBtn.layer.borderColor = [[UIColor colorWithRed:210.0/255.0 green:210.0/255.0 blue:210.0/255.0 alpha:1] CGColor];
-    // _locatePickBtn.titleEdgeInsets = UIEdgeInsetsMake(0,0 , 0,100);
-//    _locatePickBtn.imageEdgeInsets = UIEdgeInsetsMake(0,125, 0,0);
-//    [_locatePickBtn setImage:[UIImage imageNamed:@"icon_spread1.png"] forState:UIControlStateNormal];
     _locatePickBtn.layer.borderWidth = 0.5;
     _locatePickBtn.titleLabel.font = MAINFONTSIZE;
     [_locatePickBtn addTarget:self action:@selector(loactePickBtn) forControlEvents:UIControlEventTouchUpInside];
+    
+    NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
+    CGSize  actualsize1=[_locatePickBtn.titleLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
+    
+    _indicator = [self createIndicatorWithColor:[UIColor blackColor] andPosition:CGPointMake(SCREENWIDTH/4*3 + actualsize1.width + 5, _locatePickBtn.frame.origin.y+15)];
+    [self.view.layer addSublayer:_indicator];
 }
 
--(void)loactePickBtn{
+
+- (CAShapeLayer *)createIndicatorWithColor:(UIColor *)color andPosition:(CGPoint)point {
+    CAShapeLayer *layer = [CAShapeLayer new];
     
+    UIBezierPath *path = [UIBezierPath new];
+    [path moveToPoint:CGPointMake(0, 0)];
+    [path addLineToPoint:CGPointMake(8, 0)];
+    [path addLineToPoint:CGPointMake(4, 5)];
+    [path closePath];
+    
+    layer.path = path.CGPath;
+    layer.lineWidth = 1.0;
+    layer.fillColor = color.CGColor;
+    //layer.fillColor = [[UIColor blackColor]CGColor];
+    
+    CGPathRef bound = CGPathCreateCopyByStrokingPath(layer.path, nil, layer.lineWidth, kCGLineCapButt, kCGLineJoinMiter, layer.miterLimit);
+    layer.bounds = CGPathGetBoundingBox(bound);
+    
+    CGPathRelease(bound);
+    
+    layer.position = point;
+    
+    return layer;
+}
+
+
+-(void)loactePickBtn{
     AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]init];
     addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate){
         if (_currentData1Index == 0) {
+            [self showHUD:@"正在加载" isDim:YES];
             if (locate.areaId==NULL||locate.areaId==nil) {
                 // @"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d"
                 _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
             }else{
                 _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?cityId=%@*p=%ld&ps=%d",locate.cityId,(long)_page,PAGESIZE];
+                
             }
             
         }else{

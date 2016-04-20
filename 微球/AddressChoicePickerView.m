@@ -209,12 +209,14 @@
             
             
             self.locate.country = self.countryArr[row][@"country"];
+            self.locate.countryId = self.countryArr[row][@"id"];
             
             if (self.provinceArr.count) {
                 self.locate.province = self.provinceArr[0][@"provinceName"];
-                
+                self.locate.provinceId = self.provinceArr[0][@"provinceId"];
                 if (self.areaArr.count) {
                     self.locate.city = self.cityArr[0][@"cityName"];
+                    self.locate.cityId = self.cityArr[0][@"cityId"];
                 }else{
                     self.locate.city = @"";
                 }
@@ -236,8 +238,10 @@
             
             if (self.provinceArr.count) {
                 self.locate.province = self.provinceArr[row][@"provinceName"];
+                self.locate.provinceId = self.provinceArr[row][@"provinceId"];
                 if (self.areaArr.count) {
                     self.locate.city = self.cityArr[0][@"cityName"];
+                    self.locate.cityId = self.cityArr[0][@"cityId"];
                 }else{
                     self.locate.city = @"";
                 }
@@ -257,6 +261,7 @@
             
             if (self.areaArr.count) {
                 self.locate.city = self.cityArr[row][@"cityName"];
+                self.locate.cityId = self.cityArr[row][@"cityId"];
             }else{
                 self.locate.city = @"";
             }

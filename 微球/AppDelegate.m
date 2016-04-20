@@ -47,6 +47,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    
+    NSLog(@"%@",launchOptions);
+    
+    
     [self setPushMessageWith:(UIApplication *)application];
     
     [self setRongCloud];
@@ -94,6 +98,11 @@
    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     
     return YES;
+}
+
+
+-(void)dealloc{
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getRCToken" object:self];
 }
 
 
@@ -163,26 +172,18 @@
  */
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-
-    NSString *token =
-    [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"
-                                                           withString:@""]
-      stringByReplacingOccurrencesOfString:@">"
-      withString:@""]
-     stringByReplacingOccurrencesOfString:@" "
-     withString:@""];
-    [WBUserDefaults setDeviceToken:token];
+    NSString *token =[[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<" withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""]
+                      stringByReplacingOccurrencesOfString:@" "withString:@""];
+    if (![[WBUserDefaults deviceToken]isEqualToString:token]) {
+        [WBUserDefaults setDeviceToken:token];
+    }
     
+ //   NSLog(@"DeviceToken%@",[WBUserDefaults deviceToken]);
     [[RCIMClient sharedRCIMClient] setDeviceToken:token];
-
-
 }
-
-
 
 //系统冻结时捕获消息
 -(void)showRemotePushMessageWithOptions:(NSDictionary *)launchOptions{
-    
     NSLog(@"%s",__FUNCTION__);
 }
 
@@ -193,16 +194,10 @@
     }
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *err;
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
-                         
-                                                        options:NSJSONReadingMutableContainers
-                                                          error:&err];
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
     if(err) {
-        
         NSLog(@"json解析失败：%@",err);
-        
         return nil;
-        
     }
     return dic;
 }
@@ -210,36 +205,19 @@
 
 //系统未冻结时捕获消息
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    // userInfo为远程推送的内容
     NSLog(@"%s",__FUNCTION__);
-    NSLog(@"%@",userInfo);
-    
-    NSDictionary *tempStr =[userInfo[@"aps"] objectForKey:@"alert"];
-    
-    NSLog(@"%@",tempStr);
-    
-
-    
-    NSDictionary *tempDic = [self dictionaryWithJsonString:[userInfo[@"aps"] objectForKey:@"alert"]];
-   
-    NSLog(@"%@",tempDic);
-    
-    NSLog(@"%@",[[tempDic objectForKey:@"body"] firstObject]);
-    
-    NSLog(@"%@",[[tempDic objectForKey:@"typeFlag"] firstObject]);
-    
-    [self addMessageFromRemoteNotification:userInfo updateUI:YES];
-    
-    
-    
-
+    NSLog(@"%@",[userInfo[@"aps"] objectForKey:@"alert"]);
+    if ([[userInfo[@"aps"] objectForKey:@"alert"]isEqualToString:@"您的账号在其他设备登录！"]) {
+        [self addMessageFromRemoteNotification:userInfo updateUI:YES];
+    }
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
     NSLog(@"%s",__FUNCTION__);
-    NSLog(@"%@",userInfo);
-    
-    //completionHandler(UIBackgroundFetchResultNewData);
+    NSLog(@"%@",[userInfo[@"aps"] objectForKey:@"alert"]);
+    if ([[userInfo[@"aps"] objectForKey:@"alert"]isEqualToString:@"您的账号在其他设备登录！"]) {
+        [self addMessageFromRemoteNotification:userInfo updateUI:YES];
+    }
 }
 
 
@@ -247,25 +225,11 @@
 {
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号在其它设备上登录" preferredStyle:UIAlertControllerStyleAlert];
-    
-    // Create the actions.
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"知道" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         
         [self deleData];
-        //        LoadViewController *LVC = [[LoadViewController alloc]init];
-        //
-        //        [(RESideMenu *)self.window.rootViewController presentViewController:LVC animated:YES completion:nil];
-        
-        //[(RESideMenu *)self.window.rootViewController presentRightMenuViewController];
-        
         [(RESideMenu *)self.window.rootViewController setContentViewController:[[WBMainTabBarController alloc] init] animated:YES];
-        
-        //        self.window.rootViewController = nil;
-        //
-        //        [self setRootView];
-        
-        
-    }];
+     }];
     [alertController addAction:cancelAction];
     [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
     
@@ -282,9 +246,6 @@
     MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
     [manager2 deleteAllData];
     [manager2 closeFBDM];
-
-
-
 }
 
 

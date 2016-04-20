@@ -38,6 +38,19 @@
 				<key>provinces</key>
 				<array>
 					<dict>
+						<key>provinceName</key>
+						<string>全部</string>
+						<key>citys</key>
+						<array>
+							<dict>
+								<key>cityName</key>
+								<string>全部</string>
+								<key>cityId</key>
+								<integer>15001125798</integer>
+							</dict>
+						</array>
+					</dict>
+					<dict>
 						<key>citys</key>
 						<array>
 							<dict>
