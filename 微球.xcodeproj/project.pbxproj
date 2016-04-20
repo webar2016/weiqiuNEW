@@ -55,6 +55,7 @@
 		054550501C8FEF6F00A6F0E8 /* WBTalkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0545504F1C8FEF6F00A6F0E8 /* WBTalkViewController.m */; };
 		054550531C90165100A6F0E8 /* WBGroupSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 054550521C90165100A6F0E8 /* WBGroupSettingViewController.m */; };
 		0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0545505C1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m */; };
+		055059AF1CC7818F002D11A7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055059AE1CC7818F002D11A7 /* StoreKit.framework */; };
 		0559DD0A1C9287D00062D1BE /* WBMyGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD091C9287D00062D1BE /* WBMyGroupModel.m */; };
 		0559DD0D1C92BFD80062D1BE /* NSAttributedString + attributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD0C1C92BFD80062D1BE /* NSAttributedString + attributedString.m */; };
 		0559F95A1CC1F631001CF2A8 /* WBArticalBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559F9591CC1F631001CF2A8 /* WBArticalBaseViewController.m */; };
@@ -287,6 +288,7 @@
 		054550521C90165100A6F0E8 /* WBGroupSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGroupSettingViewController.m; sourceTree = "<group>"; };
 		0545505B1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGroupSettingTableViewCell.h; sourceTree = "<group>"; };
 		0545505C1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGroupSettingTableViewCell.m; sourceTree = "<group>"; };
+		055059AE1CC7818F002D11A7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0559DD081C9287D00062D1BE /* WBMyGroupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyGroupModel.h; sourceTree = "<group>"; };
 		0559DD091C9287D00062D1BE /* WBMyGroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyGroupModel.m; sourceTree = "<group>"; };
 		0559DD0B1C92BFD80062D1BE /* NSAttributedString + attributedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString + attributedString.h"; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 				052048CF1C897AB000175D14 /* AssetsLibrary.framework in Frameworks */,
 				052048D11C897ABB00175D14 /* AddressBook.framework in Frameworks */,
 				052048CD1C897AA700175D14 /* MediaPlayer.framework in Frameworks */,
+				055059AF1CC7818F002D11A7 /* StoreKit.framework in Frameworks */,
 				2D62D67C1C89357D00E4D05E /* MessageUI.framework in Frameworks */,
 				052048C71C897A3700175D14 /* AdSupport.framework in Frameworks */,
 				052048C51C897A2200175D14 /* CoreText.framework in Frameworks */,
@@ -1036,6 +1039,7 @@
 		066C31FBC84A544453143D8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				055059AE1CC7818F002D11A7 /* StoreKit.framework */,
 				2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */,
 				0545504C1C8FEAD000A6F0E8 /* UIKit.framework */,
 				0545504A1C8FEABD00A6F0E8 /* OpenGLES.framework */,
@@ -1539,10 +1543,10 @@
 								enabled = 1;
 							};
 							com.apple.InAppPurchase = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -1943,8 +1947,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liang Xu (ERJ67V2HY6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1988,7 +1992,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = weiqiuwang.weiqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e19545e6-1bf9-4ab8-8b33-e0b6cef1ae92";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 			};
@@ -2000,8 +2004,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liang Xu (ERJ67V2HY6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2045,7 +2049,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = weiqiuwang.weiqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e19545e6-1bf9-4ab8-8b33-e0b6cef1ae92";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 			};
