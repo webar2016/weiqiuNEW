@@ -8,6 +8,7 @@
 
 #import "WBReChargeViewController.h"
 #import "MyDownLoadManager.h"
+#import "NSString+string.h"
 
 @interface WBReChargeViewController ()<SKProductsRequestDelegate,SKPaymentTransactionObserver> {
     
@@ -71,17 +72,21 @@
 
 -(void)createUI{
     
-    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREENWIDTH - 20, 30)];
+    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     tipLabel.font = FONTSIZE12;
+    tipLabel.numberOfLines = 0;
     tipLabel.textColor = [UIColor initWithLightGray];
-    tipLabel.text = @"如遇充值相关问题，请前往微信公众号【微球】咨询客服，感谢支持！";
+    NSString *text = @"如遇充值相关问题，请前往【微球】微信公众号咨询客服，感谢您的支持！";
+    CGFloat height = [text adjustSizeWithWidth:SCREENWIDTH - 20 andFont:FONTSIZE12].height;
+    tipLabel.frame = CGRectMake(10, 0, SCREENWIDTH - 20, height + 10);
+    tipLabel.text = text;
     [self.view addSubview: tipLabel];
     
     _selectedImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_markcross"]];
     _selectedImage.center = CGPointMake(SCREENWIDTH - 20, 30);
     
     for (int i = 0; i < 5; i ++) {
-        UIButton *productBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, i * 61 + 30, SCREENWIDTH, 61)];
+        UIButton *productBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, i * 61 + height + 10, SCREENWIDTH, 61)];
         productBtn.backgroundColor = [UIColor whiteColor];
         productBtn.tag = i+1;
         
@@ -145,21 +150,21 @@
 - (void)confirmBtnClick{
     
     
-    NSArray *product;//qiupiao_ID
+    NSArray *product;//qiubi_ID
     if ([_moneyString isEqualToString:@"420个球币"]) {
-        product = [[NSArray alloc] initWithObjects:@"qiupiao_6", nil];//qiupiao_ID
+        product = [[NSArray alloc] initWithObjects:@"qiubi_1", nil];//qiubi_ID
         
     }else if ([_moneyString isEqualToString:@"840个球币"]){
-        product = [[NSArray alloc] initWithObjects:@"qiupiao_12", nil];//qiupiao_ID
+        product = [[NSArray alloc] initWithObjects:@"qiubi_2", nil];//qiubi_ID
     
     }else if ([_moneyString isEqualToString:@"1260个球币"]){
-        product = [[NSArray alloc] initWithObjects:@"qiupiao_18", nil];//qiupiao_ID
+        product = [[NSArray alloc] initWithObjects:@"qiubi_3", nil];//qiubi_ID
         
     }else if ([_moneyString isEqualToString:@"1680个球币"]){
-        product = [[NSArray alloc] initWithObjects:@"qiupiao_24", nil];//qiupiao_ID
+        product = [[NSArray alloc] initWithObjects:@"qiubi_4", nil];//qiubi_ID
         
     }else if ([_moneyString isEqualToString:@"2100个球币"]){
-        product = [[NSArray alloc] initWithObjects:@"qiupiao_30", nil];//qiupiao_ID
+        product = [[NSArray alloc] initWithObjects:@"qiubi_5", nil];//qiubi_ID
         
     } else {
         [self showHUDText:@"请选择你要充值的金额"];

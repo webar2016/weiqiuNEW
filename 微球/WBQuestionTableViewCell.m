@@ -58,15 +58,15 @@
     _answerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _answerLabel.font = MAINFONTSIZE;
     _answerLabel.textColor = [UIColor initWithNormalGray];
-
-    _userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(MARGININSIDE, MARGININSIDE, 26, 26)];
+    
+    _userIcon = [[UIImageView alloc] initWithFrame:CGRectZero];//CGRectMake(MARGININSIDE, MARGININSIDE, 26, 26)
     _userIcon.layer.masksToBounds = YES;
     _userIcon.layer.borderColor = [UIColor initWithGreen].CGColor;
     _userIcon.layer.borderWidth = 1;
     _userIcon.layer.cornerRadius = 13;
     _userIcon.userInteractionEnabled = YES;
     
-    _scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(MARGININSIDE - 2, MARGININSIDE + 30, 26 + MARGINOUTSIDE, 14)];
+    _scoreLabel = [[UILabel alloc] initWithFrame:CGRectZero];//CGRectMake(MARGININSIDE - 2, MARGININSIDE + 30, 26 + MARGINOUTSIDE, 14)
     _scoreLabel.font = SMALLFONTSIZE;
     _scoreLabel.textAlignment = NSTextAlignmentCenter;
     _scoreLabel.textColor = [UIColor whiteColor];
@@ -75,7 +75,7 @@
     _scoreLabel.layer.masksToBounds = YES;
     _scoreLabel.layer.cornerRadius = 3;
     
-    _unitLabel = [[UILabel alloc] initWithFrame:CGRectMake(MARGININSIDE, MARGININSIDE + 500, 20, 14)];
+    _unitLabel = [[UILabel alloc] initWithFrame:CGRectZero];//CGRectMake(MARGININSIDE, MARGININSIDE + 500, 20, 14)
     _unitLabel.text = @"球币";
     _unitLabel.font = SMALLFONTSIZE;
     _unitLabel.textAlignment = NSTextAlignmentCenter;
@@ -119,7 +119,7 @@
         [_delegate questionView:self];
     }
 }
-    
+
 -(void)answerTap{
     if (_delegate && [_delegate respondsToSelector:@selector(answerView:)]) {
         [_delegate answerView:self];
@@ -162,6 +162,10 @@
             _answerLabel.text = answerText;
             _answerLabel.numberOfLines = 3;
             
+            _userIcon.frame = CGRectMake(MARGININSIDE, MARGININSIDE, 26, 26);
+            _scoreLabel.frame = CGRectMake(MARGININSIDE - 2, MARGININSIDE + 30, 26 + MARGINOUTSIDE, 14);
+            _unitLabel.frame = CGRectMake(MARGININSIDE, MARGININSIDE + 500, 20, 14);
+            
             [_userIcon sd_setImageWithURL:currentModel.hga.tblUser.dir];
             
             float score = (float)currentModel.hga.getIntegral;
@@ -200,6 +204,10 @@
             _answerLabel.frame = (CGRect){{60, MARGININSIDE }, {CELLWIDTH - 65 - MARGININSIDE,answSize.height}};
             _answerLabel.text = answerText;
             _answerLabel.numberOfLines = 3;
+            
+            _userIcon.frame = CGRectMake(MARGININSIDE, MARGININSIDE, 26, 26);
+            _scoreLabel.frame = CGRectMake(MARGININSIDE - 2, MARGININSIDE + 30, 26 + MARGINOUTSIDE, 14);
+            _unitLabel.frame = CGRectMake(MARGININSIDE, MARGININSIDE + 500, 20, 14);
             
             [_userIcon sd_setImageWithURL:currentModel.tblUser.dir];
             

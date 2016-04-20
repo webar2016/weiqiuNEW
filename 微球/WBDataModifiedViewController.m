@@ -85,7 +85,11 @@
     _bigImageView.backgroundColor = [UIColor initWithBackgroundGray];
     _bigImageView.layer.masksToBounds = YES;
     _bigImageView.contentMode = UIViewContentModeScaleAspectFill;
-    _bigImageView.image = [WBUserDefaults coverImage];
+    if ([WBUserDefaults coverImage]) {
+        _bigImageView.image = [WBUserDefaults coverImage];
+    } else {
+        _bigImageView.image = [UIImage imageNamed:@"cover"];
+    }
     [self.view addSubview:_bigImageView];
     
     _headImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 64, 64)];

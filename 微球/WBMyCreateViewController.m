@@ -156,28 +156,28 @@
 
 #pragma mark -- UIScrollViewDelegate Methods
 
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-//{
-//    CGPoint scrollViewOffset = scrollView.contentOffset;
-//    _beginScoller = scrollViewOffset.y;
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    CGPoint scrollViewOffset = scrollView.contentOffset;
-//    if (scrollViewOffset.y - _beginScoller >= 0) {
-//        //往下滑
-//        [UIView animateWithDuration:0.3
-//                         animations:^{
-//                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT,self.view.frame.size.width,49)];
-//                         }];
-//    }else {
-//        [UIView animateWithDuration:0.3
-//                         animations:^{
-//                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT - 49,self.view.frame.size.width,49)];
-//                         }];
-//    }
-//}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    _beginScoller = scrollViewOffset.y;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    if (scrollViewOffset.y - _beginScoller >= 0) {
+        //往下滑
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT,self.view.frame.size.width,49)];
+                         }];
+    }else {
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT - 49,self.view.frame.size.width,49)];
+                         }];
+    }
+}
 
 #pragma mark - MBprogress
 
