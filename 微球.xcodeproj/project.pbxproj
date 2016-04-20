@@ -126,11 +126,14 @@
 		2D1DE00D1C92E32B0059CD89 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */; };
 		2D2568CA1CB74F9C006AEE5A /* WBTbl_Unlocking_City.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */; };
 		2D2568D11CB78DAB006AEE5A /* WBReChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */; };
-		2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */; };
 		2D2733671CB2BD5500F5E967 /* WBFindKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */; };
 		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
 		2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */; };
 		2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */; };
+		2D3ADCB51CC47A970075E6A0 /* AddressChoicePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3ADCB31CC47A970075E6A0 /* AddressChoicePickerView.m */; };
+		2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D3ADCB41CC47A970075E6A0 /* AddressChoicePickerView.xib */; };
+		2D3ADCBA1CC47A9F0075E6A0 /* Localtion.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */; };
+		2D3ADCBB1CC47A9F0075E6A0 /* AreaObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3ADCB91CC47A9F0075E6A0 /* AreaObject.m */; };
 		2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */; };
 		2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D465FE61C8840B000555532 /* MyModel.xcdatamodeld */; };
 		2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D6161C869FDC008EE96B /* WBTopTableViewCell.m */; };
@@ -190,6 +193,9 @@
 		2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B51CAFCE660000E8CB /* UnZan.png */; };
 		2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B61CAFCE660000E8CB /* Zan.png */; };
 		2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */; };
+		2DFECB241CC623DE008BE938 /* BigAreas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DFECB231CC623DE008BE938 /* BigAreas.plist */; };
+		2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DFECB251CC623EF008BE938 /* Countrys.plist */; };
+		2DFECB291CC628D8008BE938 /* WBLocateList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFECB281CC628D8008BE938 /* WBLocateList.m */; };
 		2DFF687F1C969C95000DCDDA /* WBRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */; };
 		2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFF68811C96B1AD000DCDDA /* WBClientModel.m */; };
 		9338262491D79DB4DE91FFAD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0E529E428FEF18D5650182 /* libPods.a */; };
@@ -420,7 +426,6 @@
 		2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTbl_Unlocking_City.m; sourceTree = "<group>"; };
 		2D2568CE1CB78DAB006AEE5A /* WBReChargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBReChargeViewController.h; sourceTree = "<group>"; };
 		2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBReChargeViewController.m; sourceTree = "<group>"; };
-		2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2D2733651CB2BD5500F5E967 /* WBFindKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindKeyViewController.h; sourceTree = "<group>"; };
 		2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindKeyViewController.m; sourceTree = "<group>"; };
 		2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindAndHelpViewController.h; sourceTree = "<group>"; };
@@ -429,6 +434,12 @@
 		2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMenuBtnViewController.m; sourceTree = "<group>"; };
 		2D38A2E91CB6666800F4AEC8 /* WBMyUnlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyUnlockViewController.h; sourceTree = "<group>"; };
 		2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyUnlockViewController.m; sourceTree = "<group>"; };
+		2D3ADCB21CC47A970075E6A0 /* AddressChoicePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressChoicePickerView.h; sourceTree = "<group>"; };
+		2D3ADCB31CC47A970075E6A0 /* AddressChoicePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressChoicePickerView.m; sourceTree = "<group>"; };
+		2D3ADCB41CC47A970075E6A0 /* AddressChoicePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressChoicePickerView.xib; sourceTree = "<group>"; };
+		2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Localtion.plist; sourceTree = "<group>"; };
+		2D3ADCB81CC47A9F0075E6A0 /* AreaObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaObject.h; sourceTree = "<group>"; };
+		2D3ADCB91CC47A9F0075E6A0 /* AreaObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaObject.m; sourceTree = "<group>"; };
 		2D465FE31C88316000555532 /* WBTopicCommentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicCommentTableViewController.h; sourceTree = "<group>"; };
 		2D465FE41C88316000555532 /* WBTopicCommentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicCommentTableViewController.m; sourceTree = "<group>"; };
 		2D465FE71C8840B000555532 /* MyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyModel.xcdatamodel; sourceTree = "<group>"; };
@@ -536,6 +547,10 @@
 		2DF532B51CAFCE660000E8CB /* UnZan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnZan.png; sourceTree = "<group>"; };
 		2DF532B61CAFCE660000E8CB /* Zan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Zan.png; sourceTree = "<group>"; };
 		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDownLoadManager.m; sourceTree = "<group>"; };
+		2DFECB231CC623DE008BE938 /* BigAreas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BigAreas.plist; sourceTree = "<group>"; };
+		2DFECB251CC623EF008BE938 /* Countrys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countrys.plist; sourceTree = "<group>"; };
+		2DFECB271CC628D8008BE938 /* WBLocateList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLocateList.h; sourceTree = "<group>"; };
+		2DFECB281CC628D8008BE938 /* WBLocateList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBLocateList.m; sourceTree = "<group>"; };
 		2DFF687D1C969C95000DCDDA /* WBRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBRegisterViewController.h; sourceTree = "<group>"; };
 		2DFF687E1C969C95000DCDDA /* WBRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBRegisterViewController.m; sourceTree = "<group>"; };
 		2DFF68801C96B1AD000DCDDA /* WBClientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBClientModel.h; sourceTree = "<group>"; };
@@ -558,7 +573,6 @@
 				052048BD1C8979BB00175D14 /* QuartzCore.framework in Frameworks */,
 				0545504B1C8FEABD00A6F0E8 /* OpenGLES.framework in Frameworks */,
 				05665F271CB4D94600FFAA21 /* ALBBQuPaiPlugin.framework in Frameworks */,
-				2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */,
 				054550351C8FE9DE00A6F0E8 /* AudioToolbox.framework in Frameworks */,
 				2D1DE00D1C92E32B0059CD89 /* libsqlite3.0.tbd in Frameworks */,
 				2D62D67A1C89356300E4D05E /* libsqlite3.tbd in Frameworks */,
@@ -738,6 +752,13 @@
 				052F30D21C93EEB200D15322 /* WBPositionList.m */,
 				052F30CE1C93EB5B00D15322 /* WBPositionModel.h */,
 				052F30CF1C93EB5B00D15322 /* WBPositionModel.m */,
+				2DFECB271CC628D8008BE938 /* WBLocateList.h */,
+				2DFECB281CC628D8008BE938 /* WBLocateList.m */,
+				2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */,
+				052F30D41C93F9FA00D15322 /* city.plist */,
+				052F30D51C93F9FA00D15322 /* province.plist */,
+				2DFECB231CC623DE008BE938 /* BigAreas.plist */,
+				2DFECB251CC623EF008BE938 /* Countrys.plist */,
 			);
 			name = "省份城市";
 			sourceTree = "<group>";
@@ -937,8 +958,6 @@
 				05D6EB841C7D414F002D48FF /* Main.storyboard */,
 				05D6EB891C7D414F002D48FF /* LaunchScreen.storyboard */,
 				05CCAAE41CB791A20036A600 /* shareIcon.png */,
-				052F30D41C93F9FA00D15322 /* city.plist */,
-				052F30D51C93F9FA00D15322 /* province.plist */,
 				05D6EB8C1C7D414F002D48FF /* Info.plist */,
 				05D6EB7C1C7D414F002D48FF /* main.m */,
 			);
@@ -1017,7 +1036,6 @@
 		066C31FBC84A544453143D8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */,
 				2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */,
 				0545504C1C8FEAD000A6F0E8 /* UIKit.framework */,
 				0545504A1C8FEABD00A6F0E8 /* OpenGLES.framework */,
@@ -1096,6 +1114,7 @@
 				2DF1AD7B1CBDDFBB003D7B5E /* ico_make.png */,
 				2DF1AD7C1CBDDFBB003D7B5E /* JSDropDownMenu.h */,
 				2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */,
+				2D3ADCB11CC47A700075E6A0 /* locatePicker */,
 				2D16EF541C84169C002D5F90 /* waterfall */,
 				2DC665781C9032C700C1FFB3 /* HelpGroupDetail */,
 				2D5D72FC1C925BC400F8C2AE /* 分配悬赏 */,
@@ -1174,6 +1193,18 @@
 				2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */,
 			);
 			name = "找回密码";
+			sourceTree = "<group>";
+		};
+		2D3ADCB11CC47A700075E6A0 /* locatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				2D3ADCB81CC47A9F0075E6A0 /* AreaObject.h */,
+				2D3ADCB91CC47A9F0075E6A0 /* AreaObject.m */,
+				2D3ADCB21CC47A970075E6A0 /* AddressChoicePickerView.h */,
+				2D3ADCB31CC47A970075E6A0 /* AddressChoicePickerView.m */,
+				2D3ADCB41CC47A970075E6A0 /* AddressChoicePickerView.xib */,
+			);
+			name = locatePicker;
 			sourceTree = "<group>";
 		};
 		2D465FE21C88313900555532 /* commentView */ = {
@@ -1503,6 +1534,17 @@
 					05D6EB771C7D414F002D48FF = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = ERJ67V2HY6;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					05D6EB901C7D414F002D48FF = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -1546,18 +1588,22 @@
 				05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
+				2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
 				05D6EB8B1C7D414F002D48FF /* LaunchScreen.storyboard in Resources */,
 				2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */,
+				2DFECB241CC623DE008BE938 /* BigAreas.plist in Resources */,
 				2D62D6691C89346200E4D05E /* read_me.txt in Resources */,
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
 				2D62D6621C89346200E4D05E /* ShareSDKUI.bundle in Resources */,
 				2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */,
+				2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
 				2DF1AD7E1CBDDFBB003D7B5E /* ico_make.png in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
 				05D6EB881C7D414F002D48FF /* Assets.xcassets in Resources */,
 				05D6EB861C7D414F002D48FF /* Main.storyboard in Resources */,
+				2D3ADCBA1CC47A9F0075E6A0 /* Localtion.plist in Resources */,
 				05665F261CB4D94600FFAA21 /* ALBBQuPaiPlugin.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1679,6 +1725,7 @@
 				052E95D41CABDC0700152FC8 /* WBWebViewController.m in Sources */,
 				2D5005621C801B3F00DB8BF3 /* LoadViewController.m in Sources */,
 				2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */,
+				2DFECB291CC628D8008BE938 /* WBLocateList.m in Sources */,
 				05DB3F511C8444A400CBCC54 /* UIColor+color.m in Sources */,
 				052F30D31C93EEB200D15322 /* WBPositionList.m in Sources */,
 				0559F95D1CC20AFC001CF2A8 /* WBImage.m in Sources */,
@@ -1701,6 +1748,7 @@
 				05427CA41CC475F000C79F61 /* WBMyDraftViewController.m in Sources */,
 				05DB3F6B1C87196900CBCC54 /* UILabel+label.m in Sources */,
 				2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */,
+				2D3ADCB51CC47A970075E6A0 /* AddressChoicePickerView.m in Sources */,
 				2DF2A93E1C9FC220002C3A2A /* WBFansModel.m in Sources */,
 				2DB20EF21C8573BF005C542F /* WBTopicTableViewCell.m in Sources */,
 				2D02B6A01C8198C300FADFFB /* RESideMenu.m in Sources */,
@@ -1744,6 +1792,7 @@
 				2D5005581C800BCC00DB8BF3 /* CreateHelpGroupViewController.m in Sources */,
 				2D465FE81C8840B000555532 /* MyModel.xcdatamodeld in Sources */,
 				2D465FE51C88316000555532 /* WBTopicCommentTableViewController.m in Sources */,
+				2D3ADCBB1CC47A9F0075E6A0 /* AreaObject.m in Sources */,
 				2DF2A9411C9FCD44002C3A2A /* WBAttentionModel.m in Sources */,
 				05794C8E1CA263C200F32837 /* WBFollowMessage.m in Sources */,
 				054550501C8FEF6F00A6F0E8 /* WBTalkViewController.m in Sources */,

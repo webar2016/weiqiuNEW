@@ -100,6 +100,9 @@ username = 15001125798;
 +(NSString *)token;
 +(void)setToken:(NSString *)token;
 
++(NSString *)deviceToken;
++(void)setDeviceToken:(NSString *)deviceToken;
+
 /**
  *存取数据
  *@ getSingleUserDefaultsWithUserDefaultsKey - 取出单条数据，传入key

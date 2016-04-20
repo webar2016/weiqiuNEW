@@ -15,3 +15,11 @@
 @implementation WBCityModel
 
 @end
+
+@implementation WBBigAreaModel
+
+@end
+
+@implementation WBCountryModel
+
+@end

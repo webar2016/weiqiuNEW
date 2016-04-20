@@ -26,7 +26,11 @@
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager.requestSerializer setValue:[WBUserDefaults deviceToken] forHTTPHeaderField:@"Authorization"];
+     NSLog(@"deviceToken %@",[WBUserDefaults deviceToken]);
     [manager GET:urlStr parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+        
+        
         success(responseObject);
         
     } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -38,8 +42,9 @@
 +(void)getNsurl:(NSString *)str withParameters:(id)parameters whenSuccess:(SuccessBlock)success andFailure:(FailureBlock)failure{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        [manager.requestSerializer setValue:[WBUserDefaults deviceToken] forHTTPHeaderField:@"Authorization"];
     [manager GET:str parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
-        
+         NSLog(@"deviceToken %@",[WBUserDefaults deviceToken]);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         success(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -53,6 +58,7 @@
 
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager.requestSerializer setValue:[WBUserDefaults deviceToken] forHTTPHeaderField:@"Authorization"];
     [manager POST:str parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:fileData name:name fileName:fileName mimeType:mimeType];
         
@@ -72,6 +78,8 @@
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager.requestSerializer setValue:[WBUserDefaults deviceToken] forHTTPHeaderField:@"Authorization"];
+  //  NSLog(@"deviceToken %@",[WBUserDefaults deviceToken]);
     [manager POST:str
        parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             progress(uploadProgress);
@@ -88,6 +96,7 @@
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager.requestSerializer setValue:[WBUserDefaults deviceToken] forHTTPHeaderField:@"Authorization"];
     [manager POST:str parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         fieldData(formData);
         //[formData appendPartWithFileData:fileData name:name fileName:fileName mimeType:mimeType];

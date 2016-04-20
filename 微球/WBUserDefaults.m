@@ -146,7 +146,18 @@
 +(void)setToken:(NSString *)token{
     [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [self setUserDefaultsArrayWithKey:@"token"];
+   [self setUserDefaultsArrayWithKey:@"token"];
+}
+
+
++(NSString *)deviceToken{
+return [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"];
+}
+
++(void)setDeviceToken:(NSString *)deviceToken{
+    [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:@"deviceToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    //[self setUserDefaultsArrayWithKey:@"deviceToken"];
 }
 
 +(id)getSingleUserDefaultsWithUserDefaultsKey:(NSString *)key{

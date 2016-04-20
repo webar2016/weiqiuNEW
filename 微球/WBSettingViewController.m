@@ -10,6 +10,7 @@
 #import "WBAboutWBViewController.h"
 #import <RongIMKit/RongIMKit.h>
 #import "MyDBmanager.h"
+#import "MyDownLoadManager.h"
 
 @interface WBSettingViewController () <UITableViewDelegate,UITableViewDataSource> {
     UITableView     *_tableView;
@@ -64,7 +65,10 @@
     })];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            [WBUserDefaults deleteUserDefaults];
+            
+            [self veritifyLoadOut];
+            
+            [WBUserDefaults deleteAllUserDefaults];
             [[RCIMClient sharedRCIMClient] logout];
             
             MyDBmanager *manager1 = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
@@ -75,14 +79,29 @@
             [manager2 deleteAllData];
             [manager2 closeFBDM];
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
             self.tabBarController.selectedIndex = 0;
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
         }];
         action;
     })];
     
     [self presentViewController:alert animated:YES completion:nil];
     
+}
+
+
+-(void)veritifyLoadOut{
+    
+    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/pt/logout" withParameters:@{@"userId":[WBUserDefaults userId]} whenProgress:^(NSProgress *FieldDataBlock) {
+        
+    } andSuccess:^(id representData) {
+        
+    } andFailure:^(NSString *error) {
+        
+    }];
+
+
 }
 
 -(void)dontDisturb{

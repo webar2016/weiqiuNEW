@@ -194,7 +194,7 @@
         [parameters setValue:_account.text forKey:@"username"];
         [parameters setValue:_password.text forKey:@"password"];
         [MyDownLoadManager postUrl:@"http://121.40.132.44:92/pt/login" withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
-            
+            //@"http://121.40.132.44:92/pt/login"
         } andSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
            // NSLog(@"%@",result);
@@ -248,6 +248,9 @@
     
     }
 }
+
+
+
 
 #pragma mark   ----存本地数据----
 
