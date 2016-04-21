@@ -255,18 +255,18 @@
 
 -(void)shareBtnClicked{
     
-    NSString *shareURL = [NSString stringWithFormat:@"http://121.40.132.44:92/share/topic?commentId=%ld&newsType=%ld",(long)_model.commentId,_cellType];
+    NSString *shareURL = [NSString stringWithFormat:@"http://app.weiqiu.me/share/topic?commentId=%ld&newsType=%ld",(long)_model.commentId,_cellType];
     
     UIImage *shareImage = [UIImage imageWithData:UIImageJPEGRepresentation(_mainImage.image, 0.3)];
     
     NSString *shareText = [NSString string];
     
     if (_cellType == 1) {
-        shareText = [NSString stringWithFormat:@"我分享 @%@ 的照片，快来微球看看吧！",_model.tblUser.nickname];
+        shareText = [NSString stringWithFormat:@"我分享了 %@ 的照片，快来微球看看吧！",_model.tblUser.nickname];
     } else if (_cellType == 2) {
-        shareText = [NSString stringWithFormat:@"我分享 @%@ 的视频，拍的太棒了，快来微球看看吧！",_model.tblUser.nickname];
+        shareText = [NSString stringWithFormat:@"我分享了 %@ 的视频，拍的太棒了，快来微球看看吧！",_model.tblUser.nickname];
     } else {
-        shareText = [NSString stringWithFormat:@"我分享 @%@ 的文章，写得太绝了，快来微球看看吧！",_model.tblUser.nickname];
+        shareText = [NSString stringWithFormat:@"我分享了 %@ 的文章，写得太绝了，快来微球看看吧！",_model.tblUser.nickname];
     }
     
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
@@ -275,7 +275,7 @@
                                      images:@[shareImage]
                                         url:[NSURL URLWithString:shareURL]
                                       title:_model.topicContent
-                                       type:SSDKContentTypeAuto];
+                                       type:SSDKContentTypeWebPage];
     
     [ShareSDK showShareActionSheet:nil
                              items:nil
@@ -317,7 +317,7 @@
     if (![WBUserDefaults userId] || [[WBUserDefaults userId] integerValue] == _model.userId) {
         return;
     }
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {
             [self upLoadLikeTap];
@@ -329,7 +329,7 @@
 }
 
 -(void)upLoadLikeTap{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
         NSLog(@"%@",_indexPath);
         [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
         

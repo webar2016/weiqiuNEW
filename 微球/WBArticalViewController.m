@@ -70,7 +70,7 @@
 #pragma mark - 创建子控件
 
 -(void)loadData{
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/tq/getCommentById?commentId=%ld",(long)self.commentId];
+    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/tq/getCommentById?commentId=%ld",(long)self.commentId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
 
@@ -181,7 +181,7 @@
         [self showHUDText:@"不能打赏自己哦！"];
         return;
     }
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {
             
@@ -225,7 +225,7 @@
 }
 
 -(void)upLoadLikeTap{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)self.commentId,[WBUserDefaults userId],(long)self.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)self.commentId,[WBUserDefaults userId],(long)self.userId] whenSuccess:^(id representData) {
         
     } andFailure:^(NSString *error) {
         

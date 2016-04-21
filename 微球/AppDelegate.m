@@ -223,7 +223,7 @@ didRegisterUserNotificationSettings:
         [self loginRongCloudWithToken:[WBUserDefaults token]];
 //        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getRCToken" object:nil];
     } else {
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/ry/getToken?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/ry/getToken?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
             
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             
@@ -279,7 +279,7 @@ didRegisterUserNotificationSettings:
         
     }
     
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/ry/userInfo?userId=%@",userId];
+    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/ry/userInfo?userId=%@",userId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]){
@@ -299,7 +299,7 @@ didRegisterUserNotificationSettings:
     int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
     [UIApplication sharedApplication].applicationIconBadgeNumber = unreadMsgCount;
     
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHgStr?groupId=%@",groupId];
+    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHgStr?groupId=%@",groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {

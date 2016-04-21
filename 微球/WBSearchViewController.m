@@ -17,7 +17,7 @@
 #import "WBQuestionsListModel.h"
 #import "WBUserInfosModel.h"
 
-#define SEARCH_URL @"http://121.40.132.44:92/tq/search?content=%@"
+#define SEARCH_URL @"http://app.weiqiu.me/tq/search?content=%@"
 
 @interface WBSearchViewController () <UITextFieldDelegate,WBQuestionTableViewCellDelegate> {
     UIView      *_headerView;
