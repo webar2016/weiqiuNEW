@@ -17,8 +17,8 @@
 #import "MJExtension.h"
 #import <RongIMLib/RCIMClient.h>
 
-#define MEMBER_ICON @"http://121.40.132.44:92/hg/hgUsers?groupId=%@"
-#define GROUP_DETAIL @"http://121.40.132.44:92/hg/oneHG?groupId=%@"
+#define MEMBER_ICON @"http://app.weiqiu.me/hg/hgUsers?groupId=%@"
+#define GROUP_DETAIL @"http://app.weiqiu.me/hg/oneHG?groupId=%@"
 
 @interface WBGroupSettingViewController () <WBGroupSettingTableViewCellDelegate> {
     UILabel     *_totalMembers;
@@ -212,7 +212,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"现在退出帮帮团，你将无法获得球币，是否确认退出？" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/quitGroup?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/quitGroup?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
                 [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
                 [self.navigationController popToRootViewControllerAnimated:NO];
             } andFailure:^(NSString *error) {
@@ -251,7 +251,7 @@
     //设置SDK提醒
     [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"groupId"] isBlocked:noPush success:^(RCConversationNotificationStatus nStatus) {
         //消息提醒同步到服务器
-        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/hg/setPush" withParameters:data whenProgress:^(NSProgress *FieldDataBlock) {
+        [MyDownLoadManager postUrl:@"http://app.weiqiu.me/hg/setPush" withParameters:data whenProgress:^(NSProgress *FieldDataBlock) {
         } andSuccess:^(id representData) {
             
             //向聊天页面发送免提醒通知
