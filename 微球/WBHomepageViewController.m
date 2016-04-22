@@ -813,11 +813,11 @@
 
 -(void)shareThisHomePage{
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享了 %@ 的微球主页，快来微球看看吧！",self.navigationItem.title]
+        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的微球主页，快来微球看看吧！",self.navigationItem.title]
                                          images:@[[UIImage imageWithData:UIImageJPEGRepresentation(_headicon.image, 0.3)]]
                                             url:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]]
                                           title:@"快来微球征服地球！"
-                                           type:SSDKContentTypeWebPage];
+                                           type:SSDKContentTypeAuto];
         
         [ShareSDK showShareActionSheet:nil
                                  items:nil
