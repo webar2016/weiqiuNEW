@@ -106,8 +106,6 @@
 -(void)setUpTitleView{
     self.titleIsShow = NO;
     
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageWithOriginal:@"icon_share"] style:UIBarButtonItemStylePlain target:self action:@selector(shareThisAnswer)];
-    
     self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH * 0.5, 44)];
     
     UILabel *quesLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 12, SCREENWIDTH * 0.5, 20)];

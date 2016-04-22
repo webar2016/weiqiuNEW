@@ -222,6 +222,7 @@
     _datePicker.datePickerMode = UIDatePickerModeDate;
     _datePicker.backgroundColor = [UIColor whiteColor];
     _datePicker.minimumDate = [[NSDate alloc] init];
+    _datePicker.maximumDate = [_datePicker.minimumDate dateByAddingTimeInterval:365 * 24 * 60 * 60 * 2];
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 40)];
     toolBar.backgroundColor = [UIColor initWithLightGray];
     UIBarButtonItem *ensureButton = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStylePlain target:self action:@selector(ensureDatePicker)];

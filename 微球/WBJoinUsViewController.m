@@ -55,9 +55,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    [self refreshTableView];
     [self notifyUpdateUnreadMessageCount];
     _emptyView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"1.pic.jpg"]];
     _emptyView.frame = CGRectMake(0, 40, SCREENWIDTH, SCREENWIDTH);    
+}
+
+-(void)refreshTableView{
+    
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self loadData];
+    }];
+    header.lastUpdatedTimeLabel.hidden = YES;
+    
+    self.conversationListTableView.mj_header = header;
+    
 }
 
 -(void)notifyUpdateUnreadMessageCount{
@@ -79,9 +91,12 @@
         
         if ([result isKindOfClass:[NSDictionary class]]){
             self.models = [WBMyGroupModel mj_objectArrayWithKeyValuesArray:result[@"helpGroup"]];
+            [self.conversationListTableView reloadData];
+            [self.conversationListTableView.mj_header endRefreshing];
         }
         
     } andFailure:^(NSString *error) {
+        [self.conversationListTableView.mj_header endRefreshing];
         NSLog(@"%@------",error);
     }];
 }
