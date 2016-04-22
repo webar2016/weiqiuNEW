@@ -31,6 +31,11 @@
 @property(nonatomic, strong) NSString *content;
 
 /*!
+ 评论内容
+ */
+@property(nonatomic, strong) NSString *userId;
+
+/*!
  被评论状态id
  */
 @property(nonatomic, strong) NSString *extra;

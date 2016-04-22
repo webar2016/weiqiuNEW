@@ -64,29 +64,29 @@
 
 -(void)rightBtnClicked{
     if ([_rightButton.titleLabel.text isEqualToString:@"已关注"]) {
-        [self.delegate showHUD:@"正在取消关注" isDim:YES];
+//        [self.delegate showHUD:@"正在取消关注" isDim:YES];
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
                 _rightButton.backgroundColor = [UIColor initWithGreen];
                 [_rightButton setTitle:@"关注" forState:UIControlStateNormal];
             }
-            [self.delegate showHUDComplete:@"取消关注成功"];
+//            [self.delegate showHUDComplete:@"取消关注成功"];
         } andFailure:^(NSString *error) {
-            [self.delegate showHUDComplete:@"取消关注失败"];
+            [self.delegate showHUDComplete:@"取关失败，请稍后重试"];
         }];
     }else{
         
-        [self.delegate showHUD:@"正在关注" isDim:YES];
+//        [self.delegate showHUD:@"正在关注" isDim:YES];
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
                 _rightButton.backgroundColor = [UIColor initWithBackgroundGray];
                 [_rightButton setTitle:@"已关注" forState:UIControlStateNormal];
             }
-           [self.delegate showHUDComplete:@"关注成功"];
+//           [self.delegate showHUDComplete:@"关注成功"];
         } andFailure:^(NSString *error) {
-            [self.delegate showHUDComplete:@"关注失败"];
+            [self.delegate showHUDComplete:@"关注失败，请稍后重试"];
         }];
     }
     
