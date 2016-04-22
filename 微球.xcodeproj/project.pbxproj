@@ -121,7 +121,6 @@
 		2D1DE00D1C92E32B0059CD89 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */; };
 		2D2568CA1CB74F9C006AEE5A /* WBTbl_Unlocking_City.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */; };
 		2D2568D11CB78DAB006AEE5A /* WBReChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */; };
-		2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */; };
 		2D2733671CB2BD5500F5E967 /* WBFindKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */; };
 		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
 		2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */; };
@@ -403,7 +402,6 @@
 		2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTbl_Unlocking_City.m; sourceTree = "<group>"; };
 		2D2568CE1CB78DAB006AEE5A /* WBReChargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBReChargeViewController.h; sourceTree = "<group>"; };
 		2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBReChargeViewController.m; sourceTree = "<group>"; };
-		2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2D2733651CB2BD5500F5E967 /* WBFindKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindKeyViewController.h; sourceTree = "<group>"; };
 		2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindKeyViewController.m; sourceTree = "<group>"; };
 		2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindAndHelpViewController.h; sourceTree = "<group>"; };
@@ -538,7 +536,6 @@
 				052048BD1C8979BB00175D14 /* QuartzCore.framework in Frameworks */,
 				0545504B1C8FEABD00A6F0E8 /* OpenGLES.framework in Frameworks */,
 				05665F271CB4D94600FFAA21 /* ALBBQuPaiPlugin.framework in Frameworks */,
-				2D26AEC61CA23B3F003D5DAE /* StoreKit.framework in Frameworks */,
 				054550351C8FE9DE00A6F0E8 /* AudioToolbox.framework in Frameworks */,
 				2D1DE00D1C92E32B0059CD89 /* libsqlite3.0.tbd in Frameworks */,
 				2D62D67A1C89356300E4D05E /* libsqlite3.tbd in Frameworks */,
@@ -989,7 +986,6 @@
 		066C31FBC84A544453143D8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2D26AEC51CA23B3F003D5DAE /* StoreKit.framework */,
 				2D1DE00C1C92E32B0059CD89 /* libsqlite3.0.tbd */,
 				0545504C1C8FEAD000A6F0E8 /* UIKit.framework */,
 				0545504A1C8FEABD00A6F0E8 /* OpenGLES.framework */,
@@ -1471,8 +1467,11 @@
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = ERJ67V2HY6;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1859,8 +1858,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liang Xu (ERJ67V2HY6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1916,8 +1915,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liang Xu (ERJ67V2HY6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
