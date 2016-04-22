@@ -175,8 +175,8 @@
         //短信验证
         //判断是否注册
         [self showHUD:@"正在发送验证码" isDim:YES];
-        // http://121.40.132.44:92/pt/checkUser?userName=15651039809
-        NSString *vertifyUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/pt/checkUser?userName=%@",_telephoneField.text];
+        // http://app.weiqiu.me/pt/checkUser?userName=15651039809
+        NSString *vertifyUrl = [NSString stringWithFormat:@"http://app.weiqiu.me/pt/checkUser?userName=%@",_telephoneField.text];
         [MyDownLoadManager getNsurl:vertifyUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"%@",result);
@@ -215,7 +215,7 @@
                 NSLog(@"success");
                 NSDictionary *parameters = @{@"username":_telephoneField.text,@"password":_passwordField.text};
                 
-                [MyDownLoadManager postUrl:@"http://121.40.132.44:92/pt/updatepwd" withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
+                [MyDownLoadManager postUrl:@"http://app.weiqiu.me/pt/updatepwd" withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
                     
                 } andSuccess:^(id representData) {
                     NSLog(@"success");

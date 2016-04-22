@@ -15,7 +15,7 @@
 
 #import "MJExtension.h"
 
-#define ScoreUrl @"http://121.40.132.44:92/hg/hgUsersQNum?groupId=%@"
+#define ScoreUrl @"http://app.weiqiu.me/hg/hgUsersQNum?groupId=%@"
 
 @interface WBAllocateScoreViewController ()<UITableViewDataSource,UITableViewDelegate,ScoreClickedEnent>
 {
@@ -220,8 +220,8 @@
        // [_data setObject:integral forKey:@"integral"];
     }
     NSLog(@"_data%@",_data);
-    //@"http://121.40.132.44:92/hg/closeGroup"
-    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/hg/closeGroup" withParameters:_data whenProgress:^(NSProgress *FieldDataBlock) {
+    //@"http://app.weiqiu.me/hg/closeGroup"
+    [MyDownLoadManager postUrl:@"http://app.weiqiu.me/hg/closeGroup" withParameters:_data whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
         [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];

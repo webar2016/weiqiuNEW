@@ -71,7 +71,7 @@
 -(void)rightBtnClicked{
     if ([_rightButton.titleLabel.text isEqualToString:@"已关注"]) {
         [self.delegate showHUD:@"正在取消关注" isDim:YES];
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
                 _rightButton.backgroundColor = [UIColor initWithGreen];
@@ -84,7 +84,7 @@
     }else{
     
        [self.delegate showHUD:@"正在关注" isDim:YES];
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],self.fansId] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
                 _rightButton.backgroundColor = [UIColor initWithBackgroundGray];
