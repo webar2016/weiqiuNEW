@@ -106,7 +106,7 @@
 {
 //    _loadImageCount = 0;
     
-    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
     
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];

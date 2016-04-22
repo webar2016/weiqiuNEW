@@ -28,7 +28,7 @@
 #import "WBArticalViewController.h"
 #import <ALBBQuPaiPlugin/ALBBQuPaiPlugin.h>
 
-#define TopicCommentURL @"http://app.weiqiu.me/tq/getTopicComment?topicId=%ld&p=%ld&ps=%d"
+#define TopicCommentURL @"http://121.40.132.44:92/tq/getTopicComment?topicId=%ld&p=%ld&ps=%d"
 
 @interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue>
 {
@@ -177,7 +177,7 @@
         [parameters setObject:@"2" forKey:@"newsType"];
         [parameters setObject:[NSString stringWithFormat:@"%ld",(long)_topicID] forKey:@"topicId"];
         
-        [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+        [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:fileData name:@"1234" fileName:@"video1.mov" mimeType:@"video/quicktime"];
             
         } whenProgress:^(NSProgress *FieldDataBlock) {

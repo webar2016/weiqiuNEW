@@ -23,8 +23,8 @@
 
 #import "UILabel+label.h"
 
-#define QUESTION_NUMBER @"http://app.weiqiu.me/hg/noSolveNum?groupId=%@"
-#define QUESTION_IN_GROUP @"http://app.weiqiu.me/tq/getHGQuestion?groupId=%@&p=1&ps=1"
+#define QUESTION_NUMBER @"http://121.40.132.44:92/hg/noSolveNum?groupId=%@"
+#define QUESTION_IN_GROUP @"http://121.40.132.44:92/tq/getHGQuestion?groupId=%@&p=1&ps=1"
 
 @interface WBTalkViewController () {
     UIView      *_questionView;
@@ -126,7 +126,7 @@
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/ask"];
+    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/ask"];
     [manager POST:url parameters:data progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

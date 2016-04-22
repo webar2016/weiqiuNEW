@@ -251,7 +251,7 @@
     
     
     
-    [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+    [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (fileData) {
             [formData appendPartWithFileData:fileData name:@"asd" fileName:@"asd.jpg" mimeType:@"image/jpeg"];
         }

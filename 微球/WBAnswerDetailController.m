@@ -25,7 +25,7 @@
 #import "UIImage+MultiFormat.h"
 #import "WBUpdateIntegral.h"
 
-#define ANSWERURL @"http://app.weiqiu.me/tq/getAnswerById?answerId=%ld"
+#define ANSWERURL @"http://121.40.132.44:92/tq/getAnswerById?answerId=%ld"
 
 @interface WBAnswerDetailController () <UITextViewDelegate>
 
@@ -356,7 +356,7 @@
         [self showHUDText:@"不能打赏自己哦！"];
         return;
     }
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {
             
@@ -400,7 +400,7 @@
 }
 
 -(void)upLoadLikeTap{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/tq/answerPraise?answerId=%ld&userId=%@&toUserId=%ld",(long)self.answerId,[WBUserDefaults userId],(long)self.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/answerPraise?answerId=%ld&userId=%@&toUserId=%ld",(long)self.answerId,[WBUserDefaults userId],(long)self.userId] whenSuccess:^(id representData) {
         
     } andFailure:^(NSString *error) {
         

@@ -85,7 +85,7 @@
     dic[@"userId"] = [WBUserDefaults userId];
     if ([messageCotent isKindOfClass:[RCTextMessage class]]) {
         dic[@"content"] = ((RCTextMessage *)messageCotent).content;
-        [MyDownLoadManager postUrl:@"http://app.weiqiu.me/feedBack/talkToHelper" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
+        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/feedBack/talkToHelper" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
         } andSuccess:^(id representData) {
             NSLog(@"成功");
         } andFailure:^(NSString *error) {
@@ -94,7 +94,7 @@
     } else {
         NSData *fileData = UIImageJPEGRepresentation(((RCImageMessage *)messageCotent).thumbnailImage, 0.1);
         NSString *imageName = [[NSString ret32bitString] stringByAppendingString:@".JPG"];
-        [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/feedBack/talkToHelper" withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
+        [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/feedBack/talkToHelper" withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:fileData name:imageName fileName:imageName mimeType:@"image/jpeg"];
         } whenProgress:^(NSProgress *FieldDataBlock) {
         } andSuccess:^(id representData) {

@@ -16,7 +16,7 @@
 #import "WBMyGroupModel.h"
 #import <RongIMLib/RCIMClient.h>
 
-#define MY_JOIN_GROUPS @"http://app.weiqiu.me/hg/getMyJion?userId=%@"
+#define MY_JOIN_GROUPS @"http://121.40.132.44:92/hg/getMyJion?userId=%@"
 
 @interface WBJoinUsViewController () <UIScrollViewDelegate> {
     UIImageView *_emptyView;

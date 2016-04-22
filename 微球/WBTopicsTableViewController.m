@@ -21,8 +21,8 @@
 #import "WBAllocateScoreViewController.h"
 
 #import "UIColor+color.h"
-#define TopCellURL @"http://app.weiqiu.me/tq/getTopTopic"
-#define CellURL @"http://app.weiqiu.me/tq/getTopic?p=%ld&ps=%d"
+#define TopCellURL @"http://121.40.132.44:92/tq/getTopTopic"
+#define CellURL @"http://121.40.132.44:92/tq/getTopic?p=%ld&ps=%d"
 
 
 @interface WBTopicsTableViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>

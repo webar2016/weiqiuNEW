@@ -11,7 +11,7 @@
 #import "WBTbl_Unlock_City.h"
 #import "MyDBmanager.h"
 
-#define UNLOCK_URL @"http://app.weiqiu.me/album/unlockApplication"
+#define UNLOCK_URL @"http://121.40.132.44:92/album/unlockApplication"
 
 @interface WBUnlockViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate,UITextInputTraits> {
     UIScrollView    *_scrollView;
