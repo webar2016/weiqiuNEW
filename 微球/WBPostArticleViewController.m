@@ -14,7 +14,7 @@
 
 #import "NSAttributedString + attributedString.h"
 
-#define POST_URL @"http://121.40.132.44:92/tq/setAnswer?userId=%d&answerText=%@&groupId=%d&questionId=%d"
+#define POST_URL @"http://app.weiqiu.me/tq/setAnswer?userId=%d&answerText=%@&groupId=%d&questionId=%d"
 
 @interface WBPostArticleViewController () <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSKeyedArchiverDelegate>
 {
@@ -243,7 +243,7 @@
         [parameters setObject:self.groupId forKey:@"groupId"];
         [parameters setObject:self.questionId forKey:@"questionId"];
         [parameters setObject:plainString forKey:@"answerText"];
-        url = @"http://121.40.132.44:92/tq/setAnswer";
+        url = @"http://app.weiqiu.me/tq/setAnswer";
     }
 //        else if (self.isQuestionAnswer && _hasDraft) {
 //        [parameters setObject:_savedDraft.groupId forKey:@"groupId"];
@@ -255,7 +255,7 @@
         NSLog(@"%@",parameters[@"topicId"]);
         [parameters setObject:@"3" forKey:@"newsType"];
         [parameters setObject:plainString forKey:@"comment"];
-        url = @"http://121.40.132.44:92/tq/setComment";
+        url = @"http://app.weiqiu.me/tq/setComment";
     }
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
