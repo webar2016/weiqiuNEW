@@ -22,7 +22,7 @@
 
 #import "UIColor+color.h"
 #define TopCellURL @"http://121.40.132.44:92/tq/getTopTopic"
-#define CellURL @"http://121.40.132.44:92/tq/getTopic?p=%ld&ps=%d"
+#define CellURL @"http://g:92/tq/getTopic?p=%ld&ps=%d"
 
 
 @interface WBTopicsTableViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
