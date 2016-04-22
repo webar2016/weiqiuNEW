@@ -15,21 +15,28 @@
 //城市 数组
 @property (strong, nonatomic) NSArray *cityArr;
 
+
+
+
 @end
 @implementation AddressChoicePickerView
 
-- (instancetype)init{
+- (instancetype)initWithPlaceStyle:(PlaceStyle)style{
     
     if (self = [super init]) {
         self = [[[NSBundle mainBundle]loadNibNamed:@"AddressChoicePickerView" owner:nil options:nil]firstObject];
         self.frame = [UIScreen mainScreen].bounds;
         self.pickView.delegate = self;
         self.pickView.dataSource = self;
-        self.areaArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Localtion.plist" ofType:nil]];
+        if (style == 0) {
+            self.areaArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Localtion.plist" ofType:nil]];
+        }else{
+            self.areaArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Localtion.plist" ofType:nil]];
+        }
+        
         self.countryArr = self.areaArr[0][@"countrys"];
         self.provinceArr = self.countryArr[0][@"provinces"];
         self.cityArr = self.provinceArr[0][@"citys"];
-        
         self.locate.area =self.areaArr[0][@"areaName"];
         self.locate.country =self.countryArr[0][@"country"];
         self.locate.province =self.provinceArr[0][@"provinceName"];
@@ -59,14 +66,16 @@
 //选择完成
 - (IBAction)finishBtnPress:(UIButton *)sender {
     if (self.block) {
-        self.block(self,sender,self.locate);
+        self.block(self,sender,self.locate,YES);
     }
     [self hide];
 }
 
 //隐藏
 - (IBAction)dissmissBtnPress:(UIButton *)sender {
-    
+    if (self.block) {
+        self.block(self,sender,self.locate,NO);
+    }
     [self hide];
 }
 

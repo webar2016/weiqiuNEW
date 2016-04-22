@@ -36,6 +36,8 @@
 
 @implementation WBHelpGroupsDetailViewController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -48,7 +50,15 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear: animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
     [self checkInGroup];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+
 }
 
 -(void)checkInGroup{
@@ -223,7 +233,7 @@
     
 
     if (btn.tag ==100) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
 
     }else{
         btn.enabled = NO;

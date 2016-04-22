@@ -159,7 +159,7 @@
     _locatePickBtn.frame = CGRectMake(SCREENWIDTH/2, -0.5, SCREENWIDTH/2, 30.5);
     [self.view addSubview:_locatePickBtn];
     [_locatePickBtn setBackgroundColor:[UIColor colorWithRed:244.0/255.0 green:244.0/255.0 blue:244.0/255.0 alpha:1]];
-    [_locatePickBtn setTitle:@"全fdssf部" forState:UIControlStateNormal];
+    [_locatePickBtn setTitle:@"全部" forState:UIControlStateNormal];
     [_locatePickBtn setTitleColor:[UIColor colorWithRed:90.0/255.0 green:90.0/255.0 blue:90.0/255.0 alpha:1] forState:UIControlStateNormal];
     _locatePickBtn.layer.borderColor = [[UIColor colorWithRed:210.0/255.0 green:210.0/255.0 blue:210.0/255.0 alpha:1] CGColor];
     _locatePickBtn.layer.borderWidth = 0.5;
@@ -169,7 +169,7 @@
     NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
     CGSize  actualsize1=[_locatePickBtn.titleLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
     
-    _indicator = [self createIndicatorWithColor:[UIColor blackColor] andPosition:CGPointMake(SCREENWIDTH/4*3 + actualsize1.width + 5, _locatePickBtn.frame.origin.y+15)];
+    _indicator = [self createIndicatorWithColor:[UIColor colorWithRed:175.0/255.0 green:175.0/255.0 blue:175.0/255.0 alpha:1] andPosition:CGPointMake(SCREENWIDTH/4*3 + actualsize1.width/2 + 7, _locatePickBtn.frame.origin.y+15)];
     [self.view.layer addSublayer:_indicator];
 }
 
@@ -199,34 +199,75 @@
 }
 
 
+#pragma mark - animation method
+- (void)animateIndicator:(CAShapeLayer *)indicator Forward:(BOOL)forward {
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:0.25];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.4 :0.0 :0.2 :1.0]];
+    
+    CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation"];
+    anim.values = forward ? @[ @0, @(M_PI) ] : @[ @(M_PI), @0 ];
+    
+    if (!anim.removedOnCompletion) {
+        [indicator addAnimation:anim forKey:anim.keyPath];
+    } else {
+        [indicator addAnimation:anim forKey:anim.keyPath];
+        [indicator setValue:anim.values.lastObject forKeyPath:anim.keyPath];
+    }
+    
+    [CATransaction commit];
+    
+    
+}
+
+
+
 -(void)loactePickBtn{
-    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]init];
-    addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate){
-        if (_currentData1Index == 0) {
-            [self showHUD:@"正在加载" isDim:YES];
-            if (locate.areaId==NULL||locate.areaId==nil) {
-                // @"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d"
-                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
-            }else{
-                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?cityId=%@*p=%ld&ps=%d",locate.cityId,(long)_page,PAGESIZE];
-                
-            }
+    [self animateIndicator:_indicator Forward:YES];
+    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]initWithPlaceStyle:SinglePlaceChoice];
+    addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
+        
+        if (isSelected) {
             
+            if (_currentData1Index == 0) {
+                [self showHUD:@"正在加载" isDim:YES];
+                if (locate.areaId==NULL||locate.areaId==nil) {
+                    // @"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d"
+                    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+                }else{
+                    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?cityId=%@*p=%ld&ps=%d",locate.cityId,(long)_page,PAGESIZE];
+                    
+                }
+                
+            }else{
+                
+                if (_data2MainIndex==0 &&_currentData2Index==0) {
+                    
+                    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
+                }else{
+                    
+                    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],locate.cityId,(long)_page,PAGESIZE];
+                }
+            }
+            [self loadData];
+            [_locatePickBtn setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
+            NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
+            CGSize  actualsize1=[[NSString stringWithFormat:@"%@",locate] boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
+            NSLog(@"%f",actualsize1.width);
+            [self animateIndicator:_indicator Forward:NO];
+            _indicator.position =CGPointMake(SCREENWIDTH/4*3 + actualsize1.width/2 + 7, _locatePickBtn.frame.origin.y+15);
         }else{
-            
-            if (_data2MainIndex==0 &&_currentData2Index==0) {
-                
-                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
-            }else{
-                
-                _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],locate.cityId,(long)_page,PAGESIZE];
-            }
+        
+          [self animateIndicator:_indicator Forward:NO];
+        
+        
         }
-        [self loadData];
-        [_locatePickBtn setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
+       
+        
+        
     };
     [addressPickerView show];
-
+    
 
 
 }
@@ -345,7 +386,14 @@
     }
     DVC.imageHeight = [_cellHeightArray[indexPath.row] floatValue]*SCREENWIDTH;
     
-    [self presentViewController:DVC animated:YES completion:nil];
+    
+    // 隐藏tabbar
+    
+    DVC.hidesBottomBarWhenPushed = YES;
+    
+    [self.navigationController pushViewController:DVC animated:YES];
+    
+   // [self presentViewController:DVC animated:YES completion:nil];
     
     
 }
