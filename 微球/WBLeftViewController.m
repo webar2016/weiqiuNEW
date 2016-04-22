@@ -11,6 +11,7 @@
 #import "WBHomepageViewController.h"
 #import "WBWebViewController.h"
 #import "CreateHelpGroupViewController.h"
+#import "WBMyDraftViewController.h"
 #import "WBSettingViewController.h"
 #import "WBIndividualIncomeViewController.h"
 
@@ -130,7 +131,7 @@
 
 -(void)setUpSelections{
     self.tableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, self.size.height * 0.14 + 140, self.view.frame.size.width, 45 * 5) style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, self.size.height * 0.14 + 140, self.view.frame.size.width, 45 * 6) style:UITableViewStylePlain];
         tableView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         tableView.delegate = self;
         tableView.dataSource = self;
@@ -197,6 +198,13 @@
         }
             
         case 3:{
+            WBMyDraftViewController *draftVC = [[WBMyDraftViewController alloc] init];
+            draftVC.hidesBottomBarWhenPushed = YES;
+            [self pushViewControllerWithController:draftVC];
+            break;
+        }
+            
+        case 4:{
             WBSettingViewController *settingVC = [[WBSettingViewController alloc] init];
             settingVC.hidesBottomBarWhenPushed = YES;
             [self pushViewControllerWithController:settingVC];
@@ -232,7 +240,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -249,8 +257,8 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    NSArray *titles = @[@"个人主页", @"猜图签到", @"快速解锁", @"设置"];
-    NSArray *images = @[@"icon_personalcenter", @"icon_checkin", @"icon_unclock", @"icon_setting"];
+    NSArray *titles = @[@"个人主页", @"猜图签到", @"快速解锁", @"我的草稿", @"设置"];
+    NSArray *images = @[@"icon_personalcenter", @"icon_checkin", @"icon_unclock", @"icon_unclock", @"icon_setting"];
     cell.textLabel.text = titles[indexPath.row];
     cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
     

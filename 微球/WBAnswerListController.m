@@ -9,7 +9,7 @@
 #import "WBAnswerListController.h"
 #import "WBAnswerListCell.h"
 #import "WBAnswerDetailController.h"
-#import "WBPostArticleViewController.h"
+#import "WBAnswerQuestionViewController.h"
 #import "LoadViewController.h"
 
 #import "MyDownLoadManager.h"
@@ -195,10 +195,7 @@
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString:@"true"]) {
-            WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
-            writeAnswerVC.groupId = self.groupId;
-            writeAnswerVC.questionId = [NSString stringWithFormat:@"%ld",(long)self.questionId];
-            writeAnswerVC.isQuestionAnswer = YES;
+            WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.groupId questionId:[NSString stringWithFormat:@"%ld",(long)self.questionId] title:self.questionText];
             [self.navigationController pushViewController:writeAnswerVC animated:YES];
         } else {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你当前不在这个帮帮团中，加入后才可以回答问题，是否加入？" message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -206,10 +203,7 @@
                 UIAlertAction *action = [UIAlertAction actionWithTitle:@"加入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%@&userId=%@",self.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
                         
-                        WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
-                        writeAnswerVC.groupId = self.groupId;
-                        writeAnswerVC.questionId = [NSString stringWithFormat:@"%ld",(long)self.questionId];
-                        writeAnswerVC.isQuestionAnswer = YES;
+                        WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.groupId questionId:[NSString stringWithFormat:@"%ld",(long)self.questionId] title:self.questionText];
                         [self.navigationController pushViewController:writeAnswerVC animated:YES];
                         
                     } andFailure:^(NSString *error) {

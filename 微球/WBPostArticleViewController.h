@@ -6,14 +6,12 @@
 //  Copyright © 2016年 weiqiuwang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "WBArticalBaseViewController.h"
 
-@interface WBPostArticleViewController : WBRefreshViewController
+@interface WBPostArticleViewController : WBArticalBaseViewController
 
-@property (nonatomic, assign) BOOL isQuestionAnswer;
-
-@property (nonatomic, copy) NSString *groupId;
-@property (nonatomic, copy) NSString *questionId;
 @property (nonatomic,copy) NSString *topicID;
+
+- (instancetype)initWithTopicId:(NSString *)topicId title:(NSString *)title;
 
 @end

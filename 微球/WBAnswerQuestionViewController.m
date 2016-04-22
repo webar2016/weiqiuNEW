@@ -1,30 +1,27 @@
 //
-//  WBPostArticleViewController.m
+//  WBAnswerQuestionViewController.m
 //  微球
 //
-//  Created by 徐亮 on 16/3/8.
+//  Created by 徐亮 on 16/4/18.
 //  Copyright © 2016年 weiqiuwang. All rights reserved.
 //
 
-#import "WBPostArticleViewController.h"
+#import "WBAnswerQuestionViewController.h"
 
-@interface WBPostArticleViewController ()
+@interface WBAnswerQuestionViewController ()
 
 @end
 
-@implementation WBPostArticleViewController
+@implementation WBAnswerQuestionViewController
 
-- (instancetype)initWithTopicId:(NSString *)topicId title:(NSString *)title{
+- (instancetype)initWithGroupId:(NSString *)groupId questionId:(NSString *)questionId title:(NSString *)title{
     if (self = [super init]) {
         self.title = title;
-        self.topicID = topicId;
-        self.url = @"http://121.40.132.44:92/tq/setComment";
+        self.groupId = groupId;
+        self.questionId = questionId;
+        self.url = @"http://121.40.132.44:92/tq/setAnswer";
     }
     return self;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
 }
 
 - (void)setParameters{
@@ -43,9 +40,9 @@
     
     [self.parameters setObject:[WBUserDefaults userId] forKey:@"userId"];
     [self.parameters setObject:rateString forKey:@"imgRate"];
-    [self.parameters setObject:self.topicID forKey:@"topicId"];
-    [self.parameters setObject:@"3" forKey:@"newsType"];
-    [self.parameters setObject:plainString forKey:@"comment"];
+    [self.parameters setObject:self.groupId forKey:@"groupId"];
+    [self.parameters setObject:self.questionId forKey:@"questionId"];
+    [self.parameters setObject:plainString forKey:@"answerText"];
 }
 
 - (NSDictionary *)draftDic{
@@ -53,17 +50,23 @@
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     dic[@"userId"] = [WBUserDefaults userId];
-    dic[@"type"] = @"2";
-    dic[@"aim"] = @"3";
-    dic[@"contentId"] = self.topicID;
+    dic[@"type"] = @"1";
+    dic[@"aim"] = self.groupId;
+    dic[@"contentId"] = self.questionId;
     dic[@"title"] = self.title;
     dic[@"content"] = plainString;
     dic[@"imagesArray"] = self.imageArray;
     return dic;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end

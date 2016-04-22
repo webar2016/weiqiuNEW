@@ -200,9 +200,8 @@
         [self alertLogin];
         return;
     }
-    WBPostArticleViewController *articleViewController = [[WBPostArticleViewController alloc]init];
+    WBPostArticleViewController *articleViewController = [[WBPostArticleViewController alloc]initWithTopicId:[NSString stringWithFormat:@"%ld",(long)self.topicID] title:self.title];
     articleViewController.navigationItem.title = @"发布长图文";
-    articleViewController.topicID = [NSString stringWithFormat:@"%ld",(long)self.topicID];
     [self  menuBtnClicled];
     [self.navigationController pushViewController:articleViewController animated:YES];
 }

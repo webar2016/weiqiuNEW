@@ -10,7 +10,7 @@
 #import "WBGroupSettingViewController.h"
 #import "WBAnswerListController.h"
 #import "WBAnswerDetailController.h"
-#import "WBPostArticleViewController.h"
+#import "WBAnswerQuestionViewController.h"
 #import "WBQuestionsViewController.h"
 #import "WBHomepageViewController.h"
 #import "WBChatImageViewer.h"
@@ -294,11 +294,7 @@
 }
 
 -(void)writeAnswer{
-    WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
-    writeAnswerVC.isQuestionAnswer = YES;
-    writeAnswerVC.groupId = self.targetId;
-    writeAnswerVC.questionId = _currentQuestionId;
-    writeAnswerVC.isQuestionAnswer = YES;
+    WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.targetId questionId:_currentQuestionId title:((WBQuestionsListModel *)self.model[0]).questionText];
     [self.navigationController pushViewController:writeAnswerVC animated:YES];
 }
 

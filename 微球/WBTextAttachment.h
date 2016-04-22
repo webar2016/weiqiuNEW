@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WBTextAttachment : NSTextAttachment
+@interface WBTextAttachment : NSTextAttachment <NSCoding>
 
 @property (nonatomic, assign) CGSize maxSize;
 
 @property (nonatomic, assign) CGSize imageSize;
+
+@property (nonatomic, assign) NSString *imageRate;
 
 @property (nonatomic, copy) NSString *name;
 
