@@ -315,6 +315,10 @@
 
 -(void)showImageViewer:(NSIndexPath *)indexPath{
     TopicDetailModel *model = _dataArray[indexPath.section];
+    if (!model.dir) {
+        [self showHUDText:@"未获取到图片，请重试"];
+        return;
+    }
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:model.dir andContent:model.comment];
     [self presentViewController:viewer animated:YES completion:nil];
 }

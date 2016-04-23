@@ -285,6 +285,10 @@
 }
 
 -(void)showImageViewer{
+    if (!_mainImageView.image) {
+        [self showHUDText:@"未获取到图片，请重试"];
+        return;
+    }
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_mainImageView.image];
     [self presentViewController:viewer animated:YES completion:nil];
 }

@@ -262,11 +262,11 @@
     NSString *shareText = [NSString string];
     
     if (_cellType == 1) {
-        shareText = [NSString stringWithFormat:@"我分享 @%@ 的照片，快来微球看看吧！",_model.tblUser.nickname];
+        shareText = [NSString stringWithFormat:@"我分享了 %@ 的照片，快来微球看看吧！",_model.tblUser.nickname];
     } else if (_cellType == 2) {
-        shareText = [NSString stringWithFormat:@"我分享 @%@ 的视频，拍的太棒了，快来微球看看吧！",_model.tblUser.nickname];
+        shareText = [NSString stringWithFormat:@"我分享了 %@ 的视频，拍的太棒了，快来微球看看吧！",_model.tblUser.nickname];
     } else {
-        shareText = [NSString stringWithFormat:@"我分享 @%@ 的文章，写得太绝了，快来微球看看吧！",_model.tblUser.nickname];
+        shareText = [NSString stringWithFormat:@"我分享了 %@ 的文章，写得太绝了，快来微球看看吧！",_model.tblUser.nickname];
     }
     
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
@@ -275,7 +275,7 @@
                                      images:@[shareImage]
                                         url:[NSURL URLWithString:shareURL]
                                       title:_model.topicContent
-                                       type:SSDKContentTypeAuto];
+                                       type:SSDKContentTypeWebPage];
     
     [ShareSDK showShareActionSheet:nil
                              items:nil

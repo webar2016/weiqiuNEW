@@ -319,6 +319,10 @@
 }
 
 -(void)showImageViewer{
+    if (!_headicon.image) {
+        [self showHUDText:@"未获取到头像，请重试"];
+        return;
+    }
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_headicon.image];
     [self presentViewController:viewer animated:YES completion:nil];
 }
@@ -699,6 +703,10 @@
     }];
     //相册
     UIAlertAction * act4 = [UIAlertAction actionWithTitle:@"查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (!_coverImage.image) {
+            [self showHUDText:@"未获取到图片，请重试"];
+            return;
+        }
         WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_coverImage.image];
         [self presentViewController:viewer animated:YES completion:nil];
     }];
@@ -813,11 +821,11 @@
 
 -(void)shareThisHomePage{
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的微球主页，快来微球看看吧！",self.navigationItem.title]
+        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享了 %@ 的微球主页，快来微球看看吧！",self.navigationItem.title]
                                          images:@[[UIImage imageWithData:UIImageJPEGRepresentation(_headicon.image, 0.3)]]
                                             url:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]]
-                                          title:@"快来微球征服地球！"
-                                           type:SSDKContentTypeAuto];
+                                          title:@"快来微球，和我一起征服地球！"
+                                           type:SSDKContentTypeWebPage];
         
         [ShareSDK showShareActionSheet:nil
                                  items:nil
@@ -886,6 +894,10 @@
 
 -(void)showImageViewer:(NSIndexPath *)indexPath{
     TopicDetailModel *model = _topicsArray[indexPath.section];
+    if (!model.dir) {
+        [self showHUDText:@"未获取到图片，请重试"];
+        return;
+    }
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:model.dir andContent:model.comment];
     [self presentViewController:viewer animated:YES completion:nil];
 }
