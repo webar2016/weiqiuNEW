@@ -127,6 +127,7 @@
 		2D2568CA1CB74F9C006AEE5A /* WBTbl_Unlocking_City.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */; };
 		2D2568D11CB78DAB006AEE5A /* WBReChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */; };
 		2D2733671CB2BD5500F5E967 /* WBFindKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */; };
+		2D28CC941CCB1130006AB0C3 /* Location_select.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D28CC931CCB1130006AB0C3 /* Location_select.plist */; };
 		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
 		2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */; };
 		2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */; };
@@ -428,6 +429,7 @@
 		2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBReChargeViewController.m; sourceTree = "<group>"; };
 		2D2733651CB2BD5500F5E967 /* WBFindKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindKeyViewController.h; sourceTree = "<group>"; };
 		2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindKeyViewController.m; sourceTree = "<group>"; };
+		2D28CC931CCB1130006AB0C3 /* Location_select.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Location_select.plist; sourceTree = "<group>"; };
 		2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindAndHelpViewController.h; sourceTree = "<group>"; };
 		2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindAndHelpViewController.m; sourceTree = "<group>"; };
 		2D3775851CB4EE85003E6FE4 /* WBMenuBtnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMenuBtnViewController.h; sourceTree = "<group>"; };
@@ -754,7 +756,6 @@
 				052F30CF1C93EB5B00D15322 /* WBPositionModel.m */,
 				2DFECB271CC628D8008BE938 /* WBLocateList.h */,
 				2DFECB281CC628D8008BE938 /* WBLocateList.m */,
-				2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */,
 				052F30D41C93F9FA00D15322 /* city.plist */,
 				052F30D51C93F9FA00D15322 /* province.plist */,
 				2DFECB231CC623DE008BE938 /* BigAreas.plist */,
@@ -1114,7 +1115,6 @@
 				2DF1AD7B1CBDDFBB003D7B5E /* ico_make.png */,
 				2DF1AD7C1CBDDFBB003D7B5E /* JSDropDownMenu.h */,
 				2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */,
-				2D3ADCB11CC47A700075E6A0 /* locatePicker */,
 				2D16EF541C84169C002D5F90 /* waterfall */,
 				2DC665781C9032C700C1FFB3 /* HelpGroupDetail */,
 				2D5D72FC1C925BC400F8C2AE /* 分配悬赏 */,
@@ -1146,6 +1146,7 @@
 		2D16EF501C840D46002D5F90 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				2D3ADCB11CC47A700075E6A0 /* locatePicker */,
 				054303841CB5FC570041902D /* 查看大图 */,
 				052398871CAC050C005CD07E /* 网页视图 */,
 				054452BA1C9ADFCC00F8969E /* 个人信息 */,
@@ -1198,11 +1199,13 @@
 		2D3ADCB11CC47A700075E6A0 /* locatePicker */ = {
 			isa = PBXGroup;
 			children = (
+				2D3ADCB71CC47A9F0075E6A0 /* Localtion.plist */,
 				2D3ADCB81CC47A9F0075E6A0 /* AreaObject.h */,
 				2D3ADCB91CC47A9F0075E6A0 /* AreaObject.m */,
 				2D3ADCB21CC47A970075E6A0 /* AddressChoicePickerView.h */,
 				2D3ADCB31CC47A970075E6A0 /* AddressChoicePickerView.m */,
 				2D3ADCB41CC47A970075E6A0 /* AddressChoicePickerView.xib */,
+				2D28CC931CCB1130006AB0C3 /* Location_select.plist */,
 			);
 			name = locatePicker;
 			sourceTree = "<group>";
@@ -1585,6 +1588,7 @@
 			files = (
 				052F30D71C93F9FA00D15322 /* province.plist in Resources */,
 				2D62D6651C89346200E4D05E /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				2D28CC941CCB1130006AB0C3 /* Location_select.plist in Resources */,
 				05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
@@ -1943,8 +1947,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liang Xu (ERJ67V2HY6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1988,7 +1992,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = weiqiuwang.weiqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e19545e6-1bf9-4ab8-8b33-e0b6cef1ae92";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 			};
@@ -2000,8 +2004,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liang Xu (ERJ67V2HY6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2045,7 +2049,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = weiqiuwang.weiqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e19545e6-1bf9-4ab8-8b33-e0b6cef1ae92";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 			};

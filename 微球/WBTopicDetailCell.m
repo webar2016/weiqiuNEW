@@ -334,6 +334,7 @@
         [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
         
         [_praiseBtn setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
+        
         [UIView animateWithDuration:1.0f animations:^{
             //                _praiseBtn.transform = CGAffineTransformMakeScale(1.5, 1.5);
             _likeTip.frame = CGRectMake(SCREENWIDTH * 2 / 3, _maxHeight - 40, 124, 23);

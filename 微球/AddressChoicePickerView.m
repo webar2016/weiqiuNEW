@@ -16,20 +16,20 @@
 @property (strong, nonatomic) NSArray *cityArr;
 
 
-
+@property (assign, nonatomic) PlaceStyle placeStyle;
 
 @end
 @implementation AddressChoicePickerView
 
 - (instancetype)initWithPlaceStyle:(PlaceStyle)style{
-    
+    self.placeStyle = style;
     if (self = [super init]) {
         self = [[[NSBundle mainBundle]loadNibNamed:@"AddressChoicePickerView" owner:nil options:nil]firstObject];
         self.frame = [UIScreen mainScreen].bounds;
         self.pickView.delegate = self;
         self.pickView.dataSource = self;
         if (style == 0) {
-            self.areaArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Localtion.plist" ofType:nil]];
+            self.areaArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Localtion_select.plist" ofType:nil]];
         }else{
             self.areaArr = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Localtion.plist" ofType:nil]];
         }
