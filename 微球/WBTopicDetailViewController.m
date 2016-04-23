@@ -40,6 +40,8 @@
     UIImageView *_background;
     
     NSInteger _page;
+    
+    NSMutableArray *_isSelect;
 }
 
 @end
@@ -55,6 +57,8 @@
     
     _dataArray = [NSMutableArray array];
     _rowHeightArray = [NSMutableArray array];
+    _isSelect = [NSMutableArray array];
+    
     
     _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     _background.center = CGPointMake(SCREENWIDTH / 2, 170);
@@ -237,6 +241,7 @@
             if (_page == 1) {
                 [_dataArray removeAllObjects];
                 [_rowHeightArray removeAllObjects];
+                [_isSelect removeAllObjects];
             }
             
             for (TopicDetailModel *model in tempArray) {
@@ -248,6 +253,7 @@
                     [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",285.0]];
                 }
                 [_dataArray addObject:model];
+                [_isSelect addObject:@"0"];
             }
             
             NSInteger count = tempArray.count;
@@ -325,6 +331,7 @@
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
     ((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral = ((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral+5;
+    _isSelect[indexPath.section] = @"1";
     NSLog(@"%ld",((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral);
 }
 
@@ -397,7 +404,8 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.indexPath = indexPath;
         cell.delegate = self;
-        [cell setModel:model];
+        
+        [cell setModel:model withIsSelectState:_isSelect[indexPath.section]];
         return cell;
     } else if (model.newsType == 2) {
         static NSString *cellID2 = @"detailCellID2";
@@ -408,7 +416,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.delegate = self;
         cell.indexPath = indexPath;
-        [cell setModel:model];
+        [cell setModel:model withIsSelectState:_isSelect[indexPath.section]];
         return cell;
     } else {
         static NSString *cellID3 = @"detailCellID3";
@@ -418,7 +426,7 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.indexPath = indexPath;
-        [cell setModel:model];
+        [cell setModel:model withIsSelectState:_isSelect[indexPath.section]];
         cell.delegate = self;
         return cell;
     }

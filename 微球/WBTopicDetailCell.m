@@ -173,7 +173,7 @@
     
     _praiseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
     _praiseBtn.tag = 333;
-    [_praiseBtn setImage:[UIImage imageNamed:@"icon_like.png"] forState:UIControlStateNormal];
+    
     [_praiseBtn setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     _praiseBtn.titleLabel.font = MAINFONTSIZE;
     [_praiseBtn addTarget:self action:@selector(toolbarOperations:) forControlEvents:UIControlEventTouchUpInside];
@@ -187,7 +187,7 @@
     [self.contentView addSubview:_toolBar];
 }
 
--(void)setModel:(TopicDetailModel *)model{
+-(void)setModel:(TopicDetailModel *)model withIsSelectState:(NSString *)selectState{
     
     _model = model;
     _score = model.getIntegral;
@@ -211,6 +211,13 @@
         }
         
     }
+    
+    if ([selectState isEqualToString:@"0"]) {
+        [_praiseBtn setImage:[UIImage imageNamed:@"icon_like.png"] forState:UIControlStateNormal];
+    }else{
+        [_praiseBtn setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
+    }
+    
     
     [_commentBtn setTitle:[NSString stringWithFormat:@" %ld 评论",(long)model.descussNum] forState:UIControlStateNormal];
     
@@ -334,6 +341,7 @@
         [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
         
         [_praiseBtn setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
+        
         [UIView animateWithDuration:0.5f animations:^{
 //            _praiseBtn.transform = CGAffineTransformMakeScale(1.5, 1.5);
             _likeTip.frame = CGRectMake(SCREENWIDTH * 2 / 3, _maxHeight - 40, 124, 23);

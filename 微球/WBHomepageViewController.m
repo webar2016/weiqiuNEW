@@ -68,6 +68,8 @@
     
     UIImageView *_backgroundTopic;
     UIImageView *_backgroundAnswer;
+    
+    NSMutableArray *_isSelect;
 }
 
 @property (nonatomic, assign) int selectedRow;
@@ -82,6 +84,7 @@
     _topicsArray = [NSMutableArray array];
     _answersArray = [NSMutableArray array];
     _rowHeightArray = [NSMutableArray array];
+    _isSelect = [NSMutableArray array];
     
     _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     
@@ -354,6 +357,7 @@
         _topicsArray = [TopicDetailModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentList"]];
         for (NSInteger i=0; i<_topicsArray.count; i++) {
             TopicDetailModel *model = _topicsArray[i];
+            [_isSelect addObject:@"0"];
             if (model.newsType == 1) {
                 [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(136.0 + SCREENWIDTH)]];
             } else if (model.newsType == 2) {
@@ -436,7 +440,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            [cell setModel:model];
+            [cell setModel:model withIsSelectState:_isSelect[indexPath.section]];
             return cell;
         } else if (model.newsType == 2) {
             static NSString *cellID2 = @"detailCellID2";
@@ -447,7 +451,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            [cell setModel:model];
+            [cell setModel:model withIsSelectState:_isSelect[indexPath.section]];
             return cell;
         } else {
             static NSString *cellID3 = @"detailCellID3";
@@ -458,7 +462,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            [cell setModel:model];
+            [cell setModel:model withIsSelectState:_isSelect[indexPath.section]];
             return cell;
         }
     } else {
@@ -515,6 +519,7 @@
                  
                  [_topicsArray removeObjectAtIndex:indexPath.section];
                  [_rowHeightArray removeObjectAtIndex:indexPath.section];
+                 [_isSelect removeObjectAtIndex:indexPath.section];
                  [_topicTableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
              } andFailure:^(NSString *error) {
                 
@@ -904,6 +909,7 @@
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
     [self loadUserInfo];
+    _isSelect[indexPath.section] = @"1";
 }
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{
