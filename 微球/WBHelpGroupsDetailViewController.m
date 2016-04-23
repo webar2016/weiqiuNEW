@@ -285,8 +285,11 @@
 }
 
 -(void)showImageViewer{
-    WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_mainImageView.image];
-    [self presentViewController:viewer animated:YES completion:nil];
+    if (_mainImageView.image) {
+        WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_mainImageView.image];
+        [self presentViewController:viewer animated:YES completion:nil];
+    }
+   
 }
 
 -(void)dismissView{

@@ -37,7 +37,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
-
+   // self.view.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT-64-49-64);
     
     _cityArray = [NSArray array];
     
@@ -79,6 +79,7 @@
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *dateTime = [formatter stringFromDate:[NSDate date]];
     _birthdayPickLabel.text = dateTime;
+    
     _birthdayPickLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
     [_birthdayPickLabel addGestureRecognizer:tap];
@@ -93,7 +94,7 @@
     
     _cityLabel.font = MAINFONTSIZE;
     _cityLabel.textColor = [UIColor initWithLightGray];
-    _cityLabel.textAlignment = NSTextAlignmentRight;
+    _cityLabel.textAlignment = NSTextAlignmentLeft;
     
     _positionBtn.titleLabel.textColor = [UIColor initWithLightGray];
     _positionBtn.titleLabel.font = MAINFONTSIZE;
