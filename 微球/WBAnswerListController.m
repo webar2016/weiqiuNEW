@@ -22,7 +22,7 @@
 
 
 
-#define ANSWERLISTURL @"http://121.40.132.44:92/tq/getAnswers?questionId=%d&p=%d&ps=%d"
+#define ANSWERLISTURL @"http://app.weiqiu.me/tq/getAnswers?questionId=%d&p=%d&ps=%d"
 
 @interface WBAnswerListController ()
 
@@ -192,7 +192,7 @@
         [self alertLogin];
         return;
     }
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/checkIn?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString:@"true"]) {
             WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.groupId questionId:[NSString stringWithFormat:@"%ld",(long)self.questionId] title:self.questionText];
@@ -201,7 +201,7 @@
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你当前不在这个帮帮团中，加入后才可以回答问题，是否加入？" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:({
                 UIAlertAction *action = [UIAlertAction actionWithTitle:@"加入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%@&userId=%@",self.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+                    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/jion?groupId=%@&userId=%@",self.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
                         
                         WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.groupId questionId:[NSString stringWithFormat:@"%ld",(long)self.questionId] title:self.questionText];
                         [self.navigationController pushViewController:writeAnswerVC animated:YES];
@@ -243,7 +243,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"关闭问题，小伙伴将无法回答，是否确认关闭？" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"关闭" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/closeQuestion?userId=%@&questionId=%ld",[WBUserDefaults userId],(long)self.questionId] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/closeQuestion?userId=%@&questionId=%ld",[WBUserDefaults userId],(long)self.questionId] whenSuccess:^(id representData) {
                 sender.enabled = NO;
                 sender.backgroundColor = [UIColor initWithNormalGray];
                 [sender setTitle:@"已关闭" forState:UIControlStateNormal];

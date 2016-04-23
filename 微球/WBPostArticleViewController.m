@@ -18,7 +18,7 @@
     if (self = [super init]) {
         self.title = title;
         self.topicID = topicId;
-        self.url = @"http://121.40.132.44:92/tq/setComment";
+        self.url = @"http://app.weiqiu.me/tq/setComment";
     }
     return self;
 }

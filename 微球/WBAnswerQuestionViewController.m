@@ -19,7 +19,7 @@
         self.title = title;
         self.groupId = groupId;
         self.questionId = questionId;
-        self.url = @"http://121.40.132.44:92/tq/setAnswer";
+        self.url = @"http://app.weiqiu.me/tq/setAnswer";
     }
     return self;
 }

@@ -258,14 +258,14 @@
     
     
    // NSLog(@"receipt = %@",receipt);
-    //@"http://121.40.132.44:92/iv/IosVerify"//@"http://192.168.1.135/mbapp/iv/IosVerify"
+    //@"http://app.weiqiu.me/iv/IosVerify"//@"http://192.168.1.135/mbapp/iv/IosVerify"
    // NSLog(@"receiptData = %@",receiptData);
     if ([productIdentifier length] > 0) {
         
         NSDictionary *dic = @{@"receipt":receiptData,@"userId":[WBUserDefaults userId]};
        // NSLog(@"dic = %@",dic);
         
-        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
+        [MyDownLoadManager postUrl:@"http://app.weiqiu.me/iv/IosVerify" withParameters:dic whenProgress:^(NSProgress *FieldDataBlock) {
         } andSuccess:^(id representData) {
             [self showHUDText:@"购买成功"];
             [_rightBtton setEnabled:YES];

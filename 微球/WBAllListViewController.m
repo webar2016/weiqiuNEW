@@ -72,7 +72,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _page=1;
-    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
     _cellHeightArray = [NSMutableArray array];
     self.dataSource = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -224,7 +224,7 @@
 
 -(void)loactePickBtn{
     [self animateIndicator:_indicator Forward:YES];
-    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]initWithPlaceStyle:SinglePlaceChoice];
+    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]initWithPlaceStyle:AnyPlaceChoice];
     addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
         
         if (isSelected) {
@@ -232,10 +232,10 @@
             if (_currentData1Index == 0) {
                 [self showHUD:@"正在加载" isDim:YES];
                 if (locate.areaId==NULL||locate.areaId==nil) {
-                    // @"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d"
-                    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+                    // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
+                    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
                 }else{
-                    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?cityId=%@*p=%ld&ps=%d",locate.cityId,(long)_page,PAGESIZE];
+                    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@*p=%ld&ps=%d",locate.cityId,(long)_page,PAGESIZE];
                     
                 }
                 
@@ -243,10 +243,10 @@
                 
                 if (_data2MainIndex==0 &&_currentData2Index==0) {
                     
-                    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
+                    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
                 }else{
                     
-                    _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],locate.cityId,(long)_page,PAGESIZE];
+                    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],locate.cityId,(long)_page,PAGESIZE];
                 }
             }
             [self loadData];
@@ -589,15 +589,15 @@
        
         
         if (_data2MainIndex==0 &&_currentData2Index==0) {
-           // @"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d"
-            _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+           // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
+            _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
             
         }else{
         
             WBPositionList *positionList = [[WBPositionList  alloc]init];
             WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
             WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?cityId=%@*p=%ld&ps=%d",model.cityId,(long)_page,PAGESIZE];
+            _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@*p=%ld&ps=%d",model.cityId,(long)_page,PAGESIZE];
         
         
         }
@@ -606,13 +606,13 @@
         
         if (_data2MainIndex==0 &&_currentData2Index==0) {
             
-            _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
+            _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
         }else{
             
             WBPositionList *positionList = [[WBPositionList  alloc]init];
             WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
             WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            _urlString = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],model.cityId,(long)_page,PAGESIZE];
+            _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],model.cityId,(long)_page,PAGESIZE];
             
             
         }

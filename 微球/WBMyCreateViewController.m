@@ -15,7 +15,7 @@
 #import "MJRefresh.h"
 #import "WBMyGroupModel.h"
 
-#define MY_CREATE_GROUPS @"http://121.40.132.44:92/hg/getMyCreate?userId=%@"
+#define MY_CREATE_GROUPS @"http://app.weiqiu.me/hg/getMyCreate?userId=%@"
 
 @interface WBMyCreateViewController () <UIScrollViewDelegate> {
     UIImageView *_emptyView;

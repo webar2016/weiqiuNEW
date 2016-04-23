@@ -14,7 +14,7 @@
 #import "WBHomepageViewController.h"
 
 
-#define commentURL @"http://121.40.132.44:92/tq/getTopicCommentDetil?commentId=%ld"
+#define commentURL @"http://app.weiqiu.me/tq/getTopicCommentDetil?commentId=%ld"
 
 @interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UITextInputTraits>
 {
@@ -169,7 +169,7 @@
     [self showHUD:@"评论中" isDim:YES];
     
     NSDictionary *paramter = @{@"userId":[WBUserDefaults userId],@"toUserId":_userId,@"commentId":[NSString stringWithFormat:@"%ld",(long)_commentId],@"comment":_commentTextView.text};
-    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/tq/setCommentDetil" withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
+    [MyDownLoadManager postUrl:@"http://app.weiqiu.me/tq/setCommentDetil" withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
         [self showHUDComplete:@"评论成功"];
