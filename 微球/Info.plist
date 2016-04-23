@@ -21,12 +21,12 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>me.weiqiu.app</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>weiqiu</string>
 			</array>
-			<key>CFBundleURLName</key>
-			<string>me.weiqiu.app</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -66,7 +66,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.4</string>
+	<string>1.0.5</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
