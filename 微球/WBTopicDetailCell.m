@@ -255,7 +255,7 @@
 
 -(void)shareBtnClicked{
     
-    NSString *shareURL = [NSString stringWithFormat:@"http://121.40.132.44:92/share/topic?commentId=%ld&newsType=%ld",(long)_model.commentId,_cellType];
+    NSString *shareURL = [NSString stringWithFormat:@"http://app.weiqiu.me/share/topic?commentId=%ld&newsType=%ld",(long)_model.commentId,_cellType];
     
     UIImage *shareImage = [UIImage imageWithData:UIImageJPEGRepresentation(_mainImage.image, 0.3)];
     
@@ -317,7 +317,7 @@
     if (![WBUserDefaults userId] || [[WBUserDefaults userId] integerValue] == _model.userId) {
         return;
     }
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {
             [self upLoadLikeTap];
@@ -329,11 +329,12 @@
 }
 
 -(void)upLoadLikeTap{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
         NSLog(@"%@",_indexPath);
         [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
         
         [_praiseBtn setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
+        
         [UIView animateWithDuration:1.0f animations:^{
             //                _praiseBtn.transform = CGAffineTransformMakeScale(1.5, 1.5);
             _likeTip.frame = CGRectMake(SCREENWIDTH * 2 / 3, _maxHeight - 40, 124, 23);

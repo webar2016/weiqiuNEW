@@ -10,6 +10,7 @@
 #import "WBPlaceChooseViewController.h"
 #import "WBPositionList.h"
 #import "MyDownLoadManager.h"
+#import "AddressChoicePickerView.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
@@ -240,38 +241,22 @@
     [self showHUD:@"正在保存" isDim:YES];
     UIBarButtonItem *btn = self.navigationItem.rightBarButtonItem;
     [btn setEnabled:NO];
-   
-    
-    
-    
-    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"profile":_introduceTextView.text}];
     WBPositionList *positionList =[[WBPositionList alloc] init];
-  //  NSString *temp = ((UILabel *)[self.view viewWithTag:203]).text;
-    
     if (((UILabel *)[self.view viewWithTag:203]).text==nil||((UILabel *)[self.view viewWithTag:203]).text==NULL||[((UILabel *)[self.view viewWithTag:203]).text isEqualToString:@"" ]) {
-        
     }else{
         NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
-        
         [parameters setValue:@"provinceId" forKey:positionArray[2]];
-        
     }
-    [MyDownLoadManager postUserInfoUrl:@"http://121.40.132.44:92/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+    [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
             [formatter setDateFormat:@"yyyy-MM-dd"];
             NSString *dateTime = [formatter stringFromDate:[NSDate date]];
             NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.1);
             [formData appendPartWithFileData:imageData name:dateTime fileName:[NSString stringWithFormat:@"%@head.jpg",dateTime] mimeType:@"image/jpeg"];
-            
         }
-       
     } whenProgress:^(NSProgress *FieldDataBlock) {
-        
-        
-        //[wself showHUD:[NSString stringWithFormat:@"%f",(float)FieldDataBlock.completedUnitCount/(float)FieldDataBlock.totalUnitCount] isDim:YES];
-        
     } andSuccess:^(id representData) {
       //  NSLog(@"%@",representData);
       // NSLog(@"success-------");
@@ -279,15 +264,12 @@
         [WBUserDefaults setSex:((UILabel*)[self.view viewWithTag:201]).text];
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
             [WBUserDefaults setHeadIcon:_headImageView.image];
-            
         }
         if (((UILabel*)[self.view viewWithTag:203]).text) {
             [WBUserDefaults setCity:((UILabel*)[self.view viewWithTag:203]).text];
         }
         [WBUserDefaults setProfile:_introduceTextView.text];
-
         [WBUserDefaults setAge:[NSString stringWithFormat:@"%ld",(long)[self calculateAge]]];
-        
         [self.delegate ModefyViewDelegate];
         [self showHUDComplete:@"修改成功"];
         [btn setEnabled:YES];
@@ -296,10 +278,7 @@
         NSLog(@"%@",error.localizedCapitalizedString);
         [self showHUDComplete:@"上传失败"];
         [btn setEnabled:YES];
-
     }];
-    
-    
 }
 
 
@@ -453,9 +432,19 @@
         [self showDatePicker];
         
     }else if (tap.view.tag == 103){
-        WBPlaceChooseViewController *PVC = [[WBPlaceChooseViewController alloc]init];
-        PVC.passPositionDelegate = self;
-        [self.navigationController pushViewController:PVC animated:YES];
+        AddressChoicePickerView *AVC = [[AddressChoicePickerView alloc]initWithPlaceStyle:AnyPlaceChoice];
+        AVC.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
+            
+            
+            
+        };
+        
+        [AVC show];
+        
+        
+//        WBPlaceChooseViewController *PVC = [[WBPlaceChooseViewController alloc]init];
+//        PVC.passPositionDelegate = self;
+//        [self.navigationController pushViewController:PVC animated:YES];
         
     }
     

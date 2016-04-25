@@ -193,8 +193,8 @@
         NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
         [parameters setValue:_account.text forKey:@"username"];
         [parameters setValue:_password.text forKey:@"password"];
-        [MyDownLoadManager postUrl:@"http://121.40.132.44:92/pt/login" withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
-            //@"http://121.40.132.44:92/pt/login"
+        [MyDownLoadManager postUrl:@"http://app.weiqiu.me/pt/login" withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
+            //@"http://app.weiqiu.me/pt/login"
         } andSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
            // NSLog(@"%@",result);
@@ -259,7 +259,7 @@
 //本地沙盘
 -(void)saveToUserDefault{
         NSLog(@"userInfo = %@",[WBUserDefaults userId]);
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/user/myInfo?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/user/myInfo?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSDictionary *userInfo = [result objectForKey:@"userInfo"];
             if ([[userInfo objectForKey:@"dir"] rangeOfString:@"http://"].location != NSNotFound&&![WBUserDefaults headIcon]) {
@@ -310,7 +310,7 @@
 
 //数据库
 -(void)saveToDataBase{
-    NSString *unlockCityUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/lr/unlockCity?userId=%@",[WBUserDefaults userId]];
+    NSString *unlockCityUrl = [NSString stringWithFormat:@"http://app.weiqiu.me/lr/unlockCity?userId=%@",[WBUserDefaults userId]];
         [MyDownLoadManager getNsurl:unlockCityUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSArray *unlockCity = [WBTbl_Unlock_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"unlockCity"]];
@@ -324,7 +324,7 @@
             [manager closeFBDM];
             [self saveData];
             
-            NSString *unlockingCityUrl = [NSString stringWithFormat:@"http://121.40.132.44:92/map/getChecking?userId=%@",[WBUserDefaults userId]];
+            NSString *unlockingCityUrl = [NSString stringWithFormat:@"http://app.weiqiu.me/map/getChecking?userId=%@",[WBUserDefaults userId]];
             [MyDownLoadManager getNsurl:unlockingCityUrl whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 NSArray *unlockingCity = [WBTbl_Unlocking_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"checkings"]];

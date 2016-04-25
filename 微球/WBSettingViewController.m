@@ -93,7 +93,7 @@
 
 -(void)veritifyLoadOut{
     
-    [MyDownLoadManager postUrl:@"http://121.40.132.44:92/pt/logout" withParameters:@{@"userId":[WBUserDefaults userId]} whenProgress:^(NSProgress *FieldDataBlock) {
+    [MyDownLoadManager postUrl:@"http://app.weiqiu.me/pt/logout" withParameters:@{@"userId":[WBUserDefaults userId]} whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
         

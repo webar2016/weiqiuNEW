@@ -14,6 +14,7 @@
 #import "WBMyDraftViewController.h"
 #import "WBSettingViewController.h"
 #import "WBIndividualIncomeViewController.h"
+#import "WBUnlockXibViewController.h"
 
 #import "MyDownLoadManager.h"
 
@@ -146,7 +147,7 @@
 }
 
 -(void)loadMoneyData{
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/integral/getTodayIntegral?userId=%@",[WBUserDefaults userId]];
+    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/integral/getTodayIntegral?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _totalScoreNumber.text =[NSString stringWithFormat:@"%.0f 球币",[[result objectForKey:@"totleIntegral"] floatValue]];
@@ -183,17 +184,20 @@
         }
             
         case 1:{
-            WBWebViewController *guessVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://121.40.132.44:92/main/guess?userId=%@",[WBUserDefaults userId]]] andTitle:@"猜图签到"];
+            WBWebViewController *guessVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/main/guess?userId=%@",[WBUserDefaults userId]]] andTitle:@"猜图签到"];
             guessVC.hidesBottomBarWhenPushed = YES;
             [self pushViewControllerWithController:guessVC];
             break;
         }
             
         case 2:{
-            CreateHelpGroupViewController *unlockVC = [[CreateHelpGroupViewController alloc] init];
-            unlockVC.fromSlidePage = YES;
-            unlockVC.hidesBottomBarWhenPushed = YES;
-            [self pushViewControllerWithController:unlockVC];
+            WBUnlockXibViewController *UVC = [[WBUnlockXibViewController alloc]init];
+            UVC.hidesBottomBarWhenPushed = YES;
+            [self pushViewControllerWithController:UVC];
+//            CreateHelpGroupViewController *unlockVC = [[CreateHelpGroupViewController alloc] init];
+//            unlockVC.fromSlidePage = YES;
+//            unlockVC.hidesBottomBarWhenPushed = YES;
+//            [self pushViewControllerWithController:unlockVC];
             break;
         }
             

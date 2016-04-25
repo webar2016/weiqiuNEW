@@ -18,8 +18,8 @@
 #import "WBQuestionsListModel.h"
 #import "MJRefresh.h"
 
-#define QUESTION_IN_FIND @"http://121.40.132.44:92/tq/getQuestion?p=%d&ps=%d"
-#define QUESTION_IN_GROUP @"http://121.40.132.44:92/tq/getHGQuestion?groupId=%d&p=%d&ps=%d"
+#define QUESTION_IN_FIND @"http://app.weiqiu.me/tq/getQuestion?p=%d&ps=%d"
+#define QUESTION_IN_GROUP @"http://app.weiqiu.me/tq/getHGQuestion?groupId=%d&p=%d&ps=%d"
 
 @interface WBQuestionsViewController () <WBQuestionTableViewCellDelegate,UITableViewDelegate> {
     CGFloat _beginScoller;

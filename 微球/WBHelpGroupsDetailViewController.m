@@ -36,6 +36,8 @@
 
 @implementation WBHelpGroupsDetailViewController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -48,11 +50,19 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear: animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
     [self checkInGroup];
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+
+}
+
 -(void)checkInGroup{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/checkIn?userId=%@&groupId=%ld",[WBUserDefaults userId],(long)self.model.groupId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/checkIn?userId=%@&groupId=%ld",[WBUserDefaults userId],(long)self.model.groupId] whenSuccess:^(id representData) {
         
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString:@"false"] && !self.isFull) {
@@ -223,7 +233,7 @@
     
 
     if (btn.tag ==100) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
 
     }else{
         btn.enabled = NO;
@@ -232,7 +242,7 @@
         WBPositionList *positionList = [[WBPositionList alloc]init];
         NSArray *tempArray =  [[positionList searchCityWithCithName:_model.destination] objectAtIndex:0];
         if ([manager  isAddedItemsID:[NSString stringWithFormat:@"%@",tempArray[1]]]) {
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://121.40.132.44:92/hg/jion?groupId=%ld&userId=%@",(long)_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/jion?groupId=%ld&userId=%@",(long)_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
                 
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 

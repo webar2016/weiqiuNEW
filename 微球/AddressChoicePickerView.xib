@@ -73,6 +73,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>
+                <outlet property="contentView" destination="9uy-9G-eHu" id="BGW-MN-fNj"/>
                 <outlet property="contentViewHegithCons" destination="3pc-WE-RsA" id="mwZ-Db-veU"/>
                 <outlet property="pickView" destination="jgF-GQ-51O" id="hIK-sr-4P0"/>
             </connections>

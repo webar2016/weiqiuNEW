@@ -144,7 +144,7 @@
 
 -(void)loadData{
     [self showHUD:@"正在加载数据" isDim:YES];
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/integral/getUserIntegral?userId=%@",[WBUserDefaults userId]];
+    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/integral/getUserIntegral?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         NSDictionary *userIntegral = result[@"userIntegral"];

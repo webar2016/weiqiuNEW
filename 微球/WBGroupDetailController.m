@@ -121,7 +121,7 @@
 
     
     [self showHUD:@"正在创建帮帮团" isDim:NO];
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/integral/getUserIntegral?userId=%@",[WBUserDefaults userId]];
+    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/integral/getUserIntegral?userId=%@",[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         NSDictionary *userIntegral = result[@"userIntegral"];
@@ -159,7 +159,7 @@
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    NSString *url = [NSString stringWithFormat:@"http://121.40.132.44:92/hg/createHG"];
+    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/createHG"];
     [manager POST:url parameters:self.dataDic constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         [formData appendPartWithFileData:_fileData name:_imageName fileName:_imageName mimeType:@"image/jpeg"];
