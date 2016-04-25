@@ -12,6 +12,8 @@
 #import "RESideMenu.h"
 #import "WBFindViewController.h"
 #import "WBHelpGroupsViewController.h"
+#import "WBGroupInfoController.h"
+
 #import "CreateHelpGroupViewController.h"
 
 #import "RCIMClient.h"
@@ -25,7 +27,7 @@
 
 @property (nonatomic, strong) BROptionsButton *brOptionsButton;
 
-@property (nonatomic, strong) CreateHelpGroupViewController *createHelpGroupViewController;
+@property (nonatomic, strong) WBGroupInfoController *createHelpGroupViewController;
 
 @property (nonatomic, strong) UIView *badgeView;
 
@@ -44,7 +46,7 @@
     [self setTabBarWithViewController:findController title:@"发现" imageName:@"icon_find_normal" selectedImageName:@"icon_find_selected"];
     
     //中间多选按钮组件
-    self.createHelpGroupViewController = [[CreateHelpGroupViewController alloc]init];
+    self.createHelpGroupViewController = [[WBGroupInfoController alloc]init];
     WBNavigationController *createNavController = [[WBNavigationController alloc]initWithRootViewController:self.createHelpGroupViewController];
     
     //帮帮团
@@ -55,7 +57,7 @@
     self.viewControllers = @[findNavController,createNavController,helpGroupsNavController];
     
     //设置第二个界面
-    self.createHelpGroupViewController.commonDelegate = self;
+  //  self.createHelpGroupViewController.commonDelegate = self;
     self.createHelpGroupViewController.hidesBottomBarWhenPushed = YES;
     // Do any additional setup after loading the view.
     BROptionsButton *brOption = [[BROptionsButton alloc] initWithTabBar:self.tabBar forItemIndex:1 delegate:self];

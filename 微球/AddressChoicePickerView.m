@@ -40,10 +40,18 @@
         self.countryArr = self.areaArr[0][@"countrys"];
         self.provinceArr = self.countryArr[0][@"provinces"];
         self.cityArr = self.provinceArr[0][@"citys"];
+    
         self.locate.area =self.areaArr[0][@"areaName"];
-        self.locate.country =self.countryArr[0][@"country"];
+        self.locate.areaId = self.areaArr[0][@"areaId"];
+        
+        self.locate.country = self.countryArr[0][@"country"];
+        self.locate.countryId = self.countryArr[0][@"id"];
+        
         self.locate.province =self.provinceArr[0][@"provinceName"];
+        self.locate.provinceId =self.provinceArr[0][@"provinceId"];
+        
         self.locate.city =self.cityArr[0][@"cityName"];
+        self.locate.cityId =self.cityArr[0][@"cityId"];
    
         [self customView];
     }
@@ -206,10 +214,13 @@
                     self.locate.cityId = self.cityArr[0][@"cityId"];
                 }else{
                     self.locate.city = @"";
+                    self.locate.cityId = @"";
                 }
             }else{
                 self.locate.province = @"";
+                self.locate.provinceId = @"";
                 self.locate.city = @"";
+                self.locate.cityId = @"";
             }
             NSLog(@"%@",self.locate);
             
@@ -246,16 +257,15 @@
                     self.locate.cityId = self.cityArr[0][@"cityId"];
                 }else{
                     self.locate.city = @"";
+                    self.locate.cityId = @"";
                 }
                 
             }else{
                 self.locate.province = @"";
+                self.locate.provinceId = @"";
                 self.locate.city = @"";
+                self.locate.cityId = @"";
             }
-            
-            
-            
-
             break;
         }
         case 2:{
@@ -275,11 +285,14 @@
                     self.locate.cityId = self.cityArr[0][@"cityId"];
                 }else{
                     self.locate.city = @"";
+                    self.locate.cityId = @"";
                 }
                 
             }else{
                 self.locate.province = @"";
+                self.locate.provinceId = @"";
                 self.locate.city = @"";
+                self.locate.cityId = @"";
             }
             
             
@@ -295,6 +308,7 @@
                 self.locate.cityId = self.cityArr[row][@"cityId"];
             }else{
                 self.locate.city = @"";
+                self.locate.cityId = @"";
             }
 
 

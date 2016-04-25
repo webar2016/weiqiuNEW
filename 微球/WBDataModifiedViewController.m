@@ -245,26 +245,26 @@
         _isClicked=YES;
     [_introduceTextView resignFirstResponder];
     [_textField resignFirstResponder];
-    
     [self showHUD:@"正在保存" isDim:YES];
-    
-    
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"profile":_introduceTextView.text}];
     WBPositionList *positionList =[[WBPositionList alloc] init];
         
-        
     if (((UILabel *)[self.view viewWithTag:203]).text==nil||((UILabel *)[self.view viewWithTag:203]).text==NULL||[((UILabel *)[self.view viewWithTag:203]).text isEqualToString:@"" ]) {
     }else{
-        
-        
-        NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
-        
-        [parameters setValue:positionArray[2] forKey:@"provinceId"];
-        [parameters setValue:positionArray[1] forKey:@"homeCityId"];
+      //  NSLog(@"provinceId %@",_areaObject.provinceId);
+        if ([_areaObject.provinceId isEqual:@""]) {
+            [parameters setValue:_areaObject.areaId forKey:@"provinceId"];
+            [parameters setValue:_areaObject.countryId forKey:@"homeCityId"];
+        }else{
+            NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
+            [parameters setValue:positionArray[2] forKey:@"provinceId"];
+            [parameters setValue:positionArray[1] forKey:@"homeCityId"];
+        }
         
     }
-        NSLog(@"%@",parameters);
+        
+    NSLog(@"%@",parameters);
         
     [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         NSData *data1 = UIImagePNGRepresentation(_headImageView.image);

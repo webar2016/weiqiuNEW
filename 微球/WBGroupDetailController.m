@@ -83,7 +83,10 @@
 #pragma mark - navigation button
 
 -(void)lastStep{
+    
+    
     [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 

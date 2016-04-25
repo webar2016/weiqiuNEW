@@ -10,6 +10,7 @@
 #import "MyDownLoadManager.h"
 #import "WBTbl_Unlock_City.h"
 #import "MyDBmanager.h"
+#import "AreaObject.h"
 
 #define UNLOCK_URL @"http://app.weiqiu.me/album/unlockApplication"
 
@@ -32,7 +33,7 @@
     BOOL            _isSuccess;
     BOOL            _isUnlock;
 }
-
+@property(nonatomic,copy) AreaObject *areaObject;
 @end
 
 @implementation WBUnlockViewController
@@ -83,7 +84,7 @@
     _unlockInfo.textColor = [UIColor initWithNormalGray];
     _unlockInfo.font = FONTSIZE16;
     _unlockInfo.textAlignment = NSTextAlignmentCenter;
-    _unlockInfo.text = self.cityName;
+    
     UITapGestureRecognizer *unlockInfoTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClicked:)];
     _unlockInfo.userInteractionEnabled = YES;
     [_unlockInfo addGestureRecognizer:unlockInfoTap];
@@ -158,6 +159,7 @@
     addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
         if (isSelected) {
             _unlockInfo.text =[NSString stringWithFormat:@"%@",locate];
+            _areaObject = locate;
         }
     };
     [addressPickerView show];
@@ -194,27 +196,22 @@
 
 -(void)imagePicker{
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
     [self presentViewController:_imagePickerController animated:YES completion:nil];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    
     CGFloat scale = image.size.height / image.size.width;
     _imageScale = [NSNumber numberWithFloat:scale];
     NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
     _imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
     _fileData = UIImageJPEGRepresentation(image, 0.05);
-    
     [picker dismissViewControllerAnimated:YES completion:^{
         [_imagePicker setBackgroundImage:image forState:UIControlStateNormal];
         _imagePicker.frame = CGRectMake(SCREENWIDTH / 2 - 145, 500, 290, 290 * scale);
         _tip.frame = CGRectMake(SCREENWIDTH / 2 - 150, 510 + 290 * scale, 300, 30);
         CGFloat maxHegiht = CGRectGetMaxY(_tip.frame);
-        
         _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 80);
     }];
 }
@@ -242,6 +239,18 @@
 
 -(void)unlockCity{
     [_contentview resignFirstResponder];
+   
+    
+    if ([_unlockInfo.text length] == 0 ) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择解锁城市" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    
     if ([_dateButton.currentTitle isEqualToString:@"请选择"]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择拍摄时间" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
@@ -265,8 +274,15 @@
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     data[@"userId"] = [WBUserDefaults userId];
     data[@"photoDate"] = _dateButton.currentTitle;
-    data[@"provinceId"] = self.provinceId;
-    data[@"cityId"] = self.cityId;
+    
+    if ([_areaObject.provinceId isEqual:@""]) {
+        data[@"provinceId"] = self.areaObject.areaId;
+        data[@"cityId"] = self.areaObject.countryId;
+    }else{
+        data[@"provinceId"] = self.areaObject.provinceId;
+        data[@"cityId"] = self.areaObject.cityId;
+    }
+
     data[@"content"] = _contentview.text;
     data[@"imgRate"] = _imageScale;
     
@@ -277,7 +293,9 @@
         
         WBTbl_Unlocking_City *model = [[WBTbl_Unlocking_City alloc]init];
         model.userId =[WBUserDefaults userId];
-        model.cityId =[self.cityId stringValue];
+        model.cityId =data[@"cityId"];
+        
+        
         MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
         [manager addItem:model];
         [manager closeFBDM];
