@@ -19,8 +19,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]initWithPlaceStyle:AnyPlaceChoice];
+    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]initWithPlaceStyle:SinglePlaceChoice];
     addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
+        
+        if (isSelected) {
+            
+            [_positonBtn setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
+            
+            
+        }
+        
         
     };
     
@@ -36,7 +44,19 @@
 
 - (IBAction)buttonClicked:(id)sender {
     
+    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]initWithPlaceStyle:SinglePlaceChoice];
+    addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
+        if (isSelected) {
+            
+            [_positonBtn setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
+            
+            
+            
+        }
+    };
     
+    
+    [addressPickerView show];
     
 }
 

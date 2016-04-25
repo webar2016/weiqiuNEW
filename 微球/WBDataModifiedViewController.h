@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WBRefreshViewController.h"
+#import "AreaObject.h"
 
 
 @protocol ModefyData <NSObject>
@@ -23,4 +24,8 @@
 
 
 @property (nonatomic,assign)id<ModefyData>delegate;
+
+
+@property (nonatomic,copy) AreaObject *areaObject;
+
 @end

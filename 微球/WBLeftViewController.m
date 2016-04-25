@@ -15,6 +15,7 @@
 #import "WBSettingViewController.h"
 #import "WBIndividualIncomeViewController.h"
 #import "WBUnlockXibViewController.h"
+#import "WBUnlockViewController.h"
 
 #import "MyDownLoadManager.h"
 
@@ -191,9 +192,16 @@
         }
             
         case 2:{
-            WBUnlockXibViewController *UVC = [[WBUnlockXibViewController alloc]init];
+//            WBUnlockXibViewController *UVC = [[WBUnlockXibViewController alloc]init];
+//            UVC.hidesBottomBarWhenPushed = YES;
+//            [self pushViewControllerWithController:UVC];
+            
+            
+            WBUnlockViewController *UVC = [[WBUnlockViewController alloc]init];
+            
             UVC.hidesBottomBarWhenPushed = YES;
             [self pushViewControllerWithController:UVC];
+            
 //            CreateHelpGroupViewController *unlockVC = [[CreateHelpGroupViewController alloc] init];
 //            unlockVC.fromSlidePage = YES;
 //            unlockVC.hidesBottomBarWhenPushed = YES;

@@ -84,6 +84,11 @@
     _unlockInfo.font = FONTSIZE16;
     _unlockInfo.textAlignment = NSTextAlignmentCenter;
     _unlockInfo.text = self.cityName;
+    UITapGestureRecognizer *unlockInfoTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClicked:)];
+    _unlockInfo.userInteractionEnabled = YES;
+    [_unlockInfo addGestureRecognizer:unlockInfoTap];
+    
+    
     
     UILabel *titleTwo = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 184, 64, 16)];
     titleTwo.font = FONTSIZE16;
@@ -146,6 +151,19 @@
     
     _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 80);
 }
+
+-(void)tapClicked:(UITapGestureRecognizer *)tap{
+
+    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]initWithPlaceStyle:SinglePlaceChoice];
+    addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
+        if (isSelected) {
+            _unlockInfo.text =[NSString stringWithFormat:@"%@",locate];
+        }
+    };
+    [addressPickerView show];
+
+}
+
 
 -(void)setUpImagePicker{
     _imagePickerController = [[UIImagePickerController alloc] init];

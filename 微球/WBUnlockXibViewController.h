@@ -11,4 +11,6 @@
 
 @interface WBUnlockXibViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *positonBtn;
+
 @end

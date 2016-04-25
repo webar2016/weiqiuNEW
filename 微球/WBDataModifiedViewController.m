@@ -225,8 +225,6 @@
     [self.view addSubview:_datePickerView];
     NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];//设置为中文显示3
     _datePicker.locale = locale;
-    
-    
 }
 
 
@@ -245,6 +243,7 @@
     WBPositionList *positionList =[[WBPositionList alloc] init];
     if (((UILabel *)[self.view viewWithTag:203]).text==nil||((UILabel *)[self.view viewWithTag:203]).text==NULL||[((UILabel *)[self.view viewWithTag:203]).text isEqualToString:@"" ]) {
     }else{
+        
         NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
         [parameters setValue:@"provinceId" forKey:positionArray[2]];
     }
@@ -432,9 +431,12 @@
         [self showDatePicker];
         
     }else if (tap.view.tag == 103){
-        AddressChoicePickerView *AVC = [[AddressChoicePickerView alloc]initWithPlaceStyle:AnyPlaceChoice];
+        AddressChoicePickerView *AVC = [[AddressChoicePickerView alloc]initWithPlaceStyle:SinglePlaceChoice];
         AVC.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
-            
+            if (isSelected) {
+                self.areaObject = locate;
+                ((UILabel *)[self.view viewWithTag:203]).text = [NSString stringWithFormat:@"%@",locate];
+            }
             
             
         };
