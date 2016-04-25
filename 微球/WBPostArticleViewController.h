@@ -14,8 +14,5 @@
 
 - (instancetype)initWithTopicId:(NSString *)topicId title:(NSString *)title;
 
-
-
-
-
 @end
+

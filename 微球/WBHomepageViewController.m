@@ -88,6 +88,16 @@
     _rowHeightArray = [NSMutableArray array];
     _isSelect = [NSMutableArray array];
     
+    if ([WBUserDefaults userId]) {
+        _defaultUserId =[NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
+        
+    }else{
+        _defaultUserId =nil;
+    
+    }
+    
+    
+    
     _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     
     _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
@@ -160,9 +170,10 @@
     [chatBtn setImage:[UIImage imageNamed:@"icon_chat"] forState:UIControlStateNormal];
     chatBtn.frame = CGRectMake(SCREENWIDTH - 47, 174, 32, 32);
     [chatBtn addTarget:self action:@selector(enterChatView) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     if ([self.userId isEqual:_defaultUserId]) {
         [_headView addSubview:infoBtn];
-        
     }else{
         [_headView addSubview:chatBtn];
     }

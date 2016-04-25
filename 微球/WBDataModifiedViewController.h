@@ -26,6 +26,6 @@
 @property (nonatomic,assign)id<ModefyData>delegate;
 
 
-@property (nonatomic,copy) AreaObject *areaObject;
+@property (nonatomic,retain) AreaObject *areaObject;
 
 @end

@@ -252,8 +252,12 @@
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"profile":_introduceTextView.text}];
     WBPositionList *positionList =[[WBPositionList alloc] init];
+        
+        
     if (((UILabel *)[self.view viewWithTag:203]).text==nil||((UILabel *)[self.view viewWithTag:203]).text==NULL||[((UILabel *)[self.view viewWithTag:203]).text isEqualToString:@"" ]) {
     }else{
+        
+        
         NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
         
         [parameters setValue:positionArray[2] forKey:@"provinceId"];
