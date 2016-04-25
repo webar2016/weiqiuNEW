@@ -57,6 +57,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBackAndSave)];
+    self.navigationItem.leftBarButtonItem = back;
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIButton *rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -76,12 +79,16 @@
     [self setUpTextView];
     
     [self setUpImagePicker];
+    
+    if (self.isModified) {
+        [self showDraft];
+    }
 }
 
 #pragma mark - 创建文本框
 
 -(void)setUpTextView{
-    _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height)];
+    _textView = [[WBAttributeTextView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height)];
     _textView.textContainerInset = UIEdgeInsetsMake(MARGININSIDE, MARGININSIDE, MARGININSIDE * 4, MARGININSIDE);
     _textView.font = MAINFONTSIZE;
     _textView.delegate = self;
@@ -119,6 +126,8 @@
     [self.view addSubview:_textView];
 }
 
+#pragma mark - operations
+
 -(void)setUpImagePicker{
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
@@ -126,8 +135,6 @@
     _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
     _imagePickerController.allowsEditing = NO;
 }
-
-#pragma  mark - 操作
 
 -(void)imagePicker{
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -160,6 +167,23 @@
     _textView.selectedRange = NSMakeRange(_textView.textStorage.length,0);
 }
 
+//有草稿，则显示该草稿
+
+- (void)showDraft{
+    _textView.content = self.draft.content;
+    _textView.images = self.draft.nameArray;
+    _textView.contentSeparateSign = IMAGE;
+    _textView.imageSeparateSign = @";";
+    _textView.lineSpacing = MARGINOUTSIDE;
+    _textView.paragraphSpacing = MARGINOUTSIDE * 2;
+    _textView.fontColor = [UIColor initWithNormalGray];
+    _textView.maxSize = CGSizeMake(_textView.textContainer.size.width - MARGINOUTSIDE, 300);
+    
+    [_textView showContent];
+}
+
+#pragma mark - release artical
+
 -(void)releaseArticle{
     if (_textView.textStorage.length == 0) {
         [self showHUDText:@"写点内容再发布吧"];
@@ -182,9 +206,6 @@
 }
 
 - (void)upLoadArtical{
-    [self saveDraft];
-    return;
-    
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -230,7 +251,7 @@
     
     NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
-    NSString *imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
+    NSString *imageName = [[[imageString componentsSeparatedByString:@"="][1] substringToIndex:8] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
     
     
     [picker dismissViewControllerAnimated:YES completion:^{
@@ -288,7 +309,14 @@
     [self.nameArray removeAllObjects];
     [self.imageRate removeAllObjects];
     NSDictionary *draftDic = [self draftDic];
-    BOOL saveOK = [[WBDraftManager openDraft] draftWithData:[[WBDraftSave alloc] initWithData:draftDic]];
+    
+    BOOL saveOK;
+    if (self.isModified) {
+        saveOK = [[WBDraftManager openDraft] modifiedWithData:[[WBDraftSave alloc] initWithData:draftDic]];
+    } else {
+        saveOK = [[WBDraftManager openDraft] draftWithData:[[WBDraftSave alloc] initWithData:draftDic]];
+    }
+    
     if (saveOK) {
         [self showHUDText:@"草稿已保存"];
     } else {
@@ -299,6 +327,29 @@
 - (NSDictionary *)draftDic{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     return dic;
+}
+
+//未发布直接返回
+- (void)popBackAndSave{
+    if (_isSuccess || _textView.textStorage.length == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否保存草稿？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self saveDraft];
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - MBprogress

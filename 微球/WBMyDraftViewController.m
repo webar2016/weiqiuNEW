@@ -9,6 +9,8 @@
 #import "WBMyDraftViewController.h"
 #import "WBDraftManager.h"
 #import "WBDraftSave.h"
+#import "WBPostArticleViewController.h"
+#import "WBAnswerQuestionViewController.h"
 #import "NSString+string.h"
 
 @interface WBMyDraftViewController () <UITableViewDelegate, UITableViewDataSource> {
@@ -29,21 +31,17 @@
         _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
         _background.center = CGPointMake(SCREENWIDTH / 2, 170);
         
-        _draftArray = (NSMutableArray *)[[WBDraftManager openDraft] allDrafts];
-        
-        WBDraftSave *draft = _draftArray.lastObject;
-        NSString *imageRate = draft.imageRate;
-        NSString *nameArray = draft.nameArray;
-        NSLog(@"%@---%@",imageRate, nameArray);
-        
         [self setUpTableView];
     }
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [self getDraft];
+}
+
 - (void)setUpTableView{
-    
-    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _tableView.delegate = self;
@@ -51,7 +49,10 @@
     [self.view addSubview: _tableView];
 }
 
-
+- (void)getDraft{
+    _draftArray = (NSMutableArray *)[[WBDraftManager openDraft] allDrafts];
+    [_tableView reloadData];
+}
 
 #pragma mark - table view delegate
 
@@ -82,9 +83,22 @@
         cell.detailTextLabel.textColor = [UIColor initWithNormalGray];
         cell.detailTextLabel.font = FONTSIZE12;
     }
-    
-    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    WBDraftSave *draft = _draftArray[indexPath.row];
+    if ([draft.type isEqualToString:@"1"]) {
+        WBAnswerQuestionViewController *writeVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:draft.aim questionId:draft.contentId title:draft.title];
+        writeVC.isModified = YES;
+        writeVC.draft = draft;
+        [self.navigationController pushViewController:writeVC animated:YES];
+    } else {
+        WBPostArticleViewController *writeVC = [[WBPostArticleViewController alloc] initWithTopicId:draft.contentId title:draft.title];
+        writeVC.isModified = YES;
+        writeVC.draft = draft;
+        [self.navigationController pushViewController:writeVC animated:YES];
+    }
 }
 
 

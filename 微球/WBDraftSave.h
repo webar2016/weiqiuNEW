@@ -44,12 +44,12 @@
 /*
  *图片宽高比
  */
-@property (nonatomic, weak) NSString *imageRate;
+@property (nonatomic, copy) NSString *imageRate;
 
 /*
  *图片名称
  */
-@property (nonatomic, weak) NSString *nameArray;
+@property (nonatomic, copy) NSString *nameArray;
 
 /*
  *图片

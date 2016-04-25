@@ -52,6 +52,14 @@
  */
 @property (nonatomic, assign) CGFloat paragraphSpacing;
 
+/**
+ *显示加载的网络内容
+ */
 -(void)showContent;
+
+/**
+ *显示本地草稿内容
+ */
+-(void)showDraft;
 
 @end

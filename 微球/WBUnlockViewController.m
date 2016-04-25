@@ -188,7 +188,7 @@
     _imageScale = [NSNumber numberWithFloat:scale];
     NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
-    _imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
+    _imageName = [[[imageString componentsSeparatedByString:@"="][1] substringToIndex:8] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
     _fileData = UIImageJPEGRepresentation(image, 0.1);
     
     [picker dismissViewControllerAnimated:YES completion:^{

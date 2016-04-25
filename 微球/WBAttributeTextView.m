@@ -56,15 +56,7 @@
     
     for (NSUInteger index = 0; index < contentCount; index ++) {
         
-//        NSString *part = [[NSString alloc] init];
-//        if (![_contentArray[index]  isEqual: @""]) {
-//            part = [_contentArray[index] stringByAppendingString:@"\n"];
-//        } else {
-//            part = _contentArray[index];
-//        }
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:_contentArray[index]];
-        
-//        NSAttributedString *breakLine = [[NSAttributedString alloc] initWithString:@"\n"];
         
         [self.textStorage appendAttributedString:string];
         
@@ -82,8 +74,6 @@
             }
             
         }
-        
-//        [self.textStorage appendAttributedString:breakLine];
     }
     
     _paragraphStyle.lineSpacing = self.lineSpacing;
@@ -95,6 +85,48 @@
     self.textColor = self.fontColor;
 }
 
+-(void)showDraft{
+    
+    if (_content == nil && _images == nil) {
+        NSLog(@"没有内容");
+        return;
+    }
+    
+    _contentArray = [_content componentsSeparatedByString:_contentSeparateSign];
+    NSUInteger contentCount = [_contentArray count];
+    _imagesArray = [_images componentsSeparatedByString:_imageSeparateSign];
+    NSUInteger imageCount = [_imagesArray count];
+    
+    for (NSUInteger index = 0; index < contentCount; index ++) {
+        
+        NSAttributedString *string = [[NSAttributedString alloc] initWithString:_contentArray[index]];
+        
+        [self.textStorage appendAttributedString:string];
+        
+        if (index != contentCount-1) {
+            WBTextAttachment *textAttachment = [[WBTextAttachment alloc] init] ;
+            
+            textAttachment.image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:_imagesArray[index]]]];
+            
+            textAttachment.maxSize = self.maxSize;
+            
+            NSMutableAttributedString *attachmentString = (NSMutableAttributedString *)[NSAttributedString attributedStringWithAttachment:textAttachment];
+            
+            if (index != imageCount) {
+                [self.textStorage appendAttributedString:attachmentString];
+            }
+            
+        }
+    }
+    
+    _paragraphStyle.lineSpacing = self.lineSpacing;
+    _paragraphStyle.paragraphSpacing = self.paragraphSpacing;
+    NSDictionary *attributes = @{ NSFontAttributeName:self.font, NSParagraphStyleAttributeName:_paragraphStyle};
+    
+    [self.textStorage addAttributes:attributes range:NSMakeRange(0, self.textStorage.length)];
+    
+    self.textColor = self.fontColor;
+}
 
 
 

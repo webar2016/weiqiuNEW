@@ -13,10 +13,11 @@
 #import "NSString+string.h"
 #import "WBDraftSave.h"
 #import "WBDraftManager.h"
+#import "WBAttributeTextView.h"
 
 @interface WBArticalBaseViewController : WBRefreshViewController
 
-@property (nonatomic, strong) UITextView *textView;
+@property (nonatomic, strong) WBAttributeTextView *textView;
 
 @property (nonatomic, copy) NSString *url;
 
@@ -29,6 +30,10 @@
 @property (nonatomic, strong) NSMutableArray *imageRate;
 
 @property (nonatomic, strong) NSMutableDictionary *parameters;
+
+@property (nonatomic, assign) BOOL isModified;
+
+@property (nonatomic, strong) WBDraftSave *draft;
 
 - (void)setParameters;
 
