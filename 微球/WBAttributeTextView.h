@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBDraftSave.h"
 
 @interface WBAttributeTextView : UITextView
 
@@ -60,6 +61,6 @@
 /**
  *显示本地草稿内容
  */
--(void)showDraft;
+-(void)showDraftWithDraft:(WBDraftSave *)draft;
 
 @end

@@ -19,6 +19,7 @@
         self.draftTitle = title;
         self.topicID = topicId;
         self.url = @"http://app.weiqiu.me/tq/setComment";
+        self.navigationItem.title = @"发布长图文";
     }
     return self;
 }

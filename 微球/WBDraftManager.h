@@ -18,11 +18,11 @@
 
 - (BOOL)modifiedWithData:(WBDraftSave *)draft;
 
-- (NSArray *)allDrafts;
+- (NSArray *)allDraftsWithUserId:(NSString *)userId;
 
-- (WBDraftSave *)searchDraftWithType:(NSString *)type contentId:(NSString *)contentId;
+- (WBDraftSave *)searchDraftWithType:(NSString *)type contentId:(NSString *)contentId userId:(NSString *)userId;
 
-- (BOOL)deleteDraftWithType:(NSString *)type contentId:(NSString *)contentId;
+- (BOOL)deleteDraftWithType:(NSString *)type contentId:(NSString *)contentId userId:(NSString *)userId;
 
 - (void)closeFBDM;
 

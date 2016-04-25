@@ -81,8 +81,11 @@
     [self setUpImagePicker];
     
     if (self.isModified) {
-        [self showDraft];
+        [self showCurrentDraft];
     }
+    
+    _textView.selectedRange = NSMakeRange(_textView.textStorage.length,0);
+    [_textView becomeFirstResponder];
 }
 
 #pragma mark - 创建文本框
@@ -120,8 +123,6 @@
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolbar.items = @[flexSpace,imagePickerButton,flexSpace,previewButton,flexSpace];
     _textView.inputAccessoryView = toolbar;
-    
-    [_textView becomeFirstResponder];
     
     [self.view addSubview:_textView];
 }
@@ -169,17 +170,15 @@
 
 //有草稿，则显示该草稿
 
-- (void)showDraft{
-    _textView.content = self.draft.content;
-    _textView.images = self.draft.nameArray;
-    _textView.contentSeparateSign = IMAGE;
+- (void)showCurrentDraft{
+    _textView.contentSeparateSign= IMAGE;
     _textView.imageSeparateSign = @";";
     _textView.lineSpacing = MARGINOUTSIDE;
     _textView.paragraphSpacing = MARGINOUTSIDE * 2;
     _textView.fontColor = [UIColor initWithNormalGray];
     _textView.maxSize = CGSizeMake(_textView.textContainer.size.width - MARGINOUTSIDE, 300);
     
-    [_textView showContent];
+    [_textView showDraftWithDraft:self.draft];
 }
 
 #pragma mark - release artical
@@ -206,7 +205,6 @@
 }
 
 - (void)upLoadArtical{
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
@@ -230,13 +228,17 @@
         self.navigationItem.rightBarButtonItem.enabled = YES;
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳,是否保存草稿？" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                _isSuccess = YES;
+            }];
             action;
         })];
         [alert addAction:({
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                //save draft
-                [self saveDraft];
+                BOOL saveSuccess = [self saveDraft];
+                if (saveSuccess) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
             }];
             action;
         })];
@@ -304,7 +306,7 @@
 
 #pragma mark - draft operations
 
-- (void)saveDraft{
+- (BOOL)saveDraft{
     [self.imageArray removeAllObjects];
     [self.nameArray removeAllObjects];
     [self.imageRate removeAllObjects];
@@ -317,11 +319,12 @@
         saveOK = [[WBDraftManager openDraft] draftWithData:[[WBDraftSave alloc] initWithData:draftDic]];
     }
     
-    if (saveOK) {
-        [self showHUDText:@"草稿已保存"];
+    if (!saveOK) {
+        [self showHUDText:@"保存成功"];
     } else {
-        [self showHUDText:@"草稿保存失败"];
+        [self showHUDText:@"保存失败，请重试"];
     }
+    return saveOK;
 }
 
 - (NSDictionary *)draftDic{
@@ -335,16 +338,41 @@
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否保存草稿？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    NSString *saveAlertTip = [NSString string];
+    if (self.isModified) {
+        saveAlertTip = @"不保存则将删除原有草稿";
+    } else {
+        saveAlertTip = nil;
+    }
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否保存草稿？" message:saveAlertTip preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self saveDraft];
-            [self.navigationController popViewControllerAnimated:YES];
+            BOOL saveSuccess = [self saveDraft];
+            if (saveSuccess) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }];
         action;
     })];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            if (self.isModified) {
+                BOOL isSuccess = [[WBDraftManager openDraft] deleteDraftWithType:self.draft.type contentId:self.draft.contentId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+                if (isSuccess) {
+                    NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
+                    NSString *currentDraft = [NSString stringWithFormat:@"%@-%@-%@", self.draft.userId,self.draft.type,self.draft.contentId];
+                    NSString *draftPath = [path stringByAppendingPathComponent:currentDraft];
+                    
+                    if([[NSFileManager defaultManager] fileExistsAtPath:draftPath]){
+                        [[NSFileManager defaultManager]  removeItemAtPath:draftPath error:nil];
+                    }
+                    
+                } else {
+                    [self showHUDText:@"删除失败，请重试"];
+                }
+            }
             [self.navigationController popViewControllerAnimated:YES];
         }];
         action;

@@ -50,7 +50,7 @@
 }
 
 - (void)getDraft{
-    _draftArray = (NSMutableArray *)[[WBDraftManager openDraft] allDrafts];
+    _draftArray = (NSMutableArray *)[[WBDraftManager openDraft] allDraftsWithUserId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
     [_tableView reloadData];
 }
 
@@ -71,6 +71,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
+        }
         WBDraftSave *draft = _draftArray[indexPath.row];
         if ([draft.type isEqualToString:@"1"]) {
             cell.textLabel.text = [NSString stringWithFormat:@"【问题】%@",draft.title];
@@ -82,7 +83,8 @@
         cell.detailTextLabel.text = [draft.content replaceImageSign];
         cell.detailTextLabel.textColor = [UIColor initWithNormalGray];
         cell.detailTextLabel.font = FONTSIZE12;
-    }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 
@@ -98,6 +100,33 @@
         writeVC.isModified = YES;
         writeVC.draft = draft;
         [self.navigationController pushViewController:writeVC animated:YES];
+    }
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return   UITableViewCellEditingStyleDelete;
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return @"删除";
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    WBDraftSave *draft = _draftArray[indexPath.row];
+//    NSLog(@"%@---%@---%@",draft.title,draft.type,draft.contentId);
+    BOOL isSuccess = [[WBDraftManager openDraft] deleteDraftWithType:draft.type contentId:draft.contentId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+    if (isSuccess) {
+        [_draftArray removeObjectAtIndex:indexPath.row];
+        [_tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
+        NSString *currentDraft = [NSString stringWithFormat:@"%@-%@-%@", draft.userId,draft.type,draft.contentId];
+        NSString *draftPath = [path stringByAppendingPathComponent:currentDraft];
+        
+        if([[NSFileManager defaultManager] fileExistsAtPath:draftPath]){
+            [[NSFileManager defaultManager]  removeItemAtPath:draftPath error:nil];
+        }
+    } else {
+        [self showHUDText:@"删除失败，请重试"];
     }
 }
 

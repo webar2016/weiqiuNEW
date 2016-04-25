@@ -21,7 +21,7 @@
         self.content = data[@"content"];
         
         NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
-        NSString *currentDraft = [NSString stringWithFormat:@"%@-%@",self.type,self.contentId];
+        NSString *currentDraft = [NSString stringWithFormat:@"%@-%@-%@",self.userId, self.type, self.contentId];
         NSString *draftPath = [path stringByAppendingPathComponent:currentDraft];//当前草稿图片文件夹
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if (![fileManager fileExistsAtPath:draftPath]) {

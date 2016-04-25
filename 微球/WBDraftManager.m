@@ -66,16 +66,16 @@
 - (BOOL)modifiedWithData:(WBDraftSave *)draft{
     BOOL isSuccess;
     if ([_draftDB open]) {
-        NSString *modifiedSql = [NSString stringWithFormat:@"UPDATE 'draftSaver' SET content='%@',imageRate='%@',nameArray='%@' WHERE type='%@', contentId='%@'", draft.content, draft.imageRate, draft.nameArray, draft.type, draft.contentId];
+        NSString *modifiedSql = [NSString stringWithFormat:@"UPDATE 'draftSaver' SET content='%@',imageRate='%@',nameArray='%@' WHERE type='%@' and contentId='%@' and userId='%@'", draft.content, draft.imageRate, draft.nameArray, draft.type, draft.contentId, draft.userId];
         isSuccess = [_draftDB executeUpdate:modifiedSql];
     }
     [self closeFBDM];
     return isSuccess;
 }
 
-- (NSArray *)allDrafts{
+- (NSArray *)allDraftsWithUserId:(NSString *)userId{
     NSMutableArray *allDrafts = [NSMutableArray array];
-    FMResultSet *results = [_draftDB executeQuery:@"select * from 'draftSaver'"];
+    FMResultSet *results = [_draftDB executeQuery:[NSString stringWithFormat:@"select * from 'draftSaver' WHERE userId='%@'",userId]];
     
     while ([results next]) {
         WBDraftSave *draft = [[WBDraftSave alloc] init];
@@ -94,8 +94,8 @@
     return allDrafts;
 }
 
-- (WBDraftSave *)searchDraftWithType:(NSString *)type contentId:(NSString *)contentId{
-    FMResultSet *result = [_draftDB executeQuery:@"select * from 'draftSaver' WHERE type='%@', contentId='%@'"];
+- (WBDraftSave *)searchDraftWithType:(NSString *)type contentId:(NSString *)contentId userId:(NSString *)userId{
+    FMResultSet *result = [_draftDB executeQuery:[NSString stringWithFormat:@"select * from 'draftSaver' WHERE type='%@' and contentId='%@' and userId='%@'",type, contentId, userId]];
     if (result) {
         WBDraftSave *draft = [[WBDraftSave alloc] init];
         draft.userId = [result stringForColumn:@"userId"];
@@ -114,10 +114,10 @@
     }
 }
 
-- (BOOL)deleteDraftWithType:(NSString *)type contentId:(NSString *)contentId{
+- (BOOL)deleteDraftWithType:(NSString *)type contentId:(NSString *)contentId userId:(NSString *)userId{
     BOOL isSuccess;
     if ([_draftDB open]) {
-        NSString *deleteSql = [NSString stringWithFormat:@"delete from 'draftSaver' where type='%@', contentId='%@'", type, contentId];
+        NSString *deleteSql = [NSString stringWithFormat:@"delete from 'draftSaver' where type='%@' and contentId='%@' and userId='%@'", type, contentId, userId];
         isSuccess = [_draftDB executeUpdate:deleteSql];
         if (!isSuccess) {
             NSLog(@"删除失败");

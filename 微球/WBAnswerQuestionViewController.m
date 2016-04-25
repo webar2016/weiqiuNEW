@@ -20,6 +20,7 @@
         self.groupId = groupId;
         self.questionId = questionId;
         self.url = @"http://app.weiqiu.me/tq/setAnswer";
+        self.navigationItem.title = @"回答问题";
     }
     return self;
 }
