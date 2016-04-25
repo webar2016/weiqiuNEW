@@ -88,11 +88,7 @@
     _rowHeightArray = [NSMutableArray array];
     _isSelect = [NSMutableArray array];
     
-    if (![WBUserDefaults userId]) {
-        _defaultUserId = @"0";
-    } else {
-        _defaultUserId = [NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
-    }
+    _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     
     _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     

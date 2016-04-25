@@ -247,18 +247,25 @@
     [_textField resignFirstResponder];
     
     [self showHUD:@"正在保存" isDim:YES];
-    UIBarButtonItem *btn = self.navigationItem.rightBarButtonItem;
-    [btn setEnabled:NO];
+    
+    
+    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"profile":_introduceTextView.text}];
     WBPositionList *positionList =[[WBPositionList alloc] init];
     if (((UILabel *)[self.view viewWithTag:203]).text==nil||((UILabel *)[self.view viewWithTag:203]).text==NULL||[((UILabel *)[self.view viewWithTag:203]).text isEqualToString:@"" ]) {
     }else{
-        
         NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
-        [parameters setValue:@"provinceId" forKey:positionArray[2]];
+        
+        [parameters setValue:positionArray[2] forKey:@"provinceId"];
+        [parameters setValue:positionArray[1] forKey:@"homeCityId"];
+        
     }
+        NSLog(@"%@",parameters);
+        
     [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
-        if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
+        NSData *data1 = UIImagePNGRepresentation(_headImageView.image);
+        NSData *data = UIImagePNGRepresentation([WBUserDefaults headIcon]);
+        if (![data1 isEqual:data]&& data1!=nil) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
             [formatter setDateFormat:@"yyyy-MM-dd"];
             NSString *dateTime = [formatter stringFromDate:[NSDate date]];
@@ -271,8 +278,12 @@
       // NSLog(@"success-------");
         [WBUserDefaults setNickname:((UITextField*)[self.view viewWithTag:200]).text];
         [WBUserDefaults setSex:((UILabel*)[self.view viewWithTag:201]).text];
-        if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
-            [WBUserDefaults setHeadIcon:_headImageView.image];
+        
+        NSData *data1 = UIImagePNGRepresentation(_headImageView.image);
+        NSData *data = UIImagePNGRepresentation([WBUserDefaults headIcon]);
+        if (![data1 isEqual:data]) {
+         [WBUserDefaults setHeadIcon:_headImageView.image];
+            _headImageView.image = [WBUserDefaults headIcon];
         }
        
         if (((UILabel*)[self.view viewWithTag:203]).text) {
@@ -288,8 +299,17 @@
         NSLog(@"failure");
         NSLog(@"%@",error.localizedCapitalizedString);
         [self showHUDComplete:@"上传失败"];
-        [btn setEnabled:YES];
+       [self performSelector:@selector(isClicked) withObject:nil afterDelay:2.0];
+
     }];
+    
+    }
+}
+
+-(void)isClicked{
+
+_isClicked = NO;
+
 }
 
 

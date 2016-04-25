@@ -142,9 +142,7 @@
                                                 categories:nil];
         [application registerUserNotificationSettings:settings];
     }
-    //注册推送通知（注意iOS8注册方法发生了变化）
-    [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
-    [application registerForRemoteNotifications];
+
 }
 
 /**
