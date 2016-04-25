@@ -13,6 +13,7 @@
 #import "WBPositionList.h"
 
 @interface WBGroupInfoController () {
+    UIButton        *_destinationButton;
     UIButton        *_placeButton;
     UIButton        *_beginButton;
     UIButton        *_endButton;
@@ -31,7 +32,8 @@
     
     NSMutableArray  *_tagArray;
 }
-
+@property (nonatomic,copy)AreaObject *destinationPlaceModel;
+@property (nonatomic,copy)AreaObject *startPlaceModel;
 @end
 
 @implementation WBGroupInfoController
@@ -69,10 +71,24 @@
 #pragma mark - navigation button
 
 -(void)lastStep{
+    self.tabBarController.selectedIndex = 0;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)nextStep{
+    if ([_destinationButton.titleLabel.text isEqualToString:@"请选择"]) {
+        [self showHUDText:@"请选择你的目的地点"];
+        return;
+    }else{
+        /*
+         areaObject
+         @property (nonatomic,copy)AreaObject *destinationPlaceModel;
+         @property (nonatomic,copy)AreaObject *startPlaceModel;
+         */
+     
+    
+    }
+    
     if (_tagArray.count == 0) {
         [self showHUDText:@"请选择你的行程标签"];
         return;
@@ -106,13 +122,36 @@
 #pragma mark - UI
 
 -(void)setUpUI{
-    UILabel *tipChooseLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 108, 64, 16)];
+    UILabel *locateLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 108, 64, 16)];
+    locateLabel.textAlignment = NSTextAlignmentCenter;
+    locateLabel.textColor = [UIColor initWithNormalGray];
+    locateLabel.font = FONTSIZE16;
+    locateLabel.text = @"目的地点";
+    [self.view addSubview:locateLabel];
+    
+    _destinationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _destinationButton.frame=CGRectMake(SCREENWIDTH / 2 - 145, 108+26, 290, 60);
+    _destinationButton.backgroundColor = [UIColor whiteColor];
+    [_destinationButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
+    _destinationButton.titleLabel.font = FONTSIZE16;
+    [_destinationButton setTitle:@"请选择" forState:UIControlStateNormal];
+    _destinationButton.tag = 150;
+    [_destinationButton addTarget:self action:@selector(choosePlace:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_destinationButton];
+    
+    UIImageView *narrow1 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_spread3"]];
+    narrow1.center = CGPointMake(250, 30);
+    [_destinationButton addSubview:narrow1];
+    
+    
+    
+    UILabel *tipChooseLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 108+132, 64, 16)];
     tipChooseLabel.textAlignment = NSTextAlignmentCenter;
     tipChooseLabel.textColor = [UIColor initWithNormalGray];
     tipChooseLabel.font = FONTSIZE16;
     tipChooseLabel.text = @"行程标签";
     
-    UIView *tipWraper = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 144, 290, 60)];
+    UIView *tipWraper = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 144 +132, 290, 60)];
     
     NSArray *tipArray = @[@"美食",@"佳景",@"购物",@"艳遇",@"历史",@"科技",@"人文",@"其他"];
     for (int i = 0; i < 8; i ++) {
@@ -132,56 +171,57 @@
     }
     
     
-    UILabel *startPlaceLable = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 240, 64, 16)];
+    UILabel *startPlaceLable = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 240+132, 64, 16)];
     startPlaceLable.textAlignment = NSTextAlignmentCenter;
     startPlaceLable.textColor = [UIColor initWithNormalGray];
     startPlaceLable.font = FONTSIZE16;
     startPlaceLable.text = @"始发地点";
     
-    UILabel *tipOne = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 + 32, 244, 48, 12)];
+    UILabel *tipOne = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 + 32, 244+132, 48, 12)];
     tipOne.textAlignment = NSTextAlignmentCenter;
     tipOne.textColor = [UIColor initWithNormalGray];
     tipOne.font = FONTSIZE12;
     tipOne.text = @"（选填）";
     
-    UILabel *timeLable = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 372, 64, 16)];
+    UILabel *timeLable = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 32, 372+132, 64, 16)];
     timeLable.textAlignment = NSTextAlignmentCenter;
     timeLable.textColor = [UIColor initWithNormalGray];
     timeLable.font = FONTSIZE16;
     timeLable.text = @"出游时间";
     
-    UILabel *tipTwo = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 + 32, 376, 48, 12)];
+    UILabel *tipTwo = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 + 32, 376+132, 48, 12)];
     tipTwo.textAlignment = NSTextAlignmentCenter;
     tipTwo.textColor = [UIColor initWithNormalGray];
     tipTwo.font = FONTSIZE12;
     tipTwo.text = @"（选填）";
     
-    _placeButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 276, 290, 60)];
+    _placeButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 276+132, 290, 60)];
     _placeButton.backgroundColor = [UIColor whiteColor];
     [_placeButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     _placeButton.titleLabel.font = FONTSIZE16;
     [_placeButton setTitle:@"请选择" forState:UIControlStateNormal];
-    [_placeButton addTarget:self action:@selector(choosePlace) forControlEvents:UIControlEventTouchUpInside];
+    _placeButton.tag = 151;
+    [_placeButton addTarget:self action:@selector(choosePlace:) forControlEvents:UIControlEventTouchUpInside];
     
     UIImageView *narrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_spread3"]];
     narrow.center = CGPointMake(250, 30);
     [_placeButton addSubview:narrow];
     
     
-    UILabel *timeChooseLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 408, 290, 60)];
+    UILabel *timeChooseLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 408+132, 290, 60)];
     timeChooseLabel.backgroundColor = [UIColor whiteColor];
     timeChooseLabel.textAlignment = NSTextAlignmentCenter;
     timeChooseLabel.textColor = [UIColor initWithNormalGray];
     timeChooseLabel.font = FONTSIZE16;
     timeChooseLabel.text = @"至";
     
-    _beginButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 408, 135, 60)];
+    _beginButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 408+132, 135, 60)];
     [_beginButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     _beginButton.titleLabel.font = FONTSIZE16;
     [_beginButton setTitle:@"请选择" forState:UIControlStateNormal];
     [_beginButton addTarget:self action:@selector(choosePlanBegin) forControlEvents:UIControlEventTouchUpInside];
     
-    _endButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 + 10, 408, 135, 60)];
+    _endButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 + 10, 408+132, 135, 60)];
     [_endButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     _endButton.titleLabel.font = FONTSIZE16;
     [_endButton setTitle:@"请选择" forState:UIControlStateNormal];
@@ -222,6 +262,7 @@
     _datePicker.datePickerMode = UIDatePickerModeDate;
     _datePicker.backgroundColor = [UIColor whiteColor];
     _datePicker.minimumDate = [[NSDate alloc] init];
+    _datePicker.maximumDate = [_datePicker.minimumDate dateByAddingTimeInterval:365 * 24 * 60 * 60 * 2];
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 40)];
     toolBar.backgroundColor = [UIColor initWithLightGray];
     UIBarButtonItem *ensureButton = [[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStylePlain target:self action:@selector(ensureDatePicker)];
@@ -245,11 +286,30 @@
     self.dataDic[@"startPlaceId"] = sender.userInfo[@"startPlaceId"];
 }
 
--(void)choosePlace{
-    CreateHelpGroupViewController *createVC = [[CreateHelpGroupViewController alloc] init];
-    createVC.fromNextPage = YES;
-    UINavigationController *createNavVC = [[UINavigationController alloc] initWithRootViewController:createVC];
-    [self presentViewController:createNavVC animated:YES completion:nil];
+-(void)choosePlace:(UIButton *)button{
+    
+    
+    
+    AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]initWithPlaceStyle:SinglePlaceChoice];
+    addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
+        if (isSelected) {
+            if (button.tag ==150) {
+                [button setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
+                _destinationPlaceModel = locate;
+            }else{
+                [button setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
+                _startPlaceModel = locate;
+            }
+            
+        }
+    };
+    [addressPickerView show];
+
+    
+    
+    
+    
+
 }
 
 -(void)choosePlanBegin{

@@ -38,6 +38,7 @@
     UILabel *_placeHoldLabel;
     
     UIImagePickerController *_imagePicker;
+    BOOL _isClicked;
     
 }
 @end
@@ -49,7 +50,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     _rightLabelName = [NSMutableArray array];
-    
+    _isClicked = NO;
     
     [self createNavi];
     [self createUI];
@@ -74,7 +75,7 @@
     button.layer.masksToBounds = YES;
     button.layer.cornerRadius = 3;
     button.frame = CGRectMake(0, 0, 50, 25);
-    button.tag = 200;
+    button.tag = 50;
     
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = rightButton;
@@ -86,7 +87,11 @@
     _bigImageView.backgroundColor = [UIColor initWithBackgroundGray];
     _bigImageView.layer.masksToBounds = YES;
     _bigImageView.contentMode = UIViewContentModeScaleAspectFill;
-    _bigImageView.image = [WBUserDefaults coverImage];
+    if ([WBUserDefaults coverImage]) {
+        _bigImageView.image = [WBUserDefaults coverImage];
+    } else {
+        _bigImageView.image = [UIImage imageNamed:@"cover"];
+    }
     [self.view addSubview:_bigImageView];
     
     _headImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 64, 64)];
@@ -233,26 +238,42 @@
 
 #pragma mark ----右键保存------
 -(void)rightBtnClicked{
+    
+    if (_isClicked) {
+        
+    }else{
+        _isClicked=YES;
     [_introduceTextView resignFirstResponder];
     [_textField resignFirstResponder];
-    
     [self showHUD:@"正在保存" isDim:YES];
-    UIBarButtonItem *btn = self.navigationItem.rightBarButtonItem;
-    [btn setEnabled:NO];
+    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"userId":[WBUserDefaults userId],@"nickname":((UITextField*)[self.view viewWithTag:200]).text,@"sex":((UILabel*)[self.view viewWithTag:201]).text,@"birthday":((UITextField*)[self.view viewWithTag:202]).text,@"profile":_introduceTextView.text}];
     WBPositionList *positionList =[[WBPositionList alloc] init];
+        
     if (((UILabel *)[self.view viewWithTag:203]).text==nil||((UILabel *)[self.view viewWithTag:203]).text==NULL||[((UILabel *)[self.view viewWithTag:203]).text isEqualToString:@"" ]) {
     }else{
+      //  NSLog(@"provinceId %@",_areaObject.provinceId);
+        if ([_areaObject.provinceId isEqual:@""]) {
+            [parameters setValue:_areaObject.areaId forKey:@"provinceId"];
+            [parameters setValue:_areaObject.countryId forKey:@"homeCityId"];
+        }else{
+            NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
+            [parameters setValue:positionArray[2] forKey:@"provinceId"];
+            [parameters setValue:positionArray[1] forKey:@"homeCityId"];
+        }
         
-        NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
-        [parameters setValue:@"provinceId" forKey:positionArray[2]];
     }
+        
+    NSLog(@"%@",parameters);
+        
     [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
-        if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
+        NSData *data1 = UIImagePNGRepresentation(_headImageView.image);
+        NSData *data = UIImagePNGRepresentation([WBUserDefaults headIcon]);
+        if (![data1 isEqual:data]&& data1!=nil) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
             [formatter setDateFormat:@"yyyy-MM-dd"];
             NSString *dateTime = [formatter stringFromDate:[NSDate date]];
-            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.1);
+            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.05);
             [formData appendPartWithFileData:imageData name:dateTime fileName:[NSString stringWithFormat:@"%@head.jpg",dateTime] mimeType:@"image/jpeg"];
         }
     } whenProgress:^(NSProgress *FieldDataBlock) {
@@ -261,9 +282,14 @@
       // NSLog(@"success-------");
         [WBUserDefaults setNickname:((UITextField*)[self.view viewWithTag:200]).text];
         [WBUserDefaults setSex:((UILabel*)[self.view viewWithTag:201]).text];
-        if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
-            [WBUserDefaults setHeadIcon:_headImageView.image];
+        
+        NSData *data1 = UIImagePNGRepresentation(_headImageView.image);
+        NSData *data = UIImagePNGRepresentation([WBUserDefaults headIcon]);
+        if (![data1 isEqual:data]) {
+         [WBUserDefaults setHeadIcon:_headImageView.image];
+            _headImageView.image = [WBUserDefaults headIcon];
         }
+       
         if (((UILabel*)[self.view viewWithTag:203]).text) {
             [WBUserDefaults setCity:((UILabel*)[self.view viewWithTag:203]).text];
         }
@@ -271,13 +297,23 @@
         [WBUserDefaults setAge:[NSString stringWithFormat:@"%ld",(long)[self calculateAge]]];
         [self.delegate ModefyViewDelegate];
         [self showHUDComplete:@"修改成功"];
-        [btn setEnabled:YES];
+        [self performSelector:@selector(isClicked) withObject:nil afterDelay:2.0];
+        
     } andFailure:^(NSString *error) {
         NSLog(@"failure");
         NSLog(@"%@",error.localizedCapitalizedString);
         [self showHUDComplete:@"上传失败"];
-        [btn setEnabled:YES];
+       [self performSelector:@selector(isClicked) withObject:nil afterDelay:2.0];
+
     }];
+    
+    }
+}
+
+-(void)isClicked{
+
+_isClicked = NO;
+
 }
 
 

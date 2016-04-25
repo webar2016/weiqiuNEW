@@ -13,6 +13,7 @@
 #import "WBLeftViewController.h"
 #import "RCIMClient.h"
 
+
 #import "UIImage+image.h"
 
 @interface WBFindViewController ()<UIPageViewControllerDelegate>
@@ -38,10 +39,15 @@
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
     self.navigationController.navigationBar.translucent = NO;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self setUpNavgationItem];
     [self initVcArr];
     [self initPageVc];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+     self.tabBarController.tabBar.hidden = NO;
 }
 
 -(void)popBack{

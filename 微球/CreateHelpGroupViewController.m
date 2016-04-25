@@ -120,11 +120,11 @@
         _isUnlock = NO;
         [self isUnlock];
         if (!_isUnlock) {
-            WBUnlockViewController *unlockVC = [[WBUnlockViewController alloc] init];
-            unlockVC.cityName = [self.positionList cityNameWithCityId:_cityId];
-            unlockVC.cityId = _cityId;
-            unlockVC.provinceId = _provinceId;
-            [self.navigationController pushViewController:unlockVC animated:YES];
+//            WBUnlockViewController *unlockVC = [[WBUnlockViewController alloc] init];
+//            unlockVC.cityName = [self.positionList cityNameWithCityId:_cityId];
+//            unlockVC.cityId = _cityId;
+//            unlockVC.provinceId = _provinceId;
+//            [self.navigationController pushViewController:unlockVC animated:YES];
         }
        
     }else{

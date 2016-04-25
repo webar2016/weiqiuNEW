@@ -194,7 +194,7 @@
         [parameters setValue:_account.text forKey:@"username"];
         [parameters setValue:_password.text forKey:@"password"];
         [MyDownLoadManager postUrl:@"http://app.weiqiu.me/pt/login" withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
-            //@"http://app.weiqiu.me/pt/login"
+            
         } andSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
            // NSLog(@"%@",result);
@@ -248,9 +248,6 @@
     
     }
 }
-
-
-
 
 #pragma mark   ----存本地数据----
 
@@ -354,7 +351,7 @@
 -(void)saveData{
     _number++;
     if (_number == 4) {
-        [self showHUDComplete:@"保存完毕"];
+        [self hideHUD];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
 
         [self dismissViewControllerAnimated:YES completion:nil];

@@ -83,7 +83,10 @@
 #pragma mark - navigation button
 
 -(void)lastStep{
+    
+    
     [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 
@@ -370,7 +373,7 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     _imageScale = image.size.height / image.size.width;
-    _fileData = UIImageJPEGRepresentation(image, 0.4);
+    _fileData = UIImageJPEGRepresentation(image, 0.2);
     
     if (!_imageFromAlbum) {
         UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);

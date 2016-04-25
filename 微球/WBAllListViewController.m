@@ -76,10 +76,6 @@
     _cellHeightArray = [NSMutableArray array];
     self.dataSource = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-//    _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
-//    _background.center = CGPointMake(SCREENWIDTH / 2, 170);
-    
     _collectionView = [self collectionView];
     [self.view addSubview:_collectionView];
     [self createUI];
@@ -87,7 +83,7 @@
     [self showHUDIndicator];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-//    _loadImageCount = 0;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToHomePage:) name:@"goToHomePage" object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -399,34 +395,35 @@
 }
 
 #pragma mark -- UIScrollViewDelegate Methods
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-//{
-//    CGPoint scrollViewOffset = scrollView.contentOffset;
-//    _beginScoller = scrollViewOffset.y;
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    CGPoint scrollViewOffset = scrollView.contentOffset;
-//    if (scrollViewOffset.y - _beginScoller >= 0) {
-//        //往下滑
-//        [UIView animateWithDuration:0.3
-//                         animations:^{
-//                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT,self.view.frame.size.width,49)];
-//                         }];
-//    }else {
-//        [UIView animateWithDuration:0.3
-//                         animations:^{
-//                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT - 49,self.view.frame.size.width,49)];
-//                         }];
-//    }
-//}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    _beginScoller = scrollViewOffset.y;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    CGPoint scrollViewOffset = scrollView.contentOffset;
+    if (scrollViewOffset.y - _beginScoller >= 0) {
+        //往下滑
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT,self.view.frame.size.width,49)];
+                         }];
+    }else {
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             [self.tabBarController.tabBar setFrame:CGRectMake(0.0f,SCREENHEIGHT - 49,self.view.frame.size.width,49)];
+                         }];
+    }
+}
 
 #pragma mark  ----去个人主页-----
 -(void)goHomepage:(NSString *)userId{
     
     WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
     HVC.userId = userId;
+    HVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:HVC animated:YES];
 
 }

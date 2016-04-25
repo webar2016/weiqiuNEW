@@ -68,6 +68,10 @@
     
     UIImageView *_backgroundTopic;
     UIImageView *_backgroundAnswer;
+    
+    NSMutableArray *_isSelect;
+    
+    NSString *_defaultUserId;
 }
 
 @property (nonatomic, assign) int selectedRow;
@@ -82,6 +86,19 @@
     _topicsArray = [NSMutableArray array];
     _answersArray = [NSMutableArray array];
     _rowHeightArray = [NSMutableArray array];
+    _isSelect = [NSMutableArray array];
+    
+    if ([WBUserDefaults userId]) {
+        _defaultUserId =[NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
+        
+    }else{
+        _defaultUserId =nil;
+    
+    }
+    
+    
+    
+    _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     
     _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
     
@@ -127,7 +144,7 @@
     _coverImage.image = [UIImage imageNamed:@"cover"];
     _coverImage.userInteractionEnabled = YES;
     
-    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
+    if ([self.userId isEqual:_defaultUserId]) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(changeCoverImage)];
         _coverImage.userInteractionEnabled = YES;
         [_coverImage addGestureRecognizer:tap];
@@ -153,9 +170,10 @@
     [chatBtn setImage:[UIImage imageNamed:@"icon_chat"] forState:UIControlStateNormal];
     chatBtn.frame = CGRectMake(SCREENWIDTH - 47, 174, 32, 32);
     [chatBtn addTarget:self action:@selector(enterChatView) forControlEvents:UIControlEventTouchUpInside];
-    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
+    
+    
+    if ([self.userId isEqual:_defaultUserId]) {
         [_headView addSubview:infoBtn];
-        
     }else{
         [_headView addSubview:chatBtn];
     }
@@ -205,7 +223,7 @@
     CGSize buttonSize = CGSizeMake(SCREENWIDTH / 3, 44);
     CGPoint point;
     
-    if (![self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
+    if (![self.userId isEqual:_defaultUserId]) {
         _followButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
         _followButton.center = CGPointMake(SCREENWIDTH / 2, 330);
         _followButton.layer.masksToBounds = YES;
@@ -319,6 +337,10 @@
 }
 
 -(void)showImageViewer{
+    if (!_headicon.image) {
+        [self showHUDText:@"未获取到头像，请重试"];
+        return;
+    }
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_headicon.image];
     [self presentViewController:viewer animated:YES completion:nil];
 }
@@ -350,6 +372,7 @@
         _topicsArray = [TopicDetailModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentList"]];
         for (NSInteger i=0; i<_topicsArray.count; i++) {
             TopicDetailModel *model = _topicsArray[i];
+            [_isSelect addObject:@"0"];
             if (model.newsType == 1) {
                 [_rowHeightArray addObject:[NSString stringWithFormat:@"%f",(136.0 + SCREENWIDTH)]];
             } else if (model.newsType == 2) {
@@ -432,7 +455,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            [cell setModel:model];
+            [cell setModel:model withIsSelectState:_isSelect[indexPath.section]];
             return cell;
         } else if (model.newsType == 2) {
             static NSString *cellID2 = @"detailCellID2";
@@ -443,7 +466,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            [cell setModel:model];
+            [cell setModel:model withIsSelectState:_isSelect[indexPath.section]];
             return cell;
         } else {
             static NSString *cellID3 = @"detailCellID3";
@@ -454,7 +477,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.indexPath = indexPath;
             cell.delegate = self;
-            [cell setModel:model];
+            [cell setModel:model withIsSelectState:_isSelect[indexPath.section]];
             return cell;
         }
     } else {
@@ -482,7 +505,7 @@
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]] && tableView.tag == 100){
+    if ([self.userId isEqual:_defaultUserId] && tableView.tag == 100){
     return   UITableViewCellEditingStyleDelete;
     }else{
     
@@ -499,7 +522,7 @@
 /*删除用到的函数*/
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]){
+    if ([self.userId isEqual:_defaultUserId]){
     
       if (editingStyle ==UITableViewCellEditingStyleDelete)
        {
@@ -511,6 +534,7 @@
                  
                  [_topicsArray removeObjectAtIndex:indexPath.section];
                  [_rowHeightArray removeObjectAtIndex:indexPath.section];
+                 [_isSelect removeObjectAtIndex:indexPath.section];
                  [_topicTableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
              } andFailure:^(NSString *error) {
                 
@@ -545,19 +569,19 @@
 -(void)selfBtnClicked:(UIButton *)btn{
     if (btn.tag ==500) {
         WBAttentionView *AVC = [[WBAttentionView alloc]init];
-        if (![self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
+        if (![self.userId isEqual:_defaultUserId]) {
             AVC.showUserId = self.userId;
         }else{
-            AVC.showUserId = [WBUserDefaults userId];
+            AVC.showUserId = _defaultUserId;
         }
         [self.navigationController pushViewController:AVC animated:YES];
         
     }else if (btn.tag ==501){
         WBFansView *FVC = [[WBFansView alloc]init];
-        if (![self.userId isEqual:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
+        if (![self.userId isEqual:_defaultUserId]) {
             FVC.showUserId = self.userId;
         }else{
-            FVC.showUserId = [WBUserDefaults userId];
+            FVC.showUserId = _defaultUserId;
         }
         [self.navigationController pushViewController:FVC animated:YES];
     
@@ -699,6 +723,10 @@
     }];
     //相册
     UIAlertAction * act4 = [UIAlertAction actionWithTitle:@"查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (!_coverImage.image) {
+            [self showHUDText:@"未获取到图片，请重试"];
+            return;
+        }
         WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_coverImage.image];
         [self presentViewController:viewer animated:YES completion:nil];
     }];
@@ -813,7 +841,7 @@
 
 -(void)shareThisHomePage{
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享 @%@ 的微球主页，快来微球看看吧！",self.navigationItem.title]
+        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享了 %@ 的微球主页，快来微球看看吧！",self.navigationItem.title]
                                          images:@[[UIImage imageWithData:UIImageJPEGRepresentation(_headicon.image, 0.3)]]
                                             url:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]]
                                           title:@"快来微球征服地球！"
@@ -886,12 +914,17 @@
 
 -(void)showImageViewer:(NSIndexPath *)indexPath{
     TopicDetailModel *model = _topicsArray[indexPath.section];
+    if (!model.dir) {
+        [self showHUDText:@"未获取到图片，请重试"];
+        return;
+    }
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:model.dir andContent:model.comment];
     [self presentViewController:viewer animated:YES completion:nil];
 }
 
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
     [self loadUserInfo];
+    _isSelect[indexPath.section] = @"1";
 }
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{

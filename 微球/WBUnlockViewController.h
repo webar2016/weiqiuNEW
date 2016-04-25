@@ -11,8 +11,11 @@
 
 @interface WBUnlockViewController : WBRefreshViewController
 
-@property (nonatomic, copy) NSString *cityName;
-@property (nonatomic, copy) NSNumber *cityId;
-@property (nonatomic, copy) NSNumber *provinceId;
+//@property (nonatomic, copy) NSString *cityName;
+//@property (nonatomic, copy) NSNumber *cityId;
+//@property (nonatomic, copy) NSNumber *provinceId;
+
+
+
 
 @end

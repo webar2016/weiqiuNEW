@@ -181,13 +181,13 @@
         headImage.image = [UIImage imageNamed:imageNameArray[i]];
         [_scrollView addSubview:headImage];
         
-        UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(50, _imageHeight+55+[cellHeightyArray[i] integerValue], 150, 16)];
+        UILabel *labelName = [[UILabel alloc]initWithFrame:CGRectMake(50, _imageHeight+55+[cellHeightyArray[i] integerValue], 130, 16)];
         [_scrollView addSubview:labelName];
         labelName.text = labelNameArray[i];
         labelName.font = MAINFONTSIZE;
         labelName.textColor = [UIColor initWithLightGray];
         
-        UILabel *rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, _imageHeight+55+[cellHeightyArray[i] integerValue], SCREENWIDTH-150-20, 16)];
+        UILabel *rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(130, _imageHeight+55+[cellHeightyArray[i] integerValue], SCREENWIDTH-150, 16)];
         rightLabel.textAlignment = NSTextAlignmentRight;
         [_scrollView addSubview:rightLabel];
         rightLabel.text = rightLabelNameArray[i];
@@ -289,15 +289,16 @@
 //进入个人主页
 -(void)goHomePage{
     
-    WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
-    HVC.userId = [NSString stringWithFormat:@"%ld",(long)_model.userId];
-    
-    self.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:HVC animated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"goToHomePage" object:self userInfo:@{@"userId":[NSString stringWithFormat:@"%ld",(long)_model.userId]}];
+    [self dismissViewControllerAnimated:NO completion:nil];
     
 }
 
 -(void)showImageViewer{
+    if (!_mainImageView.image) {
+        [self showHUDText:@"未获取到图片，请重试"];
+        return;
+    }
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:_mainImageView.image];
     [self presentViewController:viewer animated:YES completion:nil];
 }

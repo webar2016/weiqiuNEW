@@ -125,11 +125,12 @@
 -(void)viewDidUnload{
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    
 }
 
 - (void) keyboardWasShown:(NSNotification *) notif
 {
+    _background.hidden = YES;
     [self.view addSubview:_textBgView];
     [_placeHolder removeFromSuperview];
     NSDictionary *info = [notif userInfo];
@@ -143,6 +144,7 @@
 
 - (void) keyboardWasHidden:(NSNotification *) notif
 {
+    _background.hidden = NO;
     [_textBgView removeFromSuperview];
     if (_commentTextView.text.length == 0) {
         [_commentTextView addSubview:_placeHolder];
@@ -167,7 +169,6 @@
     }
     
     [self showHUD:@"评论中" isDim:YES];
-    
     NSDictionary *paramter = @{@"userId":[WBUserDefaults userId],@"toUserId":_userId,@"commentId":[NSString stringWithFormat:@"%ld",(long)_commentId],@"comment":_commentTextView.text};
     [MyDownLoadManager postUrl:@"http://app.weiqiu.me/tq/setCommentDetil" withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
         
@@ -178,7 +179,7 @@
         _commentTextView.text = @"";
         [_commentTextView resignFirstResponder];
     } andFailure:^(NSString *error) {
-         [self showHUDComplete:@"评论失败，请稍后再试"];
+        [self showHUDComplete:@"评论失败，请稍后再试"];
     }];
     
     
@@ -220,9 +221,9 @@
                 NSDictionary *attributes = @{NSFontAttributeName: MAINFONTSIZE};
                 CGRect rect = [((WBtopicCommentDetilListModel *)_dataArray[j]).comment
                                boundingRectWithSize:CGSizeMake(SCREENWIDTH-20-65, MAXFLOAT)
-                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:attributes
-                                             context:nil];
+                               options:NSStringDrawingUsesLineFragmentOrigin
+                               attributes:attributes
+                               context:nil];
                 [_cellHeightArray addObject:[NSString stringWithFormat:@"%f",rect.size.height]];
             }
             

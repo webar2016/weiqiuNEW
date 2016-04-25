@@ -16,6 +16,8 @@
 #import "WBSingleAnswerModel.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
+#import "MyDBmanager.h"
+#import "WBPositionList.h"
 
 #import "NSString+string.h"
 #import "UILabel+label.h"
@@ -222,6 +224,8 @@
         [self showHUDText:@"网络状态不佳，请稍后再试"];
     }];
 }
+
+
 
 -(void)alertLogin{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登陆后即可发布啦！" message:nil preferredStyle:UIAlertControllerStyleAlert];

@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddressChoicePickerView.h"
+#import "AreaObject.h"
 
 @interface WBGroupInfoController : WBRefreshViewController
 
