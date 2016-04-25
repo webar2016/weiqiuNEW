@@ -13,6 +13,7 @@
 #import "CreateHelpGroupViewController.h"
 #import "WBSettingViewController.h"
 #import "WBIndividualIncomeViewController.h"
+#import "WBSetInformationViewController.h"
 
 #import "MyDownLoadManager.h"
 
@@ -201,6 +202,13 @@
             settingVC.hidesBottomBarWhenPushed = YES;
             [self pushViewControllerWithController:settingVC];
             break;
+            
+//            WBSetInformationViewController *SVC = [[WBSetInformationViewController alloc]init];
+//            SVC.hidesBottomBarWhenPushed = YES;
+//            [self presentViewController:SVC animated:YES completion:nil];
+//           // [self pushViewControllerWithController:SVC];
+//            break;
+            
         }
     }
 }

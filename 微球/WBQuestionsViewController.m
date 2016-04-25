@@ -213,6 +213,7 @@
     answerListController.fromFindView = self.fromFindView;
     answerListController.isMaster = self.isMaster;
     answerListController.questionText = data.questionText;
+    answerListController.cityStr = data.cityStr;
     answerListController.questionId = data.questionId;
     answerListController.allAnswers = data.allAnswers;
     answerListController.allIntegral = data.allIntegral;

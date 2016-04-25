@@ -148,11 +148,11 @@
     _leftImageView.image = [UIImage imageNamed:@"icon_qiupiao.png"];
     
     if (model.rewardIntegral>999) {
-        _leftLabel.text = [NSString stringWithFormat:@"%.1fK球币",(float)model.rewardIntegral/1000];
+        _leftLabel.text = [NSString stringWithFormat:@" %.1fK球币",(float)model.rewardIntegral/1000];
     }else{
-    _leftLabel.text = [NSString stringWithFormat:@"%ld球币",(long)model.rewardIntegral];
+    _leftLabel.text = [NSString stringWithFormat:@" %ld球币",(long)model.rewardIntegral];
     }
-    _rightLabel.text = [NSString stringWithFormat:@"%ld团员",(long)model.members];
+    _rightLabel.text = [NSString stringWithFormat:@" %ld团员",(long)model.members];
 }
 //去往个人主页
 -(void)goHomePage:(UITapGestureRecognizer *)tap{

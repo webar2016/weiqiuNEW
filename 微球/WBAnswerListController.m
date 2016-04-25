@@ -16,6 +16,8 @@
 #import "WBSingleAnswerModel.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
+#import "MyDBmanager.h"
+#import "WBPositionList.h"
 
 #import "NSString+string.h"
 #import "UILabel+label.h"
@@ -192,6 +194,15 @@
         [self alertLogin];
         return;
     }
+    
+    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+    WBPositionList *positionList = [[WBPositionList alloc]init];
+    NSArray *tempArray =  [[positionList searchCityWithCithName:self.cityStr] objectAtIndex:0];
+    if (![manager  isAddedItemsID:[NSString stringWithFormat:@"%@",tempArray[1]]]){
+        [self showHUDText:@"你还没有解锁这个城市，请先解锁"];
+        return;
+    }
+    
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/checkIn?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString:@"true"]) {
@@ -206,11 +217,27 @@
                 UIAlertAction *action = [UIAlertAction actionWithTitle:@"加入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/jion?groupId=%@&userId=%@",self.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
                         
-                        WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
-                        writeAnswerVC.groupId = self.groupId;
-                        writeAnswerVC.questionId = [NSString stringWithFormat:@"%ld",(long)self.questionId];
-                        writeAnswerVC.isQuestionAnswer = YES;
-                        [self.navigationController pushViewController:writeAnswerVC animated:YES];
+                        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                        
+                        if ( [result isKindOfClass:[NSDictionary class]]) {
+                            NSString *error = result[@"error"];
+                            if ([error isEqualToString:@"0"]) {
+                                [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
+                                WBPostArticleViewController *writeAnswerVC = [[WBPostArticleViewController alloc] init];
+                                writeAnswerVC.groupId = self.groupId;
+                                writeAnswerVC.questionId = [NSString stringWithFormat:@"%ld",(long)self.questionId];
+                                writeAnswerVC.isQuestionAnswer = YES;
+                                [self.navigationController pushViewController:writeAnswerVC animated:YES];
+                            } else if ([error isEqualToString:@"2"]) {
+                                [self showHUDText:@"帮帮团团员已满"];
+                            } else {
+                                [self showHUDText:@"加入失败，请稍后重试"];
+                            }
+                        }
+                        
+                        
+                        
+                        
                         
                     } andFailure:^(NSString *error) {
                         [self showHUDText:@"网络状态不佳，请稍后再试"];

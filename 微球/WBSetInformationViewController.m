@@ -37,7 +37,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
-
+   // self.view.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT-64-49-64);
     
     _cityArray = [NSArray array];
     
@@ -79,6 +79,7 @@
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *dateTime = [formatter stringFromDate:[NSDate date]];
     _birthdayPickLabel.text = dateTime;
+    
     _birthdayPickLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
     [_birthdayPickLabel addGestureRecognizer:tap];
@@ -93,7 +94,7 @@
     
     _cityLabel.font = MAINFONTSIZE;
     _cityLabel.textColor = [UIColor initWithLightGray];
-    _cityLabel.textAlignment = NSTextAlignmentRight;
+    _cityLabel.textAlignment = NSTextAlignmentLeft;
     
     _positionBtn.titleLabel.textColor = [UIColor initWithLightGray];
     _positionBtn.titleLabel.font = MAINFONTSIZE;
@@ -265,21 +266,21 @@
     UIAlertAction * act1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
     //拍照：
-    UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction * act2 = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:_imagePicker animated:YES completion:^{
             
         }];
     }];
     //相册
-    UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction * act3 = [UIAlertAction actionWithTitle:@"从手机相册选取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:_imagePicker animated:YES completion:^{
             
         }];
     }];
     
-    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"提示" message:@"选择图片" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     [aleVC addAction:act1];
     [aleVC addAction:act2];
     [aleVC addAction:act3];
@@ -336,7 +337,7 @@
     NSDictionary *parameters = @{@"userId":[WBUserDefaults userId],@"sex":_sex,@"birthday":_birthdayPickLabel.text,@"sex":_sex,@"provinceId":_cityArray[2],@"homeCityId":_cityArray[1]};
     //  NSLog(@"parameters = %@",parameters);
     
-    NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.1);
+    NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.05);
     [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
@@ -356,13 +357,13 @@
         [WBUserDefaults setCity:_cityArray[0]];
         [WBUserDefaults setHeadIcon:_headImageView.image];
         [WBUserDefaults setBirthday:_birthdayPickLabel.text];
-        [self showHUDComplete:@"上传成功"];
+//        [self showHUDComplete:@"上传成功"];
         [self dismissViewControllerAnimated:YES completion:nil];
         
         
     } andFailure:^(NSString *error) {
-        [self showHUDComplete:@"上传失败"];
-        NSLog(@"failure");
+        [self showHUDComplete:@"上传失败,请重试"];
+//        NSLog(@"failure");
         NSLog(@"%@",error.localizedCapitalizedString);
     }];
 }

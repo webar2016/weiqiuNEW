@@ -92,7 +92,7 @@
             NSLog(@"失败");
         }];
     } else {
-        NSData *fileData = UIImageJPEGRepresentation(((RCImageMessage *)messageCotent).thumbnailImage, 0.1);
+        NSData *fileData = UIImageJPEGRepresentation(((RCImageMessage *)messageCotent).thumbnailImage, 0.05);
         NSString *imageName = [[NSString ret32bitString] stringByAppendingString:@".JPG"];
         [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/feedBack/talkToHelper" withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:fileData name:imageName fileName:imageName mimeType:@"image/jpeg"];
@@ -223,6 +223,7 @@
     } else if ([model.content isKindOfClass:[WBCommentMessage class]]) {
         WBCommentMessage *message = (WBCommentMessage *)model.content;
         WBTopicCommentTableViewController *TVC = [[WBTopicCommentTableViewController alloc]init];
+        TVC.userId = [NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
         TVC.commentId = [message.extra integerValue];
         [self.navigationController pushViewController:TVC animated:YES];
     } else if ([model.content isKindOfClass:[RCImageMessage class]]) {

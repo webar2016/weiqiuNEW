@@ -62,7 +62,7 @@ const CGFloat kBROptionsItemDefaultItemHeight = 200;
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    self.highlighted = NO;
+    self.highlighted = YES;
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:self];
     CGPoint prevLocation = [touch previousLocationInView:self];
@@ -71,7 +71,7 @@ const CGFloat kBROptionsItemDefaultItemHeight = 200;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+    NSLog(@"event  %@",event);
     [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionLayoutSubviews animations:^{
         self.center = self.defaultLocation;
     } completion:nil];

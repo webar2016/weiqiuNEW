@@ -11,6 +11,7 @@
 #import "WBPostMenuButton.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "WBMenuBtnViewController.h"
+#import "TopicDetailModel.h"
 
 
 @interface WBTopicDetailViewController :WBMenuBtnViewController
@@ -18,5 +19,7 @@
 @property (nonatomic,assign) NSInteger topicID;
 
 @property (strong, nonatomic) MPMoviePlayerController *player;
+
+
 
 @end

@@ -11,15 +11,6 @@
 #import "WBRefreshViewController.h"
 
 @interface WBSetInformationViewController : WBRefreshViewController
-
-
-
-
-
-
-
-
-
 @property (weak, nonatomic) IBOutlet UIImageView *headImageView;
 
 

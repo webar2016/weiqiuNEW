@@ -114,14 +114,7 @@
                                                                   UIUserNotificationTypeAlert)
                                                 categories:nil];
         [application registerUserNotificationSettings:settings];
-    } else {
-        //注册推送，用于iOS8之前的系统
-        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge |
-        UIRemoteNotificationTypeAlert |
-        UIRemoteNotificationTypeSound;
-        [application registerForRemoteNotificationTypes:myTypes];
     }
-    
 
 }
 

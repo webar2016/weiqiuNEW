@@ -162,7 +162,7 @@
     _imagePickerController.delegate = self;
     _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
-    _imagePickerController.allowsEditing = YES;
+    _imagePickerController.allowsEditing = NO;
 }
 
 #pragma  mark - 操作
@@ -264,7 +264,7 @@
     [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         for (NSUInteger index = 0; index < count; index ++) {
-            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 0.4);
+            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 0.2);
             [formData appendPartWithFileData:fileData name:self.nameArray[index] fileName:self.nameArray[index] mimeType:@"image/jpeg"];
         }
         
@@ -313,14 +313,17 @@
 
 #pragma mark - UIImagePickerControllerDelegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+
+    NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
     NSString *imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
     
+    
     [picker dismissViewControllerAnimated:YES completion:^{
         
-        NSData *data = UIImageJPEGRepresentation(image, 0.1);
+        NSData *data = UIImageJPEGRepresentation(image, 0.05);
         UIImage *currentImage = [UIImage imageWithData:data];
         
         WBTextAttachment *attacment = [[WBTextAttachment alloc] init];
