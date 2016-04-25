@@ -35,12 +35,13 @@
 }
 
 - (void)openDraftDB{
-    NSString *filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"draftSaver.sqlite"];
+    NSString *filePath=[NSSearchPathForDirectoriesInDomains(NSCachesDirectory
+, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"draftSaver.sqlite"];
     
     _draftDB = [FMDatabase databaseWithPath:filePath];
     
     if ([_draftDB open]) {
-        NSString *createSql =[NSString stringWithFormat:@"create table if not exists 'draftSaver'(userId text, type text,aim text,contentId text,title text,content text,imagesArray blob)"];
+        NSString *createSql =[NSString stringWithFormat:@"create table if not exists 'draftSaver'(userId text, type text,aim text,contentId text,title text,content text,imageRate text,nameArray text)"];
         
         BOOL isSuccess = [_draftDB executeUpdate:createSql];
         
@@ -51,7 +52,7 @@
 }
 
 - (BOOL)draftWithData:(WBDraftSave *)draft{
-    NSString *insertSql = [NSString stringWithFormat:@"insert into 'draftSaver' (userId, type, aim, contentId, title, content, imagesArray) values ('%@', '%@', '%@', '%@', '%@', '%@', '%@')", draft.userId, draft.type, draft.aim, draft.contentId, draft.title, draft.content, draft.imagesArray];
+    NSString *insertSql = [NSString stringWithFormat:@"insert into 'draftSaver' (userId, type, aim, contentId, title, content, imageRate, nameArray) values ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')", draft.userId, draft.type, draft.aim, draft.contentId, draft.title, draft.content, draft.imageRate, draft.nameArray];
     BOOL isSuccess = [_draftDB executeUpdate:insertSql];
     
     if (!isSuccess) {
@@ -65,7 +66,7 @@
 - (BOOL)modifiedWithData:(WBDraftSave *)draft{
     BOOL isSuccess;
     if ([_draftDB open]) {
-        NSString *modifiedSql = [NSString stringWithFormat:@"UPDATE 'draftSaver' SET content='%@',imagesArray='%@' WHERE type='%@', contentId='%@'", draft.content, draft.imagesArray, draft.type, draft.contentId];
+        NSString *modifiedSql = [NSString stringWithFormat:@"UPDATE 'draftSaver' SET content='%@',imageRate='%@',nameArray='%@' WHERE type='%@', contentId='%@'", draft.content, draft.imageRate, draft.nameArray, draft.type, draft.contentId];
         isSuccess = [_draftDB executeUpdate:modifiedSql];
     }
     [self closeFBDM];
@@ -84,8 +85,8 @@
         draft.contentId = [results stringForColumn:@"contentId"];
         draft.title = [results stringForColumn:@"title"];
         draft.content = [results stringForColumn:@"content"];
-//        draft.imageRate = [results dataForColumn:@"imageRate"];
-        draft.imagesArray = [results dataForColumn:@"imagesArray"];
+        draft.imageRate = [results stringForColumn:@"imageRate"];
+        draft.nameArray = [results stringForColumn:@"nameArray"];
         [allDrafts addObject:draft];
     }
     
@@ -103,8 +104,8 @@
         draft.contentId = [result stringForColumn:@"contentId"];
         draft.title = [result stringForColumn:@"title"];
         draft.content = [result stringForColumn:@"content"];
-//        draft.imageRate = [result dataForColumn:@"imageRate"];
-        draft.imagesArray = [result dataForColumn:@"imagesArray"];
+        draft.nameArray = [result stringForColumn:@"nameArray"];
+        draft.imageRate = [result stringForColumn:@"imageRate"];
         [self closeFBDM];
         return draft;
     } else {

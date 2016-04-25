@@ -9,7 +9,6 @@
 #import "WBMyDraftViewController.h"
 #import "WBDraftManager.h"
 #import "WBDraftSave.h"
-#import "WBImage.h"
 #import "NSString+string.h"
 
 @interface WBMyDraftViewController () <UITableViewDelegate, UITableViewDataSource> {
@@ -32,63 +31,10 @@
         
         _draftArray = (NSMutableArray *)[[WBDraftManager openDraft] allDrafts];
         
-        for (WBDraftSave *draft in _draftArray) {
-            
-                const void *buffer = NULL;
-                size_t size = 0;
-            dispatch_data_t new_data_file = dispatch_data_create_map((dispatch_data_t)draft.imagesArray, &buffer, &size);
-                NSData *nsdata = [[NSData alloc] initWithBytes:NULL length:size];
-            NSLog(@"%@",nsdata);
-//            const void *buffer = NULL;
-//            size_t size = dispatch_data_get_size(d);
-//            dispatch_data_t tmpData = dispatch_data_create_map(data, &buffer, &size);
-//            NSData *nsdata = [[NSData alloc] initWithBytes:buffer length:size];
-//            NSLog(@"%@",[NSKeyedUnarchiver unarchiveObjectWithData:(dispatch_data_t)draft.imagesArray]);
-        }
-        
-//        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        
-//        int intbuffer[] = { 1, 2, 3, 4 };
-//        char charbuffer[]={"fdafdsafsdfasdfa"};
-//        dispatch_data_t data = dispatch_data_create(charbuffer, 4 * sizeof(int), queue, NULL);
-//        
-//        dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-//        // Write
-//        dispatch_fd_t fd = open("/tmp/data.txt", O_RDWR | O_CREAT | O_TRUNC, S_IRWXU | S_IRWXG | S_IRWXO);
-//        
-//        printf("FD: %d\n", fd);
-//        
-//        dispatch_write(fd, data, queue,^(dispatch_data_t d, int e) {
-//            printf("Written %zu bytes!\n", dispatch_data_get_size(data) - (d ? dispatch_data_get_size(d) : 0));
-//            printf("\tError: %d\n", e);
-//            dispatch_semaphore_signal(sem);
-//        });
-//        
-//        dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-//        
-//        close(fd);
-        
-        // Read
-//        dispatch_fd_t fd = open("/tmp/data.txt", O_RDWR);
-//        
-//        dispatch_read(fd, 4 * sizeof(int), queue, ^(dispatch_data_t d, int e) {
-//            printf("Read %zu bytes!\n", dispatch_data_get_size(d));
-//            const void *buffer = NULL;
-//            size_t size = dispatch_data_get_size(d);
-//            dispatch_data_t tmpData = dispatch_data_create_map(data, &buffer, &size);
-//            NSData *nsdata = [[NSData alloc] initWithBytes:buffer length:size];
-//            NSString *s=[[NSString alloc] initWithData:nsdata encoding:NSUTF8StringEncoding];
-//            NSLog(@"buffer %@",s);
-//            printf("\tError: %d\n", e);
-//            dispatch_semaphore_signal(sem);
-//        });
-//        
-//        dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-//        close(fd);
-//        
-//        // Exit confirmation
-//        getchar();
-        
+        WBDraftSave *draft = _draftArray.lastObject;
+        NSString *imageRate = draft.imageRate;
+        NSString *nameArray = draft.nameArray;
+        NSLog(@"%@---%@",imageRate, nameArray);
         
         [self setUpTableView];
     }

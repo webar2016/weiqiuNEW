@@ -30,6 +30,22 @@
     return _imageArray;
 }
 
+-(NSMutableArray *)nameArray{
+    if (_nameArray) {
+        return _nameArray;
+    }
+    _nameArray = [NSMutableArray array];
+    return _nameArray;
+}
+
+-(NSMutableArray *)imageRate{
+    if (_imageRate) {
+        return _imageRate;
+    }
+    _imageRate = [NSMutableArray array];
+    return _imageRate;
+}
+
 -(NSMutableDictionary *)parameters{
     if (_parameters) {
         return _parameters;
@@ -108,7 +124,7 @@
     _imagePickerController.delegate = self;
     _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
-    _imagePickerController.allowsEditing = YES;
+    _imagePickerController.allowsEditing = NO;
 }
 
 #pragma  mark - 操作
@@ -154,6 +170,8 @@
     [_textView resignFirstResponder];
     _textView.editable = NO;
     [self.imageArray removeAllObjects];
+    [self.nameArray removeAllObjects];
+    [self.imageRate removeAllObjects];
     
     [self setParameters];
     
@@ -175,8 +193,8 @@
         
         NSUInteger count = self.imageArray.count;
         for (NSUInteger index = 0; index < count; index ++) {
-            NSData *fileData = UIImageJPEGRepresentation(((WBImage *)self.imageArray[index]).image, 0.4);
-            [formData appendPartWithFileData:fileData name:((WBImage *)self.imageArray[index]).imageName fileName:((WBImage *)self.imageArray[index]).imageName mimeType:@"image/jpeg"];
+            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 0.4);
+            [formData appendPartWithFileData:fileData name:self.nameArray[index] fileName:self.nameArray[index] mimeType:@"image/jpeg"];
         }
         
         
@@ -207,19 +225,21 @@
 
 #pragma mark - UIImagePickerControllerDelegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    
+    NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
     NSString *imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
     
+    
     [picker dismissViewControllerAnimated:YES completion:^{
         
-        NSData *data = UIImageJPEGRepresentation(image, 0.1);
+        NSData *data = UIImageJPEGRepresentation(image, 0.05);
         UIImage *currentImage = [UIImage imageWithData:data];
         
         WBTextAttachment *attacment = [[WBTextAttachment alloc] init];
         attacment.image = currentImage;
-        attacment.imageRate = [NSString stringWithFormat:@"%.2f",currentImage.size.height / currentImage.size.width];
         attacment.name = imageName;
         attacment.maxSize = CGSizeMake(SCREENWIDTH - MARGININSIDE * 3, 300);
         if (_textView.textStorage.length != 0) {
@@ -232,7 +252,6 @@
             _textView.selectedRange = NSMakeRange(_textView.textStorage.length,0);
         }
         [_textView becomeFirstResponder];
-        
     }];
 }
 
@@ -265,6 +284,9 @@
 #pragma mark - draft operations
 
 - (void)saveDraft{
+    [self.imageArray removeAllObjects];
+    [self.nameArray removeAllObjects];
+    [self.imageRate removeAllObjects];
     NSDictionary *draftDic = [self draftDic];
     BOOL saveOK = [[WBDraftManager openDraft] draftWithData:[[WBDraftSave alloc] initWithData:draftDic]];
     if (saveOK) {
