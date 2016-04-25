@@ -16,6 +16,8 @@
 #import "WBSingleAnswerModel.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
+#import "MyDBmanager.h"
+#import "WBPositionList.h"
 
 #import "NSString+string.h"
 #import "UILabel+label.h"

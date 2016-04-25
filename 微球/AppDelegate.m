@@ -452,7 +452,7 @@
     if([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)])
     {
         [self.locationManager requestWhenInUseAuthorization];
-        [self.locationManager requestAlwaysAuthorization];
+//        [self.locationManager requestAlwaysAuthorization];
     }
     [self.locationManager startUpdatingLocation];
 }

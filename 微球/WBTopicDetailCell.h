@@ -58,4 +58,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 -(void)setModel:(TopicDetailModel *)model;
+
+-(void)setModel:(TopicDetailModel *)model withIsSelectState:(NSString *)selectState;
 @end

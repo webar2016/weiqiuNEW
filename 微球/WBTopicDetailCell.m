@@ -173,7 +173,7 @@
     
     _praiseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
     _praiseBtn.tag = 333;
-    [_praiseBtn setImage:[UIImage imageNamed:@"icon_like.png"] forState:UIControlStateNormal];
+    
     [_praiseBtn setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     _praiseBtn.titleLabel.font = MAINFONTSIZE;
     [_praiseBtn addTarget:self action:@selector(toolbarOperations:) forControlEvents:UIControlEventTouchUpInside];
@@ -187,7 +187,7 @@
     [self.contentView addSubview:_toolBar];
 }
 
--(void)setModel:(TopicDetailModel *)model{
+-(void)setModel:(TopicDetailModel *)model withIsSelectState:(NSString *)selectState{
     
     _model = model;
     _score = model.getIntegral;
@@ -211,6 +211,13 @@
         }
         
     }
+    
+    if ([selectState isEqualToString:@"0"]) {
+        [_praiseBtn setImage:[UIImage imageNamed:@"icon_like.png"] forState:UIControlStateNormal];
+    }else{
+        [_praiseBtn setImage:[UIImage imageNamed:@"icon_liked.png"] forState:UIControlStateNormal];
+    }
+    
     
     [_commentBtn setTitle:[NSString stringWithFormat:@" %ld 评论",(long)model.descussNum] forState:UIControlStateNormal];
     
@@ -257,16 +264,16 @@
     
     NSString *shareURL = [NSString stringWithFormat:@"http://app.weiqiu.me/share/topic?commentId=%ld&newsType=%ld",(long)_model.commentId,_cellType];
     
-    UIImage *shareImage = [UIImage imageWithData:UIImageJPEGRepresentation(_mainImage.image, 0.3)];
+    UIImage *shareImage = [UIImage imageWithData:UIImageJPEGRepresentation(_mainImage.image, 0.1)];
     
     NSString *shareText = [NSString string];
     
     if (_cellType == 1) {
-        shareText = [NSString stringWithFormat:@"我分享 @%@ 的照片，快来微球看看吧！",_model.tblUser.nickname];
+        shareText = [NSString stringWithFormat:@"我分享了 %@ 的照片，快来微球看看吧！",_model.tblUser.nickname];
     } else if (_cellType == 2) {
-        shareText = [NSString stringWithFormat:@"我分享 @%@ 的视频，拍的太棒了，快来微球看看吧！",_model.tblUser.nickname];
+        shareText = [NSString stringWithFormat:@"我分享了 %@ 的视频，拍的太棒了，快来微球看看吧！",_model.tblUser.nickname];
     } else {
-        shareText = [NSString stringWithFormat:@"我分享 @%@ 的文章，写得太绝了，快来微球看看吧！",_model.tblUser.nickname];
+        shareText = [NSString stringWithFormat:@"我分享了 %@ 的文章，写得太绝了，快来微球看看吧！",_model.tblUser.nickname];
     }
     
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
@@ -275,7 +282,7 @@
                                      images:@[shareImage]
                                         url:[NSURL URLWithString:shareURL]
                                       title:_model.topicContent
-                                       type:SSDKContentTypeAuto];
+                                       type:SSDKContentTypeWebPage];
     
     [ShareSDK showShareActionSheet:nil
                              items:nil
@@ -355,7 +362,7 @@
 }
 
 - (void)hideWindow:(id)object{
-    [UIView animateWithDuration:1.0f animations:^{
+    [UIView animateWithDuration:0.5f animations:^{
 //        _praiseBtn.transform = CGAffineTransformMakeScale(1,1);
         _likeTip.frame = CGRectMake(SCREENWIDTH, _maxHeight - 40, 124, 23);
     } completion:^(BOOL finished) {

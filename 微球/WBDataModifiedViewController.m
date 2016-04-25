@@ -38,6 +38,7 @@
     UILabel *_placeHoldLabel;
     
     UIImagePickerController *_imagePicker;
+    BOOL _isClicked;
     
 }
 @end
@@ -49,7 +50,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     _rightLabelName = [NSMutableArray array];
-    
+    _isClicked = NO;
     
     [self createNavi];
     [self createUI];
@@ -74,7 +75,7 @@
     button.layer.masksToBounds = YES;
     button.layer.cornerRadius = 3;
     button.frame = CGRectMake(0, 0, 50, 25);
-    button.tag = 200;
+    button.tag = 50;
     
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = rightButton;
@@ -86,7 +87,11 @@
     _bigImageView.backgroundColor = [UIColor initWithBackgroundGray];
     _bigImageView.layer.masksToBounds = YES;
     _bigImageView.contentMode = UIViewContentModeScaleAspectFill;
-    _bigImageView.image = [WBUserDefaults coverImage];
+    if ([WBUserDefaults coverImage]) {
+        _bigImageView.image = [WBUserDefaults coverImage];
+    } else {
+        _bigImageView.image = [UIImage imageNamed:@"cover"];
+    }
     [self.view addSubview:_bigImageView];
     
     _headImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 64, 64)];
@@ -233,6 +238,11 @@
 
 #pragma mark ----右键保存------
 -(void)rightBtnClicked{
+    
+    if (_isClicked) {
+        
+    }else{
+        _isClicked=YES;
     [_introduceTextView resignFirstResponder];
     [_textField resignFirstResponder];
     
@@ -252,7 +262,7 @@
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
             [formatter setDateFormat:@"yyyy-MM-dd"];
             NSString *dateTime = [formatter stringFromDate:[NSDate date]];
-            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.1);
+            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.05);
             [formData appendPartWithFileData:imageData name:dateTime fileName:[NSString stringWithFormat:@"%@head.jpg",dateTime] mimeType:@"image/jpeg"];
         }
     } whenProgress:^(NSProgress *FieldDataBlock) {
@@ -264,6 +274,7 @@
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
             [WBUserDefaults setHeadIcon:_headImageView.image];
         }
+       
         if (((UILabel*)[self.view viewWithTag:203]).text) {
             [WBUserDefaults setCity:((UILabel*)[self.view viewWithTag:203]).text];
         }
@@ -271,7 +282,8 @@
         [WBUserDefaults setAge:[NSString stringWithFormat:@"%ld",(long)[self calculateAge]]];
         [self.delegate ModefyViewDelegate];
         [self showHUDComplete:@"修改成功"];
-        [btn setEnabled:YES];
+        [self performSelector:@selector(isClicked) withObject:nil afterDelay:2.0];
+        
     } andFailure:^(NSString *error) {
         NSLog(@"failure");
         NSLog(@"%@",error.localizedCapitalizedString);

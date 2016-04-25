@@ -137,7 +137,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_currentPage == 2) {
+    if (_currentPage == 2 && self.usersArray.count != 0) {
         [self dismissViewControllerAnimated:YES completion:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"showSearchResultView" object:self userInfo:@{@"searchPearch":@YES,@"userId":[NSString stringWithFormat:@"%ld",(long)((WBUserInfosModel *)self.usersArray[indexPath.row]).userId]}];
         }];

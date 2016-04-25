@@ -119,7 +119,7 @@
         [_delegate questionView:self];
     }
 }
-    
+
 -(void)answerTap{
     if (_delegate && [_delegate respondsToSelector:@selector(answerView:)]) {
         [_delegate answerView:self];

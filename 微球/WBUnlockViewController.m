@@ -207,7 +207,7 @@
     NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
     _imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
-    _fileData = UIImageJPEGRepresentation(image, 0.1);
+    _fileData = UIImageJPEGRepresentation(image, 0.05);
     
     [picker dismissViewControllerAnimated:YES completion:^{
         [_imagePicker setBackgroundImage:image forState:UIControlStateNormal];

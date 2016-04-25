@@ -156,9 +156,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 2) {
-        NSString *evaluateString = [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1095625702"];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:evaluateString]];
-    } else if (indexPath.row == 3) {
+        NSString *evaluateString = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id1095625702"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:evaluateString]];    } else if (indexPath.row == 3) {
         WBAboutWBViewController *aboutVC = [[WBAboutWBViewController alloc] init];
         [self.navigationController pushViewController:aboutVC animated:YES];
     }
@@ -166,7 +165,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"屏蔽微球小助手",@"给我们鼓励！",@"关于微球"];
+    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"屏蔽微球小助手",@"去App Store评分",@"关于微球"];
     cell.textLabel.text = title[indexPath.row];
     cell.textLabel.textColor = [UIColor initWithNormalGray];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

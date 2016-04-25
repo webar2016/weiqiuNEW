@@ -252,6 +252,10 @@
 #pragma mark - text view delegate
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(WBTextAttachment *)textAttachment inRange:(NSRange)characterRange{
+    if (!textAttachment.image) {
+        [self showHUDText:@"未获取到图片，请重试"];
+        return YES;
+    }
     WBImageViewer *viewer = [[WBImageViewer alloc] initWithImage:textAttachment.image];
     [self presentViewController:viewer animated:YES completion:nil];
     return YES;

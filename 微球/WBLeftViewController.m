@@ -221,6 +221,13 @@
             settingVC.hidesBottomBarWhenPushed = YES;
             [self pushViewControllerWithController:settingVC];
             break;
+            
+//            WBSetInformationViewController *SVC = [[WBSetInformationViewController alloc]init];
+//            SVC.hidesBottomBarWhenPushed = YES;
+//            [self presentViewController:SVC animated:YES completion:nil];
+//           // [self pushViewControllerWithController:SVC];
+//            break;
+            
         }
     }
 }
