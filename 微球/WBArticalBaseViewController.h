@@ -11,7 +11,6 @@
 #import "AFHTTPSessionManager.h"
 #import "NSAttributedString + attributedString.h"
 #import "NSString+string.h"
-#import "WBImage.h"
 #import "WBDraftSave.h"
 #import "WBDraftManager.h"
 
@@ -21,9 +20,13 @@
 
 @property (nonatomic, copy) NSString *url;
 
-@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *draftTitle;
 
 @property (nonatomic, strong) NSMutableArray *imageArray;
+
+@property (nonatomic, strong) NSMutableArray *nameArray;
+
+@property (nonatomic, strong) NSMutableArray *imageRate;
 
 @property (nonatomic, strong) NSMutableDictionary *parameters;
 

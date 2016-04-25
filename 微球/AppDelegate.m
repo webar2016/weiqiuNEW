@@ -47,10 +47,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    
-    NSLog(@"%@",launchOptions);
-    
-    
     [self setPushMessageWith:(UIApplication *)application];
     
     [self setRongCloud];
@@ -90,7 +86,7 @@
         NSDictionary* dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (dictionary != nil)
         {
-            NSLog(@"Launched from push notification: %@", dictionary);
+//            NSLog(@"Launched from push notification: %@", dictionary);
             [self addMessageFromRemoteNotification:dictionary updateUI:NO];
         }
     } 
@@ -145,14 +141,7 @@
                                                                   UIUserNotificationTypeAlert)
                                                 categories:nil];
         [application registerUserNotificationSettings:settings];
-    } else {
-        //注册推送，用于iOS8之前的系统
-        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge |
-        UIRemoteNotificationTypeAlert |
-        UIRemoteNotificationTypeSound;
-        [application registerForRemoteNotificationTypes:myTypes];
     }
-    
     //注册推送通知（注意iOS8注册方法发生了变化）
     [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     [application registerForRemoteNotifications];

@@ -7,12 +7,14 @@
 //
 
 #import "WBDraftSave.h"
-#import "WBImage.h"
 
 @implementation WBDraftSave
 
 - (instancetype)initWithData:(NSDictionary *)data{
     if (self = [super init]) {
+        
+        NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+        NSLog(@"------%@",path);
         
         self.userId = data[@"userId"];
         self.type = data[@"type"];
@@ -21,13 +23,28 @@
         self.title = data[@"title"];
         self.content = data[@"content"];
         
-//        NSMutableArray *array = [NSMutableArray array];
-//        for (NSInteger i = 0; i < ((NSArray *)data[@"imagesArray"]).count; i ++) {
-//            [array addObject:[NSKeyedArchiver archivedDataWithRootObject:((NSArray *)data[@"imagesArray"])[i]]];
-//        }
-        self.imagesArray = [NSKeyedArchiver archivedDataWithRootObject:data[@"imagesArray"]];
+        NSArray *rateArray = data[@"imageRate"];
+        NSArray *nameArray = data[@"nameArray"];
+        NSArray *images = data[@"imagesArray"];
+        NSString *rateString = [NSString string];
+        NSString *nameString = [NSString string];
         
-        NSLog(@"%@",[NSKeyedUnarchiver unarchiveObjectWithData:self.imagesArray]);
+        NSInteger count = rateArray.count;
+        for (int i = 0; i < count; i ++) {
+            if (i == 0) {
+                rateString = [rateString stringByAppendingString:rateArray[i]];
+                nameString = [nameString stringByAppendingString:nameArray[i]];
+            } else {
+                rateString = [rateString stringByAppendingString:[NSString stringWithFormat:@";%@",rateArray[i]]];
+                nameString = [nameString stringByAppendingString:[NSString stringWithFormat:@";%@",nameArray[i]]];
+            }
+            
+            NSString *filename=[path stringByAppendingPathComponent:nameArray[i]];
+            UIImage *image = images[i];
+            NSData *data = UIImageJPEGRepresentation(image, 1);
+            [data writeToFile:filename atomically:YES];
+        }
+        NSLog(@"%@---%@",self.nameArray, self.imageRate);
     }
     return self;
 }
@@ -40,7 +57,8 @@
     draftDic[@"contentId"] = self.contentId;
     draftDic[@"title"] = self.title;
     draftDic[@"content"] = self.content;
-    draftDic[@"imagesArray"] = [NSKeyedUnarchiver unarchiveObjectWithData:self.imagesArray];
+    draftDic[@"nameArray"] = self.nameArray;
+    draftDic[@"imageRate"] = self.imageRate;
     return draftDic;
 }
 
