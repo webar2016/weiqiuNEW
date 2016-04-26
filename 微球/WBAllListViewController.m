@@ -297,8 +297,10 @@
 -(void)loadData
 
 {
-//    NSLog(@"%@",_urlString);
-    [MyDownLoadManager getNsurl:_urlString whenSuccess:^(id representData) {
+    
+    NSLog(@"%@",_urlString);
+    
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:_urlString,(long)_page,PAGESIZE] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if (_page == 1) {
@@ -319,7 +321,6 @@
             }
             
         }
-        _page ++;
         [_collectionView reloadData];
         [_collectionView.mj_header endRefreshing];
         [_collectionView.mj_footer endRefreshing];
