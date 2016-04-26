@@ -20,6 +20,7 @@
 @property (nonatomic,assign) NSInteger countryId;
 @property (nonatomic,copy) NSString *profile;
 @property (nonatomic,copy) NSString *position;
+@property (nonatomic,assign)NSInteger userId;
 @end
 
 
@@ -36,6 +37,7 @@
 @property (nonatomic,copy) NSString *updateTime;
 @property (nonatomic,assign) BOOL delFlag;
 @property (nonatomic,strong) UserInfo *userInfo;
+@property (nonatomic,strong) UserInfo *toUserInfo;
 @property (nonatomic,copy) NSString *timeStr;
-
+@property (nonatomic, assign) NSInteger typeFlag;
 @end

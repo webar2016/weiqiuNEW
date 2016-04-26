@@ -52,8 +52,7 @@
 }
 
 - (BOOL)draftWithData:(WBDraftSave *)draft{
-    NSString *insertSql = [NSString stringWithFormat:@"insert into 'draftSaver' (userId, type, aim, contentId, title, content, imageRate, nameArray) values ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')", draft.userId, draft.type, draft.aim, draft.contentId, draft.title, draft.content, draft.imageRate, draft.nameArray];
-    BOOL isSuccess = [_draftDB executeUpdate:insertSql];
+    BOOL isSuccess = [_draftDB executeUpdate:@"insert into 'draftSaver' (userId, type, aim, contentId, title, content, imageRate, nameArray) values (?,?,?,?,?,?,?,?)", draft.userId, draft.type, draft.aim, draft.contentId, draft.title, draft.content, draft.imageRate, draft.nameArray];
     
     if (!isSuccess) {
         NSLog(@"创建草稿失败---%@", _draftDB.lastErrorMessage);
@@ -66,8 +65,7 @@
 - (BOOL)modifiedWithData:(WBDraftSave *)draft{
     BOOL isSuccess;
     if ([_draftDB open]) {
-        NSString *modifiedSql = [NSString stringWithFormat:@"UPDATE 'draftSaver' SET content='%@',imageRate='%@',nameArray='%@' WHERE type='%@' and contentId='%@' and userId='%@'", draft.content, draft.imageRate, draft.nameArray, draft.type, draft.contentId, draft.userId];
-        isSuccess = [_draftDB executeUpdate:modifiedSql];
+        isSuccess = [_draftDB executeUpdate:@"UPDATE 'draftSaver' SET content=?,imageRate=?,nameArray=? WHERE type=? and contentId=? and userId=?", draft.content, draft.imageRate, draft.nameArray, draft.type, draft.contentId, draft.userId];
     }
     [self closeFBDM];
     return isSuccess;
@@ -75,7 +73,7 @@
 
 - (NSArray *)allDraftsWithUserId:(NSString *)userId{
     NSMutableArray *allDrafts = [NSMutableArray array];
-    FMResultSet *results = [_draftDB executeQuery:[NSString stringWithFormat:@"select * from 'draftSaver' WHERE userId='%@'",userId]];
+    FMResultSet *results = [_draftDB executeQuery:@"select * from 'draftSaver' WHERE userId=?",userId];
     
     while ([results next]) {
         WBDraftSave *draft = [[WBDraftSave alloc] init];
@@ -95,7 +93,7 @@
 }
 
 - (WBDraftSave *)searchDraftWithType:(NSString *)type contentId:(NSString *)contentId userId:(NSString *)userId{
-    FMResultSet *result = [_draftDB executeQuery:[NSString stringWithFormat:@"select * from 'draftSaver' WHERE type='%@' and contentId='%@' and userId='%@'",type, contentId, userId]];
+    FMResultSet *result = [_draftDB executeQuery:@"select * from 'draftSaver' WHERE type=? and contentId=? and userId=?",type, contentId, userId];
     WBDraftSave *draft = nil;
     while ([result next]) {
         draft = [[WBDraftSave alloc] init];
@@ -115,8 +113,7 @@
 - (BOOL)deleteDraftWithType:(NSString *)type contentId:(NSString *)contentId userId:(NSString *)userId{
     BOOL isSuccess;
     if ([_draftDB open]) {
-        NSString *deleteSql = [NSString stringWithFormat:@"delete from 'draftSaver' where type='%@' and contentId='%@' and userId='%@'", type, contentId, userId];
-        isSuccess = [_draftDB executeUpdate:deleteSql];
+        isSuccess = [_draftDB executeUpdate:@"delete from 'draftSaver' where type=? and contentId=? and userId=?", type, contentId, userId];
         if (!isSuccess) {
             NSLog(@"删除失败");
         }
