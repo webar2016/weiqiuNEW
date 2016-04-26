@@ -57,6 +57,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBackAndSave)];
+    self.navigationItem.leftBarButtonItem = back;
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIButton *rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -76,12 +79,19 @@
     [self setUpTextView];
     
     [self setUpImagePicker];
+    
+    if (self.isModified) {
+        [self showCurrentDraft];
+    }
+    
+    _textView.selectedRange = NSMakeRange(_textView.textStorage.length,0);
+    [_textView becomeFirstResponder];
 }
 
 #pragma mark - 创建文本框
 
 -(void)setUpTextView{
-    _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height)];
+    _textView = [[WBAttributeTextView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height)];
     _textView.textContainerInset = UIEdgeInsetsMake(MARGININSIDE, MARGININSIDE, MARGININSIDE * 4, MARGININSIDE);
     _textView.font = MAINFONTSIZE;
     _textView.delegate = self;
@@ -114,10 +124,10 @@
     toolbar.items = @[flexSpace,imagePickerButton,flexSpace,previewButton,flexSpace];
     _textView.inputAccessoryView = toolbar;
     
-    [_textView becomeFirstResponder];
-    
     [self.view addSubview:_textView];
 }
+
+#pragma mark - operations
 
 -(void)setUpImagePicker{
     _imagePickerController = [[UIImagePickerController alloc] init];
@@ -126,8 +136,6 @@
     _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
     _imagePickerController.allowsEditing = NO;
 }
-
-#pragma  mark - 操作
 
 -(void)imagePicker{
     _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -160,6 +168,21 @@
     _textView.selectedRange = NSMakeRange(_textView.textStorage.length,0);
 }
 
+//有草稿，则显示该草稿
+
+- (void)showCurrentDraft{
+    _textView.contentSeparateSign= IMAGE;
+    _textView.imageSeparateSign = @";";
+    _textView.lineSpacing = MARGINOUTSIDE;
+    _textView.paragraphSpacing = MARGINOUTSIDE * 2;
+    _textView.fontColor = [UIColor initWithNormalGray];
+    _textView.maxSize = CGSizeMake(_textView.textContainer.size.width - MARGINOUTSIDE, 300);
+    
+    [_textView showDraftWithDraft:self.draft];
+}
+
+#pragma mark - release artical
+
 -(void)releaseArticle{
     if (_textView.textStorage.length == 0) {
         [self showHUDText:@"写点内容再发布吧"];
@@ -182,10 +205,6 @@
 }
 
 - (void)upLoadArtical{
-    [self saveDraft];
-    return;
-    
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     [manager.requestSerializer setValue:[WBUserDefaults deviceToken] forHTTPHeaderField:@"Authorization"];
@@ -202,20 +221,47 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         _isSuccess = YES;
+        if (self.isModified) {
+            [[WBDraftManager openDraft] deleteDraftWithType:self.draft.type contentId:self.draft.contentId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+            
+            NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
+            NSString *currentDraft = [NSString stringWithFormat:@"%@-%@-%@", self.draft.userId,self.draft.type,self.draft.contentId];
+            NSString *draftPath = [path stringByAppendingPathComponent:currentDraft];
+            
+            if([[NSFileManager defaultManager] fileExistsAtPath:draftPath]){
+                [[NSFileManager defaultManager]  removeItemAtPath:draftPath error:nil];
+            }
+        }
         [self showHUDComplete:@"发布成功"];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         _isSuccess = NO;
+        [self hideHUD];
         self.navigationItem.rightBarButtonItem.enabled = YES;
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳,是否保存草稿？" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                if (self.isModified) {
+                    [[WBDraftManager openDraft] deleteDraftWithType:self.draft.type contentId:self.draft.contentId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+                    
+                    NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
+                    NSString *currentDraft = [NSString stringWithFormat:@"%@-%@-%@", self.draft.userId,self.draft.type,self.draft.contentId];
+                    NSString *draftPath = [path stringByAppendingPathComponent:currentDraft];
+                    
+                    if([[NSFileManager defaultManager] fileExistsAtPath:draftPath]){
+                        [[NSFileManager defaultManager]  removeItemAtPath:draftPath error:nil];
+                    }
+                }
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
             action;
         })];
         [alert addAction:({
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                //save draft
-                [self saveDraft];
+                BOOL saveSuccess = [self saveDraft];
+                if (saveSuccess) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
             }];
             action;
         })];
@@ -230,7 +276,7 @@
     
     NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
-    NSString *imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
+    NSString *imageName = [[[imageString componentsSeparatedByString:@"="][1] substringToIndex:8] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
     
     
     [picker dismissViewControllerAnimated:YES completion:^{
@@ -283,22 +329,78 @@
 
 #pragma mark - draft operations
 
-- (void)saveDraft{
+- (BOOL)saveDraft{
     [self.imageArray removeAllObjects];
     [self.nameArray removeAllObjects];
     [self.imageRate removeAllObjects];
     NSDictionary *draftDic = [self draftDic];
-    BOOL saveOK = [[WBDraftManager openDraft] draftWithData:[[WBDraftSave alloc] initWithData:draftDic]];
-    if (saveOK) {
-        [self showHUDText:@"草稿已保存"];
+    
+    BOOL saveOK;
+    if (self.isModified) {
+        saveOK = [[WBDraftManager openDraft] modifiedWithData:[[WBDraftSave alloc] initWithData:draftDic]];
     } else {
-        [self showHUDText:@"草稿保存失败"];
+        saveOK = [[WBDraftManager openDraft] draftWithData:[[WBDraftSave alloc] initWithData:draftDic]];
     }
+    
+    if (saveOK) {
+        [self showHUDText:@"保存成功"];
+    } else {
+        [self showHUDText:@"保存失败，请重试"];
+    }
+    return saveOK;
 }
 
 - (NSDictionary *)draftDic{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     return dic;
+}
+
+//未发布直接返回
+- (void)popBackAndSave{
+    if (_isSuccess || _textView.textStorage.length == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    NSString *saveAlertTip = [NSString string];
+    if (self.isModified) {
+        saveAlertTip = @"不保存则将删除原有草稿";
+    } else {
+        saveAlertTip = nil;
+    }
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否保存草稿？" message:saveAlertTip preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            BOOL saveSuccess = [self saveDraft];
+            if (saveSuccess) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            if (self.isModified) {
+                BOOL isSuccess = [[WBDraftManager openDraft] deleteDraftWithType:self.draft.type contentId:self.draft.contentId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+                if (isSuccess) {
+                    NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
+                    NSString *currentDraft = [NSString stringWithFormat:@"%@-%@-%@", self.draft.userId,self.draft.type,self.draft.contentId];
+                    NSString *draftPath = [path stringByAppendingPathComponent:currentDraft];
+                    
+                    if([[NSFileManager defaultManager] fileExistsAtPath:draftPath]){
+                        [[NSFileManager defaultManager]  removeItemAtPath:draftPath error:nil];
+                    }
+                    
+                } else {
+                    [self showHUDText:@"删除失败，请重试"];
+                }
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - MBprogress

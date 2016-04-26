@@ -8,7 +8,9 @@
 
 #import "WBAnswerQuestionViewController.h"
 
-@interface WBAnswerQuestionViewController ()
+@interface WBAnswerQuestionViewController () {
+    BOOL answerOutOfTime;
+}
 
 @end
 
@@ -20,6 +22,12 @@
         self.groupId = groupId;
         self.questionId = questionId;
         self.url = @"http://app.weiqiu.me/tq/setAnswer";
+        self.navigationItem.title = @"回答问题";
+        WBDraftSave *draft = [[WBDraftManager openDraft] searchDraftWithType:@"1" contentId:questionId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+        if (draft) {
+            self.isModified = YES;
+            self.draft = draft;
+        }
     }
     return self;
 }
@@ -59,11 +67,6 @@
     dic[@"nameArray"] = self.nameArray;
     dic[@"imageRate"] = self.imageRate;
     return dic;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {

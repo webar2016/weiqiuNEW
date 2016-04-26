@@ -381,7 +381,7 @@
     } else {
         NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
         NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
-        _imageName = [[imageString componentsSeparatedByString:@"="][1] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
+        _imageName = [[[imageString componentsSeparatedByString:@"="][1] substringToIndex:8] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
     }
 
     [picker dismissViewControllerAnimated:YES completion:^{

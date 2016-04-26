@@ -82,8 +82,6 @@
     [self createMJRefresh];
     [self showHUDIndicator];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToHomePage:) name:@"goToHomePage" object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -136,7 +134,7 @@
         [_allCityNameArray addObject:@{@"省份":model,@"城市":[positionList getCitiesListWithProvinceId:model.provinceId]}];
     }
     
-    _data1 = [NSMutableArray arrayWithObjects:@"全部帮帮团", @"我可加入的的帮帮团", nil];
+    _data1 = [NSMutableArray arrayWithObjects:@"全部帮帮团", @"可加入的的帮帮团", nil];
     
     _data2 = [NSMutableArray arrayWithArray:_allCityNameArray];
   // NSLog(@"%@",_data2);
@@ -155,7 +153,7 @@
     _locatePickBtn.frame = CGRectMake(SCREENWIDTH/2, -0.5, SCREENWIDTH/2, 30.5);
     [self.view addSubview:_locatePickBtn];
     [_locatePickBtn setBackgroundColor:[UIColor colorWithRed:244.0/255.0 green:244.0/255.0 blue:244.0/255.0 alpha:1]];
-    [_locatePickBtn setTitle:@"全部" forState:UIControlStateNormal];
+    [_locatePickBtn setTitle:@"位置-全部" forState:UIControlStateNormal];
     [_locatePickBtn setTitleColor:[UIColor colorWithRed:90.0/255.0 green:90.0/255.0 blue:90.0/255.0 alpha:1] forState:UIControlStateNormal];
     _locatePickBtn.layer.borderColor = [[UIColor colorWithRed:210.0/255.0 green:210.0/255.0 blue:210.0/255.0 alpha:1] CGColor];
     _locatePickBtn.layer.borderWidth = 0.5;
@@ -246,9 +244,9 @@
                 }
             }
             [self loadData];
-            [_locatePickBtn setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
+            [_locatePickBtn setTitle:[NSString stringWithFormat:@"位置-%@",locate] forState:UIControlStateNormal];
             NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
-            CGSize  actualsize1=[[NSString stringWithFormat:@"%@",locate] boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
+            CGSize  actualsize1=[[NSString stringWithFormat:@"位置-%@",locate] boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
             NSLog(@"%f",actualsize1.width);
             [self animateIndicator:_indicator Forward:NO];
             _indicator.position =CGPointMake(SCREENWIDTH/4*3 + actualsize1.width/2 + 7, _locatePickBtn.frame.origin.y+15);
@@ -420,14 +418,11 @@
 
 #pragma mark  ----去个人主页-----
 -(void)goHomepage:(NSString *)userId{
-    
     WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
     HVC.userId = userId;
     HVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:HVC animated:YES];
-
 }
-
 
 #pragma mark =====tableView delegate======
 

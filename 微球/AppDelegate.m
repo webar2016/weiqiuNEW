@@ -91,7 +91,16 @@
 //            NSLog(@"Launched from push notification: %@", dictionary);
             [self addMessageFromRemoteNotification:dictionary updateUI:NO];
         }
-    } 
+    }
+    
+    //创建草稿文件夹
+    NSString *draftPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
+    NSLog(@"%@",draftPath);
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:draftPath]) {
+        [fileManager createDirectoryAtPath:draftPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
 
    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     
@@ -192,7 +201,7 @@
 
 //系统冻结时捕获消息
 -(void)showRemotePushMessageWithOptions:(NSDictionary *)launchOptions{
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
 }
 
 //json
@@ -213,7 +222,7 @@
 
 //系统未冻结时捕获消息
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     NSLog(@"%@",[userInfo[@"aps"] objectForKey:@"alert"]);
     if ([[userInfo[@"aps"] objectForKey:@"alert"]isEqualToString:@"您的账号在其他设备登录！"]) {
         [self addMessageFromRemoteNotification:userInfo updateUI:YES];
@@ -221,7 +230,7 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     NSLog(@"%@",[userInfo[@"aps"] objectForKey:@"alert"]);
     if ([[userInfo[@"aps"] objectForKey:@"alert"]isEqualToString:@"您的账号在其他设备登录！"]) {
         [self addMessageFromRemoteNotification:userInfo updateUI:YES];
@@ -261,7 +270,7 @@
     /**
      * 统计推送打开率3
      */
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     [[RCIMClient sharedRCIMClient] recordLocalNotificationEvent:notification];
 
 //    震动
@@ -289,13 +298,13 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
@@ -303,19 +312,19 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     [self setPushMessageWith:application];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
@@ -457,7 +466,7 @@
 -(void)qupaiSDK{
     [[QupaiSDK shared] registerAppWithKey:@"206ab04f6e94b74" secret:@"068e513360e04f1bad5694e507c32a12" space:@"weiqiu-2016" success:^(NSString *accessToken) {
     } failure:^(NSError *error) {
-        NSLog(@"初始化失败");
+        NSLog(@"qupaiSDK初始化失败");
     }];
 }
 

@@ -13,15 +13,20 @@
 - (instancetype)initWithData:(NSDictionary *)data{
     if (self = [super init]) {
         
-        NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
-        NSLog(@"------%@",path);
-        
         self.userId = data[@"userId"];
         self.type = data[@"type"];
         self.aim = data[@"aim"];
         self.contentId = data[@"contentId"];
         self.title = data[@"title"];
         self.content = data[@"content"];
+        
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
+        NSString *currentDraft = [NSString stringWithFormat:@"%@-%@-%@",self.userId, self.type, self.contentId];
+        NSString *draftPath = [path stringByAppendingPathComponent:currentDraft];//当前草稿图片文件夹
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if (![fileManager fileExistsAtPath:draftPath]) {
+            [fileManager createDirectoryAtPath:draftPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
         
         NSArray *rateArray = data[@"imageRate"];
         NSArray *nameArray = data[@"nameArray"];
@@ -39,12 +44,13 @@
                 nameString = [nameString stringByAppendingString:[NSString stringWithFormat:@";%@",nameArray[i]]];
             }
             
-            NSString *filename=[path stringByAppendingPathComponent:nameArray[i]];
+            NSString *filename=[draftPath stringByAppendingPathComponent:nameArray[i]];
             UIImage *image = images[i];
             NSData *data = UIImageJPEGRepresentation(image, 1);
             [data writeToFile:filename atomically:YES];
         }
-        NSLog(@"%@---%@",self.nameArray, self.imageRate);
+        self.nameArray = nameString;
+        self.imageRate = rateString;
     }
     return self;
 }
