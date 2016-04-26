@@ -761,10 +761,6 @@
 			children = (
 				052F30D11C93EEB200D15322 /* WBPositionList.h */,
 				052F30D21C93EEB200D15322 /* WBPositionList.m */,
-				052F30CE1C93EB5B00D15322 /* WBPositionModel.h */,
-				052F30CF1C93EB5B00D15322 /* WBPositionModel.m */,
-				2DFECB271CC628D8008BE938 /* WBLocateList.h */,
-				2DFECB281CC628D8008BE938 /* WBLocateList.m */,
 				052F30D41C93F9FA00D15322 /* city.plist */,
 				052F30D51C93F9FA00D15322 /* province.plist */,
 				2DFECB231CC623DE008BE938 /* BigAreas.plist */,
@@ -1215,6 +1211,10 @@
 				2D3ADCB31CC47A970075E6A0 /* AddressChoicePickerView.m */,
 				2D3ADCB41CC47A970075E6A0 /* AddressChoicePickerView.xib */,
 				2D28CC931CCB1130006AB0C3 /* Localtion_select.plist */,
+				2DFECB271CC628D8008BE938 /* WBLocateList.h */,
+				2DFECB281CC628D8008BE938 /* WBLocateList.m */,
+				052F30CE1C93EB5B00D15322 /* WBPositionModel.h */,
+				052F30CF1C93EB5B00D15322 /* WBPositionModel.m */,
 			);
 			name = locatePicker;
 			sourceTree = "<group>";

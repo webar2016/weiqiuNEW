@@ -7,21 +7,20 @@
 //
 
 #import "WBLocateList.h"
+#import "MJExtension.h"
 
 @implementation WBLocateList
 
 
-//-(NSArray *)getAllLocateList{
-//
-//    if (_provinceArray) {
-//        return _provinceArray;
-//    }
-//    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"province" ofType:@"plist"];
-//    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
-//    _provinceArray = (NSArray *)[WBPositionModel mj_objectArrayWithKeyValuesArray:dictionary[@"RECORDS"]];
-//    return _provinceArray;
-//
-//
-//}
+-(NSArray *)getAllAreaList{
+    if (_areaArray) {
+        return _areaArray;
+    }
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Localtion" ofType:@"plist"];
+    NSArray *areaArray = [[NSArray alloc] initWithContentsOfFile:plistPath];
+    _areaArray = (NSMutableArray *)[WBBigAreaModel mj_objectArrayWithKeyValuesArray:areaArray];
+    return _areaArray;
+
+}
 
 @end

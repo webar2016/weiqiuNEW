@@ -72,7 +72,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _page=1;
-    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+    _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
     _cellHeightArray = [NSMutableArray array];
     self.dataSource = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -91,6 +91,7 @@
 -(void) createMJRefresh{
     
     MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        _page++;
         [self loadData];
     }];
     [footer setTitle:@"加载更多帮帮团" forState:MJRefreshStateIdle];
@@ -227,20 +228,24 @@
                 [self showHUD:@"正在加载" isDim:YES];
                 if (locate.areaId==NULL||locate.areaId==nil) {
                     // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
-                    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+                    _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
                 }else{
-                    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@*p=%ld&ps=%d",locate.cityId,(long)_page,PAGESIZE];
+                    
+                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@",locate.cityId];
+                    _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
                     
                 }
                 
             }else{
                 
                 if (_data2MainIndex==0 &&_currentData2Index==0) {
-                    
-                    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
+                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@",[WBUserDefaults userId]];
+                    _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+
                 }else{
-                    
-                    _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],locate.cityId,(long)_page,PAGESIZE];
+                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],locate.cityId];
+                    _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+                   
                 }
             }
             [self loadData];
@@ -270,7 +275,7 @@
 {
     if (!_collectionView) {
         MyCollectionViewFlowLayout * flowLayout = [[MyCollectionViewFlowLayout alloc]init];
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 30, SCREENWIDTH, self.view.frame.size.height - 64 - 49 -30) collectionViewLayout:flowLayout];
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 30, SCREENWIDTH, self.view.frame.size.height - 64 - 30 ) collectionViewLayout:flowLayout];
         collectionView.backgroundColor = [UIColor whiteColor];
         collectionView.dataSource = self;
         collectionView.delegate = self;
@@ -285,7 +290,7 @@
 
 -(void)loadData
 {
-    [MyDownLoadManager getNsurl:_urlString whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:_urlString,(long)_page,PAGESIZE] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if (_page == 1) {

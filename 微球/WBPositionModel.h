@@ -16,6 +16,12 @@
 @end
 
 
+@interface WBProvinceModel : NSObject
+
+@property (nonatomic, weak) NSNumber *provinceId;
+@property (nonatomic, copy) NSString *provinceName;
+@property (nonatomic,copy) NSArray *citys;
+@end
 
 
 
