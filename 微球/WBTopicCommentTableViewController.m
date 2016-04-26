@@ -16,16 +16,19 @@
 
 #define commentURL @"http://app.weiqiu.me/tq/getTopicCommentDetil?commentId=%ld"
 
-@interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UITextInputTraits>
+@interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextInputTraits,CommentTapIconDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArray;
     NSMutableArray *_cellHeightArray;
-    UITextView *_commentTextView;
+    UITextField *_commentTextView;
     UIButton *_rightBtn;
     UILabel *_placeHolder;
     UIView *_textBgView;
     UIImageView *_background;
+    
+    NSString *_typeFlag;
+    NSString *_toUserId;
 }
 
 @end
@@ -39,6 +42,8 @@
     _cellHeightArray = [NSMutableArray array];
     _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     _background.center = CGPointMake(SCREENWIDTH / 2, 170);
+    _typeFlag = @"0";
+    _toUserId = self.userId;
     [self createNavi];
     [self createUI];
     [self registerForKeyboardNotifications];
@@ -67,7 +72,7 @@
 -(void)createUI{
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height-64-55)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, self.view.frame.size.height-64-50)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.userInteractionEnabled = YES;
@@ -75,45 +80,37 @@
     _tableView.backgroundColor = [UIColor initWithBackgroundGray];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    _textBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    _textBgView = [[UIView alloc]initWithFrame:CGRectZero];
     _textBgView.backgroundColor = [UIColor clearColor];
+    _textBgView.alpha = 0.1;
     _textBgView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewClicked)];
     [_textBgView addGestureRecognizer:tap];
 }
 
 -(void)createTextView{
-    _commentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 64 - 50 , SCREENWIDTH, 50)];
+    _commentTextView = [[UITextField alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 64 - 50 , SCREENWIDTH, 50)];
     _commentTextView.layer.masksToBounds = YES;
     _commentTextView.font = MAINFONTSIZE;
-    _commentTextView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 0);
+    _commentTextView.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    _commentTextView.leftViewMode = UITextFieldViewModeAlways;
     _commentTextView.textColor = [UIColor initWithLightGray];
     _commentTextView.delegate = self;
     _commentTextView.layer.borderColor = [UIColor initWithBackgroundGray].CGColor;
+    _commentTextView.backgroundColor = [UIColor whiteColor];
     _commentTextView.layer.borderWidth = 5;
     _commentTextView.returnKeyType = UIReturnKeySend;
+    _commentTextView.placeholder = @"快发表你的神评论！";
     [self.view addSubview:_commentTextView];
-    _placeHolder = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREENWIDTH - 20, 50)];
-    _placeHolder.text = @"快发表你的神评论！";
-    _placeHolder.textColor = [UIColor initWithNormalGray];
-    _placeHolder.font = MAINFONTSIZE;
-    [_commentTextView addSubview:_placeHolder];
 }
 
 -(void)viewClicked{
     [_commentTextView resignFirstResponder];
+    _commentTextView.placeholder = @"快发表你的神评论！";
+    _typeFlag = @"0";
+    _toUserId = self.userId;
 }
 
-//输入框
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    if ([text isEqualToString:@"\n"]) {
-        [_commentTextView resignFirstResponder];
-        [self textViewClicked];
-        return NO;
-    }
-    return YES;
-}
 
 - (void) registerForKeyboardNotifications
 {
@@ -131,14 +128,14 @@
 - (void) keyboardWasShown:(NSNotification *) notif
 {
     _background.hidden = YES;
-    [self.view addSubview:_textBgView];
-    [_placeHolder removeFromSuperview];
     NSDictionary *info = [notif userInfo];
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
+    _textBgView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 50 - 64 - keyboardSize.height);
+    [self.view addSubview:_textBgView];
     NSNumber *animationTime = [info objectForKey:@"UIKeyboardAnimationDurationUserInfoKey"];
     [UIView animateWithDuration:[animationTime doubleValue] animations:^{
-        _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50 - keyboardSize.height, SCREENWIDTH, 50);
+        _commentTextView.frame = CGRectMake(0, self.view.frame.size.height - 50 - keyboardSize.height, SCREENWIDTH, 50);
     } completion:nil];
 }
 
@@ -146,9 +143,6 @@
 {
     _background.hidden = NO;
     [_textBgView removeFromSuperview];
-    if (_commentTextView.text.length == 0) {
-        [_commentTextView addSubview:_placeHolder];
-    }
     _commentTextView.frame =CGRectMake(0, self.view.frame.size.height - 50, SCREENWIDTH, 50);
 }
 
@@ -169,12 +163,11 @@
     }
     
     [self showHUD:@"评论中" isDim:YES];
-    NSDictionary *paramter = @{@"userId":[WBUserDefaults userId],@"toUserId":_userId,@"commentId":[NSString stringWithFormat:@"%ld",(long)_commentId],@"comment":_commentTextView.text};
+    NSDictionary *paramter = @{@"userId":[WBUserDefaults userId],@"toUserId":_toUserId,@"commentId":[NSString stringWithFormat:@"%ld",(long)_commentId],@"comment":_commentTextView.text,@"typeFlag":_typeFlag};
     [MyDownLoadManager postUrl:@"http://app.weiqiu.me/tq/setCommentDetil" withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
-        [self showHUDComplete:@"评论成功"];
-        [_commentTextView addSubview:_placeHolder];
+//        [self showHUDComplete:@"评论成功"];
         [self loadData];
         _commentTextView.text = @"";
         [_commentTextView resignFirstResponder];
@@ -185,10 +178,11 @@
     
 }
 
-#pragma mark ------textView delegate-----
-- (BOOL)textViewShouldEndEditing:(UITextView *)textView{
-    [_commentTextView resignFirstResponder];
-    return YES;
+#pragma mark ------textView delegate data source-----
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self textViewClicked];
+    return NO;
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
@@ -246,8 +240,6 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Table view data source
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _dataArray.count;
 }
@@ -260,14 +252,25 @@
         cell = [[WBTopicCommentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID cellHeight:[_cellHeightArray[indexPath.row] floatValue]];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.delegate = self;
     WBtopicCommentDetilListModel *model = _dataArray[indexPath.row];
     [cell setModel:model];
+    cell.tag = model.userId;
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    WBtopicCommentDetilListModel *model = _dataArray[indexPath.row];
+    [_commentTextView becomeFirstResponder];
+    _commentTextView.placeholder = [NSString stringWithFormat:@"回复 %@",model.userInfo.nickname];
+    _typeFlag = @"1";
+    _toUserId = [NSString stringWithFormat:@"%ld",(long)model.userInfo.userId];
+    
+}
+
+-(void)headIconTap:(WBTopicCommentTableViewCell *)cell{
     WBHomepageViewController *homePage = [[WBHomepageViewController alloc] init];
-    homePage.userId = [NSString stringWithFormat:@"%ld",(long)((WBtopicCommentDetilListModel *)_dataArray[indexPath.row]).userId];
+    homePage.userId = [NSString stringWithFormat:@"%ld",cell.tag];
     [self.navigationController pushViewController:homePage animated:YES];
 }
 

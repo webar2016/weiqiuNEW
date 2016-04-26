@@ -22,6 +22,9 @@
         
         _headImageView = [[UIImageView alloc]initWithFrame:CGRectMake(12, 14, 40, 40)];
         [self.contentView addSubview:_headImageView];
+        _headImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(enterHomePage)];
+        [_headImageView addGestureRecognizer:tap];
         
         _nickNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65, 14, 200, 15)];
         _nickNameLabel.textColor = [UIColor initWithLightGray];
@@ -55,8 +58,11 @@
     _headImageView.layer.masksToBounds = YES;
     _headImageView.layer.cornerRadius = 20;
     
-    _nickNameLabel.text = model.userInfo.nickname;
-    
+    if (model.typeFlag == 0) {
+        _nickNameLabel.text = [NSString stringWithFormat:@"%@ 评论",model.userInfo.nickname];
+    } else {
+        _nickNameLabel.text = [NSString stringWithFormat:@"%@ 回复 %@",model.userInfo.nickname,model.toUserInfo.nickname];
+    }
     
     _timeLabel.text = model.timeStr;
     
@@ -84,14 +90,10 @@
     
 }
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)enterHomePage{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(headIconTap:)]) {
+        [self.delegate headIconTap:self];
+    }
 }
 
 @end

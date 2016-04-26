@@ -12,6 +12,7 @@
 #import "WBPostArticleViewController.h"
 #import "WBAnswerQuestionViewController.h"
 #import "NSString+string.h"
+#import "MyDownLoadManager.h"
 
 @interface WBMyDraftViewController () <UITableViewDelegate, UITableViewDataSource> {
     UITableView *_tableView;
@@ -89,16 +90,32 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self showHUDIndicator];
     WBDraftSave *draft = _draftArray[indexPath.row];
     if ([draft.type isEqualToString:@"1"]) {
         //check question out of time
-        
-        
-        WBAnswerQuestionViewController *writeVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:draft.aim questionId:draft.contentId title:draft.title];
-        writeVC.isModified = YES;
-        writeVC.draft = draft;
-        [self.navigationController pushViewController:writeVC animated:YES];
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/tq/checkQuestion?questionId=%@",draft.contentId] whenSuccess:^(id representData) {
+            
+            
+            id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            
+            if ([result isKindOfClass:[NSDictionary class]]) {
+                if ([result[@"error"] isEqualToString:@"1"]) {
+                    [self hideHUD];
+                    WBAnswerQuestionViewController *writeVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:draft.aim questionId:draft.contentId title:draft.title];
+                    writeVC.isModified = YES;
+                    writeVC.draft = draft;
+                    [self.navigationController pushViewController:writeVC animated:YES];
+                } else {
+                    [self showHUDComplete:@"问题已关闭无法回答，请删除该草稿"];
+                }
+            }
+            
+        } andFailure:^(NSString *error) {
+            [self showHUDComplete:@"网络不佳，未检测到问题状态，请稍后再试"];
+        }];
     } else {
+        [self hideHUD];
         WBPostArticleViewController *writeVC = [[WBPostArticleViewController alloc] initWithTopicId:draft.contentId title:draft.title];
         writeVC.isModified = YES;
         writeVC.draft = draft;
