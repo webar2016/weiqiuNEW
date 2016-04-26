@@ -47,6 +47,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    [self checkoutIsLoadOtherPlace];
+    
     [self setPushMessageWith:(UIApplication *)application];
     
     [self setRongCloud];
@@ -101,7 +103,26 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getRCToken" object:self];
 }
 
-
+#pragma mark   -----检查是否在其它地方登陆
+-(void)checkoutIsLoadOtherPlace{
+    if ([WBUserDefaults userId]) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://192.168.1.124/mbapp/pt/checkToken?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            NSDictionary *dic = [NSDictionary dictionaryWithDictionary:result];
+            if ([[dic objectForKey:@"error"] integerValue]==1) {
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号在其它设备上登录" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"知道" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                    [self deleData];
+                    [(RESideMenu *)self.window.rootViewController setContentViewController:[[WBMainTabBarController alloc] init] animated:YES];
+                }];
+                [alertController addAction:cancelAction];
+                [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+            }
+        } andFailure:^(NSString *error) {
+        }];
+    }
+}
 
 #pragma mark - 设置根窗口
 

@@ -217,6 +217,7 @@
                     self.locate.cityId = @"";
                 }
             }else{
+                self.locate.isCountry = YES;
                 self.locate.province = @"";
                 self.locate.provinceId = @"";
                 self.locate.city = @"";

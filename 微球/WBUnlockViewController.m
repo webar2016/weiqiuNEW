@@ -43,7 +43,7 @@
     
     
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
-    self.navigationItem.title = @"上传照片";
+    self.navigationItem.title = @"快速解锁";
     UIButton *rightBtton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBtton.frame = CGRectMake(0, 0, 48, 22) ;
     rightBtton.backgroundColor = [UIColor initWithGreen];

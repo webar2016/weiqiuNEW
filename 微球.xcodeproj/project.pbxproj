@@ -181,8 +181,6 @@
 		2DED80601CA906FE000BB7EB /* WBSetInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DED805E1CA906FE000BB7EB /* WBSetInformationViewController.m */; };
 		2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DED805F1CA906FE000BB7EB /* WBSetInformationViewController.xib */; };
 		2DEE8B981CB34278004CD0C4 /* WBRefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DEE8B971CB34278004CD0C4 /* WBRefreshViewController.m */; };
-		2DEF0A8E1CCB4DD00006002E /* WBUnlockXibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DEF0A8C1CCB4DD00006002E /* WBUnlockXibViewController.m */; };
-		2DEF0A8F1CCB4DD00006002E /* WBUnlockXibViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DEF0A8D1CCB4DD00006002E /* WBUnlockXibViewController.xib */; };
 		2DF0499B1C9D833700E92B9E /* WBAttentionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF0499A1C9D833700E92B9E /* WBAttentionView.m */; };
 		2DF0499E1C9D835A00E92B9E /* WBFansView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF0499D1C9D835A00E92B9E /* WBFansView.m */; };
 		2DF1AD7E1CBDDFBB003D7B5E /* ico_make.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF1AD7B1CBDDFBB003D7B5E /* ico_make.png */; };
@@ -529,9 +527,6 @@
 		2DED805F1CA906FE000BB7EB /* WBSetInformationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBSetInformationViewController.xib; sourceTree = "<group>"; };
 		2DEE8B961CB34278004CD0C4 /* WBRefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBRefreshViewController.h; sourceTree = "<group>"; };
 		2DEE8B971CB34278004CD0C4 /* WBRefreshViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBRefreshViewController.m; sourceTree = "<group>"; };
-		2DEF0A8B1CCB4DD00006002E /* WBUnlockXibViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUnlockXibViewController.h; sourceTree = "<group>"; };
-		2DEF0A8C1CCB4DD00006002E /* WBUnlockXibViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUnlockXibViewController.m; sourceTree = "<group>"; };
-		2DEF0A8D1CCB4DD00006002E /* WBUnlockXibViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBUnlockXibViewController.xib; sourceTree = "<group>"; };
 		2DF049991C9D833700E92B9E /* WBAttentionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAttentionView.h; sourceTree = "<group>"; };
 		2DF0499A1C9D833700E92B9E /* WBAttentionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAttentionView.m; sourceTree = "<group>"; };
 		2DF0499C1C9D835A00E92B9E /* WBFansView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFansView.h; sourceTree = "<group>"; };
@@ -896,9 +891,6 @@
 		05D1F9451C8FBE5E0049D3EC /* unlock */ = {
 			isa = PBXGroup;
 			children = (
-				2DEF0A8B1CCB4DD00006002E /* WBUnlockXibViewController.h */,
-				2DEF0A8C1CCB4DD00006002E /* WBUnlockXibViewController.m */,
-				2DEF0A8D1CCB4DD00006002E /* WBUnlockXibViewController.xib */,
 				05D1F9461C8FBE720049D3EC /* WBUnlockViewController.h */,
 				05D1F9471C8FBE720049D3EC /* WBUnlockViewController.m */,
 				2D38A2E91CB6666800F4AEC8 /* WBMyUnlockViewController.h */,
@@ -1599,7 +1591,6 @@
 				2D28CC941CCB1130006AB0C3 /* Localtion_select.plist in Resources */,
 				05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
-				2DEF0A8F1CCB4DD00006002E /* WBUnlockXibViewController.xib in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
 				2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
@@ -1794,7 +1785,6 @@
 				054303831CB4F6210041902D /* WBTopicDetailCell.m in Sources */,
 				2D5D72FF1C925C2B00F8C2AE /* WBAllocateScoreViewController.m in Sources */,
 				2D1DE0041C92D03F0059CD89 /* DBManager.m in Sources */,
-				2DEF0A8E1CCB4DD00006002E /* WBUnlockXibViewController.m in Sources */,
 				2DFF68821C96B1AD000DCDDA /* WBClientModel.m in Sources */,
 				05794C851CA229B300F32837 /* WBUnlockMessage.m in Sources */,
 				2D2568CA1CB74F9C006AEE5A /* WBTbl_Unlocking_City.m in Sources */,
