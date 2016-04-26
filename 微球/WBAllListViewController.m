@@ -229,10 +229,13 @@
                 if (locate.areaId==NULL||locate.areaId==nil) {
                     // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
                     _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
+                    _page = 1;
                 }else{
                     
                     NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@",locate.cityId];
                     _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+                    
+                    _page = 1;
                     
                 }
                 
@@ -240,11 +243,14 @@
                 
                 if (_data2MainIndex==0 &&_currentData2Index==0) {
                     NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@",[WBUserDefaults userId]];
-                    _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+                    _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
+                    _page = 1;
+                    
 
                 }else{
                     NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],locate.cityId];
-                    _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+                    _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
+                    _page = 1;
                    
                 }
             }
@@ -289,7 +295,11 @@
 
 
 -(void)loadData
+
 {
+    
+    NSLog(@"%@",_urlString);
+    
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:_urlString,(long)_page,PAGESIZE] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -587,14 +597,17 @@
         
         if (_data2MainIndex==0 &&_currentData2Index==0) {
            // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
-            _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d",(long)_page,PAGESIZE];
+            _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
+            _page = 1;
             
         }else{
         
             WBPositionList *positionList = [[WBPositionList  alloc]init];
             WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
             WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@*p=%ld&ps=%d",model.cityId,(long)_page,PAGESIZE];
+            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@",model.cityId];
+            _urlString =  [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+            _page = 1;
         
         
         }
@@ -603,14 +616,17 @@
         
         if (_data2MainIndex==0 &&_currentData2Index==0) {
             
-            _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&p=%ld&ps=%d",[WBUserDefaults userId],(long)_page,PAGESIZE];
+             NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@",[WBUserDefaults userId]];
+            _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+            _page = 1;
         }else{
             
             WBPositionList *positionList = [[WBPositionList  alloc]init];
             WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
             WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            _urlString = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@*p=%ld&ps=%d",[WBUserDefaults userId],model.cityId,(long)_page,PAGESIZE];
-            
+            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],model.cityId];
+            _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+            _page = 1;
             
         }
 
