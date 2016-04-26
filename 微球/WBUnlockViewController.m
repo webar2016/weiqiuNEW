@@ -160,6 +160,7 @@
         if (isSelected) {
             _unlockInfo.text =[NSString stringWithFormat:@"%@",locate];
             _areaObject = locate;
+
         }
     };
     [addressPickerView show];
@@ -276,7 +277,7 @@
     data[@"userId"] = [WBUserDefaults userId];
     data[@"photoDate"] = _dateButton.currentTitle;
     
-    if ([_areaObject.provinceId isEqual:@""]) {
+    if ([_areaObject.cityId isEqual:@""]) {
         data[@"provinceId"] = self.areaObject.areaId;
         data[@"cityId"] = self.areaObject.countryId;
     }else{

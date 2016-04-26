@@ -32,8 +32,7 @@
     
     NSMutableArray  *_tagArray;
 }
-@property (nonatomic,copy)AreaObject *destinationPlaceModel;
-@property (nonatomic,copy)AreaObject *startPlaceModel;
+
 @end
 
 @implementation WBGroupInfoController
@@ -295,10 +294,30 @@
         if (isSelected) {
             if (button.tag ==150) {
                 [button setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
-                _destinationPlaceModel = locate;
+                
+                
+                if ([locate.cityId isEqual:@""]) {
+                    self.dataDic[@"destinationId"] = [NSString stringWithFormat:@"%@",locate.countryId];
+                }else{
+                    self.dataDic[@"destinationId"] = [NSString stringWithFormat:@"%@",locate.cityId];
+                }
+                
+                
+                
+                
             }else{
                 [button setTitle:[NSString stringWithFormat:@"%@",locate] forState:UIControlStateNormal];
-                _startPlaceModel = locate;
+               
+                
+                if ([locate.cityId isEqual:@""]) {
+                    self.dataDic[@"startPlaceId"] = [NSString stringWithFormat:@"%@",locate.countryId];
+                }else{
+                    self.dataDic[@"startPlaceId"] = [NSString stringWithFormat:@"%@",locate.cityId];
+                }
+                
+                
+                
+                
             }
             
         }

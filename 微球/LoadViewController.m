@@ -20,6 +20,7 @@
 #import "WBSetInformationViewController.h"
 #import "WBLeftViewController.h"
 #import "WBPositionList.h"
+#import "WBLocateList.h"
 #import "WBFindKeyViewController.h"
 
 
@@ -285,15 +286,17 @@
                 }];
             }
             
-            WBPositionList *positionList =[[WBPositionList alloc] init];
+            
+            
             
             if ([userInfo objectForKey:@"homeCityId"]) {
                 NSNumber  *cityId =[userInfo objectForKey:@"homeCityId"];
-                NSString *name = [positionList cityNameWithCityId:cityId];
-               [WBUserDefaults setCity:name] ;
+                [WBUserDefaults setCity:[WBLocateList myGetPositionNameById:[cityId integerValue]]];
+               
             }
             if ([userInfo objectForKey:@"provinceId"]) {
-                [WBUserDefaults setProvince:[positionList cityNameWithCityId:[userInfo objectForKey:@"provinceId"]]] ;
+                NSNumber  *provinceId =[userInfo objectForKey:@"provinceId"];
+               [WBUserDefaults setProvince:[WBLocateList myGetPositionNameById:[provinceId integerValue]]];
             }
             
             [self saveData];
