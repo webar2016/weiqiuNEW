@@ -14,7 +14,7 @@
 #import "WBMyDraftViewController.h"
 #import "WBSettingViewController.h"
 #import "WBIndividualIncomeViewController.h"
-#import "WBUnlockXibViewController.h"
+#import "WBMyUnlockViewController.h"
 #import "WBUnlockViewController.h"
 
 #import "MyDownLoadManager.h"
@@ -210,24 +210,33 @@
         }
             
         case 3:{
+            WBMyUnlockViewController *MVC = [[WBMyUnlockViewController alloc]init];
+            MVC.hidesBottomBarWhenPushed = YES;
+            [self pushViewControllerWithController:MVC];
+            break;
+           
+        }
+            
+        case 4:{
+            
             WBMyDraftViewController *draftVC = [[WBMyDraftViewController alloc] init];
             draftVC.hidesBottomBarWhenPushed = YES;
             [self pushViewControllerWithController:draftVC];
             break;
-        }
-            
-        case 4:{
-            WBSettingViewController *settingVC = [[WBSettingViewController alloc] init];
-            settingVC.hidesBottomBarWhenPushed = YES;
-            [self pushViewControllerWithController:settingVC];
-            break;
-            
 //            WBSetInformationViewController *SVC = [[WBSetInformationViewController alloc]init];
 //            SVC.hidesBottomBarWhenPushed = YES;
 //            [self presentViewController:SVC animated:YES completion:nil];
 //           // [self pushViewControllerWithController:SVC];
 //            break;
             
+        }
+        case 5:{
+        
+            WBSettingViewController *settingVC = [[WBSettingViewController alloc] init];
+            settingVC.hidesBottomBarWhenPushed = YES;
+            [self pushViewControllerWithController:settingVC];
+            break;
+        
         }
     }
 }
@@ -259,7 +268,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 5;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -276,8 +285,8 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    NSArray *titles = @[@"个人主页", @"猜图签到", @"快速解锁", @"我的草稿", @"设置"];
-    NSArray *images = @[@"icon_personalcenter", @"icon_checkin", @"icon_unclock", @"icon_unclock", @"icon_setting"];
+    NSArray *titles = @[@"个人主页", @"猜图签到", @"快速解锁", @"我的解锁信息", @"我的草稿", @"设置"];
+    NSArray *images = @[@"icon_personalcenter", @"icon_checkin", @"icon_unclock", @"icon_unclock", @"icon_unclock", @"icon_setting"];
     cell.textLabel.text = titles[indexPath.row];
     cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
     

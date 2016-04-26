@@ -10,11 +10,12 @@
 #import "WBPositionList.h"
 
 @interface WBLocateList : NSObject
-
+@property (nonatomic,copy)NSMutableArray *areaArray;
+@property (nonatomic,copy)NSMutableArray *countryArray;
 /**
  *返回所有信息
  */
--(NSArray *)getAllLocateList;
+-(NSArray *)getAllAreaList;
 
 
 

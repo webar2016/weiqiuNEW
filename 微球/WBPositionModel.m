@@ -12,6 +12,10 @@
 
 @end
 
+@implementation WBProvinceModel
+
+@end
+
 @implementation WBCityModel
 
 @end
