@@ -96,8 +96,9 @@
 
 - (WBDraftSave *)searchDraftWithType:(NSString *)type contentId:(NSString *)contentId userId:(NSString *)userId{
     FMResultSet *result = [_draftDB executeQuery:[NSString stringWithFormat:@"select * from 'draftSaver' WHERE type='%@' and contentId='%@' and userId='%@'",type, contentId, userId]];
-    if (result) {
-        WBDraftSave *draft = [[WBDraftSave alloc] init];
+    WBDraftSave *draft = nil;
+    while ([result next]) {
+        draft = [[WBDraftSave alloc] init];
         draft.userId = [result stringForColumn:@"userId"];
         draft.type = [result stringForColumn:@"type"];
         draft.aim = [result stringForColumn:@"aim"];
@@ -106,12 +107,9 @@
         draft.content = [result stringForColumn:@"content"];
         draft.nameArray = [result stringForColumn:@"nameArray"];
         draft.imageRate = [result stringForColumn:@"imageRate"];
-        [self closeFBDM];
-        return draft;
-    } else {
-        [self closeFBDM];
-        return nil;
     }
+    [self closeFBDM];
+    return draft;
 }
 
 - (BOOL)deleteDraftWithType:(NSString *)type contentId:(NSString *)contentId userId:(NSString *)userId{

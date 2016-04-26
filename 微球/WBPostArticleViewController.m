@@ -20,6 +20,11 @@
         self.topicID = topicId;
         self.url = @"http://app.weiqiu.me/tq/setComment";
         self.navigationItem.title = @"发布长图文";
+        WBDraftSave *draft = [[WBDraftManager openDraft] searchDraftWithType:@"2" contentId:topicId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+        if (draft) {
+            self.isModified = YES;
+            self.draft = draft;
+        }
     }
     return self;
 }

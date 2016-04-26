@@ -681,6 +681,15 @@
 			name = login;
 			sourceTree = "<group>";
 		};
+		05228E851CCF0E3900ADB8BA /* draft */ = {
+			isa = PBXGroup;
+			children = (
+				05427CA21CC475F000C79F61 /* WBMyDraftViewController.h */,
+				05427CA31CC475F000C79F61 /* WBMyDraftViewController.m */,
+			);
+			name = draft;
+			sourceTree = "<group>";
+		};
 		052398871CAC050C005CD07E /* 网页视图 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1265,14 +1274,13 @@
 		2D4BEF6B1C96870C00F2B881 /* leftSlideView */ = {
 			isa = PBXGroup;
 			children = (
+				05228E851CCF0E3900ADB8BA /* draft */,
 				2DF26B641CA1924000B7ED10 /* individual income */,
 				050B02071C9FE25A00344611 /* talkView */,
 				05D1F93D1C8FBDF70049D3EC /* homepage */,
 				05D1F9451C8FBE5E0049D3EC /* unlock */,
 				05D1F9491C8FBE780049D3EC /* setting */,
 				052048B61C88660800175D14 /* login */,
-				05427CA21CC475F000C79F61 /* WBMyDraftViewController.h */,
-				05427CA31CC475F000C79F61 /* WBMyDraftViewController.m */,
 			);
 			name = leftSlideView;
 			sourceTree = "<group>";

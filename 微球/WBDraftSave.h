@@ -27,7 +27,7 @@
 @property (nonatomic, copy) NSString *aim;
 
 /*
- *答案存放questionId，长图文存放commentId
+ *答案存放questionId，长图文存放topicId
  */
 @property (nonatomic, copy) NSString *contentId;
 

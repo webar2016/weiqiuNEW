@@ -91,6 +91,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WBDraftSave *draft = _draftArray[indexPath.row];
     if ([draft.type isEqualToString:@"1"]) {
+        //check question out of time
+        
+        
         WBAnswerQuestionViewController *writeVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:draft.aim questionId:draft.contentId title:draft.title];
         writeVC.isModified = YES;
         writeVC.draft = draft;

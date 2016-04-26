@@ -221,15 +221,38 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         _isSuccess = YES;
+        if (self.isModified) {
+            [[WBDraftManager openDraft] deleteDraftWithType:self.draft.type contentId:self.draft.contentId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+            
+            NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
+            NSString *currentDraft = [NSString stringWithFormat:@"%@-%@-%@", self.draft.userId,self.draft.type,self.draft.contentId];
+            NSString *draftPath = [path stringByAppendingPathComponent:currentDraft];
+            
+            if([[NSFileManager defaultManager] fileExistsAtPath:draftPath]){
+                [[NSFileManager defaultManager]  removeItemAtPath:draftPath error:nil];
+            }
+        }
         [self showHUDComplete:@"发布成功"];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         _isSuccess = NO;
+        [self hideHUD];
         self.navigationItem.rightBarButtonItem.enabled = YES;
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络状态不佳,是否保存草稿？" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                _isSuccess = YES;
+                if (self.isModified) {
+                    [[WBDraftManager openDraft] deleteDraftWithType:self.draft.type contentId:self.draft.contentId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+                    
+                    NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"draft"];
+                    NSString *currentDraft = [NSString stringWithFormat:@"%@-%@-%@", self.draft.userId,self.draft.type,self.draft.contentId];
+                    NSString *draftPath = [path stringByAppendingPathComponent:currentDraft];
+                    
+                    if([[NSFileManager defaultManager] fileExistsAtPath:draftPath]){
+                        [[NSFileManager defaultManager]  removeItemAtPath:draftPath error:nil];
+                    }
+                }
+                [self.navigationController popViewControllerAnimated:YES];
             }];
             action;
         })];
@@ -319,7 +342,7 @@
         saveOK = [[WBDraftManager openDraft] draftWithData:[[WBDraftSave alloc] initWithData:draftDic]];
     }
     
-    if (!saveOK) {
+    if (saveOK) {
         [self showHUDText:@"保存成功"];
     } else {
         [self showHUDText:@"保存失败，请重试"];

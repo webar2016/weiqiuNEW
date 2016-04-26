@@ -8,7 +8,9 @@
 
 #import "WBAnswerQuestionViewController.h"
 
-@interface WBAnswerQuestionViewController ()
+@interface WBAnswerQuestionViewController () {
+    BOOL answerOutOfTime;
+}
 
 @end
 
@@ -21,6 +23,11 @@
         self.questionId = questionId;
         self.url = @"http://app.weiqiu.me/tq/setAnswer";
         self.navigationItem.title = @"回答问题";
+        WBDraftSave *draft = [[WBDraftManager openDraft] searchDraftWithType:@"1" contentId:questionId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
+        if (draft) {
+            self.isModified = YES;
+            self.draft = draft;
+        }
     }
     return self;
 }
