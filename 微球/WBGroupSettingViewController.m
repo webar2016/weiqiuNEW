@@ -22,6 +22,7 @@
 
 @interface WBGroupSettingViewController () <WBGroupSettingTableViewCellDelegate> {
     UILabel     *_totalMembers;
+    BOOL        _isPush;
 }
 
 @property (nonatomic, strong) NSMutableArray *headIconArray;
@@ -85,6 +86,12 @@
 }
 
 -(void)loadData{
+    [[RCIMClient sharedRCIMClient] getConversationNotificationStatus:ConversationType_GROUP targetId:self.groupId success:^(RCConversationNotificationStatus nStatus) {
+        _isPush = (nStatus == 1) ? YES : NO;
+    } error:^(RCErrorCode status) {
+        NSLog(@"查询免打扰失败---%ld",(long)status);
+    }];
+    
     NSString *url = [NSString stringWithFormat:GROUP_DETAIL,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         
@@ -186,7 +193,7 @@
     
     WBGroupSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil){
-        cell = [[WBGroupSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID withSection:indexPath.section isMaster:self.isMaster withGroupDetail:self.groupDetail messageIsPush:self.isPush];
+        cell = [[WBGroupSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID withSection:indexPath.section isMaster:self.isMaster withGroupDetail:self.groupDetail messageIsPush:_isPush];
     }
     if (indexPath.section == 0) {
         WBUserInfosModel *infos = self.headIconArray[indexPath.row];
@@ -214,7 +221,7 @@
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/quitGroup?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
                 [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
-                [self.navigationController popToRootViewControllerAnimated:NO];
+                [self.navigationController popToRootViewControllerAnimated:YES];
             } andFailure:^(NSString *error) {
                 [self showHUDText:@"退出失败，请检查网络后重试"];
             }];
@@ -236,44 +243,12 @@
 }
 
 -(void)messagePush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
-    NSMutableDictionary *data = [NSMutableDictionary dictionary];
-    BOOL noPush;
-    data[@"userId"] = [NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
-    data[@"groupId"] = self.groupId;
-    
-    if (isOn) {
-        data[@"type"] = @"1";
-        noPush = YES;
-    } else {
-        data[@"type"] = @"0";
-        noPush = NO;
-    }
-    //设置SDK提醒
-    [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"groupId"] isBlocked:noPush success:^(RCConversationNotificationStatus nStatus) {
-        //消息提醒同步到服务器
-        [MyDownLoadManager postUrl:@"http://app.weiqiu.me/hg/setPush" withParameters:data whenProgress:^(NSProgress *FieldDataBlock) {
-        } andSuccess:^(id representData) {
-            
-            //向聊天页面发送免提醒通知
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"msgPush" object:self userInfo:@{@"msgPush":data[@"type"],@"groupId":data[@"groupId"]}];
-            NSLog(@"免打扰设置成功");
-            
-        } andFailure:^(NSString *error) {
-            
-            //同步失败则将SDK的提醒方式改回原来的方式
-            [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:data[@"groupId"] isBlocked:!noPush success:nil error:nil];
-            [self.tableView reloadSections:[[NSIndexSet alloc]initWithIndex:2] withRowAnimation:UITableViewRowAnimationAutomatic];
-            NSLog(@"免打扰设置失败");
-        }];
-        
+    [[RCIMClient sharedRCIMClient] setConversationNotificationStatus:ConversationType_GROUP targetId:self.groupId isBlocked:!isOn success:^(RCConversationNotificationStatus nStatus) {
+        NSLog(@"%ld",(unsigned long)nStatus);
     } error:^(RCErrorCode status) {
         NSLog(@"免打扰设置失败---%ld",(long)status);
     }];
 }
-
-//-(void)QAPush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL)isOn{
-//    NSLog(@"QAPush");
-//}
 
 #pragma mark - MBprogress
 

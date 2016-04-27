@@ -171,7 +171,6 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         _isSuccess = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
         [self showHUDComplete:@"创建成功，可在【我创建的】查看"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"createSuccess" object:self];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

@@ -115,8 +115,8 @@
 		2D02B6A11C8198C300FADFFB /* UIViewController+RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D02B69E1C8198C300FADFFB /* UIViewController+RESideMenu.m */; };
 		2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D02B6A21C8198CB00FADFFB /* RESideMenuExample-Info.plist */; };
 		2D16EF471C840780002D5F90 /* WBAllListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF461C840780002D5F90 /* WBAllListViewController.m */; };
-		2D16EF4B1C8407B4002D5F90 /* WBJoinUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF4A1C8407B4002D5F90 /* WBJoinUsViewController.m */; };
-		2D16EF4F1C8407E4002D5F90 /* WBMyCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF4E1C8407E4002D5F90 /* WBMyCreateViewController.m */; };
+		2D16EF4B1C8407B4002D5F90 /* WBMyJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF4A1C8407B4002D5F90 /* WBMyJoinViewController.m */; };
+		2D16EF4F1C8407E4002D5F90 /* WBAllGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF4E1C8407E4002D5F90 /* WBAllGroupViewController.m */; };
 		2D16EF5D1C8416AF002D5F90 /* TopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF561C8416AF002D5F90 /* TopCell.m */; };
 		2D16EF631C842443002D5F90 /* NSString+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF621C842443002D5F90 /* NSString+Frame.m */; };
 		2D16EF661C844DFB002D5F90 /* MyCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF651C844DFB002D5F90 /* MyCollectionViewFlowLayout.m */; };
@@ -183,7 +183,6 @@
 		2DEE8B981CB34278004CD0C4 /* WBRefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DEE8B971CB34278004CD0C4 /* WBRefreshViewController.m */; };
 		2DF0499B1C9D833700E92B9E /* WBAttentionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF0499A1C9D833700E92B9E /* WBAttentionView.m */; };
 		2DF0499E1C9D835A00E92B9E /* WBFansView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF0499D1C9D835A00E92B9E /* WBFansView.m */; };
-		2DF1AD7E1CBDDFBB003D7B5E /* ico_make.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF1AD7B1CBDDFBB003D7B5E /* ico_make.png */; };
 		2DF1AD7F1CBDDFBB003D7B5E /* JSDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */; };
 		2DF26B671CA1925E00B7ED10 /* WBIndividualIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF26B661CA1925E00B7ED10 /* WBIndividualIncomeViewController.m */; };
 		2DF2A93B1C9FC20D002C3A2A /* WBFansViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93A1C9FC20D002C3A2A /* WBFansViewTableViewCell.m */; };
@@ -405,10 +404,10 @@
 		2D02B6A41C8198D100FADFFB /* RESideMenuExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RESideMenuExample-Prefix.pch"; sourceTree = "<group>"; };
 		2D16EF451C840780002D5F90 /* WBAllListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAllListViewController.h; sourceTree = "<group>"; };
 		2D16EF461C840780002D5F90 /* WBAllListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAllListViewController.m; sourceTree = "<group>"; };
-		2D16EF491C8407B4002D5F90 /* WBJoinUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBJoinUsViewController.h; sourceTree = "<group>"; };
-		2D16EF4A1C8407B4002D5F90 /* WBJoinUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBJoinUsViewController.m; sourceTree = "<group>"; };
-		2D16EF4D1C8407E4002D5F90 /* WBMyCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyCreateViewController.h; sourceTree = "<group>"; };
-		2D16EF4E1C8407E4002D5F90 /* WBMyCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyCreateViewController.m; sourceTree = "<group>"; };
+		2D16EF491C8407B4002D5F90 /* WBMyJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyJoinViewController.h; sourceTree = "<group>"; };
+		2D16EF4A1C8407B4002D5F90 /* WBMyJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyJoinViewController.m; sourceTree = "<group>"; };
+		2D16EF4D1C8407E4002D5F90 /* WBAllGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAllGroupViewController.h; sourceTree = "<group>"; };
+		2D16EF4E1C8407E4002D5F90 /* WBAllGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAllGroupViewController.m; sourceTree = "<group>"; };
 		2D16EF511C840D91002D5F90 /* MyDownLoadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDownLoadManager.h; sourceTree = "<group>"; };
 		2D16EF551C8416AF002D5F90 /* TopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopCell.h; sourceTree = "<group>"; };
 		2D16EF561C8416AF002D5F90 /* TopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopCell.m; sourceTree = "<group>"; };
@@ -531,7 +530,6 @@
 		2DF0499A1C9D833700E92B9E /* WBAttentionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAttentionView.m; sourceTree = "<group>"; };
 		2DF0499C1C9D835A00E92B9E /* WBFansView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFansView.h; sourceTree = "<group>"; };
 		2DF0499D1C9D835A00E92B9E /* WBFansView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFansView.m; sourceTree = "<group>"; };
-		2DF1AD7B1CBDDFBB003D7B5E /* ico_make.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_make.png; sourceTree = "<group>"; };
 		2DF1AD7C1CBDDFBB003D7B5E /* JSDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSDropDownMenu.h; sourceTree = "<group>"; };
 		2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSDropDownMenu.m; sourceTree = "<group>"; };
 		2DF26B651CA1925E00B7ED10 /* WBIndividualIncomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIndividualIncomeViewController.h; sourceTree = "<group>"; };
@@ -1117,7 +1115,6 @@
 				2D4F50C61C8FBCE0001E017C /* WBCollectionViewModel.m */,
 				2D4F50CB1C8FC48B001E017C /* WBCollectionViewCell.h */,
 				2D4F50CC1C8FC48B001E017C /* WBCollectionViewCell.m */,
-				2DF1AD7B1CBDDFBB003D7B5E /* ico_make.png */,
 				2DF1AD7C1CBDDFBB003D7B5E /* JSDropDownMenu.h */,
 				2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */,
 				2D16EF541C84169C002D5F90 /* waterfall */,
@@ -1130,10 +1127,10 @@
 		2D16EF481C84078D002D5F90 /* Join and create */ = {
 			isa = PBXGroup;
 			children = (
-				2D16EF491C8407B4002D5F90 /* WBJoinUsViewController.h */,
-				2D16EF4A1C8407B4002D5F90 /* WBJoinUsViewController.m */,
-				2D16EF4D1C8407E4002D5F90 /* WBMyCreateViewController.h */,
-				2D16EF4E1C8407E4002D5F90 /* WBMyCreateViewController.m */,
+				2D16EF491C8407B4002D5F90 /* WBMyJoinViewController.h */,
+				2D16EF4A1C8407B4002D5F90 /* WBMyJoinViewController.m */,
+				2D16EF4D1C8407E4002D5F90 /* WBAllGroupViewController.h */,
+				2D16EF4E1C8407E4002D5F90 /* WBAllGroupViewController.m */,
 				0545504E1C8FEF6F00A6F0E8 /* WBTalkViewController.h */,
 				0545504F1C8FEF6F00A6F0E8 /* WBTalkViewController.m */,
 				054550511C90165100A6F0E8 /* WBGroupSettingViewController.h */,
@@ -1611,7 +1608,6 @@
 				2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */,
 				2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
-				2DF1AD7E1CBDDFBB003D7B5E /* ico_make.png in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
 				05D6EB881C7D414F002D48FF /* Assets.xcassets in Resources */,
 				05D6EB861C7D414F002D48FF /* Main.storyboard in Resources */,
@@ -1725,7 +1721,7 @@
 				2D02B6941C81987F00FADFFB /* WBLeftViewController.m in Sources */,
 				05D1F94C1C8FBE9E0049D3EC /* WBSettingViewController.m in Sources */,
 				2DED80601CA906FE000BB7EB /* WBSetInformationViewController.m in Sources */,
-				2D16EF4F1C8407E4002D5F90 /* WBMyCreateViewController.m in Sources */,
+				2D16EF4F1C8407E4002D5F90 /* WBAllGroupViewController.m in Sources */,
 				05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */,
 				05427CA11CC4710600C79F61 /* WBAnswerQuestionViewController.m in Sources */,
 				05DB3F701C87E18800CBCC54 /* WBAnswerListController.m in Sources */,
@@ -1772,7 +1768,7 @@
 				05D6EB7D1C7D414F002D48FF /* main.m in Sources */,
 				054452C51C9C45A100F8969E /* WBSearchViewController.m in Sources */,
 				05D1F9481C8FBE720049D3EC /* WBUnlockViewController.m in Sources */,
-				2D16EF4B1C8407B4002D5F90 /* WBJoinUsViewController.m in Sources */,
+				2D16EF4B1C8407B4002D5F90 /* WBMyJoinViewController.m in Sources */,
 				2DF2A93B1C9FC20D002C3A2A /* WBFansViewTableViewCell.m in Sources */,
 				052F30C41C93BE6700D15322 /* WBGroupInfoController.m in Sources */,
 				2DF26B671CA1925E00B7ED10 /* WBIndividualIncomeViewController.m in Sources */,

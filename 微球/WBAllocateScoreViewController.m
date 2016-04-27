@@ -225,7 +225,7 @@
         
     } andSuccess:^(id representData) {
         [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
-        [self.navigationController popToRootViewControllerAnimated:NO];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     } andFailure:^(NSString *error) {
         [self showHUDText:@"网络状态不佳，请稍后再试！"];
     }];

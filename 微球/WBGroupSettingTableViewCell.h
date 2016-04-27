@@ -15,7 +15,6 @@
 
 @required
 
-//- (void)QAPush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL) isOn;
 - (void)messagePush:(WBGroupSettingTableViewCell *)cell isOn:(BOOL) isOn;
 - (void)quitGroup:(WBGroupSettingTableViewCell *)cell;
 - (void)closeGroup:(WBGroupSettingTableViewCell *)cell;

@@ -221,18 +221,10 @@
                     NSLog(@"success");
                     id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                     NSLog(@"id = %@",result);
-                   // [WBUserDefaults setUserId:[NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]]];
-                   // [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
-                   // [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
                     [self showHUDComplete:@"密码修改成功"];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 } andFailure:^(NSString *error) {
                     [self showHUDComplete:@"密码修改失败"];
-//                    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"网络出错" preferredStyle:UIAlertControllerStyleAlert];
-//                    [alertView addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//                    }]];
-//                    [self presentViewController:alertView animated:YES completion:nil];
-//                    NSLog(@"%@",error);
                 }];
             }else{
                 UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"提示" message:@"验证码有误" preferredStyle:UIAlertControllerStyleAlert];

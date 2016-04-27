@@ -270,7 +270,7 @@
 
 -(void)headIconTap:(WBTopicCommentTableViewCell *)cell{
     WBHomepageViewController *homePage = [[WBHomepageViewController alloc] init];
-    homePage.userId = [NSString stringWithFormat:@"%ld",cell.tag];
+    homePage.userId = [NSString stringWithFormat:@"%ld",(long)cell.tag];
     [self.navigationController pushViewController:homePage animated:YES];
 }
 

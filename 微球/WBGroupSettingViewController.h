@@ -13,8 +13,6 @@
 
 @property (nonatomic, assign) BOOL isMaster;
 
-@property (nonatomic, assign) BOOL isPush;
-
 @property (nonatomic, copy) NSString *groupId;
 
 @property (nonatomic,strong)MBProgressHUD *hud;

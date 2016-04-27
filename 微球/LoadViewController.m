@@ -203,7 +203,6 @@
                 [WBUserDefaults setUserId:[NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]]];
                 [WBUserDefaults printUserDefaults];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
                 [self saveToDataBase];
                 [self saveToUserDefault];
             }else{

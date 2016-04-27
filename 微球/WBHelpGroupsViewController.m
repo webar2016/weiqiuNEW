@@ -10,8 +10,8 @@
 #import "WBFindViewController.h"
 #import "RESideMenu.h"
 #import "WBAllListViewController.h"
-#import "WBJoinUsViewController.h"
-#import "WBMyCreateViewController.h"
+#import "WBMyJoinViewController.h"
+#import "WBAllGroupViewController.h"
 #import "LoadViewController.h"
 
 #import "UIImage+image.h"
@@ -20,17 +20,14 @@
 
 @interface WBHelpGroupsViewController ()<UIPageViewControllerDelegate>
 {
-    NSMutableArray *_vcArray;//滚动式图组
+    NSMutableArray *_vcArray;
     UIPageViewController *_pageViewController;
-    //头部滚顶视图
-    NSUInteger _prevPage;
     UIView *_tip;//小红点
 }
 
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
 @property (nonatomic, strong) WBAllListViewController *allListView;
-@property (nonatomic, strong) WBJoinUsViewController *joinUsView;
-@property (nonatomic, strong) WBMyCreateViewController *myCreateView;
+@property (nonatomic, strong) WBMyJoinViewController *joinUsView;
 
 @end
 
@@ -43,13 +40,44 @@
 //    self.edgesForExtendedLayout = UIRectEdgeNone;
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
+    
+//    _tip = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.75, 5, 6, 6)];
+//    _tip.layer.masksToBounds = YES;
+//    _tip.layer.cornerRadius = 3;
+//    _tip.hidden = YES;
+//    _tip.backgroundColor = [UIColor redColor];
+//    [self.navigationController.navigationBar addSubview:_tip];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(unReadGroup:)
+//                                                 name:@"unReadTipGroup"
+//                                               object:nil];
+    
     [self setUpNavgationItem];
     [self initVcArr];
     [self initPageVc];
 }
 
+//-(void)unReadGroup:(NSNotification*)sender{
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        int count = [sender.userInfo[@"unReadGroup"] intValue];
+//        if (count > 0 && _tip.hidden) {
+//            _tip.hidden = NO;
+//        } else if (count == 0 && !_tip.hidden) {
+//            _tip.hidden = YES;
+//        }
+//    });
+//}
+
 -(void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
+    if (![WBUserDefaults userId]) {
+        self.segmentedControl.selectedSegmentIndex = 0;
+    }
+//    if (self.segmentedControl.selectedSegmentIndex == 1) {
+//        _tip.hidden = YES;
+//    }
+    [self changeCurrentController:self.segmentedControl];
 }
 
 -(void)popBack{
@@ -58,9 +86,8 @@
 
 -(void)setUpNavgationItem{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-        self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"所有列表",@"我加入的",@"我创建的"]];
+        self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"所有",@"最近"]];
         self.segmentedControl.selectedSegmentIndex = 0;
-        _prevPage = 0;
         [self.segmentedControl addTarget:self action:@selector(changeCurrentController:) forControlEvents:UIControlEventValueChanged];
         self.segmentedControl.tintColor = [UIColor initWithGreen];
         self.segmentedControl.frame = CGRectMake(0, 0, self.view.frame.size.width*0.5, 30);
@@ -76,11 +103,9 @@
 -(void)initVcArr{
     _vcArray = [NSMutableArray array];
     _allListView = [[WBAllListViewController alloc]init];
-    _joinUsView = [[WBJoinUsViewController alloc]init];
-    _myCreateView = [[WBMyCreateViewController alloc]init];
+    _joinUsView = [[WBMyJoinViewController alloc]init];
     [_vcArray addObject:_allListView];
     [_vcArray addObject:_joinUsView];
-    [_vcArray addObject:_myCreateView];
         
 }
 
@@ -95,29 +120,18 @@
 
 -(void)changeCurrentController:(UISegmentedControl *)segMent{
     NSInteger index=segMent.selectedSegmentIndex;
+    
     if (index==0) {
-        _prevPage = 0;
         [_pageViewController setViewControllers:@[_vcArray[0]] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
-    } else if (![WBUserDefaults userId] && index!=0) {
-        LoadViewController *loadView = [[LoadViewController alloc]init];
-        [self presentViewController:loadView animated:YES completion:nil];
-        segMent.selectedSegmentIndex = 0;
-    } else {
-        if(index==1){
-            
-            if(index > _prevPage){
-                [_pageViewController setViewControllers:@[_vcArray[1]] direction:
-                 UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-            }else{
-                [_pageViewController setViewControllers:@[_vcArray[1]] direction:
-                 UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
-            }
-        }else{
-            _prevPage = 2;
-            [_pageViewController setViewControllers:@[_vcArray[2]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    }else{
+        if (![WBUserDefaults userId]) {
+            LoadViewController *loginVC = [[LoadViewController alloc] init];
+            [self presentViewController:loginVC animated:YES completion:nil];
+        } else {
+//            _tip.hidden = YES;
+            [_pageViewController setViewControllers:@[_vcArray[1]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
         }
     }
-    
 }
 
 @end

@@ -55,15 +55,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    NSLog(@"%@",self.targetId);
     
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(msgPush:)
-                                                 name:@"msgPush"
-                                               object:nil];
     
     NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTipGroup" object:self userInfo:@{@"unReadGroup":[NSString stringWithFormat:@"%@",unReadGroup]}];
@@ -84,16 +78,6 @@
 
 -(void)popBack{
     [self.navigationController popViewControllerAnimated:YES];
-}
-
--(void)msgPush:(NSNotification*)sender{
-    if ([sender.userInfo[@"groupId"] isEqualToString:self.targetId]) {
-        if ([sender.userInfo[@"msgPush"] isEqualToString: @"1"]) {
-            self.isPush = YES;
-        } else {
-            self.isPush = NO;
-        }
-    }
 }
 
 #pragma mark - 消息发送前拦截,创建问题
@@ -264,7 +248,6 @@
     WBGroupSettingViewController *groupSettingVC = [[WBGroupSettingViewController alloc] init];
     groupSettingVC.isMaster = self.isMaster;
     groupSettingVC.groupId = self.groupId;
-    groupSettingVC.isPush = self.isPush;
     [self.navigationController pushViewController:groupSettingVC animated:YES];
     
 }
