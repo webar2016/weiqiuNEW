@@ -190,6 +190,7 @@
     }
     
     if ([WBUserDefaults city]) {
+        NSLog(@"%@",[WBUserDefaults city]);
          ((UILabel *)[self.view viewWithTag:203]).text = [NSString stringWithFormat:@"%@",[WBUserDefaults city]];
     }
     

@@ -10,6 +10,7 @@
 #import "MyDBmanager.h"
 #import "WBTbl_Unlock_City.h"
 #import "WBPositionList.h"
+#import "WBLocateList.h"
 
 @interface WBMyUnlockViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -83,12 +84,16 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.textColor = [UIColor initWithNormalGray];
-    WBPositionList *position = [[WBPositionList alloc]init];
-    
+        
     if (_segmentControl.selectedSegmentIndex == 0) {
-        cell.textLabel.text = [NSString stringWithFormat:@"%@",[position cityNameWithCityId:[NSNumber numberWithInteger:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId]]];
+//        NSLog(@"%ld",((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId);
+//         NSLog(@"%@",[WBLocateList myGetPositionNameById:110100]);
+//        NSLog(@"%@",[WBLocateList myGetPositionNameById:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId]);
+        cell.textLabel.text = [NSString stringWithFormat:@"%@",[WBLocateList myGetPositionNameById:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId]];
     }else{
-        cell.textLabel.text = [NSString stringWithFormat:@"%@",[position cityNameWithCityId:[NSNumber numberWithInteger:[((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId integerValue]]]];
+//        NSLog(@"%@",((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId );
+//         NSLog(@"%@",[WBLocateList myGetPositionNameById:[((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId integerValue]]);
+        cell.textLabel.text = [NSString stringWithFormat:@"%@",[WBLocateList myGetPositionNameById:[((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId integerValue]]];
     }
    return cell;
 }
