@@ -40,12 +40,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x5fae;&#x7403;/AppDelegate.m"
-            timestampString = "483340063.258183"
+            timestampString = "483414024.145149"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "-application:didReceiveRemoteNotification:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
