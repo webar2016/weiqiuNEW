@@ -209,11 +209,9 @@
                  [self hideHUD];
                 //初始化提示框；
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号或密码错误" preferredStyle: UIAlertControllerStyleAlert];
-                
                 [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     //点击按钮的响应事件；
                 }]];
-                
                 //弹出提示框； 
                 [self presentViewController:alert animated:true completion:nil];
             }
@@ -221,14 +219,11 @@
             //初始化提示框；
             [self hideHUD];
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号或密码错误" preferredStyle: UIAlertControllerStyleAlert];
-            
             [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 //点击按钮的响应事件；
             }]];
-            
             //弹出提示框； 
             [self presentViewController:alert animated:true completion:nil];
-            
         }];
         
        //忘记密码
@@ -312,14 +307,16 @@
     NSString *unlockCityUrl = [NSString stringWithFormat:@"http://app.weiqiu.me/lr/unlockCity?userId=%@",[WBUserDefaults userId]];
         [MyDownLoadManager getNsurl:unlockCityUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            
             NSArray *unlockCity = [WBTbl_Unlock_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"unlockCity"]];
+            
             MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
             for (WBTbl_Unlock_City *model in unlockCity) {
-                if (model.cityId>100000) {
+               
                     [manager  addItem:model];
-                }
+                
             }
-            NSLog(@"1 -------%@",[manager searchAllItems]);
+          //  NSLog(@"1 -------%@",[manager searchAllItems]);
             [manager closeFBDM];
             [self saveData];
             
@@ -327,14 +324,14 @@
             [MyDownLoadManager getNsurl:unlockingCityUrl whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 NSArray *unlockingCity = [WBTbl_Unlocking_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"checkings"]];
-                NSLog(@"1 -------%@",unlockingCity);
+               // NSLog(@"1 -------%@",unlockingCity);
                 MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
                 for (WBTbl_Unlocking_City *model in unlockingCity) {
-                    if ([model.cityId integerValue]>100000) {
+                    
                         [manager  addItem:model];
-                    }
+                    
                 }
-                NSLog(@"2 ------%@",[manager searchAllItems]);
+              //  NSLog(@"2 ------%@",[manager searchAllItems]);
                 [manager closeFBDM];
                 [self saveData];
             } andFailure:^(NSString *error) {
@@ -354,6 +351,7 @@
     _number++;
     if (_number == 4) {
         [self hideHUD];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
 
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -395,7 +393,6 @@
 
 
 -(void)dealloc{
-
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

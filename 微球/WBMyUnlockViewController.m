@@ -86,13 +86,10 @@
     cell.textLabel.textColor = [UIColor initWithNormalGray];
         
     if (_segmentControl.selectedSegmentIndex == 0) {
-//        NSLog(@"%ld",((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId);
-//         NSLog(@"%@",[WBLocateList myGetPositionNameById:110100]);
-//        NSLog(@"%@",[WBLocateList myGetPositionNameById:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId]);
+
         cell.textLabel.text = [NSString stringWithFormat:@"%@",[WBLocateList myGetPositionNameById:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId]];
     }else{
-//        NSLog(@"%@",((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId );
-//         NSLog(@"%@",[WBLocateList myGetPositionNameById:[((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId integerValue]]);
+
         cell.textLabel.text = [NSString stringWithFormat:@"%@",[WBLocateList myGetPositionNameById:[((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId integerValue]]];
     }
    return cell;

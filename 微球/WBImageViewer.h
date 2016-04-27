@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WBImageViewer : WBRefreshViewController
+@interface WBImageViewer : WBRefreshViewController<UIScrollViewDelegate>
+
+@property (nonatomic,copy) UIScrollView *scrollView;
 
 @property (nonatomic, weak) UIImage *image;
 
