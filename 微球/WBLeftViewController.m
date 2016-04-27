@@ -285,7 +285,7 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    NSArray *titles = @[@"个人主页", @"猜图签到", @"快速解锁", @"我的解锁信息", @"我的草稿", @"设置"];
+    NSArray *titles = @[@"个人主页", @"猜图签到", @"快速解锁", @"解锁信息", @"我的草稿", @"设置"];
     NSArray *images = @[@"icon_personalcenter", @"icon_checkin", @"icon_unclock", @"icon_unclock", @"icon_unclock", @"icon_setting"];
     cell.textLabel.text = titles[indexPath.row];
     cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
