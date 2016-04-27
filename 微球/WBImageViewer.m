@@ -56,6 +56,10 @@
     
     CGFloat showWidth;
     CGFloat showHeight;
+    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, SCREENHEIGHT);
+    _scrollView.userInteractionEnabled = YES;
+    [self.view addSubview:_scrollView];
     
     _imageView = [[UIImageView alloc] initWithImage:image];
     
@@ -70,9 +74,21 @@
     _imageView.frame = CGRectMake(0, 0, showWidth, showHeight);
     _imageView.center = self.view.center;
     
-    [self.view addSubview:_imageView];
+    [_scrollView addSubview:_imageView];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
-    [self.view addGestureRecognizer:tap];
+    tap.numberOfTapsRequired = 1;
+    tap.numberOfTouchesRequired = 1;
+    [_scrollView addGestureRecognizer:tap];
+    
+    
+    
+    UITapGestureRecognizer *tapImgViewTwice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImgViewHandleTwice:)];
+    tapImgViewTwice.numberOfTapsRequired = 2;
+    tapImgViewTwice.numberOfTouchesRequired = 1;
+    [_scrollView addGestureRecognizer:tapImgViewTwice];
+    
+    [tap requireGestureRecognizerToFail:tapImgViewTwice];
+
 }
 
 -(void)setUpContentWithContent:(NSString *)content{
@@ -89,7 +105,39 @@
     wraperView.frame = CGRectMake(0, SCREENHEIGHT - labelSize.height - 20, SCREENWIDTH, labelSize.height + 20);
     [self.view addSubview:wraperView];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
+    tap.numberOfTapsRequired = 1;
+    tap.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:tap];
+    
+    
+    
+    UITapGestureRecognizer *tapImgViewTwice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImgViewHandleTwice:)];
+    tapImgViewTwice.numberOfTapsRequired = 2;
+    tapImgViewTwice.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:tapImgViewTwice];
+    
+    [tap requireGestureRecognizerToFail:tapImgViewTwice];
+    
+    
+}
+
+-(void)tapImgViewHandleTwice:(UITapGestureRecognizer *)tap{
+
+    NSLog(@"%f",self.view.transform.a);
+    if (_scrollView.contentSize.width/SCREENWIDTH == 1.0) {
+        [UIView animateWithDuration:0.5 animations:^{
+            
+            _scrollView.contentSize=CGSizeMake(2*SCREENWIDTH, 2*SCREENHEIGHT);
+            _imageView.frame = CGRectMake(_imageView.frame.origin.x/2, _imageView.frame.origin.y/2, 2*_imageView.frame.size.width, 2*_imageView.frame.size.height);
+            
+            //_imageView.center = _scrollView.center;
+            
+        }];
+    }else{
+        [UIView animateWithDuration:0.5 animations:^{
+            _scrollView.transform=CGAffineTransformMakeScale(1, 1);
+        }];
+    }
 }
 
 -(void)setUpSaveButtonForImage{

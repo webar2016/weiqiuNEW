@@ -308,7 +308,9 @@
     NSString *unlockCityUrl = [NSString stringWithFormat:@"http://app.weiqiu.me/lr/unlockCity?userId=%@",[WBUserDefaults userId]];
         [MyDownLoadManager getNsurl:unlockCityUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+            
             NSArray *unlockCity = [WBTbl_Unlock_City mj_objectArrayWithKeyValuesArray:[result objectForKey:@"unlockCity"]];
+            
             MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
             for (WBTbl_Unlock_City *model in unlockCity) {
                
@@ -392,7 +394,6 @@
 
 
 -(void)dealloc{
-
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

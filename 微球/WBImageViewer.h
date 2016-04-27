@@ -10,6 +10,8 @@
 
 @interface WBImageViewer : WBRefreshViewController
 
+@property (nonatomic,copy) UIScrollView *scrollView;
+
 @property (nonatomic, weak) UIImage *image;
 
 @property (nonatomic, copy) NSString *dir;
