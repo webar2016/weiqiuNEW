@@ -103,20 +103,20 @@
 
 #pragma mark - 重写会话列表相关方法
 
--(NSMutableArray *)willReloadTableData:(NSMutableArray *)dataSource{
-    NSMutableArray *array = [NSMutableArray array];
-    for (RCConversationModel *model in dataSource) {
-        for (WBMyGroupModel *myModel in self.models) {
-            NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
-            if ([model.targetId isEqualToString:groupId]) {
-                model.extend = myModel;
-                model.conversationTitle = [NSString stringWithFormat:@"%@的帮帮团",myModel.nickName];
-                [array addObject:model];
-            }
-        }
-    }
-    return array;
-}
+//-(NSMutableArray *)willReloadTableData:(NSMutableArray *)dataSource{
+//    NSMutableArray *array = [NSMutableArray array];
+//    for (RCConversationModel *model in dataSource) {
+//        for (WBMyGroupModel *myModel in self.models) {
+//            NSString *groupId = [NSString stringWithFormat:@"%lu",(unsigned long)myModel.groupId];
+//            if ([model.targetId isEqualToString:groupId]) {
+//                model.extend = myModel;
+//                model.conversationTitle = [NSString stringWithFormat:@"%@的帮帮团",myModel.nickName];
+//                [array addObject:model];
+//            }
+//        }
+//    }
+//    return array;
+//}
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     return NO;
@@ -127,36 +127,36 @@
     return 67.0f;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [self rcConversationListTableView:tableView cellForRowAtIndexPath:indexPath];
-}
-
-- (RCConversationBaseCell *)rcConversationListTableView:(UITableView *)tableView
-                                  cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellID = @"reuseCell";
-    WBGroupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil)
-    {
-        cell = [[WBGroupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID isMater:NO];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setDataModel:self.conversationListDataSource[indexPath.row]];
-    return cell;
-}
-
--(void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath
-{
-    WBTalkViewController *talkView = [[WBTalkViewController alloc]init];
-    talkView.isMaster = NO;
-    talkView.conversationType =model.conversationType;
-    talkView.targetId = model.targetId;
-    talkView.title = model.conversationTitle;
-    if ([((WBMyGroupModel *)model.extend).isPush isEqual: @"Y"]) {
-        talkView.isPush = YES;
-    }
-    talkView.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:talkView animated:YES];
-}
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return [self rcConversationListTableView:tableView cellForRowAtIndexPath:indexPath];
+//}
+//
+//- (RCConversationBaseCell *)rcConversationListTableView:(UITableView *)tableView
+//                                  cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    static NSString *cellID = @"reuseCell";
+//    WBGroupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+//    if (cell == nil)
+//    {
+//        cell = [[WBGroupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID isMater:NO];
+//    }
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    [cell setDataModel:self.conversationListDataSource[indexPath.row]];
+//    return cell;
+//}
+//
+//-(void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath
+//{
+//    WBTalkViewController *talkView = [[WBTalkViewController alloc]init];
+//    talkView.isMaster = NO;
+//    talkView.conversationType =model.conversationType;
+//    talkView.targetId = model.targetId;
+//    talkView.title = model.conversationTitle;
+//    if ([((WBMyGroupModel *)model.extend).isPush isEqual: @"Y"]) {
+//        talkView.isPush = YES;
+//    }
+//    talkView.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:talkView animated:YES];
+//}
 
 #pragma mark -- UIScrollViewDelegate Methods
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
