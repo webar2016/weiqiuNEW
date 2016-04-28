@@ -76,7 +76,7 @@
                     }
                 }else if(_style == 1){
                     //创建数据库tbl_unlock_city
-                    NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId integer,cityId integer,unlockDate date,areaId integer,marked integer)",_tableName];
+                    NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId integer,cityId integer,unlockDate date,areaId integer,marked integer,dir text)",_tableName];
                     BOOL flag = [_myDataBase executeUpdate:createSql];
                     if (flag) {
                       //  NSLog(@"表格创建成功");
@@ -93,8 +93,8 @@
                       //  NSLog(@"表格创建失败");
                     }
                 }else{
-                    //创建数据库tbl_unlock_city
-                    NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId text,provinceId text,cityId text,provinceName text,cityName text)",_tableName];
+                    //创建数据库tbl_unlocking_city
+                    NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId text,provinceId text,cityId text,photoPath text,provinceName text,cityName text)",_tableName];
                     BOOL flag = [_myDataBase executeUpdate:createSql];
                     if (flag) {
                        // NSLog(@"表格创建成功");
@@ -119,13 +119,13 @@
        insertSql = [NSString stringWithFormat:@"insert into '%@' (areaId, areaName, isCountry) values ('%ld', '%@', '%ld')", _tableName,(long)cItem.areaId,cItem.areaName ,(long)cItem.isCountry];
     }else if(_style == 1){
         WBTbl_Unlock_City *cItem =model;
-        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, cityId, unlockDate,areaId,marked) values ('%ld', '%ld','%@', '%ld', '%ld')", _tableName,(long)cItem.userId,(long)cItem.cityId ,cItem.unlockDate,(long)cItem.areaId,(long)cItem.marked];
+        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, cityId, unlockDate,areaId,marked,dir) values ('%ld', '%ld','%@', '%ld', '%ld','%@')", _tableName,(long)cItem.userId,(long)cItem.cityId ,cItem.unlockDate,(long)cItem.areaId,(long)cItem.marked,cItem.dir];
     }else if(_style == 2){
         WBHelp_Group_Sign *cItem =model;
         insertSql = [NSString stringWithFormat:@"insert into '%@' (sign_id, sign, sign_describe,type_flag) values ('%ld', '%@','%@', '%@')", _tableName,(long)cItem.sign_id,cItem.sign ,cItem.sign_describe,cItem.type_flag];
     }else if(_style == 3){
         WBTbl_Unlocking_City *cItem =model;
-        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, provinceId, cityId, provinceName, cityName) values ('%@', '%@','%@', '%@', '%@')", _tableName, cItem.userId,cItem.provinceId ,cItem.cityId,cItem.provinceName,cItem.cityName];
+        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, provinceId, cityId, photoPath, provinceName, cityName) values ('%@', '%@','%@','%@', '%@', '%@')", _tableName, cItem.userId,cItem.provinceId ,cItem.cityId,cItem.photoPath,cItem.provinceName,cItem.cityName];
     }
     
    // NSLog(@"----");
@@ -197,6 +197,7 @@
             cItem.unlockDate = [rs dateForColumn:@"unlockDate"];
             cItem.areaId = [rs intForColumn:@"areaId"];
             cItem.marked = [rs intForColumn:@"marked"];
+            cItem.dir = [rs stringForColumn:@"dir"];
             //添加到数组中
             [resultArray addObject:cItem];
         }
@@ -222,6 +223,7 @@
             cItem.userId = [rs stringForColumn:@"userId"];
             cItem.provinceId = [rs stringForColumn:@"provinceId"];
             cItem.cityId = [rs stringForColumn:@"cityId"];
+            cItem.photoPath = [rs stringForColumn:@"photoPath"];
             cItem.provinceName = [rs stringForColumn:@"provinceName"];
             cItem.cityName = [rs stringForColumn:@"cityName"];
             //添加到数组中

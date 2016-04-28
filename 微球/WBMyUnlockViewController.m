@@ -11,6 +11,9 @@
 #import "WBTbl_Unlock_City.h"
 #import "WBPositionList.h"
 #import "WBLocateList.h"
+#import "UIImageView+WebCache.h"
+#import "WBMyUnlockTableViewCell.h"
+#import "WBImageViewer.h"
 
 @interface WBMyUnlockViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -75,24 +78,51 @@
     }
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    return 50;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *cellID = @"unlock";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil)
-    {   cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.textColor = [UIColor initWithNormalGray];
-        
     if (_segmentControl.selectedSegmentIndex == 0) {
-
-        cell.textLabel.text = [NSString stringWithFormat:@"%@",[WBLocateList myGetPositionNameById:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).cityId]];
+        static NSString *cellID = @"MyUnlockId";
+        WBMyUnlockTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil)
+        {   cell = [[[NSBundle mainBundle]loadNibNamed:@"WBMyUnlockTableViewCell" owner:nil options:nil] lastObject];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell setModel:_unlockArray[indexPath.row]];
+        return cell;
     }else{
-
-        cell.textLabel.text = [NSString stringWithFormat:@"%@",[WBLocateList myGetPositionNameById:[((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).cityId integerValue]]];
+        
+        static NSString *cellID = @"MyUnlockId";
+        WBMyUnlockTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil)
+        {   cell = [[[NSBundle mainBundle]loadNibNamed:@"WBMyUnlockTableViewCell" owner:nil options:nil] lastObject];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell setUnlockingModel:_unlockingArray[indexPath.row]];
+        return cell;
+    
+        
     }
-   return cell;
+    
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_segmentControl.selectedSegmentIndex == 0) {
+        
+        WBImageViewer *imageView = [[WBImageViewer alloc]initWithDir:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).dir];
+        [self presentViewController:imageView animated:YES completion:nil];
+        
+    }else{
+        
+        WBImageViewer *imageView = [[WBImageViewer alloc]initWithDir:((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).photoPath];
+        [self presentViewController:imageView animated:YES completion:nil];
+    }
+
+
 }
 
 @end

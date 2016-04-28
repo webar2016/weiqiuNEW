@@ -120,36 +120,36 @@
                                  forIndexPath:indexPath];
         [cell setDataModel:model];
         //加入数据库
-         WBUnlockMessage *tempModel = [[WBUnlockMessage alloc]init];
-         tempModel= (WBUnlockMessage *)messageContent;
-        NSLog(@"tempModel %@", tempModel);
-        
-        if ([tempModel.isUnlock isEqual:@"YES"]) {
-            //保存到已经解锁
-            
-            WBTbl_Unlock_City *unlockingCity = [[WBTbl_Unlock_City alloc]init];
-            unlockingCity.userId = [[WBUserDefaults userId]integerValue];
-            unlockingCity.cityId = [tempModel.cityId integerValue];
-            
-            
-            MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-            if (![manager isAddedItemsID:tempModel.cityId]) {
-                [manager addItem:unlockingCity];
-                [manager closeFBDM];
-            }else{
-            [manager closeFBDM];
-            }
-            //解锁成功
-        }else{
-        //解锁失败
-        }
-        
-        //删掉正在解锁的信息
-        MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
-        
-        [manager2 deletedataWithKey:@"cityId" andValue:tempModel.cityId];
-        
-        [manager2 closeFBDM];
+//         WBUnlockMessage *tempModel = [[WBUnlockMessage alloc]init];
+//         tempModel= (WBUnlockMessage *)messageContent;
+//        NSLog(@"tempModel %@", tempModel);
+//        
+//        if ([tempModel.isUnlock isEqual:@"YES"]) {
+//            //保存到已经解锁
+//            
+//            WBTbl_Unlock_City *unlockingCity = [[WBTbl_Unlock_City alloc]init];
+//            unlockingCity.userId = [[WBUserDefaults userId]integerValue];
+//            unlockingCity.cityId = [tempModel.cityId integerValue];
+//            
+//            
+//            MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+//            if (![manager isAddedItemsID:tempModel.cityId]) {
+//                [manager addItem:unlockingCity];
+//                [manager closeFBDM];
+//            }else{
+//            [manager closeFBDM];
+//            }
+//            //解锁成功
+//        }else{
+//        //解锁失败
+//        }
+//        
+//        //删掉正在解锁的信息
+//        MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+//        
+//        [manager2 deletedataWithKey:@"cityId" andValue:tempModel.cityId];
+//        
+//        [manager2 closeFBDM];
         
         [cell setDelegate:self];
         return cell;

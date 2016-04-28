@@ -24,5 +24,7 @@
 
 @property (assign,nonatomic) BOOL isCountry;
 
+-(NSString *)getId;
+
 
 @end

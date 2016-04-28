@@ -245,8 +245,6 @@
 
 -(void)unlockCity{
     [_contentview resignFirstResponder];
-   
-    
     if ([_unlockInfo.text length] == 0 ) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择解锁城市" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
@@ -255,6 +253,31 @@
         })];
         [self presentViewController:alert animated:YES completion:nil];
         return;
+    }else{
+        BOOL isUnlock = NO;
+        MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+        NSArray *tempUnlockArray = [manager searchAllItems];
+        [manager closeFBDM];
+        for (WBTbl_Unlock_City *unlockModel in tempUnlockArray) {
+            if (unlockModel.cityId == [[_areaObject getId] integerValue]) {
+                isUnlock = YES;
+                break;
+            }
+        }
+        MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+        NSArray *tempUnlockingArray = [manager2 searchAllItems];
+        [manager2 closeFBDM];
+        
+        for (WBTbl_Unlocking_City *unlockingModel in tempUnlockingArray) {
+            if ([unlockingModel.cityId integerValue] == [[_areaObject getId] integerValue]) {
+                isUnlock = YES;
+                break;
+            }
+        }
+        if (isUnlock) {
+            [self showHUDText:@"这个城市已经解锁"];
+            return;
+        }
     }
     
     if ([_dateButton.currentTitle isEqualToString:@"请选择"]) {
@@ -295,25 +318,24 @@
     [MyDownLoadManager postUrl:[NSString stringWithFormat: UNLOCK_URL,WEBAR_IP] withParameters:data fileData:_fileData name:_imageName fileName:_imageName mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
-        _isSuccess = YES;
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        if ([result[@"error"] integerValue]==0) {
+            _isSuccess = YES;
+            WBTbl_Unlocking_City *model = [[WBTbl_Unlocking_City alloc]init];
+            model.userId =[WBUserDefaults userId];
+            model.cityId =data[@"cityId"];
+            model.photoPath =result[@"msg"];
         
-        WBTbl_Unlocking_City *model = [[WBTbl_Unlocking_City alloc]init];
-        model.userId =[WBUserDefaults userId];
-        model.cityId =data[@"cityId"];
-        
-        
-        MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
-        [manager addItem:model];
-        [manager closeFBDM];
-        [self showHUDComplete:@"已经上传，正在火速审核中"];
-        
-        
+            MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
+            [manager addItem:model];
+            [manager closeFBDM];
+            [self showHUDComplete:@"已经上传，正在火速审核中"];
+        }
     } andFailure:^(NSString *error) {
         self.navigationItem.rightBarButtonItem.enabled = YES;
         _isSuccess = NO;
         [self showHUDComplete:@"上传失败，请稍后再试"];
     }];
-    
 }
 
 -(void)dismissView{
