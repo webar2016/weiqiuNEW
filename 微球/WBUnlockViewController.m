@@ -173,7 +173,7 @@
     _imagePickerController.delegate = self;
     _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
-    _imagePickerController.allowsEditing = YES;
+    _imagePickerController.allowsEditing = NO;
 }
 
 -(void)setUpDatePicker{
@@ -201,13 +201,17 @@
 }
 
 #pragma mark - UIImagePickerControllerDelegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     CGFloat scale = image.size.height / image.size.width;
     _imageScale = [NSNumber numberWithFloat:scale];
-    NSURL *imageURL = [editingInfo valueForKey:UIImagePickerControllerReferenceURL];
+    _fileData = UIImageJPEGRepresentation(image, 0.1);
+    
+    NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];
     _imageName = [[[imageString componentsSeparatedByString:@"="][1] substringToIndex:8] stringByAppendingString:[NSString stringWithFormat:@".%@",[imageString componentsSeparatedByString:@"="].lastObject]];
-    _fileData = UIImageJPEGRepresentation(image, 0.1);
+    
     
     [picker dismissViewControllerAnimated:YES completion:^{
         [_imagePicker setBackgroundImage:image forState:UIControlStateNormal];

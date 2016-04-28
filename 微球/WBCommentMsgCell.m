@@ -89,7 +89,7 @@
     WBCommentMessage *message = (WBCommentMessage *)self.model.content;
     CGSize commentSize = CGSizeZero;
     if (message) {
-        _nickname.text = message.nickname;
+        _nickname.text = [NSString stringWithFormat:@"来自 %@ 的评论",message.nickname];
         [_headIcon sd_setImageWithURL:[NSURL URLWithString:message.imageURL]];
         _comment.text = message.content;
         commentSize = [message.content adjustSizeWithWidth:CELL_WIDTH - 100 andFont:MAINFONTSIZE];

@@ -41,6 +41,11 @@
     [self notifyUpdateUnreadMessageCount];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [self setConversationAvatarStyle:RC_USER_AVATAR_CYCLE];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
