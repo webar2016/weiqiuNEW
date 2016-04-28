@@ -17,8 +17,8 @@
 #import "MJExtension.h"
 #import <RongIMLib/RCIMClient.h>
 
-#define MEMBER_ICON @"http://app.weiqiu.me/hg/hgUsers?groupId=%@"
-#define GROUP_DETAIL @"http://app.weiqiu.me/hg/oneHG?groupId=%@"
+#define MEMBER_ICON @"%@/hg/hgUsers?groupId=%@"
+#define GROUP_DETAIL @"%@/hg/oneHG?groupId=%@"
 
 @interface WBGroupSettingViewController () <WBGroupSettingTableViewCellDelegate> {
     UILabel     *_totalMembers;
@@ -67,7 +67,7 @@
 #pragma mark - 加载信息
 
 -(void)loadHeadIcon{
-    NSString *url = [NSString stringWithFormat:MEMBER_ICON,self.groupId];
+    NSString *url = [NSString stringWithFormat:MEMBER_ICON,WEBAR_IP,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -92,7 +92,7 @@
         NSLog(@"查询免打扰失败---%ld",(long)status);
     }];
     
-    NSString *url = [NSString stringWithFormat:GROUP_DETAIL,self.groupId];
+    NSString *url = [NSString stringWithFormat:GROUP_DETAIL,WEBAR_IP,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -219,7 +219,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"现在退出帮帮团，你将无法获得球币，是否确认退出？" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/quitGroup?userId=%@&groupId=%@",[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/quitGroup?userId=%@&groupId=%@",WEBAR_IP,[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
                 [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             } andFailure:^(NSString *error) {

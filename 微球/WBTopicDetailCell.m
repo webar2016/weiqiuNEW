@@ -262,7 +262,7 @@
 
 -(void)shareBtnClicked{
     
-    NSString *shareURL = [NSString stringWithFormat:@"http://app.weiqiu.me/share/topic?commentId=%ld&newsType=%ld",(long)_model.commentId,(long)_cellType];
+    NSString *shareURL = [NSString stringWithFormat:@"%@/share/topic?commentId=%ld&newsType=%ld",WEBAR_IP,(long)_model.commentId,(long)_cellType];
     
     UIImage *shareImage = [UIImage imageWithData:UIImageJPEGRepresentation(_mainImage.image, 0.1)];
     
@@ -324,7 +324,7 @@
     if (![WBUserDefaults userId] || [[WBUserDefaults userId] integerValue] == _model.userId) {
         return;
     }
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/integral/checkIntegral?userId=%@&updateNum=5",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/integral/checkIntegral?userId=%@&updateNum=5",WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {
             [self upLoadLikeTap];
@@ -336,7 +336,7 @@
 }
 
 -(void)upLoadLikeTap{
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/tq/topicPraise?commentId=%ld&userId=%@&toUserId=%ld",WEBAR_IP,(long)_model.commentId,[WBUserDefaults userId],(long)_model.userId] whenSuccess:^(id representData) {
         NSLog(@"%@",_indexPath);
         [self.delegate changeGetIntegralValue:123 indexPath:self.indexPath];
         

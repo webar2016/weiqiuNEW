@@ -15,7 +15,7 @@
 
 #import "MJExtension.h"
 
-#define ScoreUrl @"http://app.weiqiu.me/hg/hgUsersQNum?groupId=%@"
+#define ScoreUrl @"%@/hg/hgUsersQNum?groupId=%@"
 
 @interface WBAllocateScoreViewController ()<UITableViewDataSource,UITableViewDelegate,ScoreClickedEnent>
 {
@@ -104,7 +104,7 @@
 }
 
 -(void)loadData{
-    NSString *url = [NSString stringWithFormat:ScoreUrl,self.groupId];
+    NSString *url = [NSString stringWithFormat:ScoreUrl,WEBAR_IP,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {
@@ -220,8 +220,7 @@
        // [_data setObject:integral forKey:@"integral"];
     }
     NSLog(@"_data%@",_data);
-    //@"http://app.weiqiu.me/hg/closeGroup"
-    [MyDownLoadManager postUrl:@"http://app.weiqiu.me/hg/closeGroup" withParameters:_data whenProgress:^(NSProgress *FieldDataBlock) {
+    [MyDownLoadManager postUrl:[NSString stringWithFormat:@"%@/hg/closeGroup",WEBAR_IP] withParameters:_data whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
         [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:self.groupId];

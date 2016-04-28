@@ -21,8 +21,8 @@
 #import "WBAllocateScoreViewController.h"
 
 #import "UIColor+color.h"
-#define TopCellURL @"http://app.weiqiu.me/tq/getTopTopic"
-#define CellURL @"http://app.weiqiu.me/tq/getTopic?p=%ld&ps=%d"
+#define TopCellURL @"%@/tq/getTopTopic"
+#define CellURL @"%@/tq/getTopic?p=%ld&ps=%d"
 
 
 @interface WBTopicsTableViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
@@ -84,7 +84,7 @@
 //加载cell的内容
 -(void)loadDataCell
 {
-    NSString *url = [NSString stringWithFormat:CellURL,(long)_page,PAGESIZE];
+    NSString *url = [NSString stringWithFormat:CellURL,WEBAR_IP,(long)_page,PAGESIZE];
 
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -124,7 +124,7 @@
 //加载头部的内容
 -(void) loadDataTop{
     _page = 1;
-    NSString *url = [NSString stringWithFormat:TopCellURL];
+    NSString *url = [NSString stringWithFormat:TopCellURL,WEBAR_IP];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         

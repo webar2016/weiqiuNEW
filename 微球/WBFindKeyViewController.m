@@ -175,8 +175,7 @@
         //短信验证
         //判断是否注册
         [self showHUD:@"正在发送验证码" isDim:YES];
-        // http://app.weiqiu.me/pt/checkUser?userName=15651039809
-        NSString *vertifyUrl = [NSString stringWithFormat:@"http://app.weiqiu.me/pt/checkUser?userName=%@",_telephoneField.text];
+        NSString *vertifyUrl = [NSString stringWithFormat:@"%@/pt/checkUser?userName=%@",WEBAR_IP,_telephoneField.text];
         [MyDownLoadManager getNsurl:vertifyUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"%@",result);
@@ -215,12 +214,12 @@
                 NSLog(@"success");
                 NSDictionary *parameters = @{@"username":_telephoneField.text,@"password":_passwordField.text};
                 
-                [MyDownLoadManager postUrl:@"http://app.weiqiu.me/pt/updatepwd" withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
+                [MyDownLoadManager postUrl:[NSString stringWithFormat:@"%@/pt/updatepwd",WEBAR_IP] withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
                     
                 } andSuccess:^(id representData) {
                     NSLog(@"success");
-                    id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-                    NSLog(@"id = %@",result);
+//                    id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+//                    NSLog(@"id = %@",result);
                     [self showHUDComplete:@"密码修改成功"];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 } andFailure:^(NSString *error) {

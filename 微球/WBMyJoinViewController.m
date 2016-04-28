@@ -73,7 +73,7 @@
 
 -(void)loadMyCreate{
     [self showHUDIndicator];
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/hg/getMyCreate?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/getMyCreate?userId=%@",WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if ([result isKindOfClass:[NSDictionary class]]){

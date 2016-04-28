@@ -338,7 +338,7 @@
     //  NSLog(@"parameters = %@",parameters);
     
     NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.05);
-    [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+    [MyDownLoadManager postUserInfoUrl:[NSString stringWithFormat:@"%@/user/updateUserInfo",WEBAR_IP] withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (![_headImageView.image isEqual:[WBUserDefaults headIcon]]) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
             [formatter setDateFormat:@"yyyy-MM-dd"];

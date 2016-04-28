@@ -12,7 +12,7 @@
 
 +(NSString *)getIntegralConfigWithType:(IntegralUpdateType)type{
     NSString __block *integral;
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL_CONFIG,(int)type] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL_CONFIG,WEBAR_IP,(int)type] whenSuccess:^(id representData) {
         
         integral = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         
@@ -26,7 +26,7 @@
 
 +(NSDictionary *)updateUserByUpdateType:(IntegralUpdateType)type withIntegral:(NSString *)integral{
     id __block result;
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:UPDATE_INTEGRAL,[WBUserDefaults userId],type,integral] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:UPDATE_INTEGRAL,WEBAR_IP,[WBUserDefaults userId],(int)type,integral] whenSuccess:^(id representData) {
         
         result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -40,7 +40,7 @@
 
 +(id)getUserIntegralDetail{
     id __block result;
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL_DETAIL,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL_DETAIL,WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         
         result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -54,7 +54,7 @@
 
 +(id)getUserIntegral{
     id __block result;
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:GET_INTEGRAL,WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         
         result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -69,7 +69,7 @@
 
 +(BOOL)checkIntegralByNeededIntegral:(NSString *)integral{
     BOOL __block isEnough;
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:CHECK_INTEGRAL,[WBUserDefaults userId],integral] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:CHECK_INTEGRAL,WEBAR_IP,[WBUserDefaults userId],integral] whenSuccess:^(id representData) {
         
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString: @"true"]) {

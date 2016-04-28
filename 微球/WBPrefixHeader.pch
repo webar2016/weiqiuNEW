@@ -19,6 +19,12 @@
 #define NSLog(...){};
 #endif
 
+#ifdef DEBUG
+#define WEBAR_IP @"http://app.weiqiu.me"
+#else
+#define WEBAR_IP @"http://app.weiqiu.me"
+#endif
+
 //import files
 #import "WBUserDefaults.h"
 #import "UIColor+color.h"

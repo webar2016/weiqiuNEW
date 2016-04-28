@@ -72,7 +72,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _page=1;
-    _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
+    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
+    _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
     _cellHeightArray = [NSMutableArray array];
     self.dataSource = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -227,12 +228,12 @@
             if (_currentData1Index == 0) {
                 [self showHUD:@"正在加载" isDim:YES];
                 if (locate.areaId==NULL||locate.areaId==nil) {
-                    // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
-                    _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
+                    _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
                     _page = 1;
                 }else{
                     
-                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@",locate.cityId];
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,locate.cityId];
                     _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
                     
                     _page = 1;
@@ -242,13 +243,13 @@
             }else{
                 
                 if (_data2MainIndex==0 &&_currentData2Index==0) {
-                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@",[WBUserDefaults userId]];
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
                     _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
                     _page = 1;
                     
 
                 }else{
-                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],locate.cityId];
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],locate.cityId];
                     _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
                     _page = 1;
                    
@@ -595,8 +596,8 @@
        
         
         if (_data2MainIndex==0 &&_currentData2Index==0) {
-           // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
-            _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
+            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
+            _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
             _page = 1;
             
         }else{
@@ -604,8 +605,8 @@
             WBPositionList *positionList = [[WBPositionList  alloc]init];
             WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
             WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@",model.cityId];
-            _urlString =  [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,model.cityId];
+            _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
         
         
@@ -615,7 +616,7 @@
         
         if (_data2MainIndex==0 &&_currentData2Index==0) {
             
-             NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@",[WBUserDefaults userId]];
+             NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
             _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
         }else{
@@ -623,7 +624,7 @@
             WBPositionList *positionList = [[WBPositionList  alloc]init];
             WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
             WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],model.cityId];
+            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],model.cityId];
             _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
             

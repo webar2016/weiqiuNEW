@@ -14,7 +14,7 @@
 #import "WBHomepageViewController.h"
 
 
-#define commentURL @"http://app.weiqiu.me/tq/getTopicCommentDetil?commentId=%ld"
+#define commentURL @"%@/tq/getTopicCommentDetil?commentId=%ld"
 
 @interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextInputTraits,CommentTapIconDelegate>
 {
@@ -164,7 +164,7 @@
     
     [self showHUD:@"评论中" isDim:YES];
     NSDictionary *paramter = @{@"userId":[WBUserDefaults userId],@"toUserId":_toUserId,@"commentId":[NSString stringWithFormat:@"%ld",(long)_commentId],@"comment":_commentTextView.text,@"typeFlag":_typeFlag};
-    [MyDownLoadManager postUrl:@"http://app.weiqiu.me/tq/setCommentDetil" withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
+    [MyDownLoadManager postUrl:[NSString stringWithFormat: @"%@/tq/setCommentDetil",WEBAR_IP] withParameters:paramter whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
 //        [self showHUDComplete:@"评论成功"];
@@ -195,7 +195,7 @@
 
 //加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:commentURL,(long)_commentId];
+    NSString *url = [NSString stringWithFormat:commentURL,WEBAR_IP,(long)_commentId];
     
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];

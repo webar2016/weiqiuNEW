@@ -56,7 +56,7 @@
 
 -(void)loadData{
     [self showHUDIndicator];
-    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/relationship/concernsList?userId=%@&showUserId=%@",[WBUserDefaults userId],_showUserId];
+    NSString *url = [NSString stringWithFormat:@"%@/relationship/concernsList?userId=%@&showUserId=%@",WEBAR_IP,[WBUserDefaults userId],_showUserId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {

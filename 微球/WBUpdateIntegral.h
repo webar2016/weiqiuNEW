@@ -12,27 +12,27 @@
 /**
  *查询积分配置信息
  */
-#define GET_INTEGRAL_CONFIG @"http://app.weiqiu.me/integral/getIntegralConfigDetil?typeFlag=%d"
+#define GET_INTEGRAL_CONFIG @"%@/integral/getIntegralConfigDetil?typeFlag=%d"
 
 /**
  *添加或扣减用户积分
  */
-#define UPDATE_INTEGRAL @"http://app.weiqiu.me/integral/updateUserIntegral?userId=%@&updateType=%d&updateNum=%@"
+#define UPDATE_INTEGRAL @"%@/integral/updateUserIntegral?userId=%@&updateType=%d&updateNum=%@"
 
 /**
  *获取用户积分流水
  */
-#define GET_INTEGRAL_DETAIL @"http://app.weiqiu.me/integral/getUserIntegralDetil?userId=%@"
+#define GET_INTEGRAL_DETAIL @"%@/integral/getUserIntegralDetil?userId=%@"
 
 /**
  *获取用户积分信息
  */
-#define GET_INTEGRAL @"http://app.weiqiu.me/integral/getUserIntegral?userId=%@"
+#define GET_INTEGRAL @"%@/integral/getUserIntegral?userId=%@"
 
 /**
  *检查用户积分是否够用
  */
-#define CHECK_INTEGRAL @"http://app.weiqiu.me/integral/checkIntegral?userId=%@&updateNum=%@"
+#define CHECK_INTEGRAL @"%@/integral/checkIntegral?userId=%@&updateNum=%@"
 
 /**
  *积分更新类型

@@ -15,8 +15,8 @@
 #import "MJRefresh.h"
 #import "WBMyGroupModel.h"
 
-#define MY_CREATE_GROUPS @"http://app.weiqiu.me/hg/getMyCreate?userId=%@"
-#define MY_JOIN_GROUPS @"http://app.weiqiu.me/hg/getMyJion?userId=%@"
+#define MY_CREATE_GROUPS @"%@/hg/getMyCreate?userId=%@"
+#define MY_JOIN_GROUPS @"%@/hg/getMyJion?userId=%@"
 
 @interface WBAllGroupViewController () <UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource> {
     UIImageView *_emptyView;
@@ -79,7 +79,7 @@
 
 -(void)loadData{
     [self showHUDIndicator];
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:MY_JOIN_GROUPS,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:MY_JOIN_GROUPS,WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if ([result isKindOfClass:[NSDictionary class]]){
@@ -94,7 +94,7 @@
          NSLog(@"%@------join",error);
     }];
     
-    [MyDownLoadManager getNsurl:[NSString stringWithFormat:MY_CREATE_GROUPS,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:MY_CREATE_GROUPS,WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
         if ([result isKindOfClass:[NSDictionary class]]){
