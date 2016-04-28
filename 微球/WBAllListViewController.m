@@ -229,25 +229,22 @@
             [self showHUD:@"正在加载" isDim:YES];
             _areaObject = locate;
             if (_currentData1Index == 0) {
-                [self showHUD:@"正在加载" isDim:YES];
-                if (locate.areaId==NULL||locate.areaId==nil) {
+                if ([[locate getId] isEqualToString:@"all"]) {
                     NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
                     _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
                     _page = 1;
                 }else{
-                    
-                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,locate.cityId];
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,[locate getId]];
                     _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
                     _page = 1;
                 }
             }else{
-                
-                if (_data2MainIndex==0 &&_currentData2Index==0) {
+                if ([[locate getId] isEqualToString:@"all"]) {
                     NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
                     _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
                     _page = 1;
                 }else{
-                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],locate.cityId];
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],[locate getId]];
                     _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
                     _page = 1;
                 }
@@ -591,36 +588,24 @@
 -(void)changeUrl{
     
     if (_currentData1Index == 0) {
-       
-        
-        if (_data2MainIndex==0 &&_currentData2Index==0) {
+        if ([[_areaObject getId] isEqualToString:@"all"]) {
             NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
             _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
             _page = 1;
             
         }else{
-        
-            WBPositionList *positionList = [[WBPositionList  alloc]init];
-            WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
-            WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,model.cityId];
+            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,[_areaObject getId]];
             _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
         }
         
     }else{
-        
-        if (_data2MainIndex==0 &&_currentData2Index==0) {
-            
+        if ([[_areaObject getId] isEqualToString:@"all"]) {
              NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
             _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
         }else{
-            
-            WBPositionList *positionList = [[WBPositionList  alloc]init];
-            WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
-            WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],model.cityId];
+            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],[_areaObject getId]];
             _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
             
