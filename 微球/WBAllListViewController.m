@@ -62,6 +62,8 @@
     UIButton *_locatePickBtn;
     
     CAShapeLayer *_indicator;
+    
+    AreaObject *_areaObject;
 
 }
 
@@ -223,42 +225,35 @@
     addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
         
         if (isSelected) {
-            
+            [self showHUD:@"正在加载" isDim:YES];
+            _areaObject = locate;
             if (_currentData1Index == 0) {
-                [self showHUD:@"正在加载" isDim:YES];
-                if (locate.areaId==NULL||locate.areaId==nil) {
+                if ([[locate getId] isEqualToString:@"all"]) {
                     // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
                     _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
                     _page = 1;
                 }else{
-                    
-                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@",locate.cityId];
+                    NSString *tempStr = [NSString stringWithFormat:@"http://192.168.1.132/mbapp/hg/getHGs?cityId=%@",[locate getId]];
                     _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
-                    
                     _page = 1;
-                    
                 }
-                
             }else{
-                
-                if (_data2MainIndex==0 &&_currentData2Index==0) {
+                if ([[locate getId] isEqualToString:@"all"]) {
                     NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@",[WBUserDefaults userId]];
                     _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
                     _page = 1;
-                    
-
                 }else{
-                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],locate.cityId];
+                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],[locate getId]];
                     _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
                     _page = 1;
-                   
                 }
             }
             [self loadData];
+            
             [_locatePickBtn setTitle:[NSString stringWithFormat:@"位置-%@",locate] forState:UIControlStateNormal];
             NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
             CGSize  actualsize1=[[NSString stringWithFormat:@"位置-%@",locate] boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
-            NSLog(@"%f",actualsize1.width);
+           // NSLog(@"%f",actualsize1.width);
             [self animateIndicator:_indicator Forward:NO];
             _indicator.position =CGPointMake(SCREENWIDTH/4*3 + actualsize1.width/2 + 7, _locatePickBtn.frame.origin.y+15);
         }else{
@@ -592,38 +587,23 @@
 -(void)changeUrl{
     
     if (_currentData1Index == 0) {
-       
-        
-        if (_data2MainIndex==0 &&_currentData2Index==0) {
-           // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
+        if ([[_areaObject getId] isEqualToString:@"all"]) {
             _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
             _page = 1;
             
         }else{
-        
-            WBPositionList *positionList = [[WBPositionList  alloc]init];
-            WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
-            WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@",model.cityId];
+            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@",[_areaObject getId]];
             _urlString =  [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
-        
-        
         }
         
     }else{
-        
-        if (_data2MainIndex==0 &&_currentData2Index==0) {
-            
+        if ([[_areaObject getId] isEqualToString:@"all"]) {
              NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@",[WBUserDefaults userId]];
             _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
         }else{
-            
-            WBPositionList *positionList = [[WBPositionList  alloc]init];
-            WBPositionModel *positionModel =  positionList.provinceArray[_data2MainIndex-1];
-            WBCityModel *model = [[positionList getCitiesListWithProvinceId:positionModel.provinceId] objectAtIndex:_currentData2Index];
-            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],model.cityId];
+            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],[_areaObject getId]];
             _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
             

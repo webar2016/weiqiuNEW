@@ -305,7 +305,7 @@
 
 //数据库
 -(void)saveToDataBase{
-    NSString *unlockCityUrl = [NSString stringWithFormat:@"http://app.weiqiu.me/lr/unlockCity?userId=%@",[WBUserDefaults userId]];
+    NSString *unlockCityUrl = [NSString stringWithFormat:@"http://192.168.1.132/mbapp/lr/unlockCity?userId=%@",[WBUserDefaults userId]];
         [MyDownLoadManager getNsurl:unlockCityUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             

@@ -110,6 +110,7 @@
             WBTbl_Unlock_City *unlockingCity = [[WBTbl_Unlock_City alloc]init];
             unlockingCity.userId = [[WBUserDefaults userId]integerValue];
             unlockingCity.cityId = [unlockMsg.cityId integerValue];
+            unlockingCity.dir = unlockMsg.imageURL;
             
             
             MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];

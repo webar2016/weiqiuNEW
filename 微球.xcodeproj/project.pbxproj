@@ -194,6 +194,8 @@
 		2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B51CAFCE660000E8CB /* UnZan.png */; };
 		2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B61CAFCE660000E8CB /* Zan.png */; };
 		2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */; };
+		2DFCB5561CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFCB5541CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m */; };
+		2DFCB5571CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB5551CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib */; };
 		2DFECB241CC623DE008BE938 /* BigAreas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DFECB231CC623DE008BE938 /* BigAreas.plist */; };
 		2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DFECB251CC623EF008BE938 /* Countrys.plist */; };
 		2DFECB291CC628D8008BE938 /* WBLocateList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFECB281CC628D8008BE938 /* WBLocateList.m */; };
@@ -549,6 +551,9 @@
 		2DF532B51CAFCE660000E8CB /* UnZan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnZan.png; sourceTree = "<group>"; };
 		2DF532B61CAFCE660000E8CB /* Zan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Zan.png; sourceTree = "<group>"; };
 		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDownLoadManager.m; sourceTree = "<group>"; };
+		2DFCB5531CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyUnlockTableViewCell.h; sourceTree = "<group>"; };
+		2DFCB5541CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyUnlockTableViewCell.m; sourceTree = "<group>"; };
+		2DFCB5551CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBMyUnlockTableViewCell.xib; sourceTree = "<group>"; };
 		2DFECB231CC623DE008BE938 /* BigAreas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BigAreas.plist; sourceTree = "<group>"; };
 		2DFECB251CC623EF008BE938 /* Countrys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countrys.plist; sourceTree = "<group>"; };
 		2DFECB271CC628D8008BE938 /* WBLocateList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLocateList.h; sourceTree = "<group>"; };
@@ -900,6 +905,9 @@
 				05D1F9471C8FBE720049D3EC /* WBUnlockViewController.m */,
 				2D38A2E91CB6666800F4AEC8 /* WBMyUnlockViewController.h */,
 				2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */,
+				2DFCB5531CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.h */,
+				2DFCB5541CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m */,
+				2DFCB5551CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib */,
 			);
 			name = unlock;
 			sourceTree = "<group>";
@@ -1596,6 +1604,7 @@
 			files = (
 				052F30D71C93F9FA00D15322 /* province.plist in Resources */,
 				2D62D6651C89346200E4D05E /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				2DFCB5571CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib in Resources */,
 				2D28CC941CCB1130006AB0C3 /* Localtion_select.plist in Resources */,
 				05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
@@ -1798,6 +1807,7 @@
 				2D2568CA1CB74F9C006AEE5A /* WBTbl_Unlocking_City.m in Sources */,
 				05794C881CA2321A00F32837 /* WBSystemMsgCell.m in Sources */,
 				05BE27911C8038F100B916FB /* WBQuestionsViewController.m in Sources */,
+				2DFCB5561CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m in Sources */,
 				0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */,
 				05DB3F641C857EAB00CBCC54 /* WBSingleAnswerModel.m in Sources */,
 				05D6EBC31C7D4BCF002D48FF /* WBHelpGroupsViewController.m in Sources */,

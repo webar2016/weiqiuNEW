@@ -13,6 +13,9 @@
 @property (nonatomic,copy) NSString *userId;
 @property (nonatomic,copy) NSString *provinceId;
 @property (nonatomic,copy) NSString *cityId;
+@property (nonatomic,copy) NSString *photoPath;
 @property (nonatomic,copy) NSString *provinceName;
 @property (nonatomic,copy) NSString *cityName;
+
+
 @end

@@ -15,4 +15,5 @@
 @property (nonatomic,copy) NSDate *unlockDate;
 @property (nonatomic,assign) NSInteger areaId;
 @property (nonatomic,assign) NSInteger marked;
+@property (nonatomic,copy)  NSString *dir;
 @end

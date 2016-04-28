@@ -223,7 +223,7 @@
                 self.locate.city = @"";
                 self.locate.cityId = @"";
             }
-            NSLog(@"%@",self.locate);
+           // NSLog(@"%@",self.locate);
             
             break;
         }

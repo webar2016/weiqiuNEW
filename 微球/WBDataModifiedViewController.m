@@ -253,7 +253,10 @@
         
     if (((UILabel *)[self.view viewWithTag:203]).text==nil||((UILabel *)[self.view viewWithTag:203]).text==NULL||[((UILabel *)[self.view viewWithTag:203]).text isEqualToString:@"" ]) {
     }else{
-      //  NSLog(@"provinceId %@",_areaObject.provinceId);
+        
+        if (_areaObject==nil) {
+            
+        }else{
         if ([_areaObject.provinceId isEqual:@""]) {
             [parameters setValue:_areaObject.areaId forKey:@"provinceId"];
             [parameters setValue:_areaObject.countryId forKey:@"homeCityId"];
@@ -261,6 +264,7 @@
             NSArray *positionArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:((UILabel *)[self.view viewWithTag:203]).text] objectAtIndex:0]];
             [parameters setValue:positionArray[2] forKey:@"provinceId"];
             [parameters setValue:positionArray[1] forKey:@"homeCityId"];
+        }
         }
         
     }
