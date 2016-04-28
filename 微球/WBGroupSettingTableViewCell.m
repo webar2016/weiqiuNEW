@@ -21,7 +21,6 @@
     UILabel         *_totalScore;
     
     UISwitch        *_messagePush;
-//    UISwitch        *_QAPush;
     
     UIView          *_cutLine;
     
@@ -134,15 +133,6 @@
     messagePush.textColor = [UIColor initWithNormalGray];
     messagePush.text = @"消息提醒";
     
-//    UILabel *QAPush= [[UILabel alloc] initWithFrame:CGRectMake(22, 54, 70, 14)];
-//    QAPush.font = MAINFONTSIZE;
-//    QAPush.textColor = [UIColor initWithNormalGray];
-//    if (self.isMaster) {
-//        QAPush.text = @"答案推送";
-//    }else{
-//        QAPush.text = @"问题推送";
-//    }
-    
     _messagePush = [[UISwitch alloc] init];
     _messagePush.center = CGPointMake(SCREENWIDTH - 45, 20);
     _messagePush.onTintColor = [UIColor initWithGreen];
@@ -153,16 +143,6 @@
     } else {
         _messagePush.on = NO;
     }
-    
-//    _QAPush = [[UISwitch alloc] init];
-//    _QAPush.center = CGPointMake(SCREENWIDTH - 45, 61);
-//    _QAPush.onTintColor = [UIColor initWithGreen];
-//    [_QAPush addTarget:self action:@selector(QAPush) forControlEvents:UIControlEventValueChanged];
-//    _QAPush.on = YES;
-//    if (!_isPush) {
-//        _QAPush.on = NO;
-//    }
-//    _cutLine.frame = CGRectMake(10, 41, SCREENWIDTH - 10, 1);
     
     [pushWraper addSubview:messagePush];
 //    [pushWraper addSubview:QAPush];
@@ -221,12 +201,5 @@
         [_delegate messagePush:self isOn:_messagePush.on];
     }
 }
-
-//-(void)QAPush{
-//    if (_delegate && [_delegate respondsToSelector:@selector(QAPush:isOn:)]) {
-//            [_delegate QAPush:self isOn:_QAPush.on];
-//    }
-//}
-
 
 @end

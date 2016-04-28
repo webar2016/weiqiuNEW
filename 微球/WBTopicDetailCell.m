@@ -262,7 +262,7 @@
 
 -(void)shareBtnClicked{
     
-    NSString *shareURL = [NSString stringWithFormat:@"http://app.weiqiu.me/share/topic?commentId=%ld&newsType=%ld",(long)_model.commentId,_cellType];
+    NSString *shareURL = [NSString stringWithFormat:@"http://app.weiqiu.me/share/topic?commentId=%ld&newsType=%ld",(long)_model.commentId,(long)_cellType];
     
     UIImage *shareImage = [UIImage imageWithData:UIImageJPEGRepresentation(_mainImage.image, 0.1)];
     

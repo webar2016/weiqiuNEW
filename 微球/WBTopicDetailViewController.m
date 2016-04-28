@@ -331,7 +331,7 @@
 -(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
     ((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral = ((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral+5;
     _isSelect[indexPath.section] = @"1";
-    NSLog(@"%ld",((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral);
+    NSLog(@"%ld",(long)((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral);
 }
 
 -(void)commentClickedPushView:(NSIndexPath *)indexPath{

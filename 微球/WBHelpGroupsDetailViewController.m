@@ -187,7 +187,7 @@
         labelName.font = MAINFONTSIZE;
         labelName.textColor = [UIColor initWithLightGray];
         
-        UILabel *rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(130, _imageHeight+55+[cellHeightyArray[i] integerValue], SCREENWIDTH-150, 16)];
+        UILabel *rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(110, _imageHeight+55+[cellHeightyArray[i] integerValue], SCREENWIDTH-130, 16)];
         rightLabel.textAlignment = NSTextAlignmentRight;
         [_scrollView addSubview:rightLabel];
         rightLabel.text = rightLabelNameArray[i];
@@ -250,7 +250,6 @@
                     NSString *error = result[@"error"];
                     if ([error isEqualToString:@"0"]) {
                         _isSuccess = YES;
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"showNewGroup" object:self];
                         [self showHUDComplete:@"加入成功，可在【我加入的】查看"];
                         UIButton *btn = (UIButton *)[self.view viewWithTag:101];
                         [btn setEnabled:NO];

@@ -13,8 +13,6 @@
 
 @property (nonatomic, assign) BOOL isMaster;
 
-@property (nonatomic, assign) BOOL isPush;
-
 @property (nonatomic,strong)MBProgressHUD *hud;
 
 -(void)showHUDIndicator;

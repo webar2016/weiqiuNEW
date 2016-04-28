@@ -7,21 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <RongIMKit/RongIMKit.h>
+#import "WBMyGroupModel.h"
 
-@interface WBGroupTableViewCell : RCConversationBaseCell{
-    UIImageView      *_iconsView;
-    UILabel          *_groupName;
-    UILabel          *_totalNumber;
-    UILabel          *_talkTime;
-    UILabel          *_talkDetail;
-    UIImageView      *_disturbSign;
-    UILabel          *_unReadTip;
-}
+@interface WBGroupTableViewCell : UITableViewCell
 
+@property (nonatomic, retain) WBMyGroupModel *model;
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier isMater:(BOOL)isMaster;
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier isJoin:(BOOL)isJoin;
 
--(void)setDataModel:(RCConversationModel *)model;
+- (void)setModel:(WBMyGroupModel *)model;
 
 @end

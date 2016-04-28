@@ -333,7 +333,6 @@
 
 -(void)setRongCloud{
     [[RCIM sharedRCIM] initWithAppKey:@"vnroth0kru0uo"];
-    [RCIM sharedRCIM].globalMessageAvatarStyle = RC_USER_AVATAR_CYCLE;
     
     //设置未注册消息显示方式
     [RCIM sharedRCIM].showUnkownMessage = YES;
@@ -356,7 +355,6 @@
     __weak AppDelegate *weakSelf = self;
     if ([WBUserDefaults token] && !_tokenOutOfTime) {
         [self loginRongCloudWithToken:[WBUserDefaults token]];
-//        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getRCToken" object:nil];
     } else {
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/ry/getToken?userId=%@",[WBUserDefaults userId]] whenSuccess:^(id representData) {
             
@@ -368,7 +366,6 @@
                 _tokenOutOfTime = NO;
                 [weakSelf loginRongCloudWithToken:token[@"token"]];
             }
-            
             
         } andFailure:^(NSString *error) {
             NSLog(@"获取token错误");
@@ -397,21 +394,14 @@
     int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_PRIVATE),@(ConversationType_APPSERVICE),@(ConversationType_SYSTEM),@(ConversationType_GROUP)]];
     [UIApplication sharedApplication].applicationIconBadgeNumber = unreadMsgCount;
     
-//    if ([userId isEqualToString:[WBUserDefaults userId]]) {
-//        RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:userId name:[WBUserDefaults nickname] portrait:[WBUserDefaults dir]];
-//        return completion(userInfo);
-//    }
-    
     if ([userId isEqualToString:@"weiqiu"]) {
         RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:@"weiqiu" name:@"微球小助手" portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/845777126469043105.jpg"];
         return completion(userInfo);
-
     }
     
     if ([userId isEqualToString:@"unlock_notice"]) {
         RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:@"unlock_notice" name:@"解锁提示" portrait:@"http://microball.oss-cn-hangzhou.aliyuncs.com/icon_unclockmesg%403x.png"];
         return completion(userInfo);
-        
     }
     
     NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/ry/userInfo?userId=%@",userId];

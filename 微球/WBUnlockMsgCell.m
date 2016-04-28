@@ -47,7 +47,8 @@
     
     _unlockImage = [[UIImageView alloc] initWithFrame:CGRectZero];
     _unlockImage.backgroundColor = [UIColor initWithBackgroundGray];
-    _unlockImage.contentMode = UIViewContentModeScaleToFill;
+    _unlockImage.contentMode = UIViewContentModeScaleAspectFill;
+    _unlockImage.layer.masksToBounds = YES;
     [_bubbleBackgroundView addSubview:_unlockImage];
     
     _content = [[RCAttributedLabel alloc] initWithFrame:CGRectZero];

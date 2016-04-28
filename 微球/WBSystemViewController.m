@@ -7,7 +7,7 @@
 //
 
 #import "WBSystemViewController.h"
-#import "CreateHelpGroupViewController.h"
+#import "WBUnlockViewController.h"
 #import "WBHomepageViewController.h"
 #import "WBWebViewController.h"
 
@@ -206,8 +206,8 @@
     if ([model.content isKindOfClass:[WBUnlockMessage class]]) {
         WBUnlockMessage *message = (WBUnlockMessage *)model.content;
         if ([message.isUnlock isEqualToString:@"NO"]) {
-            CreateHelpGroupViewController *unlockVC = [[CreateHelpGroupViewController alloc] init];
-            unlockVC.fromSlidePage = YES;
+            WBUnlockViewController *unlockVC = [[WBUnlockViewController alloc] init];
+//            unlockVC.fromSlidePage = YES;
             unlockVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:unlockVC animated:YES];
         }

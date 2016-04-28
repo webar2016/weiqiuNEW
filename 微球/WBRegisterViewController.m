@@ -191,7 +191,6 @@
                     [WBUserDefaults setUserId:[NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]]];
                     [WBUserDefaults setNickname:_telephoneField.text];
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"getGroupInfo" object:self];
                     WBSetInformationViewController *SVC = [[WBSetInformationViewController alloc]init];
                     [self presentViewController:SVC animated:YES completion:nil];
                     [self showHUDComplete:@"注册成功"];

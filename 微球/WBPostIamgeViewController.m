@@ -106,7 +106,7 @@
     _imagePickerController.delegate = self;
     _imagePickerController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeMedium;
-    _imagePickerController.allowsEditing = YES;
+    _imagePickerController.allowsEditing = NO;
 }
 
 -(void)imagePickClicked:(UITapGestureRecognizer *)tap{
@@ -149,15 +149,12 @@
 
 #pragma mark -UIImagePickerControllerDelegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-}
-
 //适用获取所有媒体资源，只需判断资源类型
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
-        [self addImageInSelf:info[UIImagePickerControllerEditedImage]];
-        _selectPic =info[UIImagePickerControllerEditedImage];
+        [self addImageInSelf:info[UIImagePickerControllerOriginalImage]];
+        _selectPic =info[UIImagePickerControllerOriginalImage];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }

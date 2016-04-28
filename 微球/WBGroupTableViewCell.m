@@ -9,136 +9,62 @@
 #import "WBGroupTableViewCell.h"
 #import "UIImageView+WebCache.h"
 #import "WBMyGroupModel.h"
-#import "RongIMKit/RCKitUtility.h"
 
 #define FONT_SIZE [UIFont systemFontOfSize:12]
 
 @implementation WBGroupTableViewCell{
-    BOOL _isMaster;
-    NSDate *_currentDate;
+    BOOL _isJoin;
+    
+    UIImageView *_headIcon;
+    UILabel *_groupName;
+    UILabel *_numberLabel;
 }
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier isMater:(BOOL)isMaster{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier isJoin:(BOOL)isJoin{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        _isMaster = isMaster;
-        _currentDate = [[NSDate alloc] init];
         
-        [self iconsView];
+        _isJoin = isJoin;
         
+        [self groupIcon];
         [self groupName];
+        [self groupNumbers];
         
-        [self totalNumber];
-        
-        [self talkTime];
-        
-        [self talkDetail];
-        
-        [self disturbSign];
-        
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, 66, SCREENWIDTH - 15, 1)];
-        line.backgroundColor = [UIColor initWithBackgroundGray];
-        [self addSubview:line];
     }
     return self;
 }
 
--(void)iconsView{
-    _iconsView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 9, 49, 49)];
-    _iconsView.layer.masksToBounds = YES;
-    _iconsView.layer.cornerRadius = 5;
-    _iconsView.contentMode = UIViewContentModeScaleAspectFill;
-    
-    _unReadTip = [[UILabel alloc] initWithFrame:CGRectMake(48, 4, 20, 20)];
-    _unReadTip.backgroundColor = [UIColor redColor];
-    _unReadTip.textColor = [UIColor whiteColor];
-    _unReadTip.textAlignment = NSTextAlignmentCenter;
-    _unReadTip.layer.masksToBounds = YES;
-    _unReadTip.layer.cornerRadius = 10;
-    _unReadTip.font = FONTSIZE12;
-    [self addSubview:_iconsView];
+- (void)groupIcon{
+    _headIcon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 46, 46)];
+    _headIcon.layer.masksToBounds = YES;
+    _headIcon.layer.cornerRadius = 5;
+    _headIcon.contentMode = UIViewContentModeScaleAspectFill;
+    _headIcon.backgroundColor = [UIColor initWithBackgroundGray];
+    [self.contentView addSubview:_headIcon];
 }
 
--(void)groupName{
-    _groupName = [[UILabel alloc] initWithFrame:CGRectMake(69, 15, SCREENWIDTH - 190, 14)];
-    [_groupName setFont:MAINFONTSIZE];
+- (void)groupName{
+    _groupName = [[UILabel alloc] initWithFrame:CGRectMake(66, 0, SCREENWIDTH / 2, 66)];
+    _groupName.font = [UIFont boldSystemFontOfSize:14];
     _groupName.textColor = [UIColor initWithLightGray];
-    [self addSubview:_groupName];
+    [self.contentView addSubview:_groupName];
 }
 
--(void)totalNumber{
-    _totalNumber = [[UILabel alloc] initWithFrame:CGRectMake(69, 40, 70, 16)];
-    [_totalNumber setFont:FONT_SIZE];
-    _totalNumber.textColor = [UIColor whiteColor];
-    _totalNumber.backgroundColor = [UIColor initWithGreen];
-    _totalNumber.textAlignment = NSTextAlignmentCenter;
-    _totalNumber.layer.masksToBounds = YES;
-    _totalNumber.layer.cornerRadius = 3;
-    [self addSubview:_totalNumber];
+- (void)groupNumbers{
+    _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 + 75, 0, SCREENWIDTH / 2 - 85, 66)];
+    _numberLabel.font = MAINFONTSIZE;
+    _numberLabel.textColor = [UIColor initWithLightGray];
+    _numberLabel.textAlignment = NSTextAlignmentRight;
+    [self.contentView addSubview:_numberLabel];
 }
 
--(void)talkTime{
-    _talkTime = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH - 120, 15, 110, 14)];
-    [_talkTime setFont:FONT_SIZE];
-    _talkTime.textAlignment = NSTextAlignmentRight;
-    _talkTime.textColor = [UIColor initWithNormalGray];
-    [self addSubview:_talkTime];
-}
-
--(void)talkDetail{
-    _talkDetail = [[UILabel alloc] initWithFrame:CGRectMake(145, 40, SCREENWIDTH - 180, 16)];
-    [_talkDetail setFont:FONT_SIZE];
-    _talkDetail.textColor = [UIColor initWithNormalGray];
-    [self addSubview:_talkDetail];
-}
-
--(void)disturbSign{
-    _disturbSign = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_nodistubance"]];
-    _disturbSign.center = CGPointMake(SCREENWIDTH - 20, 47);
-    _disturbSign.hidden = YES;
-    [self addSubview:_disturbSign];
-}
-
--(void)setDataModel:(RCConversationModel *)model{
-    [super setDataModel:model];
-    [_iconsView sd_setImageWithURL:((WBMyGroupModel *)model.extend).dir placeholderImage:[UIImage imageNamed:@"placeholder-17"]];
-    _groupName.text = model.conversationTitle;
-    if (_isMaster) {
-        _totalNumber.text = [NSString stringWithFormat:@"%ld个回答",(long)((WBMyGroupModel *)model.extend).answers];
-    }else {
-        _totalNumber.text = [NSString stringWithFormat:@"%ld个问题",(long)((WBMyGroupModel *)model.extend).questions];
-    }
-    if ([((WBMyGroupModel *)model.extend).isPush isEqual: @"N"]) {
-        _disturbSign.hidden = NO;
+- (void)setModel:(WBMyGroupModel *)model{
+    _model = model;
+    [_headIcon sd_setImageWithURL:model.dir];
+    _groupName.text = [NSString stringWithFormat:@"%@的帮帮团",model.nickName];
+    if (_isJoin) {
+        _numberLabel.text = [NSString stringWithFormat:@"%ld 问题",(long)model.questions];
     } else {
-        _disturbSign.hidden = YES;
-    }
-    if (model.unreadMessageCount > 0) {
-        _unReadTip.text = [NSString stringWithFormat:@"%ld",(long)model.unreadMessageCount];
-        [self addSubview:_unReadTip];
-    }else{
-        [_unReadTip removeFromSuperview];
-    }
-    
-    //最新时间显示
-    
-    _talkTime.text = [RCKitUtility ConvertChatMessageTime:model.sentTime / 1000];
-    
-    //    最新消息显示
-    
-    if ([model.lastestMessage isKindOfClass:[RCTextMessage class]]) {
-        RCTextMessage *textMsg = (RCTextMessage *)model.lastestMessage;
-        [_talkDetail setText:textMsg.content];
-    } else if ([model.lastestMessage isKindOfClass:[RCImageMessage class]]) {
-        [_talkDetail setText:@"[图片]"];
-    } else if ([model.lastestMessage isKindOfClass:[RCVoiceMessage class]]) {
-        [_talkDetail setText:@"[语音]"];
-    } else if ([model.lastestMessage isKindOfClass:[RCLocationMessage class]]) {
-        [_talkDetail setText:@"[位置]"];
-    }else if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
-        RCInformationNotificationMessage *textMsg = (RCInformationNotificationMessage *)model.lastestMessage;
-        [_talkDetail setText:textMsg.message];
-    } else {
-        [_talkDetail setText:@"[暂不支持显示此消息]"];
+        _numberLabel.text = [NSString stringWithFormat:@"%ld 回答",(long)model.answers];
     }
 }
 
