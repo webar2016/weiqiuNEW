@@ -839,7 +839,7 @@
                                          images:@[[UIImage imageWithData:UIImageJPEGRepresentation(_headicon.image, 0.3)]]
                                             url:[NSURL URLWithString:[NSString stringWithFormat:@"%@/map/m?userId=%@",WEBAR_IP,self.userId]]
                                           title:@"快来微球征服地球！"
-                                           type:SSDKContentTypeAuto];
+                                           type:SSDKContentTypeWebPage];
         
         [ShareSDK showShareActionSheet:nil
                                  items:nil

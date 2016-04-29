@@ -16,7 +16,7 @@
 
 @interface WBTopicDetailViewController :WBMenuBtnViewController
 
-@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *mainTitle;
 
 @property (nonatomic,assign) NSInteger topicID;
 

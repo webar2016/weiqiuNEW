@@ -68,6 +68,7 @@
         showWidth = showHeight / rate;
     }
     _scrollView = [[UIScrollView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    _scrollView.backgroundColor = [UIColor redColor];
     _scrollView.contentSize = CGSizeMake(SCREENWIDTH, SCREENHEIGHT);
     _scrollView.userInteractionEnabled = YES;
     [self.view addSubview:_scrollView];
@@ -75,18 +76,14 @@
     _scrollView.minimumZoomScale=1.0;//图片的最小倍率
     _scrollView.delegate = self;
     
-    
-   // _imageView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     _imageView.frame = CGRectMake(0, 0, showWidth, showHeight);
-    _imageView.center =self.view.center;
+    _imageView.center = self.view.center;
     [_scrollView addSubview:_imageView];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
     tap.numberOfTapsRequired = 1;
     tap.numberOfTouchesRequired = 1;
     [_scrollView addGestureRecognizer:tap];
-    
-    
     
     UITapGestureRecognizer *tapImgViewTwice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImgViewHandleTwice:)];
     tapImgViewTwice.numberOfTapsRequired = 2;
@@ -110,21 +107,6 @@
     [wraperView addSubview:contentLabel];
     wraperView.frame = CGRectMake(0, SCREENHEIGHT - labelSize.height - 20, SCREENWIDTH, labelSize.height + 20);
     [self.view addSubview:wraperView];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
-    tap.numberOfTapsRequired = 1;
-    tap.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:tap];
-    
-    
-    
-    UITapGestureRecognizer *tapImgViewTwice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImgViewHandleTwice:)];
-    tapImgViewTwice.numberOfTapsRequired = 2;
-    tapImgViewTwice.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:tapImgViewTwice];
-    
-    [tap requireGestureRecognizerToFail:tapImgViewTwice];
-    
-    
 }
 
 
@@ -132,7 +114,7 @@
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view atScale:(CGFloat)scale{
     
-    if (_imageView.frame.size.height >SCREENHEIGHT) {
+    if (_imageView.frame.size.height > SCREENHEIGHT) {
         
         _imageView.frame = CGRectMake(_imageView.frame.origin.x, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
         _imageView.center = view.center;
@@ -144,13 +126,19 @@
     //NSLog(@"%f",scale);
 }
 
-
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (_imageView.frame.origin.x > 0) {
+        _imageView.frame = CGRectMake(0, _imageView.frame.origin.y, _imageView.frame.size.width,  _imageView.frame.size.height);
+    } else if (_imageView.frame.origin.x +  _imageView.frame.size.width < SCREENWIDTH) {
+        _imageView.frame = CGRectMake(SCREENWIDTH, _imageView.frame.origin.y, _imageView.frame.size.width,  _imageView.frame.size.height);
+    }
+}
 
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView  //委托方法,必须设置  delegate
 {
     NSLog(@"scrollView%@",scrollView);
     NSLog(@"_imageView%@",_imageView);
-    if (_imageView.frame.size.height >SCREENHEIGHT) {
+    if (_imageView.frame.size.height > SCREENHEIGHT) {
         _imageView.frame = CGRectMake(_imageView.frame.origin.x, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
     }else{
         _imageView.frame = CGRectMake(_imageView.frame.origin.x, (SCREENHEIGHT - _imageView.frame.size.height)/2, _imageView.frame.size.width,  _imageView.frame.size.height);
@@ -162,7 +150,8 @@
     
     if (_scrollView.zoomScale>1) {
         [UIView animateWithDuration:0.5 animations:^{
-            _scrollView.zoomScale=1.0;//双击放大到两倍
+            _scrollView.zoomScale=1.0;
+            _imageView.center = self.view.center;
         }];
     }else{
     [UIView animateWithDuration:0.5 animations:^{
