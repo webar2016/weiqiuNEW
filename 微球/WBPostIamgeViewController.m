@@ -256,6 +256,8 @@
     } whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
+        
+        self.reloadDataBlock();
         _isSuccess = YES;
         [self showHUDComplete:@"上传成功"];
     } andFailure:^(NSString *error) {

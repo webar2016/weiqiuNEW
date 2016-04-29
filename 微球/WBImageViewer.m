@@ -13,6 +13,8 @@
 
 @implementation WBImageViewer {
     UIImageView *_imageView;
+    CGFloat _scale;
+    BOOL _isFullWidth;
 }
 
 -(instancetype)initWithImage:(UIImage *)image{
@@ -56,6 +58,8 @@
     
     CGFloat showWidth;
     CGFloat showHeight;
+    CGFloat maximumZoomScale;
+    _scale = 1;
     
     
     _imageView = [[UIImageView alloc] initWithImage:image];
@@ -63,18 +67,22 @@
     if (rate <= 1.78) {
         showWidth = SCREENWIDTH;
         showHeight = showWidth * rate;
+        maximumZoomScale = 1.78/rate;
     } else {
         showHeight = SCREENHEIGHT;
         showWidth = showHeight / rate;
+        maximumZoomScale = rate/1.78;
     }
     _scrollView = [[UIScrollView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    _scrollView.backgroundColor = [UIColor redColor];
+    _scrollView.backgroundColor = [UIColor whiteColor];
     _scrollView.contentSize = CGSizeMake(SCREENWIDTH, SCREENHEIGHT);
     _scrollView.userInteractionEnabled = YES;
     [self.view addSubview:_scrollView];
-    _scrollView.maximumZoomScale=5.0;//图片的放大倍数
+    _scrollView.maximumZoomScale=maximumZoomScale*3;//图片的放大倍数
+    
     _scrollView.minimumZoomScale=1.0;//图片的最小倍率
     _scrollView.delegate = self;
+  //  _scrollView.canCancelContentTouches = YES;
     
     _imageView.frame = CGRectMake(0, 0, showWidth, showHeight);
     _imageView.center = self.view.center;
@@ -89,8 +97,10 @@
     tapImgViewTwice.numberOfTapsRequired = 2;
     tapImgViewTwice.numberOfTouchesRequired = 1;
     [_scrollView addGestureRecognizer:tapImgViewTwice];
-    
     [tap requireGestureRecognizerToFail:tapImgViewTwice];
+    
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageView:)];
+    [_scrollView addGestureRecognizer:pinch];
 
 }
 
@@ -107,6 +117,26 @@
     [wraperView addSubview:contentLabel];
     wraperView.frame = CGRectMake(0, SCREENHEIGHT - labelSize.height - 20, SCREENWIDTH, labelSize.height + 20);
     [self.view addSubview:wraperView];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
+    tap.numberOfTapsRequired = 1;
+    tap.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:tap];
+    
+    
+    
+    UITapGestureRecognizer *tapImgViewTwice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImgViewHandleTwice:)];
+    tapImgViewTwice.numberOfTapsRequired = 2;
+    tapImgViewTwice.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:tapImgViewTwice];
+    
+    [tap requireGestureRecognizerToFail:tapImgViewTwice];
+    
+    
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageView:)];
+    
+    [self.view addGestureRecognizer:pinch];
+    
+    
 }
 
 
@@ -115,31 +145,26 @@
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view atScale:(CGFloat)scale{
     
     if (_imageView.frame.size.height > SCREENHEIGHT) {
-        
-        _imageView.frame = CGRectMake(_imageView.frame.origin.x, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
-        _imageView.center = view.center;
+        if (_imageView.frame.size.width>SCREENWIDTH) {
+            _imageView.frame = CGRectMake(0, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
+        }else{
+            _imageView.frame = CGRectMake((SCREENWIDTH - _imageView.frame.size.width)/2, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
+        }
     }else{
         _imageView.frame = CGRectMake(_imageView.frame.origin.x, (SCREENHEIGHT - _imageView.frame.size.height)/2, _imageView.frame.size.width,  _imageView.frame.size.height);
-        _imageView.center = view.center;
     }
-    
-    //NSLog(@"%f",scale);
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    if (_imageView.frame.origin.x > 0) {
-        _imageView.frame = CGRectMake(0, _imageView.frame.origin.y, _imageView.frame.size.width,  _imageView.frame.size.height);
-    } else if (_imageView.frame.origin.x +  _imageView.frame.size.width < SCREENWIDTH) {
-        _imageView.frame = CGRectMake(SCREENWIDTH, _imageView.frame.origin.y, _imageView.frame.size.width,  _imageView.frame.size.height);
-    }
-}
+
 
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView  //委托方法,必须设置  delegate
 {
-    NSLog(@"scrollView%@",scrollView);
-    NSLog(@"_imageView%@",_imageView);
     if (_imageView.frame.size.height > SCREENHEIGHT) {
-        _imageView.frame = CGRectMake(_imageView.frame.origin.x, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
+        if (_imageView.frame.size.width>SCREENWIDTH) {
+            _imageView.frame = CGRectMake(0, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
+        }else{
+            _imageView.frame = CGRectMake((SCREENWIDTH - _imageView.frame.size.width)/2, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
+        }
     }else{
         _imageView.frame = CGRectMake(_imageView.frame.origin.x, (SCREENHEIGHT - _imageView.frame.size.height)/2, _imageView.frame.size.width,  _imageView.frame.size.height);
     }
@@ -147,18 +172,34 @@
 }
 
 -(void)tapImgViewHandleTwice:(UITapGestureRecognizer *)tap{
-    
     if (_scrollView.zoomScale>1) {
         [UIView animateWithDuration:0.5 animations:^{
             _scrollView.zoomScale=1.0;
             _imageView.center = self.view.center;
+            _scale = 1;
         }];
     }else{
     [UIView animateWithDuration:0.5 animations:^{
-        _scrollView.zoomScale=2.0;//双击放大到两倍
+        _scrollView.zoomScale=_scrollView.maximumZoomScale/3;//双击放大到两倍
+        _scale = _scrollView.maximumZoomScale/3;
     }];
     }
     
+}
+
+-(void)pinchImageView:(UIPinchGestureRecognizer *)pinch{
+    
+ //   NSLog(@"------");
+    if (pinch.state == UIGestureRecognizerStateEnded) {
+        _scale = _scale*pinch.scale;
+        if (_scale>_scrollView.maximumZoomScale) {
+            _scale = _scrollView.maximumZoomScale;
+        }
+        _scrollView.zoomScale = _scale;
+        
+    }else{
+        _scrollView.zoomScale =_scale*pinch.scale;
+    }
 }
 
 -(void)setUpSaveButtonForImage{
