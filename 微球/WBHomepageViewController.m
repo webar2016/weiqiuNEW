@@ -94,7 +94,7 @@
         _defaultUserId =nil;
     }
     
-    _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]] andTitle:@"征服地球"];
+    _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@/map/m?userId=%@",WEBAR_IP,self.userId]] andTitle:@"征服地球"];
     
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, 19, 19);
@@ -342,7 +342,7 @@
 #pragma mark - load data
 
 -(void)loadUserInfo{
-    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/user/userHome?friendId=%@&userId=%@",self.userId,[WBUserDefaults userId]];
+    NSString *url = [NSString stringWithFormat:@"%@/user/userHome?friendId=%@&userId=%@",WEBAR_IP,self.userId,[WBUserDefaults userId]];
         [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {
@@ -360,7 +360,7 @@
 }
 
 -(void)loadTopics{
-    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/tq/getUserComment?userId=%@",self.userId];
+    NSString *url = [NSString stringWithFormat:@"%@/tq/getUserComment?userId=%@",WEBAR_IP,self.userId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _topicsArray = [TopicDetailModel mj_objectArrayWithKeyValuesArray:result[@"topicCommentList"]];
@@ -390,7 +390,7 @@
 }
 
 -(void)loadAnswers{
-    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/tq/getUserAnswer?userId=%@",self.userId];
+    NSString *url = [NSString stringWithFormat:@"%@/tq/getUserAnswer?userId=%@",WEBAR_IP,self.userId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _answersArray = [WBSingleAnswerModel mj_objectArrayWithKeyValuesArray:result[@"answers"]];
@@ -524,7 +524,7 @@
               
               
           }else{
-             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/tq/deleteComment?commentId=%ld",(long)((TopicDetailModel *)_topicsArray[indexPath.section]). commentId] whenSuccess:^(id representData) {
+             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/tq/deleteComment?commentId=%ld",WEBAR_IP,(long)((TopicDetailModel *)_topicsArray[indexPath.section]). commentId] whenSuccess:^(id representData) {
                  
                  [_topicsArray removeObjectAtIndex:indexPath.section];
                  [_rowHeightArray removeObjectAtIndex:indexPath.section];
@@ -585,7 +585,7 @@
 -(void)concernsOperation:(UIButton *)btn{
     if (btn.tag == 50) {
         if ([btn.titleLabel.text isEqualToString:@"关注"]) {
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/relationship/followFriend?userId=%@&friendId=%@",[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/relationship/followFriend?userId=%@&friendId=%@",WEBAR_IP,[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 if ([[result objectForKey:@"msg"]isEqualToString:@"关注成功"]) {
                     [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
@@ -599,7 +599,7 @@
             }];
  
         }else{
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/relationship/cancelFollow?userId=%@&friendId=%@",[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/relationship/cancelFollow?userId=%@&friendId=%@",WEBAR_IP,[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 if ([[result objectForKey:@"msg"]isEqualToString:@"取消关注成功"]) {
                     [_followButton setTitle:@"关注" forState:UIControlStateNormal];
@@ -751,7 +751,7 @@
         
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
         NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 0.4);
-        [MyDownLoadManager postUrl:@"http://app.weiqiu.me/user/updateCover" withParameters:parameters fileData:imageData name:[WBUserDefaults userId] fileName:[NSString stringWithFormat:@"%@.jpg",[WBUserDefaults userId]] mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
+        [MyDownLoadManager postUrl:[NSString stringWithFormat:@"%@/user/updateCover",WEBAR_IP] withParameters:parameters fileData:imageData name:[WBUserDefaults userId] fileName:[NSString stringWithFormat:@"%@.jpg",[WBUserDefaults userId]] mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
             
         } andSuccess:^(id representData) {
             
@@ -817,7 +817,7 @@
     [alert addTextFieldWithConfigurationHandler:nil];
     [alert addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            [MyDownLoadManager postUrl:@"http://app.weiqiu.me/report/reportUser" withParameters:@{@"userId":[WBUserDefaults userId],@"toUserId":self.userId,@"content":alert.textFields.firstObject.text} whenProgress:^(NSProgress *FieldDataBlock) {
+            [MyDownLoadManager postUrl:[NSString stringWithFormat:@"%@/report/reportUser",WEBAR_IP] withParameters:@{@"userId":[WBUserDefaults userId],@"toUserId":self.userId,@"content":alert.textFields.firstObject.text} whenProgress:^(NSProgress *FieldDataBlock) {
             } andSuccess:^(id representData) {
                 [self showHUDText:@"举报成功"];
             } andFailure:^(NSString *error) {
@@ -837,9 +837,9 @@
         NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
         [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"我分享了 %@ 的微球主页，快来微球看看吧！",self.navigationItem.title]
                                          images:@[[UIImage imageWithData:UIImageJPEGRepresentation(_headicon.image, 0.3)]]
-                                            url:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/map/m?userId=%@",self.userId]]
+                                            url:[NSURL URLWithString:[NSString stringWithFormat:@"%@/map/m?userId=%@",WEBAR_IP,self.userId]]
                                           title:@"快来微球征服地球！"
-                                           type:SSDKContentTypeAuto];
+                                           type:SSDKContentTypeWebPage];
         
         [ShareSDK showShareActionSheet:nil
                                  items:nil

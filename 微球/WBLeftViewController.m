@@ -148,7 +148,7 @@
 }
 
 -(void)loadMoneyData{
-    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/integral/getTodayIntegral?userId=%@",[WBUserDefaults userId]];
+    NSString *url = [NSString stringWithFormat:@"%@/integral/getTodayIntegral?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _totalScoreNumber.text =[NSString stringWithFormat:@"%.0f 球币",[[result objectForKey:@"totleIntegral"] floatValue]];
@@ -185,7 +185,7 @@
         }
             
         case 1:{
-            WBWebViewController *guessVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"http://app.weiqiu.me/main/guess?userId=%@",[WBUserDefaults userId]]] andTitle:@"猜图签到"];
+            WBWebViewController *guessVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@/main/guess?userId=%@",WEBAR_IP,[WBUserDefaults userId]]] andTitle:@"猜图签到"];
             guessVC.hidesBottomBarWhenPushed = YES;
             [self pushViewControllerWithController:guessVC];
             break;

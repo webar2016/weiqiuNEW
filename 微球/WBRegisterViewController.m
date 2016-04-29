@@ -183,7 +183,7 @@
                 NSLog(@"success");
                 NSDictionary *parameters = @{@"username":_telephoneField.text,@"password":_registerNumber.text};
                 
-                [MyDownLoadManager postUrl:@"http://app.weiqiu.me/pt/regist" withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
+                [MyDownLoadManager postUrl:[NSString stringWithFormat:@"%@/pt/regist",WEBAR_IP] withParameters:parameters whenProgress:^(NSProgress *uploadProgress) {
                     
                 } andSuccess:^(id representData) {
                     NSLog(@"success");
@@ -228,8 +228,7 @@
         [self showHUD:@"正在发送验证码" isDim:YES];
         UIButton *button = (UIButton *)[self.view viewWithTag:103];
         [button setEnabled:NO];
-       // http://app.weiqiu.me/pt/checkUser?userName=15651039809
-        NSString *vertifyUrl = [NSString stringWithFormat:@"http://app.weiqiu.me/pt/checkUser?userName=%@",_telephoneField.text];
+        NSString *vertifyUrl = [NSString stringWithFormat:@"%@/pt/checkUser?userName=%@",WEBAR_IP,_telephoneField.text];
         [MyDownLoadManager getNsurl:vertifyUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"%@",result);
@@ -282,7 +281,7 @@
         if (strLength==11) {
             NSLog(@"=------textfield -------%@",textField.text);
             
-            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/pt/checkUser?userName=%@%@",textField.text,string] whenSuccess:^(id representData) {
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/pt/checkUser?userName=%@%@",WEBAR_IP,textField.text,string] whenSuccess:^(id representData) {
                 
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
                 if ([result[@"error"] isEqualToString:@"1"]) {

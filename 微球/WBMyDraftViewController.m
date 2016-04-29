@@ -94,7 +94,7 @@
     WBDraftSave *draft = _draftArray[indexPath.row];
     if ([draft.type isEqualToString:@"1"]) {
         //check question out of time
-        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"http://app.weiqiu.me/tq/checkQuestion?questionId=%@",draft.contentId] whenSuccess:^(id representData) {
+        [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/tq/checkQuestion?questionId=%@",WEBAR_IP,draft.contentId] whenSuccess:^(id representData) {
             
             
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];

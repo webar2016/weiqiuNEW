@@ -271,7 +271,7 @@
         
     NSLog(@"%@",parameters);
         
-    [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/user/updateUserInfo" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+    [MyDownLoadManager postUserInfoUrl:[NSString stringWithFormat:@"%@/user/updateUserInfo",WEBAR_IP] withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         NSData *data1 = UIImagePNGRepresentation(_headImageView.image);
         NSData *data = UIImagePNGRepresentation([WBUserDefaults headIcon]);
         if (![data1 isEqual:data]&& data1!=nil) {

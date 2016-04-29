@@ -18,8 +18,8 @@
 #import "WBQuestionsListModel.h"
 #import "MJRefresh.h"
 
-#define QUESTION_IN_FIND @"http://app.weiqiu.me/tq/getQuestion?p=%d&ps=%d"
-#define QUESTION_IN_GROUP @"http://app.weiqiu.me/tq/getHGQuestion?groupId=%d&p=%d&ps=%d"
+#define QUESTION_IN_FIND @"%@/tq/getQuestion?p=%d&ps=%d"
+#define QUESTION_IN_GROUP @"%@/tq/getHGQuestion?groupId=%d&p=%d&ps=%d"
 
 @interface WBQuestionsViewController () <WBQuestionTableViewCellDelegate,UITableViewDelegate> {
     CGFloat _beginScoller;
@@ -133,9 +133,9 @@
     NSString *url = [[NSString alloc] init];
     
     if (self.fromFindView) {
-        url = [NSString stringWithFormat:QUESTION_IN_FIND,self.currentPage,PAGESIZE];
+        url = [NSString stringWithFormat:QUESTION_IN_FIND,WEBAR_IP,self.currentPage,PAGESIZE];
     }else{
-        url = [NSString stringWithFormat:QUESTION_IN_GROUP,self.groupId,self.currentPage,PAGESIZE];
+        url = [NSString stringWithFormat:QUESTION_IN_GROUP,WEBAR_IP,self.groupId,self.currentPage,PAGESIZE];
     }
     
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {

@@ -248,7 +248,7 @@
     
     
     
-    [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+    [MyDownLoadManager postUserInfoUrl:[NSString stringWithFormat:@"%@/tq/setComment",WEBAR_IP] withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (fileData) {
             [formData appendPartWithFileData:fileData name:@"asd" fileName:@"asd.jpg" mimeType:@"image/jpeg"];
         }

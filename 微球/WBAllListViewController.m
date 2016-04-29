@@ -74,7 +74,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _page=1;
-    _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
+    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
+    _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
     _cellHeightArray = [NSMutableArray array];
     self.dataSource = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -229,21 +230,21 @@
             _areaObject = locate;
             if (_currentData1Index == 0) {
                 if ([[locate getId] isEqualToString:@"all"]) {
-                    // @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d"
-                    _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
+                    _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
                     _page = 1;
                 }else{
-                    NSString *tempStr = [NSString stringWithFormat:@"http://192.168.1.132/mbapp/hg/getHGs?cityId=%@",[locate getId]];
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,[locate getId]];
                     _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
                     _page = 1;
                 }
             }else{
                 if ([[locate getId] isEqualToString:@"all"]) {
-                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@",[WBUserDefaults userId]];
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
                     _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
                     _page = 1;
                 }else{
-                    NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],[locate getId]];
+                    NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],[locate getId]];
                     _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
                     _page = 1;
                 }
@@ -588,22 +589,23 @@
     
     if (_currentData1Index == 0) {
         if ([[_areaObject getId] isEqualToString:@"all"]) {
-            _urlString = @"http://app.weiqiu.me/hg/getHGs?p=%ld&ps=%d";
+            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
+            _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
             _page = 1;
             
         }else{
-            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?cityId=%@",[_areaObject getId]];
-            _urlString =  [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,[_areaObject getId]];
+            _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
         }
         
     }else{
         if ([[_areaObject getId] isEqualToString:@"all"]) {
-             NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@",[WBUserDefaults userId]];
+             NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
             _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
         }else{
-            NSString *tempStr = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/getHGs?userId=%@&cityId=%@",[WBUserDefaults userId],[_areaObject getId]];
+            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],[_areaObject getId]];
             _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;
             

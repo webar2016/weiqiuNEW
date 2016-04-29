@@ -28,7 +28,7 @@
 #import "WBArticalViewController.h"
 #import <ALBBQuPaiPlugin/ALBBQuPaiPlugin.h>
 
-#define TopicCommentURL @"http://app.weiqiu.me/tq/getTopicComment?topicId=%ld&p=%ld&ps=%d"
+#define TopicCommentURL @"%@/tq/getTopicComment?topicId=%ld&p=%ld&ps=%d"
 
 @interface WBTopicDetailViewController ()<UITableViewDataSource,UITableViewDelegate,TransformValue>
 {
@@ -188,7 +188,7 @@
         [parameters setObject:@"2" forKey:@"newsType"];
         [parameters setObject:[NSString stringWithFormat:@"%ld",(long)_topicID] forKey:@"topicId"];
         
-        [MyDownLoadManager postUserInfoUrl:@"http://app.weiqiu.me/tq/setComment" withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
+        [MyDownLoadManager postUserInfoUrl:[NSString stringWithFormat: @"%@/tq/setComment",WEBAR_IP] withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:fileData name:@"1234" fileName:@"video1.mov" mimeType:@"video/quicktime"];
             
         } whenProgress:^(NSProgress *FieldDataBlock) {
@@ -211,7 +211,7 @@
         [self alertLogin];
         return;
     }
-    WBPostArticleViewController *articleViewController = [[WBPostArticleViewController alloc]initWithTopicId:[NSString stringWithFormat:@"%ld",(long)self.topicID] title:self.title];
+    WBPostArticleViewController *articleViewController = [[WBPostArticleViewController alloc]initWithTopicId:[NSString stringWithFormat:@"%ld",(long)self.topicID] title:self.mainTitle];
     articleViewController.navigationItem.title = @"发布长图文";
     articleViewController.reloadDataBlock = ^{
         _page = 1;
@@ -241,7 +241,7 @@
 
 //加载数据
 -(void) loadData{
-    NSString *url = [NSString stringWithFormat:TopicCommentURL,(long)_topicID,(long)_page,PAGESIZE];
+    NSString *url = [NSString stringWithFormat:TopicCommentURL,WEBAR_IP,(long)_topicID,(long)_page,PAGESIZE];
     
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];

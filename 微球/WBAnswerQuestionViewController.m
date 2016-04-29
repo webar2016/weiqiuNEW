@@ -21,7 +21,7 @@
         self.draftTitle = title;
         self.groupId = groupId;
         self.questionId = questionId;
-        self.url = @"http://app.weiqiu.me/tq/setAnswer";
+        self.url = [NSString stringWithFormat:@"%@/tq/setAnswer",WEBAR_IP];
         self.navigationItem.title = @"回答问题";
         WBDraftSave *draft = [[WBDraftManager openDraft] searchDraftWithType:@"1" contentId:questionId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
         if (draft) {

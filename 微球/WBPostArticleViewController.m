@@ -18,7 +18,7 @@
     if (self = [super init]) {
         self.draftTitle = title;
         self.topicID = topicId;
-        self.url = @"http://app.weiqiu.me/tq/setComment";
+        self.url = [NSString stringWithFormat:@"%@/tq/setComment",WEBAR_IP];
         self.navigationItem.title = @"发布长图文";
         WBDraftSave *draft = [[WBDraftManager openDraft] searchDraftWithType:@"2" contentId:topicId userId:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]];
         if (draft) {

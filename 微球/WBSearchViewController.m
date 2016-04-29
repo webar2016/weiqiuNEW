@@ -17,7 +17,7 @@
 #import "WBQuestionsListModel.h"
 #import "WBUserInfosModel.h"
 
-#define SEARCH_URL @"http://app.weiqiu.me/tq/search?content=%@"
+#define SEARCH_URL @"%@/tq/search?content=%@"
 
 @interface WBSearchViewController () <UITextFieldDelegate,WBQuestionTableViewCellDelegate> {
     UIView      *_headerView;
@@ -207,7 +207,7 @@
 #pragma mark - search
 
 -(void)searchContent{
-    NSString *url = [NSString stringWithFormat:SEARCH_URL,_searchString];
+    NSString *url = [NSString stringWithFormat:SEARCH_URL,WEBAR_IP,_searchString];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         

@@ -12,7 +12,7 @@
 #import "MyDBmanager.h"
 #import "AreaObject.h"
 
-#define UNLOCK_URL @"http://192.168.1.132/mbapp/album/unlockApplication"
+#define UNLOCK_URL @"%@/album/unlockApplication"
 
 @interface WBUnlockViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate,UITextInputTraits> {
     UIScrollView    *_scrollView;
@@ -315,7 +315,8 @@
     data[@"content"] = _contentview.text;
     data[@"imgRate"] = _imageScale;
     
-    [MyDownLoadManager postUrl:UNLOCK_URL withParameters:data fileData:_fileData name:_imageName fileName:_imageName mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
+    [MyDownLoadManager postUrl:[NSString stringWithFormat: UNLOCK_URL,WEBAR_IP] withParameters:data fileData:_fileData name:_imageName fileName:_imageName mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
+        
     } andSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result[@"error"] integerValue]==0) {

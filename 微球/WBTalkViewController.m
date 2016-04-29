@@ -23,8 +23,8 @@
 
 #import "UILabel+label.h"
 
-#define QUESTION_NUMBER @"http://app.weiqiu.me/hg/noSolveNum?groupId=%@"
-#define QUESTION_IN_GROUP @"http://app.weiqiu.me/tq/getHGQuestion?groupId=%@&p=1&ps=1"
+#define QUESTION_NUMBER @"%@/hg/noSolveNum?groupId=%@"
+#define QUESTION_IN_GROUP @"%@/tq/getHGQuestion?groupId=%@&p=1&ps=1"
 
 @interface WBTalkViewController () {
     UIView      *_questionView;
@@ -110,7 +110,7 @@
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    NSString *url = [NSString stringWithFormat:@"http://app.weiqiu.me/hg/ask"];
+    NSString *url = [NSString stringWithFormat:@"%@/hg/ask",WEBAR_IP];
     [manager POST:url parameters:data progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -146,7 +146,7 @@
         return;
     }
     _isGettingQues = YES;
-    NSString *url = [NSString stringWithFormat:QUESTION_NUMBER,self.groupId];
+    NSString *url = [NSString stringWithFormat:QUESTION_NUMBER,WEBAR_IP,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
@@ -167,7 +167,7 @@
 }
 
 -(void)loadData{
-    NSString *url = [NSString stringWithFormat:QUESTION_IN_GROUP,self.groupId];
+    NSString *url = [NSString stringWithFormat:QUESTION_IN_GROUP,WEBAR_IP,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
