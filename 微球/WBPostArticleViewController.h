@@ -8,7 +8,11 @@
 
 #import "WBArticalBaseViewController.h"
 
+
+
 @interface WBPostArticleViewController : WBArticalBaseViewController
+
+
 
 @property (nonatomic,copy) NSString *topicID;
 

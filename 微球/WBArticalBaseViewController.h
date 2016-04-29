@@ -15,7 +15,12 @@
 #import "WBDraftManager.h"
 #import "WBAttributeTextView.h"
 
+typedef void (^ReloadDataBlock)(void);
+
+
 @interface WBArticalBaseViewController : WBRefreshViewController
+
+@property (nonatomic,strong)ReloadDataBlock reloadDataBlock;
 
 @property (nonatomic, strong) WBAttributeTextView *textView;
 

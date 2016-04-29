@@ -85,12 +85,13 @@
     header.lastUpdatedTimeLabel.hidden = YES;
     
     _tableView.mj_header = header;
+    
+    _page = 1;
+    [self loadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    _page = 1;
-    [self loadData];
-    [super viewWillAppear:YES];
+       [super viewWillAppear:YES];
     
 }
 
@@ -143,6 +144,12 @@
     
     WBPostIamgeViewController *PIVC = [[WBPostIamgeViewController alloc]init];
     PIVC.topicID = _topicID;
+    PIVC.reloadDataBlock=^{
+        _page = 1;
+        [self loadData];
+        
+
+    };
     [self  menuBtnClicled];
     [self.navigationController pushViewController:PIVC animated:YES];
     
@@ -206,6 +213,10 @@
     }
     WBPostArticleViewController *articleViewController = [[WBPostArticleViewController alloc]initWithTopicId:[NSString stringWithFormat:@"%ld",(long)self.topicID] title:self.title];
     articleViewController.navigationItem.title = @"发布长图文";
+    articleViewController.reloadDataBlock = ^{
+        _page = 1;
+        [self loadData];
+    };
     [self  menuBtnClicled];
     [self.navigationController pushViewController:articleViewController animated:YES];
 }

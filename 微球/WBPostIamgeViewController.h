@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "WBRefreshViewController.h"
 
+
+typedef void (^ReloadDataBlock)(void);
+
 @interface WBPostIamgeViewController : WBRefreshViewController
 @property (nonatomic,assign) NSInteger topicID;
+
+//- (void) reloadData: (ReloadDataBlock)block;
+@property (nonatomic,strong)ReloadDataBlock reloadDataBlock;
+
 @end

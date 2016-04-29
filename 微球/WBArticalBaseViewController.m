@@ -232,6 +232,7 @@
                 [[NSFileManager defaultManager]  removeItemAtPath:draftPath error:nil];
             }
         }
+        self.reloadDataBlock();
         [self showHUDComplete:@"发布成功"];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

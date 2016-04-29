@@ -13,6 +13,8 @@
 
 @implementation WBImageViewer {
     UIImageView *_imageView;
+    CGFloat _scale;
+    BOOL _isFullWidth;
 }
 
 -(instancetype)initWithImage:(UIImage *)image{
@@ -56,6 +58,7 @@
     
     CGFloat showWidth;
     CGFloat showHeight;
+    _scale = 1;
     
     
     _imageView = [[UIImageView alloc] initWithImage:image];
@@ -74,6 +77,7 @@
     _scrollView.maximumZoomScale=5.0;//图片的放大倍数
     _scrollView.minimumZoomScale=1.0;//图片的最小倍率
     _scrollView.delegate = self;
+  //  _scrollView.canCancelContentTouches = YES;
     
     
    // _imageView.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
@@ -92,8 +96,10 @@
     tapImgViewTwice.numberOfTapsRequired = 2;
     tapImgViewTwice.numberOfTouchesRequired = 1;
     [_scrollView addGestureRecognizer:tapImgViewTwice];
-    
     [tap requireGestureRecognizerToFail:tapImgViewTwice];
+    
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageView:)];
+    [_scrollView addGestureRecognizer:pinch];
 
 }
 
@@ -125,6 +131,11 @@
     [tap requireGestureRecognizerToFail:tapImgViewTwice];
     
     
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageView:)];
+    
+    [self.view addGestureRecognizer:pinch];
+    
+    
 }
 
 
@@ -133,28 +144,19 @@
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view atScale:(CGFloat)scale{
     
     if (_imageView.frame.size.height >SCREENHEIGHT) {
-        
         _imageView.frame = CGRectMake(_imageView.frame.origin.x, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
-        _imageView.center = view.center;
     }else{
         _imageView.frame = CGRectMake(_imageView.frame.origin.x, (SCREENHEIGHT - _imageView.frame.size.height)/2, _imageView.frame.size.width,  _imageView.frame.size.height);
-        _imageView.center = view.center;
     }
-    
-    //NSLog(@"%f",scale);
+    NSLog(@"%f",scale);
 }
 
 
 
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView  //委托方法,必须设置  delegate
 {
-    NSLog(@"scrollView%@",scrollView);
-    NSLog(@"_imageView%@",_imageView);
-    if (_imageView.frame.size.height >SCREENHEIGHT) {
-        _imageView.frame = CGRectMake(_imageView.frame.origin.x, 0, _imageView.frame.size.width,  _imageView.frame.size.height);
-    }else{
-        _imageView.frame = CGRectMake(_imageView.frame.origin.x, (SCREENHEIGHT - _imageView.frame.size.height)/2, _imageView.frame.size.width,  _imageView.frame.size.height);
-    }
+
+    
     return _imageView;//要放大的视图
 }
 
@@ -170,6 +172,32 @@
     }];
     }
     
+}
+
+-(void)pinchImageView:(UIPinchGestureRecognizer *)pinch{
+    
+    NSLog(@"------");
+    if (pinch.state == UIGestureRecognizerStateEnded) {
+        
+        _scale = _scale*pinch.scale;
+        if (_scale>5) {
+            _scale = 5;
+        }
+        
+        _scrollView.zoomScale = _scale;
+        
+        
+        
+    }else{
+        
+        
+        _scrollView.zoomScale =_scale*pinch.scale;
+        
+    }
+    
+    
+    
+
 }
 
 -(void)setUpSaveButtonForImage{
