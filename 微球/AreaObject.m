@@ -12,7 +12,7 @@
             }
              return [NSString stringWithFormat:@"%@",self.country];
         }
-         return [NSString stringWithFormat:@"%@ ",self.province];
+         return [NSString stringWithFormat:@"%@",self.province];
     }
     return [NSString stringWithFormat:@"%@",self.city];
 }
@@ -31,7 +31,7 @@
             }
             return [NSString stringWithFormat:@"%@",self.countryId];
         }
-        return [NSString stringWithFormat:@"%@ ",self.provinceId];
+        return [NSString stringWithFormat:@"%@",self.provinceId];
     }
     return [NSString stringWithFormat:@"%@",self.cityId];
 

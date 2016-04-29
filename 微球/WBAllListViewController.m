@@ -235,17 +235,19 @@
                     _page = 1;
                 }else{
                     NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,[locate getId]];
+               
                     _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+         
                     _page = 1;
                 }
             }else{
                 if ([[locate getId] isEqualToString:@"all"]) {
                     NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
-                    _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
+                    _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
                     _page = 1;
                 }else{
                     NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],[locate getId]];
-                    _urlString = [tempStr stringByAppendingString:@"*p=%ld&ps=%d"];
+                    _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
                     _page = 1;
                 }
             }

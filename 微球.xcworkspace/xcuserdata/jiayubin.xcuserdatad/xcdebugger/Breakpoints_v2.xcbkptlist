@@ -16,6 +16,15 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
+                  symbolName = "-[NSObject doesNotRecognizeSelector:]"
+                  moduleName = "libobjc.A.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
                   symbolName = "-[NSObject(NSObject) doesNotRecognizeSelector:]"
                   moduleName = "CoreFoundation"
                   usesParentBreakpointCondition = "Yes"
@@ -35,9 +44,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "-application:didReceiveRemoteNotification:"
-            landmarkType = "5">
+            endingLineNumber = "225">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

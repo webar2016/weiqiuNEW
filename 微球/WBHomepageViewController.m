@@ -740,7 +740,9 @@
     NSLog(@"选择完毕----image:%@-----info:%@",image,editingInfo);
 }
 
-
+-(UIImage*) OriginImage:(UIImage *)image scaleToSize:(CGSize)size{
+    UIGraphicsBeginImageContext(size); [image drawInRect:CGRectMake(0, 0, size.width, size.height)]; UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext(); UIGraphicsEndImageContext(); return scaledImage;
+}
 //适用获取所有媒体资源，只需判断资源类型
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
@@ -749,8 +751,16 @@
         [self showHUD:@"正在上传" isDim:YES];
         [_coverImage setImage:info[UIImagePickerControllerEditedImage]];
         
+       
+        
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
-        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 0.4);
+        NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 1.0);
+        
+        NSLog(@"%ld",imageData.length);
+        
+        
+        
+        
         [MyDownLoadManager postUrl:[NSString stringWithFormat:@"%@/user/updateCover",WEBAR_IP] withParameters:parameters fileData:imageData name:[WBUserDefaults userId] fileName:[NSString stringWithFormat:@"%@.jpg",[WBUserDefaults userId]] mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {
             
         } andSuccess:^(id representData) {
