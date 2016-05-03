@@ -17,18 +17,18 @@
  UILabel *_rightLabel;
  UIImageView *_imageView;*/
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier cellWidth:(CGFloat)width
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
    
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
        
-        _backgroungImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 9, width-20, 178-9)];
+        _backgroungImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 9, SCREENWIDTH-20, (SCREENWIDTH-20)/2.13)];
         _backgroungImage.backgroundColor = [UIColor initWithNormalGray];
         _backgroungImage.layer.cornerRadius =5;
         [self.contentView addSubview:_backgroungImage];
         
-        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(17.5, 29, width-20, 30)];
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(17.5, 29, SCREENWIDTH-20, 30)];
         _titleLabel.font = [UIFont boldSystemFontOfSize:14];
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
@@ -68,18 +68,6 @@
     _titleLabel.text = model.topicContent;
     _contentLabel.text = [NSString stringWithFormat:@"%ld条内容",(long)model.commentNum];
     
-}
-
-
-
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

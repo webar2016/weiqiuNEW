@@ -24,6 +24,9 @@
 }
 
 @property (nonatomic, strong) NSMutableArray *myCreate;
+@property (nonatomic, strong) NSMutableArray *myJoin;
+@property (nonatomic, assign) BOOL loadCreate;
+@property (nonatomic, assign) BOOL loadJoin;
 @property (nonatomic,strong) MBProgressHUD *hud;
 
 @end
@@ -41,6 +44,7 @@
     self.emptyConversationView.center = CGPointMake(SCREENWIDTH / 2, 170);
     self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myCreate = [NSMutableArray array];
+    self.myJoin = [NSMutableArray array];
     [self setUpHeaderView];
     return self;
 }
@@ -52,7 +56,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    [self loadMyCreate];
+    [self loadMyGroup];
 }
 
 -(void)setUpHeaderView{
@@ -71,7 +75,7 @@
     self.conversationListTableView.tableHeaderView = headerView;
 }
 
--(void)loadMyCreate{
+-(void)loadMyGroup{
     [self showHUDIndicator];
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/getMyCreate?userId=%@",WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -82,12 +86,45 @@
                 [self.myCreate addObject:[NSString stringWithFormat:@"%ld",(unsigned long)model.groupId]];
             }
         }
-        [self hideHUD];
+        self.loadCreate = YES;
+        [self endLoad];
         
     } andFailure:^(NSString *error) {
-        [self hideHUD];
+        self.loadCreate = YES;
+        [self endLoad];
         NSLog(@"%@",error);
     }];
+    
+    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/getMyJion?userId=%@",WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        
+        if ([result isKindOfClass:[NSDictionary class]]){
+            NSMutableArray *temp = [WBMyGroupModel mj_objectArrayWithKeyValuesArray:result[@"helpGroup"]];
+            for (WBMyGroupModel *model in temp) {
+                [self.myJoin addObject:[NSString stringWithFormat:@"%ld",(unsigned long)model.groupId]];
+            }
+        }
+        self.loadJoin = YES;
+        [self endLoad];
+    } andFailure:^(NSString *error) {
+        self.loadJoin = YES;
+        [self endLoad];
+        NSLog(@"%@------join",error);
+    }];
+}
+
+-(void)endLoad{
+    if (self.loadJoin && self.loadCreate) {
+        NSInteger count = self.conversationListDataSource.count;
+        for (NSInteger i = 0; i < count; i ++) {
+            RCConversationModel *model = self.conversationListDataSource[i];
+            if (![self.myCreate containsObject:model.targetId] && ![self.myJoin containsObject:model.targetId]) {
+                [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:model.targetId];
+            }
+        }
+        [self willReloadTableData:self.conversationListDataSource];
+        [self hideHUD];
+    }
 }
 
 -(void)allGroupList{
