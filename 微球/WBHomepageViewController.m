@@ -756,7 +756,7 @@
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
         NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 1.0);
         
-        NSLog(@"%ld",imageData.length);
+        NSLog(@"%lu",(unsigned long)imageData.length);
         
         
         
