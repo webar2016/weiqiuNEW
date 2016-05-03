@@ -41,42 +41,32 @@
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
     
-//    _tip = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH * 0.75, 5, 6, 6)];
-//    _tip.layer.masksToBounds = YES;
-//    _tip.layer.cornerRadius = 3;
-//    _tip.hidden = YES;
-//    _tip.backgroundColor = [UIColor redColor];
-//    [self.navigationController.navigationBar addSubview:_tip];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(unReadGroup:)
-//                                                 name:@"unReadTipGroup"
-//                                               object:nil];
-    
     [self setUpNavgationItem];
     [self initVcArr];
     [self initPageVc];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(unReadGroup:)
+                                                 name:@"unReadTipGroup"
+                                               object:nil];
 }
 
-//-(void)unReadGroup:(NSNotification*)sender{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        int count = [sender.userInfo[@"unReadGroup"] intValue];
-//        if (count > 0 && _tip.hidden) {
-//            _tip.hidden = NO;
-//        } else if (count == 0 && !_tip.hidden) {
-//            _tip.hidden = YES;
-//        }
-//    });
-//}
+-(void)unReadGroup:(NSNotification*)sender{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        int count = [sender.userInfo[@"unReadGroup"] intValue];
+        if (count > 0 && _tip.hidden) {
+            _tip.hidden = NO;
+        } else if (count == 0 && !_tip.hidden) {
+            _tip.hidden = YES;
+        }
+    });
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
     if (![WBUserDefaults userId]) {
         self.segmentedControl.selectedSegmentIndex = 0;
     }
-//    if (self.segmentedControl.selectedSegmentIndex == 1) {
-//        _tip.hidden = YES;
-//    }
     [self changeCurrentController:self.segmentedControl];
 }
 
@@ -86,12 +76,26 @@
 
 -(void)setUpNavgationItem{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-        self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"所有",@"最近"]];
-        self.segmentedControl.selectedSegmentIndex = 0;
-        [self.segmentedControl addTarget:self action:@selector(changeCurrentController:) forControlEvents:UIControlEventValueChanged];
-        self.segmentedControl.tintColor = [UIColor initWithGreen];
-        self.segmentedControl.frame = CGRectMake(0, 0, self.view.frame.size.width*0.5, 30);
-        self.navigationItem.titleView = self.segmentedControl;
+    
+    UIView *segementedView = [[UIView alloc] init];
+    
+    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"所有",@"最近"]];
+    self.segmentedControl.selectedSegmentIndex = 0;
+    [self.segmentedControl addTarget:self action:@selector(changeCurrentController:) forControlEvents:UIControlEventValueChanged];
+    self.segmentedControl.tintColor = [UIColor initWithGreen];
+    CGFloat segementWidth = self.view.frame.size.width;
+    self.segmentedControl.frame = CGRectMake(segementWidth * 0.05, 5, segementWidth*0.5, 30);
+    segementedView.frame = CGRectMake(0, 0, segementWidth*0.6, 40);
+    [segementedView addSubview:self.segmentedControl];
+    
+    _tip = [[UIView alloc] initWithFrame:CGRectMake(segementWidth*0.54, 3, 6, 6)];
+    _tip.layer.masksToBounds = YES;
+    _tip.layer.cornerRadius = 3;
+    _tip.hidden = YES;
+    _tip.backgroundColor = [UIColor redColor];
+    [segementedView addSubview:_tip];
+    
+    self.navigationItem.titleView = segementedView;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -128,7 +132,6 @@
             LoadViewController *loginVC = [[LoadViewController alloc] init];
             [self presentViewController:loginVC animated:YES completion:nil];
         } else {
-//            _tip.hidden = YES;
             [_pageViewController setViewControllers:@[_vcArray[1]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
         }
     }

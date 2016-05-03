@@ -74,7 +74,7 @@
         maximumZoomScale = rate/1.78;
     }
     _scrollView = [[UIScrollView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    _scrollView.backgroundColor = [UIColor whiteColor];
+    _scrollView.backgroundColor = [UIColor blackColor];
     _scrollView.contentSize = CGSizeMake(SCREENWIDTH, SCREENHEIGHT);
     _scrollView.userInteractionEnabled = YES;
     [self.view addSubview:_scrollView];
