@@ -207,7 +207,12 @@
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     CGFloat scale = image.size.height / image.size.width;
     _imageScale = [NSNumber numberWithFloat:scale];
-    _fileData = UIImageJPEGRepresentation(image, 0.1);
+    if (_fileData.length>500*1024) {
+        _fileData = UIImageJPEGRepresentation(image, 500*1024.0/_fileData.length);
+    }else{
+        _fileData = UIImageJPEGRepresentation(image, 1);
+    }
+    NSLog(@"%ld",_fileData.length);
     
     NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];

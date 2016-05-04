@@ -788,9 +788,14 @@
         NSDictionary *parameters = @{@"userId":[WBUserDefaults userId]};
         NSData *imageData = UIImageJPEGRepresentation(_coverImage.image, 1.0);
         
-        NSLog(@"%lu",(unsigned long)imageData.length);
+       // NSLog(@"%lu",(unsigned long)imageData.length);
         
+        if ((unsigned long)imageData.length > 500*1024) {
+            NSLog(@"%lf",500*1024.0/(unsigned long)imageData.length);
+            imageData = UIImageJPEGRepresentation(_coverImage.image, 500*1024.0/(unsigned long)imageData.length);
+        }
         
+       // NSLog(@"%lu",(unsigned long)imageData.length);
         
         
         [MyDownLoadManager postUrl:[NSString stringWithFormat:@"%@/user/updateCover",WEBAR_IP] withParameters:parameters fileData:imageData name:[WBUserDefaults userId] fileName:[NSString stringWithFormat:@"%@.jpg",[WBUserDefaults userId]] mimeType:@"image/jpeg" whenProgress:^(NSProgress *FieldDataBlock) {

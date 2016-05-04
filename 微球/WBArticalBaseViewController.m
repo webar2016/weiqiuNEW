@@ -212,7 +212,14 @@
         
         NSUInteger count = self.imageArray.count;
         for (NSUInteger index = 0; index < count; index ++) {
-            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 0.4);
+            
+            
+            NSData *fileData = UIImageJPEGRepresentation(self.imageArray[index], 1.0);
+            if (fileData.length>500*1024) {
+                fileData = UIImageJPEGRepresentation(self.imageArray[index], 500*1024.0/fileData.length);
+            }
+            
+            
             [formData appendPartWithFileData:fileData name:self.nameArray[index] fileName:self.nameArray[index] mimeType:@"image/jpeg"];
         }
         

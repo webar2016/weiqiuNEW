@@ -277,7 +277,7 @@
     }
 }
 
-//删除所有数据
+//删除表
 
 
 -(void)deleteAllData

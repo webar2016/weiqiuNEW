@@ -278,7 +278,10 @@
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
             [formatter setDateFormat:@"yyyy-MM-dd"];
             NSString *dateTime = [formatter stringFromDate:[NSDate date]];
-            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 0.05);
+            NSData *imageData = UIImageJPEGRepresentation(_headImageView.image, 1);
+            if ((unsigned long)imageData.length > 100*2014) {
+                imageData = UIImageJPEGRepresentation(_headImageView.image,100*2014.0/(unsigned long)imageData.length);
+            }
             [formData appendPartWithFileData:imageData name:dateTime fileName:[NSString stringWithFormat:@"%@head.jpg",dateTime] mimeType:@"image/jpeg"];
         }
     } whenProgress:^(NSProgress *FieldDataBlock) {
