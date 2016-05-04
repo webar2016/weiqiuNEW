@@ -258,7 +258,7 @@
     self.hud.opacity = 0.7;
     self.hud.dimBackground = NO;
     self.hud.labelText = title;
-    [self.hud hide:YES afterDelay:2.0];
+    [self.hud hide:YES afterDelay:1.0];
 }
 
 @end

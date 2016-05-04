@@ -413,10 +413,10 @@
     self.hud.labelText = title;
     [self.hud hide:YES afterDelay:2];
     if (_isSuccess) {
-        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0f];
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:1.0];
     }
     if (!_isEnough) {
-        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0f];
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:1.0];
     }
 }
 

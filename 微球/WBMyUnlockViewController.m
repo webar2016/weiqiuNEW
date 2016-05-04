@@ -114,11 +114,21 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_segmentControl.selectedSegmentIndex == 0) {
+        NSString *path = ((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).dir;
+        if ([path isEqualToString:@"(null)"] || !path) {
+            [self showHUDText:@"未获取到图片，请重试"];
+            return;
+        }
         
         WBImageViewer *imageView = [[WBImageViewer alloc]initWithDir:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).dir];
         [self presentViewController:imageView animated:YES completion:nil];
         
     }else{
+        NSString *path = ((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).photoPath;
+        if ([path isEqualToString:@"(null)"] || !path) {
+            [self showHUDText:@"未获取到图片，请重试"];
+            return;
+        }
         
         WBImageViewer *imageView = [[WBImageViewer alloc]initWithDir:((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).photoPath];
         [self presentViewController:imageView animated:YES completion:nil];

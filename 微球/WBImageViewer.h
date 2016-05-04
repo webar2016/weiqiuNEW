@@ -16,6 +16,8 @@
 
 @property (nonatomic, copy) NSString *dir;
 
+@property (nonatomic, copy) NSString *content;
+
 -(instancetype)initWithImage:(UIImage *)image;
 
 -(instancetype)initWithDir:(NSString *)dir;
