@@ -14,10 +14,15 @@ typedef NS_ENUM(NSInteger, PlaceStyle) {
 
 
 @class AddressChoicePickerView;
+
+
 typedef void (^AddressChoicePickerViewBlock)(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected);
+
+
 @interface AddressChoicePickerView : UIView
 
 @property (copy, nonatomic)AddressChoicePickerViewBlock block;
+
 - (instancetype)initWithPlaceStyle:(PlaceStyle)style;
 
 - (void)show;

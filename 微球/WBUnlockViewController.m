@@ -83,6 +83,7 @@
     _unlockInfo.backgroundColor = [UIColor whiteColor];
     _unlockInfo.textColor = [UIColor initWithNormalGray];
     _unlockInfo.font = FONTSIZE16;
+    _unlockInfo.text = @"请选择";
     _unlockInfo.textAlignment = NSTextAlignmentCenter;
     
     UITapGestureRecognizer *unlockInfoTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClicked:)];
@@ -97,9 +98,9 @@
     titleTwo.text = @"拍摄时间";
     
     _dateButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH / 2 - 145, 220, 290, 60)];
-    _dateButton.backgroundColor = [UIColor initWithNormalGray];
+    _dateButton.backgroundColor = [UIColor whiteColor];
     _dateButton.titleLabel.font = FONTSIZE16;
-    [_dateButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_dateButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     [_dateButton setTitle:@"请选择" forState:UIControlStateNormal];
     [_dateButton addTarget:self action:@selector(showDatePicker) forControlEvents:UIControlEventTouchUpInside];
     
@@ -245,7 +246,7 @@
 
 -(void)unlockCity{
     [_contentview resignFirstResponder];
-    if ([_unlockInfo.text length] == 0 ) {
+    if ([_unlockInfo.text isEqualToString:@"请选择"] ) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择解锁城市" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];

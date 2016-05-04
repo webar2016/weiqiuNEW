@@ -62,6 +62,7 @@
     MyDBmanager *manager1 = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
     _unlockArray = [NSMutableArray arrayWithArray:[manager1 searchAllItems]];
     [manager1 closeFBDM];
+
     
     MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Tbl_unlocking_city];
     _unlockingArray= [NSMutableArray arrayWithArray:[manager2 searchAllItems]];

@@ -17,11 +17,12 @@
 #import "AddressChoicePickerView.h"
 #import "MyDBmanager.h"
 #import "WBTbl_Unlock_City.h"
-#import "JSDropDownMenu.h"
+
 #import "WBPositionList.h"
 #import "WBPositionModel.h"
 
 #import "TopCell.h"
+#import "WBHelpGroupMenu.h"
 
 
 
@@ -36,7 +37,7 @@
 #define kCellReuseId @"collectionViewCellId"
 #define CollectionCellWidth (SCREENWIDTH-30)/2
 
-@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,CollectionGoHomePage,JSDropDownMenuDataSource,JSDropDownMenuDelegate>
+@interface WBAllListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate,CollectionGoHomePage>
 {
     UICollectionView *_collectionView;
     NSInteger _page;
@@ -59,13 +60,17 @@
     NSInteger _data2MainIndex;
     NSInteger _currentData3Index;
     
+    UIButton *_myHelpGroupBtn;
     UIButton *_locatePickBtn;
     
-    CAShapeLayer *_indicator;
+    CAShapeLayer *_indicator1;
     
+    CAShapeLayer *_indicator2;
+    
+    BOOL _isAllHelpGroup;
     AreaObject *_areaObject;
     
-    JSDropDownMenu *_menu;
+
 
 }
 
@@ -116,44 +121,23 @@
 
 -(void)createUI{
     
-    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-    NSArray *myCityArray = [manager searchAllItems];
-    [manager closeFBDM];
+    _myHelpGroupBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _myHelpGroupBtn.frame = CGRectMake(0, -0.5, SCREENWIDTH/2, 30.5);
+    [self.view addSubview:_myHelpGroupBtn];
+    [_myHelpGroupBtn setBackgroundColor:[UIColor colorWithRed:244.0/255.0 green:244.0/255.0 blue:244.0/255.0 alpha:1]];
+    [_myHelpGroupBtn setTitle:@"全部帮帮团" forState:UIControlStateNormal];
+    [_myHelpGroupBtn setTitleColor:[UIColor colorWithRed:90.0/255.0 green:90.0/255.0 blue:90.0/255.0 alpha:1] forState:UIControlStateNormal];
+    _myHelpGroupBtn.layer.borderColor = [[UIColor colorWithRed:210.0/255.0 green:210.0/255.0 blue:210.0/255.0 alpha:1] CGColor];
+    _myHelpGroupBtn.layer.borderWidth = 0.5;
+    _myHelpGroupBtn.titleLabel.font = MAINFONTSIZE;
+    [_myHelpGroupBtn addTarget:self action:@selector(helpGroupBtn) forControlEvents:UIControlEventTouchUpInside];
+    _isAllHelpGroup = YES;
     
+    NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
+    CGSize  actualsize1=[_myHelpGroupBtn.titleLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
+    _indicator1 = [self createIndicatorWithColor:[UIColor colorWithRed:175.0/255.0 green:175.0/255.0 blue:175.0/255.0 alpha:1] andPosition:CGPointMake(SCREENWIDTH/4 + actualsize1.width/2 + 7, _myHelpGroupBtn.frame.origin.y+15)];
+    [self.view.layer addSublayer:_indicator1];
     
-    _myCityNameArray = [NSMutableArray arrayWithObject:@{@"省份":@"全部",@"城市":@"全部"}];
-    WBPositionList *positionList = [[WBPositionList alloc]init];
-    NSMutableArray *myTempCityArray = [NSMutableArray array];
-    for (NSInteger i = 0; i<myCityArray.count; i++) {
-       [myTempCityArray addObject:[positionList cityModelWithCityId:[NSNumber numberWithInteger:((WBTbl_Unlock_City *)myCityArray[i]).cityId]]];
-    }
-   
-    WBPositionModel *myLockCityModel = [[WBPositionModel alloc]init];
-    myLockCityModel.provinceName = @"我解锁过的城市";
-     [_myCityNameArray addObject:@{@"省份":myLockCityModel,@"城市":myTempCityArray}];
-  //  NSLog(@"%@",_myCityNameArray);
-    
-    
-   _allCityNameArray = [NSMutableArray arrayWithObject:@{@"省份":@"全部",@"城市":@"全部"}];
-    
-    for (WBPositionModel *model in positionList.provinceArray) {
-        [_allCityNameArray addObject:@{@"省份":model,@"城市":[positionList getCitiesListWithProvinceId:model.provinceId]}];
-    }
-    
-    _data1 = [NSMutableArray arrayWithObjects:@"全部帮帮团", @"可加入的的帮帮团", nil];
-    
-    _data2 = [NSMutableArray arrayWithArray:_allCityNameArray];
-  // NSLog(@"%@",_data2);
-    _data3 = [NSMutableArray arrayWithObjects:@"标签", @"美食", @"佳境", @"购物", @"艳遇", @"历史", @"科技",@"人文", @"其他",@"",nil];
-    
-    _menu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:30];
-    _menu.indicatorColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:1.0];
-    _menu.separatorColor = [UIColor colorWithRed:210.0f/255.0f green:210.0f/255.0f blue:210.0f/255.0f alpha:1.0];
-    _menu.textColor = [UIColor colorWithRed:83.f/255.0f green:83.f/255.0f blue:83.f/255.0f alpha:1.0f];
-    _menu.dataSource = self;
-    _menu.delegate = self;
-    
-    [self.view addSubview:_menu];
     
     _locatePickBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _locatePickBtn.frame = CGRectMake(SCREENWIDTH/2, -0.5, SCREENWIDTH/2, 30.5);
@@ -166,11 +150,10 @@
     _locatePickBtn.titleLabel.font = MAINFONTSIZE;
     [_locatePickBtn addTarget:self action:@selector(loactePickBtn) forControlEvents:UIControlEventTouchUpInside];
     
-    NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
-    CGSize  actualsize1=[_locatePickBtn.titleLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
-    
-    _indicator = [self createIndicatorWithColor:[UIColor colorWithRed:175.0/255.0 green:175.0/255.0 blue:175.0/255.0 alpha:1] andPosition:CGPointMake(SCREENWIDTH/4*3 + actualsize1.width/2 + 7, _locatePickBtn.frame.origin.y+15)];
-    [self.view.layer addSublayer:_indicator];
+    NSDictionary * tdic2 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
+    CGSize  actualsize2=[_locatePickBtn.titleLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic2 context:nil].size;
+    _indicator2 = [self createIndicatorWithColor:[UIColor colorWithRed:175.0/255.0 green:175.0/255.0 blue:175.0/255.0 alpha:1] andPosition:CGPointMake(SCREENWIDTH/4*3 + actualsize2.width/2 + 7, _locatePickBtn.frame.origin.y+15)];
+    [self.view.layer addSublayer:_indicator2];
 }
 
 
@@ -220,17 +203,87 @@
     
 }
 
+-(void)helpGroupBtn{
+    
+    [self animateIndicator:_indicator1 Forward:YES];
+    WBHelpGroupMenu *helpMenu = [[WBHelpGroupMenu alloc]initWithHeight:_myHelpGroupBtn.frame.size.height+_myHelpGroupBtn.frame.origin.y+64];
+    [helpMenu show];
+    
+    helpMenu.colseBlock=^{
+    [self animateIndicator:_indicator1 Forward:NO];
+    };
+    helpMenu.block = ^(BOOL isAllHelpGroup){
+        if (isAllHelpGroup) {
+            [_myHelpGroupBtn setTitle:@"全部帮帮团" forState:UIControlStateNormal];
+            if ([[_areaObject getId] isEqualToString:@"all"]||[_areaObject getId]==NULL) {
+                NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
+                _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
+                _page = 1;
+            }else{
+                NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,[_areaObject getId]];
+                _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+                _page = 1;
+            }
+        }else{
+            if (![WBUserDefaults userId]) {
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您还没有登录" preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }]];
+                [self presentViewController:alertController animated:YES completion:nil];
+                
+                return;
+            }
+            
+            
+            if ([[_areaObject getId] isEqualToString:@"all"]||[_areaObject getId]==NULL) {
+                NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
+                _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+                _page = 1;
+            }else{
+                NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],[_areaObject getId]];
+                _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
+                _page = 1;
+            }
+          [_myHelpGroupBtn setTitle:@"我可加入的帮帮团" forState:UIControlStateNormal];
+        }
+        
+        if (_isAllHelpGroup == isAllHelpGroup) {
+            
+        }else{
+            _isAllHelpGroup = isAllHelpGroup;
+            NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
+            CGSize  actualsize1=[_myHelpGroupBtn.titleLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
+            // NSLog(@"%f",actualsize1.width);
+            
+            _indicator1.position =CGPointMake(SCREENWIDTH/4 + actualsize1.width/2 + 7, _myHelpGroupBtn.frame.origin.y+15);
+            [self showHUD:@"正在加载" isDim:YES];
+            [self loadData];
+        }
+        
+        
+
+    };
+    
+
+    
+
+}
 
 
 -(void)loactePickBtn{
-    [self animateIndicator:_indicator Forward:YES];
+
+    
+    
+    
+    [self animateIndicator:_indicator2 Forward:YES];
     AddressChoicePickerView *addressPickerView = [[AddressChoicePickerView alloc]initWithPlaceStyle:AnyPlaceChoice];
     addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
         
         if (isSelected) {
             [self showHUD:@"正在加载" isDim:YES];
             _areaObject = locate;
-            if (_currentData1Index == 0) {
+            if (_isAllHelpGroup) {
                 if ([[locate getId] isEqualToString:@"all"]) {
                     NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
                     _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
@@ -259,11 +312,11 @@
             NSDictionary * tdic1 = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
             CGSize  actualsize1=[[NSString stringWithFormat:@"位置-%@",locate] boundingRectWithSize:CGSizeMake(MAXFLOAT, 30) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic1 context:nil].size;
            // NSLog(@"%f",actualsize1.width);
-            [self animateIndicator:_indicator Forward:NO];
-            _indicator.position =CGPointMake(SCREENWIDTH/4*3 + actualsize1.width/2 + 7, _locatePickBtn.frame.origin.y+15);
+            [self animateIndicator:_indicator2 Forward:NO];
+            _indicator2.position =CGPointMake(SCREENWIDTH/4*3 + actualsize1.width/2 + 7, _locatePickBtn.frame.origin.y+15);
         }else{
         
-          [self animateIndicator:_indicator Forward:NO];
+          [self animateIndicator:_indicator2 Forward:NO];
         
         
         }
@@ -439,207 +492,6 @@
 }
 
 #pragma mark =====tableView delegate======
-
-//有一个列表
-- (NSInteger)numberOfColumnsInMenu:(JSDropDownMenu *)menu {
-    
-    return 1;
-}
-// 是否需要显示为UICollectionView 默认为否
--(BOOL)displayByCollectionViewInColumn:(NSInteger)column{
-    if (column==2) {
-        return YES;
-    }
-    return NO;
-}
-//是否需要现实两个表
--(BOOL)haveRightTableViewInColumn:(NSInteger)column{
-    if (column == 1) {
-        return YES;
-    }
-    return NO;
-}
-/**
- * 表视图显示时，左边表显示比例
- */
--(CGFloat)widthRatioOfLeftColumn:(NSInteger)column{
-    if (column == 1) {
-        return 0.4;
-    }
-    return 1;
-}
-
--(NSInteger)currentLeftSelectedRow:(NSInteger)column{
-    if (column==0) {
-        return _currentData1Index;
-        
-    }
-    if (column==1) {
-        return _currentData2Index;
-    }
-    return 0;
-}
-
-- (NSInteger)menu:(JSDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column leftOrRight:(NSInteger)leftOrRight leftRow:(NSInteger)leftRow{
-    
-    if (column==0) {
-        return _data1.count;
-    } else if (column==1){
-        if (leftOrRight == 0) {
-            return _data2.count;
-        }else{
-            if (leftRow==0) {
-                
-                return 1;
-            }else{
-                NSDictionary *menuDic = [_data2 objectAtIndex:leftRow];
-                return [[menuDic objectForKey:@"城市"] count];
-            }
-            
-        }
-    } else if (column==2){
-        
-        return _data3.count;
-    }
-    
-    return 0;
-}
-
-- (NSString *)menu:(JSDropDownMenu *)menu titleForColumn:(NSInteger)column{
-    switch (column) {
-        case 0: return _data1[0];
-            break;
-        case 1: return [_data2[0] objectForKey:@"城市"];                       //    ((WBCityModel *)[[_data2[0] objectForKey:@"城市"] objectAtIndex:0]).cityName;
-            break;
-        case 2: return _data3[0];
-            break;
-        default:
-            return nil;
-            break;
-    }
-}
-
-- (NSString *)menu:(JSDropDownMenu *)menu titleForRowAtIndexPath:(JSIndexPath *)indexPath {
-    
-    if (indexPath.column==0) {
-        
-        return _data1[indexPath.row];
-        
-    } else if (indexPath.column==1) {
-        
-        if (indexPath.leftOrRight==0) {
-            if (indexPath.row == 0) {
-                NSDictionary *menuDic = [_data2 objectAtIndex:0];
-                return [menuDic objectForKey:@"省份"];
-            }else{
-                NSDictionary *menuDic = [_data2 objectAtIndex:indexPath.row];
-                return ((WBPositionModel *)[menuDic objectForKey:@"省份"]).provinceName;
-            }
-        } else{
-            
-            NSInteger leftRow = indexPath.leftRow;
-            
-            if (leftRow==0) {
-                 NSDictionary *menuDic = [_data2 objectAtIndex:leftRow];
-                return [menuDic objectForKey:@"城市"];
-            }else{
-            
-                NSDictionary *menuDic = [_data2 objectAtIndex:leftRow];
-                return  ((WBCityModel *)[[menuDic objectForKey:@"城市"] objectAtIndex:indexPath.row]).cityName;
-            }
-            
-        }
-
-        
-    } else {
-        
-        return _data3[indexPath.row];
-    }
-}
-
-- (void)menu:(JSDropDownMenu *)menu didSelectRowAtIndexPath:(JSIndexPath *)indexPath {
-    
-    if (indexPath.column == 0) {
-        _currentData1Index = indexPath.row;
-        [self changeUrl];
-        [self showHUD:@"正在加载" isDim:YES];
-        [self loadData];
-        
-    } else if(indexPath.column == 1){
-        
-       
-        
-        if(indexPath.leftOrRight==0){
-           
-            _currentData2Index = indexPath.row;
-            _data2MainIndex = indexPath.leftRow;
-            
-            return;
-        }
-        
-        _currentData2Index = indexPath.row;
-        _data2MainIndex = indexPath.leftRow;
-        [self changeUrl];
-        [self showHUD:@"正在加载" isDim:YES];
-        [self loadData];
-        
-    } else{
-        
-        _currentData3Index = indexPath.row;
-    }
-}
-
--(void)changeUrl{
-    
-    
-    
-    if (_currentData1Index == 0) {
-        
-       // NSLog(@"%@",[_areaObject getId]);
-        if ([[_areaObject getId] isEqualToString:@"all"]||[_areaObject getId]==NULL) {
-            
-            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
-            _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
-            _page = 1;
-            
-        }else{
-            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?cityId=%@",WEBAR_IP,[_areaObject getId]];
-            _urlString = [tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
-            _page = 1;
-        }
-        
-    }else{
-        
-        if (![WBUserDefaults userId]) {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您还没有登录" preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                
-            }]];
-            [self presentViewController:alertController animated:YES completion:nil];
-            
-            return;
-        }
-        
-        
-        if ([[_areaObject getId] isEqualToString:@"all"]||[_areaObject getId]==NULL) {
-             NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
-            _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
-            _page = 1;
-        }else{
-            NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@&cityId=%@",WEBAR_IP,[WBUserDefaults userId],[_areaObject getId]];
-            _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
-            _page = 1;
-            
-        }
-
-        
-       
-    }
-
-
-
-}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -185,7 +185,6 @@
 		2DEE8B981CB34278004CD0C4 /* WBRefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DEE8B971CB34278004CD0C4 /* WBRefreshViewController.m */; };
 		2DF0499B1C9D833700E92B9E /* WBAttentionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF0499A1C9D833700E92B9E /* WBAttentionView.m */; };
 		2DF0499E1C9D835A00E92B9E /* WBFansView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF0499D1C9D835A00E92B9E /* WBFansView.m */; };
-		2DF1AD7F1CBDDFBB003D7B5E /* JSDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */; };
 		2DF26B671CA1925E00B7ED10 /* WBIndividualIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF26B661CA1925E00B7ED10 /* WBIndividualIncomeViewController.m */; };
 		2DF2A93B1C9FC20D002C3A2A /* WBFansViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93A1C9FC20D002C3A2A /* WBFansViewTableViewCell.m */; };
 		2DF2A93E1C9FC220002C3A2A /* WBFansModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93D1C9FC220002C3A2A /* WBFansModel.m */; };
@@ -537,8 +536,6 @@
 		2DF0499A1C9D833700E92B9E /* WBAttentionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAttentionView.m; sourceTree = "<group>"; };
 		2DF0499C1C9D835A00E92B9E /* WBFansView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFansView.h; sourceTree = "<group>"; };
 		2DF0499D1C9D835A00E92B9E /* WBFansView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFansView.m; sourceTree = "<group>"; };
-		2DF1AD7C1CBDDFBB003D7B5E /* JSDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSDropDownMenu.h; sourceTree = "<group>"; };
-		2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSDropDownMenu.m; sourceTree = "<group>"; };
 		2DF26B651CA1925E00B7ED10 /* WBIndividualIncomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIndividualIncomeViewController.h; sourceTree = "<group>"; };
 		2DF26B661CA1925E00B7ED10 /* WBIndividualIncomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBIndividualIncomeViewController.m; sourceTree = "<group>"; };
 		2DF2A9361C9FC0FC002C3A2A /* WBAttentionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAttentionTableViewCell.h; sourceTree = "<group>"; };
@@ -1128,8 +1125,6 @@
 				2D4F50C61C8FBCE0001E017C /* WBCollectionViewModel.m */,
 				2D4F50CB1C8FC48B001E017C /* WBCollectionViewCell.h */,
 				2D4F50CC1C8FC48B001E017C /* WBCollectionViewCell.m */,
-				2DF1AD7C1CBDDFBB003D7B5E /* JSDropDownMenu.h */,
-				2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */,
 				2D4B83441CD99E7B002FE13F /* WBHelpGroupMenu.h */,
 				2D4B83451CD99E7B002FE13F /* WBHelpGroupMenu.m */,
 				2D4B83471CD99EA2002FE13F /* WBHelpGroupMenu.xib */,
@@ -1801,7 +1796,6 @@
 				0543038A1CB688570041902D /* WBChatImageViewer.m in Sources */,
 				2D5D73021C926CB700F8C2AE /* WBAllocateScoreModel.m in Sources */,
 				05DB3F681C8587A900CBCC54 /* WBQuestionTableViewCell.m in Sources */,
-				2DF1AD7F1CBDDFBB003D7B5E /* JSDropDownMenu.m in Sources */,
 				2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */,
 				05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */,
 				054550531C90165100A6F0E8 /* WBGroupSettingViewController.m in Sources */,
