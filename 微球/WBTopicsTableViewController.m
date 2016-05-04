@@ -168,7 +168,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 178;
+    return (SCREENWIDTH-20)/2.13+9;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -176,7 +176,7 @@
         static NSString *topCellID = @"TopCell";
         WBTopicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:topCellID];
         if (cell == nil)
-        {   cell = [[WBTopicTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID cellWidth:self.view.frame.size.width ];
+        {   cell = [[WBTopicTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID];
         }
         [cell setModel:_dataTopList[indexPath.section]];
         return cell;
@@ -185,7 +185,7 @@
         static NSString *cellID = @"TopicCell";
         WBTopicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil)
-        {   cell = [[WBTopicTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID cellWidth:self.view.frame.size.width ];
+        {   cell = [[WBTopicTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
         [cell setModel:_dataList[indexPath.section-_dataTopList.count]];
         return cell;

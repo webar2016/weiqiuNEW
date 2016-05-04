@@ -316,6 +316,7 @@
             MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
             for (WBTbl_Unlock_City *model in unlockCity) {
                
+                
                     [manager  addItem:model];
                 
             }
