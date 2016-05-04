@@ -30,7 +30,7 @@
         self.navigationItem.title = @"我的草稿";
         
         _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
-        _background.center = CGPointMake(SCREENWIDTH / 2, 170);
+        _background.center = CGPointMake(SCREENWIDTH / 2, 200);
         
         [self setUpTableView];
     }

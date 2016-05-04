@@ -89,9 +89,9 @@
     _isSelect = [NSMutableArray array];
     
     if ([WBUserDefaults userId]) {
-        _defaultUserId =[NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
+        _defaultUserId = [NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
     }else{
-        _defaultUserId =nil;
+        _defaultUserId = @"0";
     }
     
     _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@/map/m?userId=%@",WEBAR_IP,self.userId]] andTitle:@"征服地球"];
@@ -114,7 +114,7 @@
     
     _backgroundTopic = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     _backgroundAnswer = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
-    _backgroundTopic.center = CGPointMake(SCREENWIDTH / 2, _headHeight + 80);
+    _backgroundTopic.center = CGPointMake(SCREENWIDTH / 2, _headHeight + 130);
     _backgroundAnswer.center = _backgroundTopic.center;
 }
 
@@ -342,7 +342,7 @@
 #pragma mark - load data
 
 -(void)loadUserInfo{
-    NSString *url = [NSString stringWithFormat:@"%@/user/userHome?friendId=%@&userId=%@",WEBAR_IP,self.userId,[WBUserDefaults userId]];
+    NSString *url = [NSString stringWithFormat:@"%@/user/userHome?friendId=%@&userId=%@",WEBAR_IP,self.userId,_defaultUserId];
         [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         if ([result isKindOfClass:[NSDictionary class]]) {
@@ -385,7 +385,7 @@
         
     } andFailure:^(NSString *error) {
         [self hideHUD];
-        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
+        [self showHUDComplete:@"获取话题失败，请稍后再试！"];
     }];
 }
 
@@ -402,7 +402,7 @@
         [_answerTableView reloadData];
         
     } andFailure:^(NSString *error) {
-        [self showHUDComplete:@"网络状态不佳，请稍后再试！"];
+        [self showHUDComplete:@"获取问题失败，请稍后再试！"];
     }];
 }
 
@@ -410,6 +410,9 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (tableView.tag == 100) {
+        if (_topicsArray.count == 0) {
+            return 1;
+        }
         return _topicsArray.count;
     }
     return 1;
@@ -418,9 +421,12 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (tableView.tag == 100) {
         return 1;
+    } else {
+        if (_answersArray.count == 0) {
+            return 1;
+        }
+        return _answersArray.count;
     }
-    return _answersArray.count;
-    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -439,6 +445,14 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView.tag == 100) {
+        
+        if (_topicsArray.count == 0) {
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.contentView.backgroundColor = [UIColor initWithBackgroundGray];
+            return cell;
+        }
+        
         TopicDetailModel *model = _topicsArray[indexPath.section];
         if (model.newsType == 1) {
             static NSString *cellID1 = @"detailCellID1";
@@ -475,6 +489,14 @@
             return cell;
         }
     } else {
+        
+        if (_answersArray.count == 0) {
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.contentView.backgroundColor = [UIColor initWithBackgroundGray];
+            return cell;
+        }
+        
         static NSString *SecondPageCell = @"SecondPageCell";
         WBQuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SecondPageCell];
         if (cell == nil)
@@ -491,8 +513,18 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView.tag == 100) {
+        
+        if (_topicsArray.count == 0) {
+            return 250;
+        }
+        
         return [_rowHeightArray[indexPath.section] floatValue];
     } else {
+        
+        if (_answersArray.count == 0) {
+            return 250;
+        }
+        
         return [WBQuestionTableViewCell getCellHeightWithModel:_answersArray[indexPath.row]];
     }
 }

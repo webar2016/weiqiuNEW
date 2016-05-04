@@ -38,7 +38,7 @@
     _joinModels = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
     _emptyView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
-    _emptyView.center = CGPointMake(SCREENWIDTH / 2, 170);
+    _emptyView.center = CGPointMake(SCREENWIDTH / 2, 200);
     [self setUpTableView];
     [self refreshTableView];
     
@@ -208,6 +208,7 @@
         cell.textLabel.text = @"该列表暂时没有帮帮团";
         cell.textLabel.font = MAINFONTSIZE;
         cell.textLabel.textColor = [UIColor initWithLightGray];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     
@@ -225,11 +226,16 @@
     if (cell == nil) {
         cell = [[WBGroupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID isJoin:isJoin];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setModel:model];
     return  cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ((indexPath.section == 0 && _joinModels.count == 0) || (indexPath.section == 1 && _createModels.count == 0)) {
+        return;
+    }
+    
     WBTalkViewController *talkView = [[WBTalkViewController alloc]init];
     talkView.conversationType = ConversationType_GROUP;
     
