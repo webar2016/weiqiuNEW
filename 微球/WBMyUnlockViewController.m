@@ -22,7 +22,7 @@
     NSMutableArray *_unlockArray;
     NSMutableArray *_unlockingArray;
     
-
+    UIImageView *_emptyView;
 }
 @property (strong, nonatomic) UIPageViewController *pageController;
 @end
@@ -31,7 +31,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    _emptyView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
+    _emptyView.center = CGPointMake(SCREENWIDTH / 2, 200);
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     [self showHUDIndicator];
     [self createNavi];
@@ -56,7 +57,7 @@
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
 
     MyDBmanager *manager1 = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
@@ -73,9 +74,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (_segmentControl.selectedSegmentIndex == 0) {
-        return _unlockArray.count;
+        NSInteger count = _unlockArray.count;
+        
+        if (count == 0) {
+            [self.view addSubview:_emptyView];
+        } else {
+            [_emptyView removeFromSuperview];
+        }
+        
+        return count;
     }else{
-        return _unlockingArray.count;
+        NSInteger count = _unlockingArray.count;
+        
+        if (count == 0) {
+            [self.view addSubview:_emptyView];
+        } else {
+            [_emptyView removeFromSuperview];
+        }
+        return count;
     }
 }
 
@@ -115,11 +131,21 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_segmentControl.selectedSegmentIndex == 0) {
+        NSString *path = ((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).dir;
+        if ([path isEqualToString:@"(null)"] || !path) {
+            [self showHUDText:@"未获取到图片，请重试"];
+            return;
+        }
         
         WBImageViewer *imageView = [[WBImageViewer alloc]initWithDir:((WBTbl_Unlock_City *)_unlockArray[indexPath.row]).dir];
         [self presentViewController:imageView animated:YES completion:nil];
         
     }else{
+        NSString *path = ((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).photoPath;
+        if ([path isEqualToString:@"(null)"] || !path) {
+            [self showHUDText:@"未获取到图片，请重试"];
+            return;
+        }
         
         WBImageViewer *imageView = [[WBImageViewer alloc]initWithDir:((WBTbl_Unlocking_City *)_unlockingArray[indexPath.row]).photoPath];
         [self presentViewController:imageView animated:YES completion:nil];

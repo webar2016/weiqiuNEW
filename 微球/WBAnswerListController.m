@@ -60,10 +60,6 @@
     
     self.currentPage = 1;
     [self showHUDIndicator];
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
     [self loadData];
 }
 
@@ -198,6 +194,10 @@
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString:@"true"]) {
             WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.groupId questionId:[NSString stringWithFormat:@"%ld",(long)self.questionId] title:self.questionText];
+            writeAnswerVC.reloadDataBlock = ^{
+                self.currentPage = 1;
+                [self loadData];
+            };
             [self.navigationController pushViewController:writeAnswerVC animated:YES];
         } else {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你当前不在这个帮帮团中，加入后才可以回答问题，是否加入？" message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -206,6 +206,10 @@
                     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/jion?groupId=%@&userId=%@",WEBAR_IP,self.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
                         
                         WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.groupId questionId:[NSString stringWithFormat:@"%ld",(long)self.questionId] title:self.questionText];
+                        writeAnswerVC.reloadDataBlock = ^{
+                            self.currentPage = 1;
+                            [self loadData];
+                        };
                         [self.navigationController pushViewController:writeAnswerVC animated:YES];
                         
                     } andFailure:^(NSString *error) {
@@ -325,7 +329,7 @@
     self.hud.opacity = 0.7;
     self.hud.dimBackground = NO;
     self.hud.labelText = title;
-    [self.hud hide:YES afterDelay:2.0];
+    [self.hud hide:YES afterDelay:1.0];
 }
 
 -(void)hideHUD{

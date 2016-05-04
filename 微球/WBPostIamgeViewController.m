@@ -282,9 +282,9 @@
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
     self.hud.opacity = 0.7;
-    [self.hud hide:YES afterDelay:2.0];
+    [self.hud hide:YES afterDelay:1.0];
     if (_isSuccess) {
-        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0];
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:1.0];
     }
 }
 

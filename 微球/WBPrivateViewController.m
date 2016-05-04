@@ -42,7 +42,7 @@
 }
 
 - (void)didTapCellPortrait:(NSString *)userId{
-    if (self.fromHomePage) {
+    if (self.fromHomePage && ![userId isEqualToString:[NSString stringWithFormat:@"%@",[WBUserDefaults userId]]]) {
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }

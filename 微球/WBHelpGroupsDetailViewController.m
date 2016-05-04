@@ -321,7 +321,7 @@
     self.hud.opacity = 0.7;
     [self.hud hide:YES afterDelay:2];
     if (_isSuccess) {
-        [self performSelector:@selector(dismissView) withObject:nil afterDelay:2.0f];
+        [self performSelector:@selector(dismissView) withObject:nil afterDelay:1.0];
     }
 }
 

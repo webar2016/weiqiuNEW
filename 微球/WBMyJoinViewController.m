@@ -193,7 +193,7 @@
     self.hud.opacity = 0.7;
     self.hud.dimBackground = NO;
     self.hud.labelText = title;
-    [self hideHUDDelay:2.0];
+    [self hideHUDDelay:1.0];
 }
 
 -(void)showHUDIndicator{

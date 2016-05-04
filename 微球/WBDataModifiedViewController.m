@@ -305,13 +305,13 @@
         [WBUserDefaults setAge:[NSString stringWithFormat:@"%ld",(long)[self calculateAge]]];
         [self.delegate ModefyViewDelegate];
         [self showHUDComplete:@"修改成功"];
-        [self performSelector:@selector(isClicked) withObject:nil afterDelay:2.0];
+        [self performSelector:@selector(isClicked) withObject:nil afterDelay:1.0];
         
     } andFailure:^(NSString *error) {
         NSLog(@"failure");
         NSLog(@"%@",error.localizedCapitalizedString);
         [self showHUDComplete:@"上传失败"];
-       [self performSelector:@selector(isClicked) withObject:nil afterDelay:2.0];
+       [self performSelector:@selector(isClicked) withObject:nil afterDelay:1.0];
 
     }];
     

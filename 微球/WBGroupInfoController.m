@@ -13,6 +13,8 @@
 #import "WBPositionList.h"
 
 @interface WBGroupInfoController () {
+    UIScrollView    *_scrollView;
+    
     UIButton        *_destinationButton;
     UIButton        *_placeButton;
     UIButton        *_beginButton;
@@ -62,6 +64,9 @@
     
     _tagArray = [NSMutableArray array];
     
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -64, SCREENWIDTH, SCREENHEIGHT + 64)];
+    [self.view addSubview:_scrollView];
+    
     [self setUpUI];
     
     [self setUpDatePicker];
@@ -80,13 +85,7 @@
         [self showHUDText:@"请选择你的目的地点"];
         return;
     }else{
-        /*
-         areaObject
-         @property (nonatomic,copy)AreaObject *destinationPlaceModel;
-         @property (nonatomic,copy)AreaObject *startPlaceModel;
-         */
-     
-    
+        
     }
     
     if (_tagArray.count == 0) {
@@ -127,7 +126,7 @@
     locateLabel.textColor = [UIColor initWithNormalGray];
     locateLabel.font = FONTSIZE16;
     locateLabel.text = @"目的地点";
-    [self.view addSubview:locateLabel];
+    [_scrollView addSubview:locateLabel];
     
     _destinationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _destinationButton.frame=CGRectMake(SCREENWIDTH / 2 - 145, 108+26, 290, 60);
@@ -137,7 +136,7 @@
     [_destinationButton setTitle:@"请选择" forState:UIControlStateNormal];
     _destinationButton.tag = 150;
     [_destinationButton addTarget:self action:@selector(choosePlace:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_destinationButton];
+    [_scrollView addSubview:_destinationButton];
     
     UIImageView *narrow1 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_spread3"]];
     narrow1.center = CGPointMake(250, 30);
@@ -227,16 +226,18 @@
     [_endButton setTitle:@"请选择" forState:UIControlStateNormal];
     [_endButton addTarget:self action:@selector(choosePlanEnd) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:tipChooseLabel];
-    [self.view addSubview:tipWraper];
-    [self.view addSubview:startPlaceLable];
-    [self.view addSubview:tipOne];
-    [self.view addSubview:timeLable];
-    [self.view addSubview:tipTwo];
-    [self.view addSubview:_placeButton];
-    [self.view addSubview:timeChooseLabel];
-    [self.view addSubview:_beginButton];
-    [self.view addSubview:_endButton];
+    [_scrollView addSubview:tipChooseLabel];
+    [_scrollView addSubview:tipWraper];
+    [_scrollView addSubview:startPlaceLable];
+    [_scrollView addSubview:tipOne];
+    [_scrollView addSubview:timeLable];
+    [_scrollView addSubview:tipTwo];
+    [_scrollView addSubview:_placeButton];
+    [_scrollView addSubview:timeChooseLabel];
+    [_scrollView addSubview:_beginButton];
+    [_scrollView addSubview:_endButton];
+    
+    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, 408+132 + 100);
 }
 
 -(void)chooseTip:(UIButton *)sender{

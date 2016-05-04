@@ -14,6 +14,7 @@
 #import "WBAnswerListController.h"
 #import "WBAnswerDetailController.h"
 #import "WBArticalViewController.h"
+#import "LoadViewController.h"
 
 #import "WBQuestionTableViewCell.h"
 #import "WBFansView.h"
@@ -571,6 +572,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ((tableView.tag == 100 && _topicsArray.count == 0) || (tableView.tag == 200 && _answersArray.count == 0)) {
+        return;
+    }
+    
     TopicDetailModel *model = _topicsArray[indexPath.section];
     if (model.newsType == 3 && tableView.tag == 100) {
         WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
@@ -615,6 +620,11 @@
 }
 
 -(void)concernsOperation:(UIButton *)btn{
+    if (![WBUserDefaults userId]) {
+        [self alertLogin];
+        return;
+    }
+    
     if (btn.tag == 50) {
         if ([btn.titleLabel.text isEqualToString:@"关注"]) {
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/relationship/followFriend?userId=%@&friendId=%@",WEBAR_IP,[WBUserDefaults userId],self.userId] whenSuccess:^(id representData) {
@@ -692,6 +702,10 @@
 }
 
 -(void)enterChatView{
+    if (![WBUserDefaults userId]) {
+        [self alertLogin];
+        return;
+    }
     WBPrivateViewController *chatView = [[WBPrivateViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:self.userId];
     chatView.fromHomePage = YES;
     chatView.title = self.navigationItem.title;
@@ -989,6 +1003,26 @@
     [self.navigationController setNavigationBarHidden:YES animated:TRUE];
     [_player play];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(finishedPlay) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+}
+
+-(void)unloginAlert{
+    [self alertLogin];
+}
+
+-(void)alertLogin{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登陆后即可进行更多操作！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"登陆" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LoadViewController *loginVC = [[LoadViewController alloc] init];
+            [self presentViewController:loginVC animated:YES completion:nil];
+        }];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - 播放完成

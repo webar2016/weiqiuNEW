@@ -15,36 +15,64 @@
     UIImageView *_imageView;
     CGFloat _scale;
     BOOL _isFullWidth;
+    
+    NSInteger _viewerType;
 }
 
 -(instancetype)initWithImage:(UIImage *)image{
     if (self = [super init]) {
-         self.view.backgroundColor = [UIColor blackColor];
-        [self setUpImageWithImage:image];
-        [self setUpSaveButtonForImage];
+        _viewerType = 1;
+        self.image = image;
     }
     return self;
 }
 
 -(instancetype)initWithDir:(NSString *)dir{
     if (self = [super init]) {
-         self.view.backgroundColor = [UIColor blackColor];
-        UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:dir]]];
-        [self setUpImageWithImage:image];
-        [self setUpSaveButtonForImage];
+        _viewerType = 2;
+        self.dir = dir;
     }
     return self;
 }
 
 -(instancetype)initWithDir:(NSString *)dir andContent:(NSString *)content{
     if (self = [super init]) {
-        self.view.backgroundColor = [UIColor blackColor];
-        UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:dir]]];
-        [self setUpImageWithImage:image];
-        [self setUpContentWithContent:content];
+        _viewerType = 3;
+        self.dir = dir;
+        self.content = content;
         [self setUpSaveButtonForImage];
     }
     return self;
+}
+
+-(void)viewDidLoad{
+    [super viewDidLoad];
+    [self showHUDIndicator];
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    
+    switch (_viewerType) {
+        case 1:
+            [self setUpImageWithImage:self.image];
+            break;
+        
+        case 2:
+        {
+            UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.dir]]];
+            [self setUpImageWithImage:image];
+        }
+            break;
+            
+        case 3:
+        {
+            UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.dir]]];
+            [self setUpImageWithImage:image];
+            [self setUpContentWithContent:self.content];
+        }
+            break;
+    }
+    
+    [self setUpSaveButtonForImage];
 }
 
 -(void)closeViewer{
@@ -52,6 +80,23 @@
 }
 
 -(void)setUpImageWithImage:(UIImage *)image{
+    _scrollView = [[UIScrollView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    _scrollView.backgroundColor = [UIColor blackColor];
+    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, SCREENHEIGHT);
+    _scrollView.userInteractionEnabled = YES;
+    [self.view addSubview:_scrollView];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
+    tap.numberOfTapsRequired = 1;
+    tap.numberOfTouchesRequired = 1;
+    [_scrollView addGestureRecognizer:tap];
+    
+    if (!image) {
+        [self hideHUD];
+        [self showHUDText:@"网络状态不佳，请稍后再试"];
+        return;
+    }
+    
     CGFloat width = image.size.width;
     CGFloat height = image.size.height;
     CGFloat rate = height / width;
@@ -73,13 +118,8 @@
         showWidth = showHeight / rate;
         maximumZoomScale = rate/1.78;
     }
-    _scrollView = [[UIScrollView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    _scrollView.backgroundColor = [UIColor blackColor];
-    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, SCREENHEIGHT);
-    _scrollView.userInteractionEnabled = YES;
-    [self.view addSubview:_scrollView];
-    _scrollView.maximumZoomScale=maximumZoomScale*3;//图片的放大倍数
     
+    _scrollView.maximumZoomScale=maximumZoomScale*3;//图片的放大倍数
     _scrollView.minimumZoomScale=1.0;//图片的最小倍率
     _scrollView.delegate = self;
   //  _scrollView.canCancelContentTouches = YES;
@@ -87,11 +127,6 @@
     _imageView.frame = CGRectMake(0, 0, showWidth, showHeight);
     _imageView.center = self.view.center;
     [_scrollView addSubview:_imageView];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
-    tap.numberOfTapsRequired = 1;
-    tap.numberOfTouchesRequired = 1;
-    [_scrollView addGestureRecognizer:tap];
     
     UITapGestureRecognizer *tapImgViewTwice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImgViewHandleTwice:)];
     tapImgViewTwice.numberOfTapsRequired = 2;
@@ -101,7 +136,8 @@
     
     UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageView:)];
     [_scrollView addGestureRecognizer:pinch];
-
+    
+    [self hideHUD];
 }
 
 -(void)setUpContentWithContent:(NSString *)content{

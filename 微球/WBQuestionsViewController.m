@@ -237,6 +237,7 @@
     [answerDetailController setHidesBottomBarWhenPushed:YES];
     WBQuestionsListModel *data = self.questionsList[self.selectedRow];
     answerDetailController.fromFindView = self.fromFindView;
+    answerDetailController.groupId = data.groupId;
     answerDetailController.isMaster = self.isMaster;
     answerDetailController.hasPrevPage = NO;
     answerDetailController.questionText = data.questionText;

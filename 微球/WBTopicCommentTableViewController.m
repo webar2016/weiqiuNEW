@@ -169,6 +169,9 @@
     } andSuccess:^(id representData) {
 //        [self showHUDComplete:@"评论成功"];
         [self loadData];
+        _commentTextView.placeholder = @"快发表你的神评论！";
+        _typeFlag = @"0";
+        _toUserId = self.userId;
         _commentTextView.text = @"";
         [_commentTextView resignFirstResponder];
     } andFailure:^(NSString *error) {
