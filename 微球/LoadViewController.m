@@ -313,10 +313,12 @@
             MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
             for (WBTbl_Unlock_City *model in unlockCity) {
                
+                
                     [manager  addItem:model];
                 
             }
-          //  NSLog(@"1 -------%@",[manager searchAllItems]);
+            NSLog(@"1 -------%@",[manager searchAllItems]);
+            
             [manager closeFBDM];
             [self saveData];
             
