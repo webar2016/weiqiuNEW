@@ -11,17 +11,34 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vmc-5l-zKf" userLabel="BgView">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <view alpha="0.40000000000000002" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vmc-5l-zKf" userLabel="BgView">
+                    <rect key="frame" x="0.0" y="13" width="320" height="570"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Tza-1O-0es">
-                    <rect key="frame" x="4" y="224" width="312" height="121"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Tza-1O-0es">
+                    <rect key="frame" x="0.0" y="224" width="320" height="121"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="5vN-oC-n4G"/>
+                    </constraints>
+                    <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <point key="canvasLocation" x="524" y="389"/>
+            <constraints>
+                <constraint firstItem="Vmc-5l-zKf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="0Be-Fx-Pch"/>
+                <constraint firstItem="Tza-1O-0es" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="gYg-5w-6si"/>
+                <constraint firstItem="Vmc-5l-zKf" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="grf-Vy-HxH"/>
+                <constraint firstItem="Vmc-5l-zKf" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="jrw-rj-ulH"/>
+                <constraint firstItem="Tza-1O-0es" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="224" id="mhI-qW-Pm6"/>
+            </constraints>
+            <connections>
+                <outlet property="bgHeight" destination="0Be-Fx-Pch" id="v2I-xK-INZ"/>
+                <outlet property="bgView" destination="Vmc-5l-zKf" id="tsj-sN-O02"/>
+                <outlet property="contentHeight" destination="mhI-qW-Pm6" id="jUk-Sq-Wqi"/>
+                <outlet property="contentView" destination="Tza-1O-0es" id="cjZ-TK-shq"/>
+            </connections>
+            <point key="canvasLocation" x="525" y="389"/>
         </view>
     </objects>
 </document>
