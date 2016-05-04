@@ -41,7 +41,7 @@
     _dataArray = [NSMutableArray array];
     _cellHeightArray = [NSMutableArray array];
     _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
-    _background.center = CGPointMake(SCREENWIDTH / 2, 170);
+    _background.center = CGPointMake(SCREENWIDTH / 2, 200);
     _typeFlag = @"0";
     _toUserId = self.userId;
     [self createNavi];

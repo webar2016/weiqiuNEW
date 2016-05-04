@@ -41,7 +41,7 @@
     [self setConversationAvatarStyle:RC_USER_AVATAR_RECTANGLE];
     self.view.backgroundColor = [UIColor whiteColor];
     self.emptyConversationView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
-    self.emptyConversationView.center = CGPointMake(SCREENWIDTH / 2, 170);
+    self.emptyConversationView.center = CGPointMake(SCREENWIDTH / 2, 200);
     self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myCreate = [NSMutableArray array];
     self.myJoin = [NSMutableArray array];
