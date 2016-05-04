@@ -120,6 +120,7 @@
     _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 40, SCREENWIDTH, SCREENHEIGHT / 4 - 40)];
     _datePicker.datePickerMode = UIDatePickerModeDate;
     _datePicker.backgroundColor = [UIColor whiteColor];
+    _datePicker.maximumDate = [NSDate date];
     
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 40)];
     toolBar.backgroundColor = [UIColor initWithLightGray];
