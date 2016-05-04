@@ -191,12 +191,19 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSString *token =[[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<" withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""]
                       stringByReplacingOccurrencesOfString:@" "withString:@""];
+    
+    
     if (![[WBUserDefaults deviceToken]isEqualToString:token]) {
         [WBUserDefaults setDeviceToken:token];
     }
     
+    
+    
  //   NSLog(@"DeviceToken%@",[WBUserDefaults deviceToken]);
     [[RCIMClient sharedRCIMClient] setDeviceToken:token];
+    
+    
+    
 }
 
 //系统冻结时捕获消息

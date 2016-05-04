@@ -77,7 +77,7 @@
                 <outlet property="contentViewHegithCons" destination="3pc-WE-RsA" id="mwZ-Db-veU"/>
                 <outlet property="pickView" destination="jgF-GQ-51O" id="hIK-sr-4P0"/>
             </connections>
-            <point key="canvasLocation" x="349" y="416"/>
+            <point key="canvasLocation" x="-100" y="376"/>
         </view>
     </objects>
 </document>

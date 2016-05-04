@@ -45,6 +45,8 @@
     
     _dataList = [NSMutableArray array];
     _dataTopList=[NSMutableArray array];
+    self.tableView.showsVerticalScrollIndicator =YES;
+    //self.tableView.indicatorStyle=UIScrollViewIndicatorStyleDefault;
     
     [self createUI];
     
@@ -60,7 +62,7 @@
 -(void)createUI{
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor initWithBackgroundGray];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
     
     MJRefreshAutoNormalFooter *footer = [ MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadDataCell];
@@ -146,8 +148,22 @@
 
 #pragma mark - Table view data source
 
+//-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+//{
+//    NSMutableArray *array = [NSMutableArray  array];
+//    for (NSInteger i = 0 ; i<_dataList.count; i++) {
+//        [array addObject:@" "];
+//    }
+//    return array;
+//    //通过key来索引
+//}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-   return _dataList.count;
+   return 1;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return _dataList.count;
 }
 
 
@@ -162,7 +178,7 @@
         if (cell == nil)
         {   cell = [[WBTopicTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID];
         }
-        [cell setModel:_dataTopList[indexPath.row]];
+        [cell setModel:_dataTopList[indexPath.section]];
         return cell;
     }
     else{
@@ -171,7 +187,7 @@
         if (cell == nil)
         {   cell = [[WBTopicTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
-        [cell setModel:_dataList[indexPath.row-_dataTopList.count]];
+        [cell setModel:_dataList[indexPath.section-_dataTopList.count]];
         return cell;
     }
 }
@@ -180,10 +196,10 @@
 #pragma mark --点击cell事件----
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    NSInteger topicId =((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicId;
+    NSInteger topicId =((WBTopicModel *) _dataList[indexPath.section - _dataTopList.count]).topicId;
     WBTopicDetailViewController *DVC = [[WBTopicDetailViewController alloc]init];
     DVC.topicID = topicId;
-    NSString *title = ((WBTopicModel *) _dataList[indexPath.row - _dataTopList.count]).topicContent;
+    NSString *title = ((WBTopicModel *) _dataList[indexPath.section - _dataTopList.count]).topicContent;
     DVC.mainTitle = title;
     if (title.length > 15) {
         title = [[title substringToIndex:15] stringByAppendingString:@"…"];
