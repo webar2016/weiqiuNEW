@@ -140,6 +140,8 @@
 		2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D6161C869FDC008EE96B /* WBTopTableViewCell.m */; };
 		2D49D61D1C86C1E0008EE96B /* WBTopicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D61C1C86C1E0008EE96B /* WBTopicDetailViewController.m */; };
 		2D49D6241C86F232008EE96B /* TopicDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D49D6231C86F232008EE96B /* TopicDetailModel.m */; };
+		2D4B83461CD99E7B002FE13F /* WBHelpGroupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4B83451CD99E7B002FE13F /* WBHelpGroupMenu.m */; };
+		2D4B83481CD99EA2002FE13F /* WBHelpGroupMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D4B83471CD99EA2002FE13F /* WBHelpGroupMenu.xib */; };
 		2D4BB50B1C8561FA00C02248 /* WBTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4BB50A1C8561FA00C02248 /* WBTopicModel.m */; };
 		2D4F50C71C8FBCE0001E017C /* WBCollectionViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F50C61C8FBCE0001E017C /* WBCollectionViewModel.m */; };
 		2D4F50CD1C8FC48B001E017C /* WBCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F50CC1C8FC48B001E017C /* WBCollectionViewCell.m */; };
@@ -452,6 +454,9 @@
 		2D49D61C1C86C1E0008EE96B /* WBTopicDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicDetailViewController.m; sourceTree = "<group>"; };
 		2D49D6221C86F232008EE96B /* TopicDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicDetailModel.h; sourceTree = "<group>"; };
 		2D49D6231C86F232008EE96B /* TopicDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicDetailModel.m; sourceTree = "<group>"; };
+		2D4B83441CD99E7B002FE13F /* WBHelpGroupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHelpGroupMenu.h; sourceTree = "<group>"; };
+		2D4B83451CD99E7B002FE13F /* WBHelpGroupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHelpGroupMenu.m; sourceTree = "<group>"; };
+		2D4B83471CD99EA2002FE13F /* WBHelpGroupMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBHelpGroupMenu.xib; sourceTree = "<group>"; };
 		2D4BB5091C8561FA00C02248 /* WBTopicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicModel.h; sourceTree = "<group>"; };
 		2D4BB50A1C8561FA00C02248 /* WBTopicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicModel.m; sourceTree = "<group>"; };
 		2D4F50C51C8FBCE0001E017C /* WBCollectionViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCollectionViewModel.h; sourceTree = "<group>"; };
@@ -1125,6 +1130,9 @@
 				2D4F50CC1C8FC48B001E017C /* WBCollectionViewCell.m */,
 				2DF1AD7C1CBDDFBB003D7B5E /* JSDropDownMenu.h */,
 				2DF1AD7D1CBDDFBB003D7B5E /* JSDropDownMenu.m */,
+				2D4B83441CD99E7B002FE13F /* WBHelpGroupMenu.h */,
+				2D4B83451CD99E7B002FE13F /* WBHelpGroupMenu.m */,
+				2D4B83471CD99EA2002FE13F /* WBHelpGroupMenu.xib */,
 				2D16EF541C84169C002D5F90 /* waterfall */,
 				2DC665781C9032C700C1FFB3 /* HelpGroupDetail */,
 				2D5D72FC1C925BC400F8C2AE /* 分配悬赏 */,
@@ -1607,6 +1615,7 @@
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
 				2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */,
+				2D4B83481CD99EA2002FE13F /* WBHelpGroupMenu.xib in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
 				05D6EB8B1C7D414F002D48FF /* LaunchScreen.storyboard in Resources */,
 				2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */,
@@ -1702,6 +1711,7 @@
 				0559F95A1CC1F631001CF2A8 /* WBArticalBaseViewController.m in Sources */,
 				05DB3F791C87F33E00CBCC54 /* WBNavigationController.m in Sources */,
 				05794C8B1CA2322C00F32837 /* WBUnlockMsgCell.m in Sources */,
+				2D4B83461CD99E7B002FE13F /* WBHelpGroupMenu.m in Sources */,
 				2D62D67F1C89632700E4D05E /* WBtopicCommentDetilListModel.m in Sources */,
 				054452BD1C9ADFEC00F8969E /* WBUserDefaults.m in Sources */,
 				2D6B53D01C8E6D6300E3009C /* WBPostIamgeViewController.m in Sources */,

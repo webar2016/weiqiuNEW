@@ -56,7 +56,7 @@
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [self.view addSubview:_tableView];
 
     MyDBmanager *manager1 = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
@@ -80,7 +80,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    return 50;
+    return 80;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -89,6 +89,7 @@
         WBMyUnlockTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil)
         {   cell = [[[NSBundle mainBundle]loadNibNamed:@"WBMyUnlockTableViewCell" owner:nil options:nil] lastObject];
+            
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell setModel:_unlockArray[indexPath.row]];
@@ -99,6 +100,7 @@
         WBMyUnlockTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         if (cell == nil)
         {   cell = [[[NSBundle mainBundle]loadNibNamed:@"WBMyUnlockTableViewCell" owner:nil options:nil] lastObject];
+          
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell setUnlockingModel:_unlockingArray[indexPath.row]];

@@ -64,6 +64,8 @@
     CAShapeLayer *_indicator;
     
     AreaObject *_areaObject;
+    
+    JSDropDownMenu *_menu;
 
 }
 
@@ -144,14 +146,14 @@
   // NSLog(@"%@",_data2);
     _data3 = [NSMutableArray arrayWithObjects:@"标签", @"美食", @"佳境", @"购物", @"艳遇", @"历史", @"科技",@"人文", @"其他",@"",nil];
     
-    JSDropDownMenu *menu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:30];
-    menu.indicatorColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:1.0];
-    menu.separatorColor = [UIColor colorWithRed:210.0f/255.0f green:210.0f/255.0f blue:210.0f/255.0f alpha:1.0];
-    menu.textColor = [UIColor colorWithRed:83.f/255.0f green:83.f/255.0f blue:83.f/255.0f alpha:1.0f];
-    menu.dataSource = self;
-    menu.delegate = self;
+    _menu = [[JSDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:30];
+    _menu.indicatorColor = [UIColor colorWithRed:175.0f/255.0f green:175.0f/255.0f blue:175.0f/255.0f alpha:1.0];
+    _menu.separatorColor = [UIColor colorWithRed:210.0f/255.0f green:210.0f/255.0f blue:210.0f/255.0f alpha:1.0];
+    _menu.textColor = [UIColor colorWithRed:83.f/255.0f green:83.f/255.0f blue:83.f/255.0f alpha:1.0f];
+    _menu.dataSource = self;
+    _menu.delegate = self;
     
-    [self.view addSubview:menu];
+    [self.view addSubview:_menu];
     
     _locatePickBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _locatePickBtn.frame = CGRectMake(SCREENWIDTH/2, -0.5, SCREENWIDTH/2, 30.5);
@@ -296,7 +298,7 @@
 
 {
     
-  //  NSLog(@"%@",_urlString);
+    NSLog(@"%@",_urlString);
     
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:_urlString,(long)_page,PAGESIZE] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -589,8 +591,13 @@
 
 -(void)changeUrl{
     
+    
+    
     if (_currentData1Index == 0) {
-        if ([[_areaObject getId] isEqualToString:@"all"]) {
+        
+       // NSLog(@"%@",[_areaObject getId]);
+        if ([[_areaObject getId] isEqualToString:@"all"]||[_areaObject getId]==NULL) {
+            
             NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?",WEBAR_IP];
             _urlString = [tempStr stringByAppendingString:@"p=%ld&ps=%d"];
             _page = 1;
@@ -602,7 +609,19 @@
         }
         
     }else{
-        if ([[_areaObject getId] isEqualToString:@"all"]) {
+        
+        if (![WBUserDefaults userId]) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您还没有登录" preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }]];
+            [self presentViewController:alertController animated:YES completion:nil];
+            
+            return;
+        }
+        
+        
+        if ([[_areaObject getId] isEqualToString:@"all"]||[_areaObject getId]==NULL) {
              NSString *tempStr = [NSString stringWithFormat:@"%@/hg/getHGs?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
             _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
             _page = 1;

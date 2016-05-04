@@ -285,7 +285,7 @@
     NSString *deleteSql;
     if ([_myDataBase open])
     {
-            deleteSql = [NSString stringWithFormat:@"delete  from '%@' ",_tableName];
+            deleteSql = [NSString stringWithFormat:@"DROP TABLE '%@' ",_tableName];
             [_myDataBase executeUpdate:deleteSql];
     }
 }

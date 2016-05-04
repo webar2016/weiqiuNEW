@@ -201,8 +201,11 @@
            // NSLog(@"%@",result);
             if ([result objectForKey:@"userId"]) {
                 [WBUserDefaults setUserId:[NSString stringWithFormat:@"%@",[result objectForKey:@"userId"]]];
-                [WBUserDefaults printUserDefaults];
+               // [WBUserDefaults printUserDefaults];
+                
+                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
+                
                 [self saveToDataBase];
                 [self saveToUserDefault];
             }else{
@@ -316,7 +319,7 @@
                     [manager  addItem:model];
                 
             }
-          //  NSLog(@"1 -------%@",[manager searchAllItems]);
+            //NSLog(@"1 -------%@",[manager searchAllItems]);
             [manager closeFBDM];
             [self saveData];
             
@@ -355,6 +358,14 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
 
         [self dismissViewControllerAnimated:YES completion:nil];
+        
+        NSString *sendToken = [NSString stringWithFormat:@"%@/pt/updateToken?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
+        
+        [MyDownLoadManager getNsurl:sendToken whenSuccess:^(id representData) {
+            
+        } andFailure:^(NSString *error) {
+            
+        }];
     }
 }
 
