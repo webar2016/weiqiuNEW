@@ -572,6 +572,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ((tableView.tag == 100 && _topicsArray.count == 0) || (tableView.tag == 200 && _answersArray.count == 0)) {
+        return;
+    }
+    
     TopicDetailModel *model = _topicsArray[indexPath.section];
     if (model.newsType == 3 && tableView.tag == 100) {
         WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
