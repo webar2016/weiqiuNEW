@@ -412,7 +412,7 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (tableView.tag == 100) {
         if (_topicsArray.count == 0) {
-            return 1;
+            return 0;
         }
         return _topicsArray.count;
     }
