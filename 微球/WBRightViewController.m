@@ -84,10 +84,10 @@
 - (void)willDisplayConversationTableCell:(RCConversationBaseCell *)cell
                              atIndexPath:(NSIndexPath *)indexPath{
     ((RCConversationCell *)cell).contentView.backgroundColor = [UIColor initWithBackgroundGray];
-    ((RCConversationCell *)cell).conversationTitle.textColor = [UIColor initWithLightGray];
-    ((RCConversationCell *)cell).conversationTitle.font = MAINFONTSIZE;
-    ((RCConversationCell *)cell).messageContentLabel.font = FONTSIZE12;
-    ((RCConversationCell *)cell).messageCreatedTimeLabel.font = FONTSIZE12;
+//    ((RCConversationCell *)cell).conversationTitle.textColor = [UIColor initWithLightGray];
+//    ((RCConversationCell *)cell).conversationTitle.font = MAINFONTSIZE;
+//    ((RCConversationCell *)cell).messageContentLabel.font = FONTSIZE12;
+//    ((RCConversationCell *)cell).messageCreatedTimeLabel.font = FONTSIZE12;
 }
 
 -(void)pushViewControllerWithController:(UIViewController *)vc{

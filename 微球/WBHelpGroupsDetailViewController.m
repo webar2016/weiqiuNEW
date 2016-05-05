@@ -251,6 +251,7 @@
                     if ([error isEqualToString:@"0"]) {
                         _isSuccess = YES;
                         [self showHUDComplete:@"加入成功，可在【我加入的】查看"];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadGroup" object:self];
                         UIButton *btn = (UIButton *)[self.view viewWithTag:101];
                         [btn setEnabled:NO];
                         [_ensureBtn setTitle:@"已加入" forState:UIControlStateNormal];
