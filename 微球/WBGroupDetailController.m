@@ -160,6 +160,10 @@
     self.dataDic[@"rewardIntegral"] = _scoreLable.text;
     self.dataDic[@"userId"] = [WBUserDefaults userId];
     
+    
+    
+    
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSString *url = [NSString stringWithFormat:@"%@/hg/createHG",WEBAR_IP];
@@ -372,7 +376,14 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     _imageScale = image.size.height / image.size.width;
-    _fileData = UIImageJPEGRepresentation(image, 0.2);
+    
+   
+    _fileData = UIImageJPEGRepresentation(image, 1.0);
+    if (_fileData.length>1024*500) {
+        _fileData = UIImageJPEGRepresentation(image, 1024*500.0/_fileData.length);
+    }
+    
+    
     
     if (!_imageFromAlbum) {
         UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);

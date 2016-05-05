@@ -57,7 +57,7 @@
     
     self.navigationItem.title = @"行程信息";
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"上一步" style:UIBarButtonItemStylePlain target:self action:@selector(lastStep)];
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(lastStep)];
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"下一步" style:UIBarButtonItemStylePlain target:self action:@selector(nextStep)];
     self.navigationItem.leftBarButtonItem = leftButton;
     self.navigationItem.rightBarButtonItem = rightButton;
@@ -75,7 +75,8 @@
 #pragma mark - navigation button
 
 -(void)lastStep{
-    self.tabBarController.selectedIndex = 0;
+
+    self.tabBarController.selectedIndex = _index;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

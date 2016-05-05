@@ -244,13 +244,20 @@
     [parameters setObject:[NSString stringWithFormat:@"%ld",(long)_topicID] forKey:@"topicId"];
      CGFloat rate =_selectPic.size.height/_selectPic.size.width;
     [parameters setObject:[NSString stringWithFormat:@"%f",rate] forKey:@"imgRate"];
-    NSData *fileData = UIImageJPEGRepresentation(_selectPic, 0.2);
     
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateTime = [formatter stringFromDate:[NSDate date]];
+    
+    NSData *fileData = UIImageJPEGRepresentation(_selectPic, 1.0);
+    if (fileData.length>1024*1024) {
+        fileData = UIImageJPEGRepresentation(_selectPic, 1024*1024.0/fileData.length);
+    }
     
     
     [MyDownLoadManager postUserInfoUrl:[NSString stringWithFormat:@"%@/tq/setComment",WEBAR_IP] withParameters:parameters fieldData:^(id<AFMultipartFormData> formData) {
         if (fileData) {
-            [formData appendPartWithFileData:fileData name:@"asd" fileName:@"asd.jpg" mimeType:@"image/jpeg"];
+            [formData appendPartWithFileData:fileData name:dateTime fileName:@"asd.jpg" mimeType:@"image/jpeg"];
         }
         
     } whenProgress:^(NSProgress *FieldDataBlock) {

@@ -120,9 +120,13 @@
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+    
     if (self.selectedIndex != 1) {
         self.isGroup = !self.isGroup;
+        self.createHelpGroupViewController.index = self.selectedIndex;
+        NSLog(@"%ld",self.createHelpGroupViewController.index);
     }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -143,12 +147,15 @@
 
 
 - (void)brOptionsButton:(BROptionsButton *)brOptionsButton didSelectItem:(BROptionItem *)item {
+
+    
     [self setSelectedIndex:brOptionsButton.locationIndexInTabBar];
 }
 
 #pragma mark - CommonDelegate
 
 - (void)changeBROptionsButtonLocaitonTo:(NSInteger)location animated:(BOOL)animated {
+    
     if(location < self.tabBar.items.count) {
         [self.brOptionsButton setLocationIndexInTabBar:location animated:YES];
     } else {

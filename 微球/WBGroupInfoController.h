@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) NSMutableDictionary *dataDic;
 
+@property (nonatomic,assign) NSInteger index;
+
 @end
