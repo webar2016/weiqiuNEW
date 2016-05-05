@@ -29,7 +29,7 @@
 
 
 -(void)setModel:(WBTbl_Unlock_City *)model{
-    
+    _headImageView.backgroundColor = [UIColor initWithBackgroundGray];
     _headImageView.contentMode = UIViewContentModeScaleAspectFill;
     _headImageView.layer.masksToBounds = YES;
     _headImageView.layer.cornerRadius = 0;
@@ -41,7 +41,7 @@
 
 
 -(void)setUnlockingModel:(WBTbl_Unlocking_City *)model{
-    
+    _headImageView.backgroundColor = [UIColor initWithBackgroundGray];
     _headImageView.contentMode = UIViewContentModeScaleAspectFill;
     _headImageView.layer.masksToBounds = YES;
     _headImageView.layer.cornerRadius = 0;

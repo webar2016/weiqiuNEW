@@ -245,7 +245,7 @@
                 _urlString =[tempStr stringByAppendingString:@"&p=%ld&ps=%d"];
                 _page = 1;
             }
-          [_myHelpGroupBtn setTitle:@"我可加入的帮帮团" forState:UIControlStateNormal];
+          [_myHelpGroupBtn setTitle:@"可加入的帮帮团" forState:UIControlStateNormal];
         }
         
         if (_isAllHelpGroup == isAllHelpGroup) {
