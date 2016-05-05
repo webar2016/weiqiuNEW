@@ -31,10 +31,13 @@
         
         _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
         _background.center = CGPointMake(SCREENWIDTH / 2, 200);
-        
-        [self setUpTableView];
     }
     return self;
+}
+
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    [self setUpTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -148,12 +151,6 @@
     } else {
         [self showHUDText:@"删除失败，请重试"];
     }
-}
-
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {

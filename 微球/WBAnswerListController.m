@@ -190,6 +190,15 @@
         [self alertLogin];
         return;
     }
+    
+    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+    WBPositionList *positionList = [[WBPositionList alloc]init];
+    NSArray *tempArray =  [[positionList searchCityWithCithName:self.cityStr] objectAtIndex:0];
+    if (![manager  isAddedItemsID:[NSString stringWithFormat:@"%@",tempArray[1]]]){
+        [self showHUDText:@"你还没有解锁这个城市，请先解锁"];
+        return;
+    }
+    
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/checkIn?userId=%@&groupId=%@",WEBAR_IP,[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];
         if ([result isEqualToString:@"true"]) {
@@ -203,16 +212,26 @@
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你当前不在这个帮帮团中，加入后才可以回答问题，是否加入？" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:({
                 UIAlertAction *action = [UIAlertAction actionWithTitle:@"加入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/jion?groupId=%@&userId=%@",WEBAR_IP,self.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
-                        
-                        WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.groupId questionId:[NSString stringWithFormat:@"%ld",(long)self.questionId] title:self.questionText];
-                        writeAnswerVC.reloadDataBlock = ^{
-                            self.currentPage = 1;
-                            [self loadData];
-                        };
-                        [self.navigationController pushViewController:writeAnswerVC animated:YES];
-                        
-                    } andFailure:^(NSString *error) {
+                    [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/jion?groupId=%@&userId=%@",WEBAR_IP,self.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData)
+                     {
+                         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                         
+                         if ( [result isKindOfClass:[NSDictionary class]]) {
+                             NSString *error = result[@"error"];
+                             if ([error isEqualToString:@"0"]) {
+                                 WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.groupId questionId:[NSString stringWithFormat:@"%ld",(long)self.questionId] title:self.questionText];
+                                 writeAnswerVC.reloadDataBlock = ^{
+                                     self.currentPage = 1;
+                                     [self loadData];
+                                 };
+                                 [self.navigationController pushViewController:writeAnswerVC animated:YES];
+                             } else if ([error isEqualToString:@"2"]) {
+                                 [self showHUDText:@"帮帮团团员已满"];
+                             } else {
+                                 [self showHUDText:@"加入失败，请稍后重试"];
+                             }
+                         }
+                     } andFailure:^(NSString *error) {
                         [self showHUDText:@"网络状态不佳，请稍后再试"];
                     }];
                 }];

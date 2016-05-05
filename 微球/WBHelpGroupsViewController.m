@@ -63,6 +63,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
     if (![WBUserDefaults userId]) {
         self.segmentedControl.selectedSegmentIndex = 0;
