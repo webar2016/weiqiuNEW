@@ -160,10 +160,6 @@
     self.dataDic[@"rewardIntegral"] = _scoreLable.text;
     self.dataDic[@"userId"] = [WBUserDefaults userId];
     
-    
-    
-    
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSString *url = [NSString stringWithFormat:@"%@/hg/createHG",WEBAR_IP];
@@ -177,6 +173,7 @@
         _isSuccess = YES;
         [self showHUDComplete:@"创建成功，可在【我创建的】查看"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"createSuccess" object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadGroup" object:self];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         _isSuccess = NO;
         self.navigationItem.rightBarButtonItem.enabled = YES;

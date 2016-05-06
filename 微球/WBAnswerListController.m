@@ -219,6 +219,7 @@
                          if ( [result isKindOfClass:[NSDictionary class]]) {
                              NSString *error = result[@"error"];
                              if ([error isEqualToString:@"0"]) {
+                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadGroup" object:self];
                                  WBAnswerQuestionViewController *writeAnswerVC = [[WBAnswerQuestionViewController alloc] initWithGroupId:self.groupId questionId:[NSString stringWithFormat:@"%ld",(long)self.questionId] title:self.questionText];
                                  writeAnswerVC.reloadDataBlock = ^{
                                      self.currentPage = 1;

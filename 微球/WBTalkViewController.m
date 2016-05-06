@@ -67,7 +67,7 @@
     self.enableSaveNewPhotoToLocalSystem = YES;
     self.groupId = self.targetId;
     [self setMessageAvatarStyle:RC_USER_AVATAR_CYCLE];
-    [self showHUDIndicator];
+//    [self showHUDIndicator];
     [self getQuestionTotalNumber];
     
     UIBarButtonItem *setting = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_groupsetting"] style:UIBarButtonItemStylePlain target:self action:@selector(groupSetting)];
@@ -156,7 +156,7 @@
             self.firstLoadQuestion += 1;
             [self loadData];
         }else{
-            [self hideHUD];
+//            [self hideHUD];
         }
         _isGettingQues = NO;
         
@@ -178,11 +178,11 @@
             _currentQuestionId = [NSString stringWithFormat:@"%ld",(long)((WBQuestionsListModel *)self.model[0]).questionId];
         }
         
-        [self hideHUD];
+//        [self hideHUD];
         [self setUpQuestionView];
         
     } andFailure:^(NSString *error) {
-        [self hideHUD];
+//        [self hideHUD];
         NSLog(@"%@------",error);
     }];
 }
