@@ -12,6 +12,7 @@
 #import "WBMainTabBarController.h"
 #import "WBPrivateViewController.h"
 #import "LoadViewController.h"
+#import "WBGuideViewController.h"
 
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
@@ -138,22 +139,38 @@
 -(void)setRootView{
     self.window= [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor initWithDarkGray];
-    self.mainTabBarController = [[WBMainTabBarController alloc] init];
-    self.leftViewController = [[WBLeftViewController alloc]init];
-    self.rightViewController = [[WBRightViewController alloc]initWithDisplayConversationTypes:@[@(ConversationType_PRIVATE)] collectionConversationType:nil];
     
+//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+    BOOL firstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"];
     
-    RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:self.mainTabBarController
-                                                                    leftMenuViewController:self.leftViewController
-                                                                   rightMenuViewController:self.rightViewController];
-    sideMenuViewController.contentViewShadowEnabled = YES;
-    sideMenuViewController.contentViewShadowOffset = CGSizeMake(4, 0);
-    sideMenuViewController.contentViewShadowOpacity = 0.4f;
-    sideMenuViewController.contentViewShadowRadius = 5.0f;
-    sideMenuViewController.panGestureEnabled = NO;
-    sideMenuViewController.contentViewInPortraitOffsetCenterX = 120;
-    self.window.rootViewController = sideMenuViewController;
-    [self.window makeKeyAndVisible];
+    if (!firstLaunch) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        WBGuideViewController *guideVC = [[WBGuideViewController alloc] init];
+        guideVC.window = self.window;
+        self.window.rootViewController = guideVC;
+        [self.window makeKeyAndVisible];
+        
+    } else {
+        self.mainTabBarController = [[WBMainTabBarController alloc] init];
+        self.leftViewController = [[WBLeftViewController alloc]init];
+        self.rightViewController = [[WBRightViewController alloc]initWithDisplayConversationTypes:@[@(ConversationType_PRIVATE)] collectionConversationType:nil];
+        
+        
+        RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:self.mainTabBarController
+                                                                        leftMenuViewController:self.leftViewController
+                                                                       rightMenuViewController:self.rightViewController];
+        sideMenuViewController.contentViewShadowEnabled = YES;
+        sideMenuViewController.contentViewShadowOffset = CGSizeMake(4, 0);
+        sideMenuViewController.contentViewShadowOpacity = 0.4f;
+        sideMenuViewController.contentViewShadowRadius = 5.0f;
+        sideMenuViewController.panGestureEnabled = NO;
+        sideMenuViewController.contentViewInPortraitOffsetCenterX = 120;
+        self.window.rootViewController = sideMenuViewController;
+        [self.window makeKeyAndVisible];
+    }
 }
 
 #pragma mark - 推送处理
