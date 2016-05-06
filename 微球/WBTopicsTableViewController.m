@@ -127,6 +127,7 @@
 -(void) loadDataTop{
     _page = 1;
     NSString *url = [NSString stringWithFormat:TopCellURL,WEBAR_IP];
+    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
