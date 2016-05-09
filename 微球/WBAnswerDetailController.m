@@ -330,6 +330,8 @@
     WBAnswerListController *answerListController = [[WBAnswerListController alloc] init];
     answerListController.fromFindView = self.fromFindView;
     answerListController.groupId = self.groupId;
+    answerListController.cityStr = self.cityStr;
+    answerListController.isSolved = self.isSolved;
     answerListController.isMaster = self.isMaster;
     answerListController.questionText = self.questionText;
     answerListController.questionId = self.questionId;

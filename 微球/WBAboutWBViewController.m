@@ -23,7 +23,7 @@
         UIScrollView *view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 64)];
         [self.view addSubview:view];
         
-        UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"appicon"]];
+        UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"app"]];
         icon.frame = CGRectMake(SCREENWIDTH / 2 - 30, 20, 60, 60);
         [view addSubview:icon];
         
