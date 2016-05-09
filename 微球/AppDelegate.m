@@ -140,8 +140,8 @@
     self.window= [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor initWithDarkGray];
     
-//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     BOOL firstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"];
     
     if (!firstLaunch) {

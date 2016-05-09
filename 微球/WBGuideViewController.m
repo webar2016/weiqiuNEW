@@ -74,16 +74,21 @@
     for (NSInteger i = 0; i < 5; i ++) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0 + SCREENWIDTH * i, 0, SCREENWIDTH, SCREENHEIGHT)];
         imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"guide%@_0%d",imageSize,i + 1]];
+        imageView.userInteractionEnabled = YES;
         [self.scrollView addSubview: imageView];
         
-        if (i == 4) {
-            UIButton *enter = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-            enter.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT * 7 / 10);
-            [enter setTitle:@"进入微球" forState:UIControlStateNormal];
-            [enter setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
-            enter.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+        if (i < 4) {
+            UIButton *skip = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 45, 20)];
+            skip.center = CGPointMake(SCREENWIDTH - 40, 30);
+            [skip setBackgroundImage:[UIImage imageNamed:@"GuidePage_skip_icon"] forState:UIControlStateNormal];
+            [skip addTarget:self action:@selector(enterMainView) forControlEvents:UIControlEventTouchUpInside];
+            [imageView addSubview:skip];
+        } else {
+            UIButton *enter = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 150, 40)];
+            enter.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT - 80);
+            [enter setBackgroundImage:[UIImage imageNamed:@"GuidePage_into_icon"] forState:UIControlStateNormal];
+            [enter setBackgroundImage:[UIImage imageNamed:@"GuidePage_into_icon_selected"] forState:UIControlStateHighlighted];
             [enter addTarget:self action:@selector(enterMainView) forControlEvents:UIControlEventTouchUpInside];
-            imageView.userInteractionEnabled = YES;
             [imageView addSubview:enter];
         }
     }
