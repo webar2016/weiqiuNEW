@@ -52,31 +52,61 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[WBTopicDetailCell upLoadLikeTap]"
+                  symbolName = "__28-[WBTopicDetailCell likeTap]_block_invoke"
                   moduleName = "&#x5fae;&#x7403;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jiayubin/Desktop/weiqiuNEW/%E5%BE%AE%E7%90%83/WBTopicDetailCell.m"
-                  timestampString = "484553798.085103"
+                  timestampString = "484560944.856044"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "339"
-                  endingLineNumber = "339"
-                  offsetFromSymbolStart = "60">
+                  startingLineNumber = "340"
+                  endingLineNumber = "340"
+                  offsetFromSymbolStart = "296">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__34-[WBTopicDetailCell upLoadLikeTap]_block_invoke"
+                  symbolName = "__copy_helper_block_"
                   moduleName = "&#x5fae;&#x7403;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jiayubin/Desktop/weiqiuNEW/%E5%BE%AE%E7%90%83/WBTopicDetailCell.m"
-                  timestampString = "484553798.085305"
+                  timestampString = "484560944.856175"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "339"
-                  endingLineNumber = "339"
-                  offsetFromSymbolStart = "24">
+                  startingLineNumber = "340"
+                  endingLineNumber = "340"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_"
+                  moduleName = "&#x5fae;&#x7403;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiayubin/Desktop/weiqiuNEW/%E5%BE%AE%E7%90%83/WBTopicDetailCell.m"
+                  timestampString = "484560944.856273"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "340"
+                  endingLineNumber = "340"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__28-[WBTopicDetailCell likeTap]_block_invoke.256"
+                  moduleName = "&#x5fae;&#x7403;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiayubin/Desktop/weiqiuNEW/%E5%BE%AE%E7%90%83/WBTopicDetailCell.m"
+                  timestampString = "484560944.856367"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "341"
+                  endingLineNumber = "341"
+                  offsetFromSymbolStart = "56">
                </Location>
             </Locations>
          </BreakpointContent>

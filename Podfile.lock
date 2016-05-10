@@ -14,8 +14,9 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - AMapLocation (1.2.2)
-  - AVOSCloud (3.2.8)
+  - AMap3DMap (3.3.2)
+  - AMapSearch (3.3.0)
+  - AVOSCloud (3.2.9)
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
@@ -29,7 +30,8 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
-  - AMapLocation
+  - AMap3DMap
+  - AMapSearch
   - AVOSCloud
   - FMDB
   - MBProgressHUD (~> 0.9.2)
@@ -40,8 +42,9 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  AMapLocation: 5412fbf0385716d4d481e39a95929057cddc093f
-  AVOSCloud: b789619942a4275e615f8f0782e7475675951b95
+  AMap3DMap: 6315b7489cb60b1c47bb51169b409c20efa5f527
+  AMapSearch: cff4faf59c007f7d1f2bae2d7170c3912783981a
+  AVOSCloud: b020009b1f2e35c271d4d019075458c879fc1d21
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
