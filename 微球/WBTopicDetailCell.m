@@ -39,6 +39,7 @@
     TopicDetailModel *_model;
     
     NSInteger   _cellType;
+    
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -177,6 +178,9 @@
     [_praiseBtn setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     _praiseBtn.titleLabel.font = MAINFONTSIZE;
     [_praiseBtn addTarget:self action:@selector(toolbarOperations:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
     UIBarButtonItem *praiseBarBtn = [[UIBarButtonItem alloc] initWithCustomView:_praiseBtn];
     
     UIBarButtonItem *flexiBarBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
@@ -185,6 +189,8 @@
     
     _toolBar.items = barBtns;
     [self.contentView addSubview:_toolBar];
+    
+    
 }
 
 -(void)setModel:(TopicDetailModel *)model withIsSelectState:(NSString *)selectState{

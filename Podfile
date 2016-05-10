@@ -7,3 +7,4 @@ pod ‘FMDB’
 pod 'MBProgressHUD', '~> 0.9.2'
 pod 'RongCloudIMKit', '~> 2.4.8'
 pod 'AVOSCloud'
+pod 'AMapLocation'  #定位SDK
