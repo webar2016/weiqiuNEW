@@ -45,6 +45,7 @@
     self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myCreate = [NSMutableArray array];
     self.myJoin = [NSMutableArray array];
+    [self loadMyGroup];
     [self setUpHeaderView];
     return self;
 }
@@ -52,12 +53,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self notifyUpdateUnreadMessageCount];
-    [self loadMyGroup];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMyGroup) name:@"reloadGroup" object:nil];
+//    [self loadMyGroup];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMyGroup) name:@"reloadGroup" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+    [self loadMyGroup];
     [self notifyUpdateUnreadMessageCount];
 }
 

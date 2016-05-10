@@ -173,7 +173,7 @@
         _isSuccess = YES;
         [self showHUDComplete:@"创建成功，可在【最近】查看"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"createSuccess" object:self];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadGroup" object:self];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadGroup" object:self];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         _isSuccess = NO;
         self.navigationItem.rightBarButtonItem.enabled = YES;
