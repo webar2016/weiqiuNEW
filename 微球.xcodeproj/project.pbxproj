@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		050B020A1C9FE82900344611 /* WBPrivateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 050B02091C9FE82900344611 /* WBPrivateViewController.m */; };
+		0516F0151CDC2A0400D50C9B /* WBGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0516F0141CDC2A0400D50C9B /* WBGuideViewController.m */; };
 		052048BB1C8979AC00175D14 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052048BA1C8979AC00175D14 /* SystemConfiguration.framework */; };
 		052048BD1C8979BB00175D14 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052048BC1C8979BB00175D14 /* QuartzCore.framework */; };
 		052048BF1C8979C800175D14 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052048BE1C8979C800175D14 /* CoreTelephony.framework */; };
@@ -224,6 +225,8 @@
 /* Begin PBXFileReference section */
 		050B02081C9FE82900344611 /* WBPrivateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPrivateViewController.h; sourceTree = "<group>"; };
 		050B02091C9FE82900344611 /* WBPrivateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPrivateViewController.m; sourceTree = "<group>"; };
+		0516F0131CDC2A0400D50C9B /* WBGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGuideViewController.h; sourceTree = "<group>"; };
+		0516F0141CDC2A0400D50C9B /* WBGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGuideViewController.m; sourceTree = "<group>"; };
 		052048BA1C8979AC00175D14 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		052048BC1C8979BB00175D14 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		052048BE1C8979C800175D14 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -958,6 +961,8 @@
 				052944D01C7FF2040098159F /* controllers */,
 				05D6EB7E1C7D414F002D48FF /* AppDelegate.h */,
 				05D6EB7F1C7D414F002D48FF /* AppDelegate.m */,
+				0516F0131CDC2A0400D50C9B /* WBGuideViewController.h */,
+				0516F0141CDC2A0400D50C9B /* WBGuideViewController.m */,
 				2D465FE61C8840B000555532 /* MyModel.xcdatamodeld */,
 				05DB3F7A1C881AEC00CBCC54 /* WBPrefixHeader.pch */,
 				05D6EB871C7D414F002D48FF /* Assets.xcassets */,
@@ -1730,6 +1735,7 @@
 				2D16EF5D1C8416AF002D5F90 /* TopCell.m in Sources */,
 				05D6EB801C7D414F002D48FF /* AppDelegate.m in Sources */,
 				05DB3F7D1C88264000CBCC54 /* NSString+string.m in Sources */,
+				0516F0151CDC2A0400D50C9B /* WBGuideViewController.m in Sources */,
 				05DB3F5F1C857E9D00CBCC54 /* WBQuestionsListModel.m in Sources */,
 				2DEE8B981CB34278004CD0C4 /* WBRefreshViewController.m in Sources */,
 				2D02B6941C81987F00FADFFB /* WBLeftViewController.m in Sources */,
@@ -1894,7 +1900,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liang Xu (ERJ67V2HY6)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1938,7 +1944,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Liang Xu (ERJ67V2HY6)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;

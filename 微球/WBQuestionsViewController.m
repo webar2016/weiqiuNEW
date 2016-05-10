@@ -238,6 +238,8 @@
     WBQuestionsListModel *data = self.questionsList[self.selectedRow];
     answerDetailController.fromFindView = self.fromFindView;
     answerDetailController.groupId = data.groupId;
+    answerDetailController.cityStr = data.cityStr;
+    answerDetailController.isSolved = data.isSolve;
     answerDetailController.isMaster = self.isMaster;
     answerDetailController.hasPrevPage = NO;
     answerDetailController.questionText = data.questionText;
@@ -288,6 +290,9 @@
     WBAnswerListController *answerListController = [[WBAnswerListController alloc] init];
     [answerListController setHidesBottomBarWhenPushed:YES];
     answerListController.fromFindView = YES;
+    answerListController.isSolved = sender.userInfo[@"isSolved"];
+    answerListController.cityStr = sender.userInfo[@"cityStr"];
+    answerListController.groupId = sender.userInfo[@"groupId"];
     answerListController.questionText = sender.userInfo[@"questionText"];
     answerListController.questionId = [sender.userInfo[@"questionId"] integerValue];
     answerListController.allAnswers = [sender.userInfo[@"allAnswers"] integerValue];

@@ -265,7 +265,10 @@
     dic[@"questionId"] = [NSString stringWithFormat:@"%ld",(long)data.questionId];
     dic[@"allAnswers"] = [NSString stringWithFormat:@"%ld",(long)data.allAnswers];
     dic[@"allIntegral"] = [NSString stringWithFormat:@"%ld",(long)data.allIntegral];
-    dic[@"suerId"] = [NSString stringWithFormat:@"%ld",(long)data.hga.tblUser.userId];
+    dic[@"uerId"] = [NSString stringWithFormat:@"%ld",(long)data.hga.tblUser.userId];
+    dic[@"isSolved"] = data.isSolve;
+    dic[@"groupId"] = data.groupId;
+    dic[@"cityStr"] = data.cityStr;
     [self dismissViewControllerAnimated:YES completion:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:@"showSearchResultView" object:self userInfo:dic];
     }];

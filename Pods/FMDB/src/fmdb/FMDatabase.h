@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "FMResultSet.h"
 #import "FMDatabasePool.h"
-#import <sqlite3.h>
 
 
 #if ! __has_feature(objc_arc)

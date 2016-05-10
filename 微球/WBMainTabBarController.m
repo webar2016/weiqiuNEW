@@ -124,7 +124,7 @@
     if (self.selectedIndex != 1) {
         self.isGroup = !self.isGroup;
         self.createHelpGroupViewController.index = self.selectedIndex;
-        NSLog(@"%ld",self.createHelpGroupViewController.index);
+        NSLog(@"%ld",(long)self.createHelpGroupViewController.index);
     }
     
 }

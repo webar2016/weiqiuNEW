@@ -212,7 +212,7 @@
     }else{
         _fileData = UIImageJPEGRepresentation(image, 1);
     }
-    NSLog(@"%ld",_fileData.length);
+    NSLog(@"%ld",(unsigned long)_fileData.length);
     
     NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
     NSString *imageString = [NSString stringWithFormat:@"%@",imageURL];

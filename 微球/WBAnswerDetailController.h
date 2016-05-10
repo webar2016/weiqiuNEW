@@ -18,6 +18,8 @@
 @property (nonatomic, assign) NSInteger getIntegral;
 @property (nonatomic, assign) NSInteger userId;
 @property (nonatomic, copy) NSString *groupId;
+@property (nonatomic, copy) NSString *cityStr;
+@property (nonatomic, copy) NSString *isSolved;
 
 /**
  *点击问题后传给下一个controller的数据
