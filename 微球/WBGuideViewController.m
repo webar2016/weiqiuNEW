@@ -73,7 +73,7 @@
     
     for (NSInteger i = 0; i < 5; i ++) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0 + SCREENWIDTH * i, 0, SCREENWIDTH, SCREENHEIGHT)];
-        imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"guide%@_0%d",imageSize,i + 1]];
+        imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"guide%@_0%d",imageSize,(int)i + 1]];
         imageView.userInteractionEnabled = YES;
         [self.scrollView addSubview: imageView];
         
