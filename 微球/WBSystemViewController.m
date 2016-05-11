@@ -42,6 +42,7 @@
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
     self.enableSaveNewPhotoToLocalSystem = YES;
+    [RCIM sharedRCIM].enableReadReceipt = YES;
     //注册自定义消息cell
     [self registerClass:[WBSystemMsgCell class] forCellWithReuseIdentifier:WBSystemMessageIdentifier];
     [self registerClass:[WBFollowMsgCell class] forCellWithReuseIdentifier:WBFollowMessageIdentifier];
