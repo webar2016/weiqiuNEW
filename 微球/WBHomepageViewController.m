@@ -30,6 +30,8 @@
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 
+#import "WBMapViewController.h"
+
 @interface WBHomepageViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,WBQuestionTableViewCellDelegate,ModefyData,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TransformValue> {
     
     UIView              *_headView;//头部视图
@@ -687,7 +689,12 @@
             
             break;
         case 333:{
-            [self.navigationController pushViewController:_mapVC animated:YES];
+            WBMapViewController *MVC = [[WBMapViewController alloc]init];
+            
+            
+            [self.navigationController pushViewController:MVC animated:YES];
+            
+            //[self.navigationController pushViewController:_mapVC animated:YES];
         }
             
             break;

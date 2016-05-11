@@ -129,6 +129,10 @@
 		2D2568D11CB78DAB006AEE5A /* WBReChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2568CF1CB78DAB006AEE5A /* WBReChargeViewController.m */; };
 		2D2733671CB2BD5500F5E967 /* WBFindKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */; };
 		2D28CC941CCB1130006AB0C3 /* Localtion_select.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D28CC931CCB1130006AB0C3 /* Localtion_select.plist */; };
+		2D299CC21CE1D36B00DC8028 /* BaseMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */; };
+		2D299CC51CE1D42C00DC8028 /* WBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */; };
+		2D299CD51CE1E06200DC8028 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D299CD31CE1E06200DC8028 /* compass.png */; };
+		2D299CD61CE1E06200DC8028 /* compass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D299CD41CE1E06200DC8028 /* compass@2x.png */; };
 		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
 		2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */; };
 		2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */; };
@@ -436,6 +440,12 @@
 		2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindKeyViewController.m; sourceTree = "<group>"; };
 		2D28CC931CCB1130006AB0C3 /* Localtion_select.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Localtion_select.plist; sourceTree = "<group>"; };
 		2D299CBF1CE1CF1800DC8028 /* AMapAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMapAPIKey.h; sourceTree = "<group>"; };
+		2D299CC01CE1D36B00DC8028 /* BaseMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseMapViewController.h; sourceTree = "<group>"; };
+		2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseMapViewController.m; sourceTree = "<group>"; };
+		2D299CC31CE1D42C00DC8028 /* WBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMapViewController.h; sourceTree = "<group>"; };
+		2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMapViewController.m; sourceTree = "<group>"; };
+		2D299CD31CE1E06200DC8028 /* compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compass.png; sourceTree = "<group>"; };
+		2D299CD41CE1E06200DC8028 /* compass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "compass@2x.png"; sourceTree = "<group>"; };
 		2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindAndHelpViewController.h; sourceTree = "<group>"; };
 		2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindAndHelpViewController.m; sourceTree = "<group>"; };
 		2D3775851CB4EE85003E6FE4 /* WBMenuBtnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMenuBtnViewController.h; sourceTree = "<group>"; };
@@ -896,6 +906,12 @@
 			children = (
 				05D1F93E1C8FBE1A0049D3EC /* WBHomepageViewController.h */,
 				05D1F93F1C8FBE1A0049D3EC /* WBHomepageViewController.m */,
+				2D299CC01CE1D36B00DC8028 /* BaseMapViewController.h */,
+				2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */,
+				2D299CC31CE1D42C00DC8028 /* WBMapViewController.h */,
+				2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */,
+				2D299CD31CE1E06200DC8028 /* compass.png */,
+				2D299CD41CE1E06200DC8028 /* compass@2x.png */,
 				2DF0499F1C9D842500E92B9E /* 关注 */,
 				2DF049A01C9D843400E92B9E /* 粉丝 */,
 			);
@@ -1626,8 +1642,10 @@
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
 				2D62D6621C89346200E4D05E /* ShareSDKUI.bundle in Resources */,
 				2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */,
+				2D299CD61CE1E06200DC8028 /* compass@2x.png in Resources */,
 				2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
+				2D299CD51CE1E06200DC8028 /* compass.png in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
 				05D6EB881C7D414F002D48FF /* Assets.xcassets in Resources */,
 				05D6EB861C7D414F002D48FF /* Main.storyboard in Resources */,
@@ -1718,6 +1736,7 @@
 				054452BD1C9ADFEC00F8969E /* WBUserDefaults.m in Sources */,
 				2D6B53D01C8E6D6300E3009C /* WBPostIamgeViewController.m in Sources */,
 				2D4F50CD1C8FC48B001E017C /* WBCollectionViewCell.m in Sources */,
+				2D299CC21CE1D36B00DC8028 /* BaseMapViewController.m in Sources */,
 				2DF0499B1C9D833700E92B9E /* WBAttentionView.m in Sources */,
 				2D16EF661C844DFB002D5F90 /* MyCollectionViewFlowLayout.m in Sources */,
 				054303871CB5FC8C0041902D /* WBImageViewer.m in Sources */,
@@ -1742,6 +1761,7 @@
 				2DEE8B981CB34278004CD0C4 /* WBRefreshViewController.m in Sources */,
 				2D02B6941C81987F00FADFFB /* WBLeftViewController.m in Sources */,
 				05D1F94C1C8FBE9E0049D3EC /* WBSettingViewController.m in Sources */,
+				2D299CC51CE1D42C00DC8028 /* WBMapViewController.m in Sources */,
 				2DED80601CA906FE000BB7EB /* WBSetInformationViewController.m in Sources */,
 				2D16EF4F1C8407E4002D5F90 /* WBAllGroupViewController.m in Sources */,
 				05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */,
