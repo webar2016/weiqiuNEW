@@ -30,6 +30,9 @@
 #import <ALBBQuPaiPlugin/ALBBQuPaiPlugin.h>
 #import <CoreLocation/CoreLocation.h>
 
+#import "AMapAPIKey.h"
+#import <MAMapKit/MAMapKit.h>
+
 #define SELECTED_INDEX ((UITabBarController *)self.window.rootViewController.childViewControllers.lastObject).selectedIndex
 
 @interface AppDelegate () <RCIMUserInfoDataSource,RCIMGroupInfoDataSource,CLLocationManagerDelegate> {
@@ -83,6 +86,7 @@
     
     [self qupaiSDK];
     
+    [self configureAPIKey];
     // 注册通知
     if (launchOptions != nil)
     {
@@ -111,6 +115,28 @@
 
 -(void)dealloc{
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getRCToken" object:self];
+}
+
+
+#pragma mark   ----高的地图API----
+- (void)configureAPIKey
+{
+    if ([APIKey length] == 0)
+    {
+#define kMALogTitle @"提示"
+#define kMALogContent @"apiKey为空，请检查key是否正确设置"
+        
+        NSString *log = [NSString stringWithFormat:@"[MAMapKit] %@", kMALogContent];
+        NSLog(@"%@", log);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kMALogTitle message:kMALogContent delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            
+            [alert show];
+        });
+    }
+    
+    [MAMapServices sharedServices].apiKey = (NSString *)APIKey;
 }
 
 #pragma mark   -----检查是否在其它地方登陆
