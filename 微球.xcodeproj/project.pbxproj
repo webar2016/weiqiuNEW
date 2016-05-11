@@ -435,6 +435,7 @@
 		2D2733651CB2BD5500F5E967 /* WBFindKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindKeyViewController.h; sourceTree = "<group>"; };
 		2D2733661CB2BD5500F5E967 /* WBFindKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindKeyViewController.m; sourceTree = "<group>"; };
 		2D28CC931CCB1130006AB0C3 /* Localtion_select.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Localtion_select.plist; sourceTree = "<group>"; };
+		2D299CBF1CE1CF1800DC8028 /* AMapAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMapAPIKey.h; sourceTree = "<group>"; };
 		2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindAndHelpViewController.h; sourceTree = "<group>"; };
 		2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindAndHelpViewController.m; sourceTree = "<group>"; };
 		2D3775851CB4EE85003E6FE4 /* WBMenuBtnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMenuBtnViewController.h; sourceTree = "<group>"; };
@@ -965,6 +966,7 @@
 				0516F0141CDC2A0400D50C9B /* WBGuideViewController.m */,
 				2D465FE61C8840B000555532 /* MyModel.xcdatamodeld */,
 				05DB3F7A1C881AEC00CBCC54 /* WBPrefixHeader.pch */,
+				2D299CBF1CE1CF1800DC8028 /* AMapAPIKey.h */,
 				05D6EB871C7D414F002D48FF /* Assets.xcassets */,
 				05D6EB7B1C7D414F002D48FF /* Supporting Files */,
 			);
@@ -2012,7 +2014,6 @@
 					"\"Security\"",
 					"-framework",
 					"\"SystemConfiguration\"",
-					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = weiqiuwang.weiqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2069,7 +2070,6 @@
 					"\"Security\"",
 					"-framework",
 					"\"SystemConfiguration\"",
-					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = weiqiuwang.weiqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
