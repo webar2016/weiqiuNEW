@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BaseMapViewController.h"
 
-
 @interface WBMapViewController : BaseMapViewController
 
 @property (nonatomic, copy) NSString *userNameTitle;

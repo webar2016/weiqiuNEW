@@ -69,12 +69,12 @@
     
     [self.view addSubview:self.mapView];
     
-    self.mapView.showsCompass = YES;
-    self.mapView.compassOrigin= CGPointMake(0, 100);
+    self.mapView.showsCompass = NO;
+//    self.mapView.compassOrigin= CGPointMake(0, 100);
     
-    self.mapView.showsScale= YES;  //设置成NO表示不显示比例尺；YES表示显示比例尺
+    self.mapView.showsScale= NO;  //设置成NO表示不显示比例尺；YES表示显示比例尺
     
-    self.mapView.scaleOrigin= CGPointMake(0, 22);  //设置比例尺位置
+//    self.mapView.scaleOrigin= CGPointMake(0, 22);  //设置比例尺位置
 }
 
 - (void)initSearch

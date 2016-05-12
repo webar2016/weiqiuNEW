@@ -8,7 +8,6 @@
 
 #import "WBMapViewController.h"
 
-
 @interface WBMapViewController()
 
 @end
@@ -44,11 +43,16 @@ updatingLocation:(BOOL)updatingLocation
             annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
-        annotationView.image = [UIImage imageNamed:@"icon_groupsetting"];
-        annotationView.canShowCallout= YES;       //设置气泡可以弹出，默认为NO
-//        annotationView.animatesDrop = YES;        //设置标注动画显示，默认为NO
-        annotationView.draggable = YES;        //设置标注可以拖动，默认为NO
-//        annotationView.pinColor = MAPinAnnotationColorPurple;
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,40,40)];
+        imageView.image = self.titleImage;
+        imageView.layer.masksToBounds = YES;
+        imageView.layer.cornerRadius = 20;
+        annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
+        annotationView.canShowCallout= YES;
+        annotationView.draggable = YES;
+        [annotationView addSubview:imageView];
+        
         return annotationView;
     }
     return nil;
