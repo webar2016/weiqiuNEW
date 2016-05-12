@@ -257,7 +257,7 @@
             // NSLog(@"%f",actualsize1.width);
             
             _indicator1.position =CGPointMake(SCREENWIDTH/4 + actualsize1.width/2 + 7, _myHelpGroupBtn.frame.origin.y+15);
-            [self showHUD:@"正在加载" isDim:YES];
+            [self showHUDIndicator];
             [self loadData];
         }
         
@@ -281,7 +281,7 @@
     addressPickerView.block = ^(AddressChoicePickerView *view,UIButton *btn,AreaObject *locate,BOOL isSelected){
         
         if (isSelected) {
-            [self showHUD:@"正在加载" isDim:YES];
+            [self showHUDIndicator];
             _areaObject = locate;
             if (_isAllHelpGroup) {
                 if ([[locate getId] isEqualToString:@"all"]) {

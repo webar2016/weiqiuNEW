@@ -690,7 +690,8 @@
             break;
         case 333:{
             WBMapViewController *MVC = [[WBMapViewController alloc]init];
-            
+            MVC.userNameTitle = _nicknameLabel.text;
+            MVC.titleImage = _headicon.image;
             
             [self.navigationController pushViewController:MVC animated:YES];
             

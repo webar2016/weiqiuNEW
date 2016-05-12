@@ -34,7 +34,7 @@
     if (self = [super init]) {
         self = [[[NSBundle mainBundle]loadNibNamed:@"WBHelpGroupMenu" owner:nil options:nil] firstObject];
         self.frame = [UIScreen mainScreen].bounds;
-        self.dataArray = [NSArray arrayWithObjects:@"全部帮帮团",@"我可加入的帮帮团", nil];
+        self.dataArray = [NSArray arrayWithObjects:@"全部帮帮团",@"可加入的帮帮团", nil];
         self.contentHeight.constant = Height;
         _bgHeight.constant = Height;
         [self layoutIfNeeded];

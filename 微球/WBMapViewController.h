@@ -12,4 +12,7 @@
 
 @interface WBMapViewController : BaseMapViewController
 
+@property (nonatomic, copy) NSString *userNameTitle;
+@property (nonatomic, strong) UIImage *titleImage;
+
 @end

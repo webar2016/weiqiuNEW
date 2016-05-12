@@ -131,8 +131,6 @@
 		2D28CC941CCB1130006AB0C3 /* Localtion_select.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D28CC931CCB1130006AB0C3 /* Localtion_select.plist */; };
 		2D299CC21CE1D36B00DC8028 /* BaseMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */; };
 		2D299CC51CE1D42C00DC8028 /* WBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */; };
-		2D299CD51CE1E06200DC8028 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D299CD31CE1E06200DC8028 /* compass.png */; };
-		2D299CD61CE1E06200DC8028 /* compass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D299CD41CE1E06200DC8028 /* compass@2x.png */; };
 		2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */; };
 		2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3775861CB4EE85003E6FE4 /* WBMenuBtnViewController.m */; };
 		2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D38A2EA1CB6666800F4AEC8 /* WBMyUnlockViewController.m */; };
@@ -444,8 +442,6 @@
 		2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseMapViewController.m; sourceTree = "<group>"; };
 		2D299CC31CE1D42C00DC8028 /* WBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMapViewController.h; sourceTree = "<group>"; };
 		2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMapViewController.m; sourceTree = "<group>"; };
-		2D299CD31CE1E06200DC8028 /* compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compass.png; sourceTree = "<group>"; };
-		2D299CD41CE1E06200DC8028 /* compass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "compass@2x.png"; sourceTree = "<group>"; };
 		2D29B9251CA63AB3002D779C /* WBFindAndHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFindAndHelpViewController.h; sourceTree = "<group>"; };
 		2D29B9261CA63AB3002D779C /* WBFindAndHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFindAndHelpViewController.m; sourceTree = "<group>"; };
 		2D3775851CB4EE85003E6FE4 /* WBMenuBtnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMenuBtnViewController.h; sourceTree = "<group>"; };
@@ -910,8 +906,6 @@
 				2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */,
 				2D299CC31CE1D42C00DC8028 /* WBMapViewController.h */,
 				2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */,
-				2D299CD31CE1E06200DC8028 /* compass.png */,
-				2D299CD41CE1E06200DC8028 /* compass@2x.png */,
 				2DF0499F1C9D842500E92B9E /* 关注 */,
 				2DF049A01C9D843400E92B9E /* 粉丝 */,
 			);
@@ -1642,10 +1636,8 @@
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
 				2D62D6621C89346200E4D05E /* ShareSDKUI.bundle in Resources */,
 				2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */,
-				2D299CD61CE1E06200DC8028 /* compass@2x.png in Resources */,
 				2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
-				2D299CD51CE1E06200DC8028 /* compass.png in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
 				05D6EB881C7D414F002D48FF /* Assets.xcassets in Resources */,
 				05D6EB861C7D414F002D48FF /* Main.storyboard in Resources */,
