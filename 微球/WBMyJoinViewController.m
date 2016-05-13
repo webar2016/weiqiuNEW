@@ -80,7 +80,7 @@
 }
 
 -(void)loadMyGroup{
-    [self showHUDIndicator];
+//    [self showHUDIndicator];
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/getMyCreate?userId=%@",WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         
@@ -127,7 +127,7 @@
             }
         }
         [self willReloadTableData:self.conversationListDataSource];
-        [self hideHUD];
+//        [self hideHUD];
     }
 }
 

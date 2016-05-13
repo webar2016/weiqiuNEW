@@ -13,6 +13,7 @@
 #import "WBAnswerQuestionViewController.h"
 #import "WBQuestionsViewController.h"
 #import "WBHomepageViewController.h"
+#import "WBMapViewController.h"
 #import "WBChatImageViewer.h"
 
 #import "MyDownLoadManager.h"
@@ -71,7 +72,10 @@
     [self getQuestionTotalNumber];
     
     UIBarButtonItem *setting = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_groupsetting"] style:UIBarButtonItemStylePlain target:self action:@selector(groupSetting)];
-    self.navigationItem.rightBarButtonItem = setting;
+    
+    UIBarButtonItem *groupMap = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(enterGroupMap)];
+    
+    self.navigationItem.rightBarButtonItems = @[setting,groupMap];
     
     self.chatSessionInputBarControl.inputTextView.textColor = [UIColor initWithNormalGray];
 }
@@ -243,6 +247,13 @@
 }
 
 #pragma mark - 页面跳转
+
+-(void)enterGroupMap{
+    WBMapViewController *MVC = [[WBMapViewController alloc]init];
+    MVC.userNameTitle = [WBUserDefaults nickname];
+    MVC.titleImage = [WBUserDefaults headIcon];
+    [self.navigationController pushViewController:MVC animated:YES];
+}
 
 -(void)groupSetting{
     WBGroupSettingViewController *groupSettingVC = [[WBGroupSettingViewController alloc] init];

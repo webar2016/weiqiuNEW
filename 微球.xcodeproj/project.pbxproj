@@ -751,6 +751,7 @@
 			children = (
 				05D6EBC11C7D4BCF002D48FF /* WBHelpGroupsViewController.h */,
 				05D6EBC21C7D4BCF002D48FF /* WBHelpGroupsViewController.m */,
+				0581F1F21CE563FD00D5812E /* groupMap */,
 				052F30C01C93BD8D00D15322 /* createGroup */,
 				2D16EF441C840752002D5F90 /* All list */,
 				2D16EF481C84078D002D5F90 /* Join and create */,
@@ -822,6 +823,17 @@
 				05665F251CB4D94600FFAA21 /* ALBBQuPaiPlugin.framework */,
 			);
 			name = qupaiSDK;
+			sourceTree = "<group>";
+		};
+		0581F1F21CE563FD00D5812E /* groupMap */ = {
+			isa = PBXGroup;
+			children = (
+				2D299CC01CE1D36B00DC8028 /* BaseMapViewController.h */,
+				2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */,
+				2D299CC31CE1D42C00DC8028 /* WBMapViewController.h */,
+				2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */,
+			);
+			name = groupMap;
 			sourceTree = "<group>";
 		};
 		05BE278D1C8038B300B916FB /* topics */ = {
@@ -902,10 +914,6 @@
 			children = (
 				05D1F93E1C8FBE1A0049D3EC /* WBHomepageViewController.h */,
 				05D1F93F1C8FBE1A0049D3EC /* WBHomepageViewController.m */,
-				2D299CC01CE1D36B00DC8028 /* BaseMapViewController.h */,
-				2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */,
-				2D299CC31CE1D42C00DC8028 /* WBMapViewController.h */,
-				2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */,
 				2DF0499F1C9D842500E92B9E /* 关注 */,
 				2DF049A01C9D843400E92B9E /* 粉丝 */,
 			);
