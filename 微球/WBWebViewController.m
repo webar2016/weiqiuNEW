@@ -18,6 +18,7 @@
     if (self = [super init]) {
         self.navigationItem.title = title;
         UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 64)];
+        web.scrollView.bounces = NO;
         [self.view addSubview:web];
         [web loadRequest:[NSURLRequest requestWithURL:url]];
     }

@@ -13,14 +13,7 @@
 
 @property (nonatomic,strong)MBProgressHUD *hud;
 
-/**
- *仅显示文字
- */
 -(void)showHUDText:(NSString *)title;
-
-/**
- *仅显示菊花
- */
 -(void)showHUDIndicator;
 -(void)showHUD:(NSString *)title isDim:(BOOL)isDim;
 -(void)showHUDComplete:(NSString *)title;

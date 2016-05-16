@@ -58,7 +58,6 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-
 }
 
 -(void)checkInGroup{
@@ -84,7 +83,7 @@
 
 -(void)createUI{
     
-    _scrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, -20, SCREENWIDTH, SCREENHEIGHT)];
     [self.view addSubview:_scrollView];
     // 设置UIScrollView的滚动范围（内容大小）
      _scrollView.contentSize = CGSizeMake(SCREENWIDTH, _imageHeight+350) ;
@@ -320,7 +319,7 @@
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.labelText = title;
     self.hud.opacity = 0.7;
-    [self.hud hide:YES afterDelay:2];
+    [self.hud hide:YES afterDelay:1.0];
     if (_isSuccess) {
         [self performSelector:@selector(dismissView) withObject:nil afterDelay:1.0];
     }

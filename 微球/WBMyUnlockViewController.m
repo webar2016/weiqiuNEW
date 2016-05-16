@@ -34,7 +34,7 @@
     _emptyView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     _emptyView.center = CGPointMake(SCREENWIDTH / 2, 200);
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
-    [self showHUDIndicator];
+//    [self showHUDIndicator];
     [self createNavi];
     [self createUI];
 }

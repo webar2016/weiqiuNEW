@@ -351,7 +351,7 @@
 
 {
     
-    NSLog(@"%@",_urlString);
+//    NSLog(@"%@",_urlString);
     
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:_urlString,(long)_page,PAGESIZE] whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];

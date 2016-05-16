@@ -147,8 +147,8 @@
             NSDictionary *dic = [NSDictionary dictionaryWithDictionary:result];
             if ([[dic objectForKey:@"error"] integerValue]==1) {
                 
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"账号在其它设备上登录" preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"知道" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您的账号在其它设备上登录" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     [self deleData];
                     [(RESideMenu *)self.window.rootViewController setContentViewController:[[WBMainTabBarController alloc] init] animated:YES];
                 }];
