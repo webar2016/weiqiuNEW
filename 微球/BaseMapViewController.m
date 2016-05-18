@@ -69,6 +69,8 @@
     
     [self.view addSubview:self.mapView];
     
+    [self.mapView setZoomLevel:9];
+    
     self.mapView.showsCompass = NO;
 //    self.mapView.compassOrigin= CGPointMake(0, 100);
     
@@ -150,7 +152,6 @@
     _mapView = [[MAMapView alloc]init];
     //self.mapView.visibleMapRect = MAMapRectMake(220880104, 101476980, 272496, 466656);
     _mapView.showsScale = YES;
-    
     
     [AMapSearchServices sharedServices].apiKey = (NSString *)APIKey;
     self.search = [[AMapSearchAPI alloc] init];

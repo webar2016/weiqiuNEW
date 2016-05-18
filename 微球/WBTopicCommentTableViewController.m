@@ -12,11 +12,15 @@
 #import "WBtopicCommentDetilListModel.h"
 #import "WBTopicCommentTableViewCell.h"
 #import "WBHomepageViewController.h"
-
+#import "TopicDetailModel.h"
+#import "WBTopicDetailCell.h"
+#import "WBArticalViewController.h"
+#import "WBImageViewer.h"
+#import "LoadViewController.h"
 
 #define commentURL @"%@/tq/getTopicCommentDetil?commentId=%ld"
 
-@interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextInputTraits,CommentTapIconDelegate>
+@interface WBTopicCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextInputTraits,CommentTapIconDelegate,TransformValue>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArray;
@@ -29,7 +33,11 @@
     
     NSString *_typeFlag;
     NSString *_toUserId;
+    
+    CGFloat _topRowHeight;
+    NSString *_isSelect;
 }
+@property (nonatomic,strong)TopicDetailModel *TopModel;
 
 @end
 
@@ -42,6 +50,7 @@
     _cellHeightArray = [NSMutableArray array];
     _background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noconversation"]];
     _background.center = CGPointMake(SCREENWIDTH / 2, 200);
+    _background.alpha = 0;
     _typeFlag = @"0";
     _toUserId = self.userId;
     [self createNavi];
@@ -49,10 +58,11 @@
     [self registerForKeyboardNotifications];
     [self createTextView];
     [self showHUDIndicator];
-    [self loadData];
+   
+    [self loadTopData];
     
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self loadData];
+        [self loadTopData];
     }];
     header.lastUpdatedTimeLabel.hidden = YES;
     _tableView.mj_header = header;
@@ -168,7 +178,7 @@
         
     } andSuccess:^(id representData) {
 //        [self showHUDComplete:@"评论成功"];
-        [self loadData];
+        [self loadTopData];
         _commentTextView.placeholder = @"快发表你的神评论！";
         _typeFlag = @"0";
         _toUserId = self.userId;
@@ -196,8 +206,44 @@
     }
 }
 
+
+
+
+
+-(void)loadTopData{
+
+    NSString *url = [NSString stringWithFormat:@"%@/tq/getCommentById?commentId=%ld",WEBAR_IP,(long)_commentId];
+    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+       // NSLog(@"%@",result);
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            _TopModel = [TopicDetailModel mj_objectWithKeyValues:result[@"topicComment"]];
+            NSLog(@"%@",_TopModel);
+        }
+        
+        if (_TopModel.newsType == 1) {
+            _topRowHeight =136.0 + SCREENWIDTH;
+        } else if (_TopModel.newsType == 2) {
+            _topRowHeight =110.0 + SCREENWIDTH;
+        } else {
+            _topRowHeight =285.0;
+        }
+
+        [self loadData];
+        
+        
+        
+    } andFailure:^(NSString *error) {
+        
+    }];
+
+
+
+}
+
 //加载数据
 -(void) loadData{
+    
     NSString *url = [NSString stringWithFormat:commentURL,WEBAR_IP,(long)_commentId];
     
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
@@ -225,7 +271,11 @@
             }
             
             [_tableView reloadData];
+            
+            _tableView.contentOffset = CGPointMake(0,_topRowHeight);
+            
             [_tableView.mj_header endRefreshing];
+            
             [self hideHUD];
         }
     } andFailure:^(NSString *error) {
@@ -236,7 +286,11 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return  [_cellHeightArray[indexPath.row] floatValue]+70;
+    if (indexPath.row == 0) {
+        return _topRowHeight;
+    }else{
+    return  [_cellHeightArray[indexPath.row-1] floatValue]+70;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -244,31 +298,91 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _dataArray.count;
+    return _dataArray.count+1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *topCellID = @"CommentCellId";
-    WBTopicCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:topCellID];
-    if (cell == nil)
-    {
-        cell = [[WBTopicCommentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID cellHeight:[_cellHeightArray[indexPath.row] floatValue]];
+    
+    if (indexPath.row == 0) {
+        
+        if (_TopModel.newsType == 1) {
+            static NSString *cellID1 = @"detailCellID1";
+            WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID1];
+            if (cell == nil) {
+                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID1];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.indexPath = indexPath;
+            cell.delegate = self;
+            
+            [cell setModel:_TopModel withIsSelectState:@"0"];
+            return cell;
+        } else if (_TopModel.newsType == 2) {
+            static NSString *cellID2 = @"detailCellID2";
+            WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID2];
+            if (cell == nil) {
+                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID2];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.delegate = self;
+            cell.indexPath = indexPath;
+            [cell setModel:_TopModel withIsSelectState:@"0"];
+            return cell;
+        } else {
+            static NSString *cellID3 = @"detailCellID3";
+            WBTopicDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID3];
+            if (cell == nil) {
+                cell = [[WBTopicDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID3];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.indexPath = indexPath;
+            [cell setModel:_TopModel withIsSelectState:@"0"];
+            cell.delegate = self;
+            return cell;
+        }
+
+
+        
+        
+        
+    }else{
+        static NSString *topCellID = @"CommentCellId";
+        WBTopicCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:topCellID];
+        if (cell == nil)
+        {
+            cell = [[WBTopicCommentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:topCellID cellHeight:[_cellHeightArray[indexPath.row-1] floatValue]];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.delegate = self;
+        WBtopicCommentDetilListModel *model = _dataArray[indexPath.row-1];
+        [cell setModel:model];
+        cell.tag = model.userId;
+        return cell;
+    
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.delegate = self;
-    WBtopicCommentDetilListModel *model = _dataArray[indexPath.row];
-    [cell setModel:model];
-    cell.tag = model.userId;
-    return cell;
+    return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    WBtopicCommentDetilListModel *model = _dataArray[indexPath.row];
-    [_commentTextView becomeFirstResponder];
-    _commentTextView.placeholder = [NSString stringWithFormat:@"回复 %@",model.userInfo.nickname];
-    _typeFlag = @"1";
-    _toUserId = [NSString stringWithFormat:@"%ld",(long)model.userInfo.userId];
-    
+    if (indexPath.row>0) {
+        WBtopicCommentDetilListModel *model = _dataArray[indexPath.row-1];
+        [_commentTextView becomeFirstResponder];
+        _commentTextView.placeholder = [NSString stringWithFormat:@"回复 %@",model.userInfo.nickname];
+        _typeFlag = @"1";
+        _toUserId = [NSString stringWithFormat:@"%ld",(long)model.userInfo.userId];
+    }else{
+        if (_TopModel.newsType == 3) {
+            WBArticalViewController *articalVC = [[WBArticalViewController alloc] init];
+            articalVC.navigationItem.title = self.navigationItem.title;
+            articalVC.nickname = _TopModel.tblUser.nickname;
+            articalVC.dir = _TopModel.tblUser.dir;
+            articalVC.timeStr = _TopModel.timeStr;
+            articalVC.commentId = _TopModel.commentId;
+            articalVC.userId = _TopModel.userId;
+            [self.navigationController pushViewController:articalVC animated:YES];
+            return;
+        }
+    }
 }
 
 -(void)headIconTap:(WBTopicCommentTableViewCell *)cell{
@@ -277,25 +391,82 @@
     [self.navigationController pushViewController:homePage animated:YES];
 }
 
-//-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return   UITableViewCellEditingStyleDelete;
-//}
+#pragma mark ---cell delegate----
 
-/*改变删除按钮的title*/
-//-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return @"删除";
-//}
+-(void)unloginAlert{
+    [self alertLogin];
+}
 
-/*删除用到的函数*/
-//-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (editingStyle ==UITableViewCellEditingStyleDelete)
-//    {
-//        [_dataArray   removeObjectAtIndex:indexPath.row];  //删除数组里的数据
-//        [_tableView   deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationAutomatic];  //删除对应数据的cell
-//    }
-//}
+-(void)alertViewIntergeal:(NSString *)messageContent messageOpreation:(NSString *)opreation cancelMessage:(NSString *)cancelMessage{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:messageContent message:nil preferredStyle:UIAlertControllerStyleAlert];
+    if (!(cancelMessage == nil || cancelMessage == NULL)) {
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:cancelMessage style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+    }else{
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            action;
+        })];
+    }
+    
+    if (!(opreation == nil || opreation == NULL)) {
+        [alert addAction:({
+            UIAlertAction *action = [UIAlertAction actionWithTitle:opreation style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            }];
+            action;
+        })];
+    }
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)gotoHomePage:(NSIndexPath *)indexPath{
+    WBHomepageViewController *HVC = [[WBHomepageViewController alloc]init];
+    HVC.userId = [NSString stringWithFormat:@"%ld",(long)_TopModel.userId ];
+    [self.navigationController pushViewController:HVC animated:YES];
+}
+
+-(void)showImageViewer:(NSIndexPath *)indexPath{
+    TopicDetailModel *model = _TopModel;
+    if (!model.dir) {
+        [self showHUDText:@"未获取到图片，请重试"];
+        return;
+    }
+    WBImageViewer *viewer = [[WBImageViewer alloc] initWithDir:model.dir andContent:model.comment];
+    [self presentViewController:viewer animated:YES completion:nil];
+}
+
+-(void)changeGetIntegralValue:(NSInteger) modelGetIntegral indexPath:(NSIndexPath *)indexPath{
+    _TopModel.getIntegral = _TopModel.getIntegral+5;
+    _isSelect = @"1";
+    //NSLog(@"%ld",(long)((TopicDetailModel *)_dataArray[indexPath.section]).getIntegral);
+}
+
+-(void)commentClickedPushView:(NSIndexPath *)indexPath{
+    
+    
+    
+}
+
+#pragma mark --------登陆提示----------
+
+-(void)alertLogin{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登陆后即可进行更多操作！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
+        action;
+    })];
+    [alert addAction:({
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"登陆" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LoadViewController *loginVC = [[LoadViewController alloc] init];
+            [self presentViewController:loginVC animated:YES completion:nil];
+        }];
+        action;
+    })];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 
 @end

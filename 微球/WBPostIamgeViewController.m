@@ -80,7 +80,7 @@
     [contentView addSubview:_textView];
     
     _placeHoldLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 7, SCREENWIDTH, 20)];
-    _placeHoldLabel.text = @"说点什么吧";
+    _placeHoldLabel.text = @"说点什么吧（140字以内）";
     _placeHoldLabel.font = MAINFONTSIZE;
     _placeHoldLabel.textColor = [UIColor initWithNormalGray];
     [contentView addSubview:_placeHoldLabel];
@@ -232,6 +232,9 @@
     }
     if (_textView.text.length == 0) {
         [self showHUDText:@"说点什么吧"];
+        return;
+    } else if (_textView.text.length > 140) {
+        [self showHUDText:[NSString stringWithFormat:@"字数过多，当前 %ld 字",_textView.text.length]];
         return;
     }
     
