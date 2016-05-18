@@ -237,7 +237,7 @@
     [_scrollView addSubview:_beginButton];
     [_scrollView addSubview:_endButton];
     
-    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, 408+132 + 100);
+    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, 408 + 150 + 100);
 }
 
 -(void)chooseTip:(UIButton *)sender{

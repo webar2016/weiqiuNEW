@@ -70,6 +70,9 @@
     self.navigationItem.leftBarButtonItem = leftButton;
     self.navigationItem.rightBarButtonItem = rightButton;
     
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(lastStep)];
+    self.navigationItem.backBarButtonItem = backButton;
+    
     NSDateFormatter *dateformatter = [[NSDateFormatter alloc]init];
     [dateformatter setDateFormat:@"yyyy-MM-dd"];
     _currentDate = [dateformatter stringFromDate:[[NSDate alloc] init]];
@@ -83,10 +86,7 @@
 #pragma mark - navigation button
 
 -(void)lastStep{
-    
-    
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
 
 
@@ -172,7 +172,7 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         _isSuccess = YES;
         [self showHUDComplete:@"创建成功，可在【最近】查看"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"createSuccess" object:self];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"createSuccess" object:self];
 //        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadGroup" object:self];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         _isSuccess = NO;
@@ -273,7 +273,7 @@
     
     CGFloat maxHegiht = CGRectGetMaxY(_tip.frame);
     
-    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 40);
+    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 60);
 }
 
 #pragma mark - score and member operations
@@ -396,7 +396,7 @@
         _imagePicker.frame = CGRectMake(SCREENWIDTH / 2 - 145, 500, 290, 290 * _imageScale);
         _tip.frame = CGRectMake(SCREENWIDTH / 2 - 42, 510 + 290 * _imageScale, 84, 16);
         CGFloat maxHegiht = CGRectGetMaxY(_tip.frame);
-        _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 40);
+        _scrollView.contentSize = CGSizeMake(SCREENWIDTH, maxHegiht + 60);
     }];
 }
 
