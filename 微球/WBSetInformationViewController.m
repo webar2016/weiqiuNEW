@@ -27,6 +27,8 @@
     NSNumber *_provinceId;
     NSNumber *_cityId;
     
+    BOOL _allowedLocate;
+    
 }
 @property (strong, nonatomic) CLLocationManager* locationManager;
 @end
@@ -40,6 +42,14 @@
    // self.view.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT-64-49-64);
     
     _cityArray = [NSArray array];
+    
+    if ([CLLocationManager locationServicesEnabled] &&
+        ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse
+         || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)) {
+            _allowedLocate = YES;
+        } else {
+            _allowedLocate = NO;
+        }
     
     [self createUI];
     [self setUpDatePicker];
@@ -95,6 +105,11 @@
     _cityLabel.font = MAINFONTSIZE;
     _cityLabel.textColor = [UIColor initWithLightGray];
     _cityLabel.textAlignment = NSTextAlignmentLeft;
+    if (!_allowedLocate) {
+        _cityLabel.text = @"北京市";
+        WBPositionList *positionList =[[WBPositionList alloc] init];
+        _cityArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:@"北京市"] objectAtIndex:0]];
+    }
     
     _positionBtn.titleLabel.textColor = [UIColor initWithLightGray];
     _positionBtn.titleLabel.font = MAINFONTSIZE;
@@ -104,9 +119,8 @@
     
 
     _confirmBtn.tag = 500;
-    _confirmBtn.backgroundColor = [UIColor initWithBackgroundGray];
-    [_confirmBtn setEnabled:NO];
-    [_confirmBtn setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
+    _confirmBtn.backgroundColor = [UIColor initWithGreen];
+    [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _confirmBtn.titleLabel.font = MAINFONTSIZE;
     _confirmBtn.layer.cornerRadius = 3;
     _confirmBtn.frame = CGRectMake(0, 0, 200, 43);
@@ -169,7 +183,16 @@
     
     
     }else if (((UIButton *)sender).tag == 400){
-        //开始定位
+        
+        if ([CLLocationManager locationServicesEnabled] &&
+            ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse
+             || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)) {
+                _allowedLocate = YES;
+            } else {
+                _allowedLocate = NO;
+                [self showHUDText:@"请前往设置开启定位后再试"];
+                return;
+            }
         
         [self showHUD:@"开始定位" isDim:YES];
         NSLog(@"---local----");
@@ -177,6 +200,11 @@
     
     }
     else if (((UIButton *)sender).tag ==500){
+        
+        if (!_cityArray.count || !_headImageView.image) {
+            [self showHUDText:@"请先完善基本资料"];
+            return;
+        }
         //确认保存按钮
         // 保存数据到服务器
         [self sendDataToUp];
@@ -239,16 +267,19 @@
     CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         for (CLPlacemark * placemark in placemarks) {
-            NSDictionary *test = [placemark addressDictionary];
+            NSString *city = [[placemark addressDictionary] objectForKey:@"City"];
             
-            _cityLabel.text =[test objectForKey:@"City"];
-            WBPositionList *positionList =[[WBPositionList alloc] init];
-            _cityArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:_cityLabel.text] objectAtIndex:0]];
-            if (_cityArray) {
+            NSArray *tempArr =[[[WBPositionList alloc] init] searchCityWithCithName:city];
+            if (tempArr.count) {
+                _cityArray =  [NSArray arrayWithArray:[tempArr objectAtIndex:0]];
+                _cityLabel.text = city;
                 [self finishBtn];
                 [self showHUDComplete:@"定位成功"];
-            }else{
-                 [self showHUDComplete:@"定位失败"];
+            } else {
+                _cityLabel.text = @"北京市";
+                WBPositionList *positionList =[[WBPositionList alloc] init];
+                _cityArray =  [NSArray arrayWithArray:[[positionList searchCityWithCithName:@"北京市"] objectAtIndex:0]];
+                 [self showHUDComplete:@"定位失败，自动设置为北京市"];
             }
         }
     }];
@@ -316,8 +347,7 @@
     
      if (_cityArray.count&&_headImageView.image ) {
         [_confirmBtn setEnabled:YES];
-        _confirmBtn.backgroundColor = [UIColor initWithGreen];
-         [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
     }
 
 
