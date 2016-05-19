@@ -195,7 +195,11 @@
     } else if ([messageContent isMemberOfClass:[WBFollowMessage class]]) {
         return CGSizeMake(collectionView.frame.size.width, [WBFollowMsgCell getBubbleBackgroundViewSize].height + 40);
     } else if ([messageContent isMemberOfClass:[WBCommentMessage class]]) {
+        
         return CGSizeMake(collectionView.frame.size.width, [WBCommentMsgCell getBubbleBackgroundViewSize:(WBCommentMessage *)messageContent].height + 40);
+        
+        
+        //return CGSizeMake(collectionView.frame.size.width, actualsize1.height + 40);
     } else {
         return [super rcConversationCollectionView:collectionView layout:collectionViewLayout sizeForItemAtIndexPath:indexPath];
     }

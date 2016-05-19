@@ -272,7 +272,7 @@
             
             [_tableView reloadData];
             
-            _tableView.contentOffset = CGPointMake(0,_topRowHeight);
+            //_tableView.contentOffset = CGPointMake(0,_topRowHeight);
             
             [_tableView.mj_header endRefreshing];
             
