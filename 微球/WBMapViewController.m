@@ -7,8 +7,9 @@
 //
 
 #import "WBMapViewController.h"
+#import "CustomAnnotationView.h"
 
-@interface WBMapViewController()
+@interface WBMapViewController ()
 
 @end
 
@@ -26,9 +27,18 @@ updatingLocation:(BOOL)updatingLocation
         MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
         pointAnnotation.coordinate = userLocation.coordinate;
         pointAnnotation.title = self.userNameTitle;
-        
+        NSLog(@"%@",userLocation);
         [self.mapView addAnnotation:pointAnnotation];
     }
+}
+
+- (void)mapViewWillStartLoadingMap:(MAMapView *)mapView {
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:20 longitude:120];
+    NSLog(@"latitude : %f,longitude: %f",location.coordinate.latitude,location.coordinate.longitude);
+    MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
+    pointAnnotation.coordinate = location.coordinate;
+    pointAnnotation.title = self.userNameTitle;
+    [self.mapView addAnnotation:pointAnnotation];
 }
 
 
@@ -37,10 +47,10 @@ updatingLocation:(BOOL)updatingLocation
     if ([annotation isKindOfClass:[MAPointAnnotation class]])
     {
         static NSString *reuseIndetifier = @"annotationReuseIndetifier";
-        MAAnnotationView *annotationView = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+        CustomAnnotationView *annotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
         if (annotationView == nil)
         {
-            annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
+            annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
         
@@ -49,8 +59,10 @@ updatingLocation:(BOOL)updatingLocation
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 20;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
-        annotationView.canShowCallout= YES;
+        annotationView.bubbleImage = self.titleImage;
+        annotationView.canShowCallout= NO;
         annotationView.draggable = YES;
+        annotationView.delegate = self;
         [annotationView addSubview:imageView];
         
         return annotationView;
@@ -108,6 +120,15 @@ updatingLocation:(BOOL)updatingLocation
     
     self.mapView.showsUserLocation = YES;
     self.mapView.userTrackingMode = MAUserTrackingModeFollow;
-    
+    self.mapView.showsBuildings = NO;
+    self.mapView.showTraffic = NO;
+    self.mapView.rotateEnabled = NO;
 }
+
+- (void)clickBubbleHandle {
+    UIViewController *emptyVC = [[UIViewController alloc] init];
+    emptyVC.view.backgroundColor = [UIColor grayColor];
+    [self.navigationController pushViewController:emptyVC animated:YES];
+}
+
 @end

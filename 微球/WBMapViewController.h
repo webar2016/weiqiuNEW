@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseMapViewController.h"
+#import "WBMapBubble.h"
 
-@interface WBMapViewController : BaseMapViewController
+@interface WBMapViewController : BaseMapViewController <MapBubbleDelegate>
 
 @property (nonatomic, copy) NSString *userNameTitle;
 @property (nonatomic, strong) UIImage *titleImage;

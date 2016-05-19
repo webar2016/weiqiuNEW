@@ -73,6 +73,8 @@
 		05794C911CA2641300F32837 /* WBCommentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C901CA2641300F32837 /* WBCommentMessage.m */; };
 		05794C941CA27B0400F32837 /* WBFollowMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C931CA27B0400F32837 /* WBFollowMsgCell.m */; };
 		05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C961CA27B1600F32837 /* WBCommentMsgCell.m */; };
+		05A087BA1CED86AE005EFAE1 /* WBMapBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 05A087B91CED86AE005EFAE1 /* WBMapBubble.m */; };
+		05A087BD1CED8B39005EFAE1 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05A087BC1CED8B39005EFAE1 /* CustomAnnotationView.m */; };
 		05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE278B1C8038AA00B916FB /* WBTopicsTableViewController.m */; };
 		05BE27911C8038F100B916FB /* WBQuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE27901C8038F100B916FB /* WBQuestionsViewController.m */; };
 		05BE5DCC1CAE090100D2DBF1 /* WBPostVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE5DCB1CAE090100D2DBF1 /* WBPostVideoViewController.m */; };
@@ -327,6 +329,10 @@
 		05794C931CA27B0400F32837 /* WBFollowMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFollowMsgCell.m; sourceTree = "<group>"; };
 		05794C951CA27B1600F32837 /* WBCommentMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCommentMsgCell.h; sourceTree = "<group>"; };
 		05794C961CA27B1600F32837 /* WBCommentMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBCommentMsgCell.m; sourceTree = "<group>"; };
+		05A087B81CED86AE005EFAE1 /* WBMapBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMapBubble.h; sourceTree = "<group>"; };
+		05A087B91CED86AE005EFAE1 /* WBMapBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMapBubble.m; sourceTree = "<group>"; };
+		05A087BB1CED8B39005EFAE1 /* CustomAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotationView.h; sourceTree = "<group>"; };
+		05A087BC1CED8B39005EFAE1 /* CustomAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotationView.m; sourceTree = "<group>"; };
 		05BE278A1C8038AA00B916FB /* WBTopicsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicsTableViewController.h; sourceTree = "<group>"; };
 		05BE278B1C8038AA00B916FB /* WBTopicsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicsTableViewController.m; sourceTree = "<group>"; };
 		05BE278F1C8038F100B916FB /* WBQuestionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBQuestionsViewController.h; sourceTree = "<group>"; };
@@ -832,6 +838,10 @@
 				2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */,
 				2D299CC31CE1D42C00DC8028 /* WBMapViewController.h */,
 				2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */,
+				05A087B81CED86AE005EFAE1 /* WBMapBubble.h */,
+				05A087B91CED86AE005EFAE1 /* WBMapBubble.m */,
+				05A087BB1CED8B39005EFAE1 /* CustomAnnotationView.h */,
+				05A087BC1CED8B39005EFAE1 /* CustomAnnotationView.m */,
 			);
 			name = groupMap;
 			sourceTree = "<group>";
@@ -1775,6 +1785,7 @@
 				052E95D41CABDC0700152FC8 /* WBWebViewController.m in Sources */,
 				2D5005621C801B3F00DB8BF3 /* LoadViewController.m in Sources */,
 				2D49D6171C869FDC008EE96B /* WBTopTableViewCell.m in Sources */,
+				05A087BD1CED8B39005EFAE1 /* CustomAnnotationView.m in Sources */,
 				2DFECB291CC628D8008BE938 /* WBLocateList.m in Sources */,
 				05DB3F511C8444A400CBCC54 /* UIColor+color.m in Sources */,
 				052F30D31C93EEB200D15322 /* WBPositionList.m in Sources */,
@@ -1782,6 +1793,7 @@
 				05D1F9401C8FBE1A0049D3EC /* WBHomepageViewController.m in Sources */,
 				2D49D6241C86F232008EE96B /* TopicDetailModel.m in Sources */,
 				052E95D11CABA04700152FC8 /* WBDraftSave.m in Sources */,
+				05A087BA1CED86AE005EFAE1 /* WBMapBubble.m in Sources */,
 				05794C911CA2641300F32837 /* WBCommentMessage.m in Sources */,
 				2D02B6971C81989200FADFFB /* WBRightViewController.m in Sources */,
 				2DFF687F1C969C95000DCDDA /* WBRegisterViewController.m in Sources */,
