@@ -82,7 +82,7 @@
 - (void)initSubViews
 {
     self.handleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    self.handleBtn.backgroundColor = [UIColor redColor];
+    self.handleBtn.backgroundColor = [UIColor clearColor];
     [self.handleBtn addTarget:self action:@selector(enterDetailsView) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.handleBtn];
     
