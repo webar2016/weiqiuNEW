@@ -371,7 +371,7 @@
 #pragma mark - UIImagePickerControllerDelegate
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    UIImage *image = [info objectForKey:@"UIIimagePickerControllerOriginalImage"];
     _imageScale = image.size.height / image.size.width;
     
    

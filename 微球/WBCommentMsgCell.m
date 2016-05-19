@@ -43,7 +43,9 @@
 }
 
 - (void)initialize {
-    _bubbleBackgroundView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _bubbleBackgroundView = [[UIImageView alloc] init];
+    
+    //_bubbleBackgroundView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [self.messageContentView addSubview:_bubbleBackgroundView];
     
     _headIcon = [[UIImageView alloc] initWithFrame:CGRectMake(18, 9, 48, 48)];
@@ -56,12 +58,15 @@
     _nickname = [[RCAttributedLabel alloc] initWithFrame:CGRectMake(80, 9, CELL_WIDTH - 100, 16)];
     _nickname.font = FONTSIZE16;
     _nickname.numberOfLines = 1;
+    
     _nickname.textColor = [UIColor initWithNormalGray];
     [_bubbleBackgroundView addSubview:_nickname];
     
-    _comment = [[RCAttributedLabel alloc] initWithFrame:CGRectMake(80, 30, CELL_WIDTH - 100, 60)];
+    _comment =[[RCAttributedLabel alloc] init];
+   _comment = [[RCAttributedLabel alloc] initWithFrame:CGRectMake(80, 30, CELL_WIDTH - 100, 60)];
     _comment.font = MAINFONTSIZE;
     _comment.numberOfLines = 3;
+    
     _comment.textColor = [UIColor initWithNormalGray];
     [_bubbleBackgroundView addSubview:_comment];
     
@@ -94,14 +99,20 @@
         _comment.text = message.content;
         commentSize = [message.content adjustSizeWithWidth:CELL_WIDTH - 100 andFont:MAINFONTSIZE];
     }
+   // NSLog(@"commentSize = %f",commentSize.height);
     if (commentSize.height > 60) {
         commentSize.height = 60;
         _bubbleBackgroundViewSize = (CGSize){CELL_WIDTH,100};
     } else if (commentSize.height < 32){
         _bubbleBackgroundViewSize = (CGSize){CELL_WIDTH,66};
+    }else{
+    
+    _bubbleBackgroundViewSize = (CGSize){CELL_WIDTH,83};
     }
-    _comment.frame = CGRectMake(80, 34, CELL_WIDTH - 100, commentSize.height);
+   // NSLog(@"commentSize.height = %f",commentSize.height);
+    
     _bubbleBackgroundView.frame = (CGRect){{-8,0},_bubbleBackgroundViewSize};
+    _comment.frame = CGRectMake(80, 34, CELL_WIDTH - 100, commentSize.height);
     CGRect messageContentViewRect = self.messageContentView.frame;
     
     //拉伸图片
@@ -120,6 +131,9 @@
         size = (CGSize){CELL_WIDTH,95};
     } else if (commentSize.height < 32){
         size = (CGSize){CELL_WIDTH,58};
+    }else{
+        size = (CGSize){CELL_WIDTH,76};
+    
     }
     return size;
 }
