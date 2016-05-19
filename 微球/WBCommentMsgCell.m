@@ -65,7 +65,7 @@
     _comment =[[RCAttributedLabel alloc] init];
    _comment = [[RCAttributedLabel alloc] initWithFrame:CGRectMake(80, 30, CELL_WIDTH - 100, 60)];
     _comment.font = MAINFONTSIZE;
-    _comment.numberOfLines = 3;
+    _comment.numberOfLines = 2;
     
     _comment.textColor = [UIColor initWithNormalGray];
     [_bubbleBackgroundView addSubview:_comment];

@@ -238,9 +238,7 @@
         btn.enabled = NO;
         [self showHUD:@"正在加入" isDim:YES];
         MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-        WBPositionList *positionList = [[WBPositionList alloc]init];
-        NSArray *tempArray =  [[positionList searchCityWithCithName:_model.destination] objectAtIndex:0];
-        if ([manager  isAddedItemsID:[NSString stringWithFormat:@"%@",tempArray[1]]]) {
+        if ([manager  isAddedItemsID:[NSString stringWithFormat:@"%ld",_model.destinationId]]) {
             [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/jion?groupId=%ld&userId=%@",WEBAR_IP,(long)_model.groupId,[WBUserDefaults userId]] whenSuccess:^(id representData) {
                 
                 id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
