@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WBCollectionViewModel.h"
+#import "WBLocateList.h"
 
 @interface WBHelpGroupsDetailViewController : WBRefreshViewController
 @property (nonatomic,retain) WBCollectionViewModel *model;
