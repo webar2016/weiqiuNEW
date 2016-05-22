@@ -26,25 +26,29 @@ updatingLocation:(BOOL)updatingLocation
 {
     if(updatingLocation)
     {
-        //取出当前位置的坐标
-        NSLog(@"latitude : %f,longitude: %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
-        MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
-        pointAnnotation.coordinate = userLocation.coordinate;
-        pointAnnotation.title = self.userNameTitle;
-        NSLog(@"%@",userLocation);
-        [self.mapView addAnnotation:pointAnnotation];
+        [self customAnnotationWithTitle:@"头像" latitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
     }
 }
 
 - (void)mapViewWillStartLoadingMap:(MAMapView *)mapView {
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:20 longitude:120];
+    
+    //夫子庙 32.02255 118.78362
+    //总统府 32.04434 118.79731
+    //中山陵 32.06351 118.84819
+    
+    [self customAnnotationWithTitle:@"夫子庙" latitude:32.02255 longitude:118.78362];
+    [self customAnnotationWithTitle:@"总统府" latitude:32.04434 longitude:118.79731];
+    [self customAnnotationWithTitle:@"中山陵" latitude:32.06351 longitude:118.84819];
+}
+
+- (void)customAnnotationWithTitle:(NSString *)title latitude:(CGFloat)latitude longitude:(CGFloat)longitude {
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
     NSLog(@"latitude : %f,longitude: %f",location.coordinate.latitude,location.coordinate.longitude);
     MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
     pointAnnotation.coordinate = location.coordinate;
-    pointAnnotation.title = self.userNameTitle;
+    pointAnnotation.title = title;
     [self.mapView addAnnotation:pointAnnotation];
 }
-
 
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation
 {
@@ -59,13 +63,13 @@ updatingLocation:(BOOL)updatingLocation
         }
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,40,40)];
-        imageView.image = self.titleImage;
+        imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]];
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 20;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
-        annotationView.bubbleImage = self.titleImage;
+        annotationView.bubbleImage = imageView.image;
         annotationView.canShowCallout= NO;
-        annotationView.draggable = YES;
+        annotationView.draggable = NO;
         annotationView.delegate = self;
         [annotationView addSubview:imageView];
         
