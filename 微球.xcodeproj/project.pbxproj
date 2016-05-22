@@ -194,6 +194,8 @@
 		2DF2A93B1C9FC20D002C3A2A /* WBFansViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93A1C9FC20D002C3A2A /* WBFansViewTableViewCell.m */; };
 		2DF2A93E1C9FC220002C3A2A /* WBFansModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A93D1C9FC220002C3A2A /* WBFansModel.m */; };
 		2DF2A9411C9FCD44002C3A2A /* WBAttentionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF2A9401C9FCD44002C3A2A /* WBAttentionModel.m */; };
+		2DF4C3271CEF13630060B676 /* WBMapIntroduceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF4C3251CEF13630060B676 /* WBMapIntroduceViewController.m */; };
+		2DF4C3281CEF13630060B676 /* WBMapIntroduceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DF4C3261CEF13630060B676 /* WBMapIntroduceViewController.xib */; };
 		2DF532B71CAFCE660000E8CB /* CatZanButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF532B31CAFCE660000E8CB /* CatZanButton.m */; };
 		2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B41CAFCE660000E8CB /* EffectImage.png */; };
 		2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B51CAFCE660000E8CB /* UnZan.png */; };
@@ -561,6 +563,9 @@
 		2DF2A93D1C9FC220002C3A2A /* WBFansModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFansModel.m; sourceTree = "<group>"; };
 		2DF2A93F1C9FCD44002C3A2A /* WBAttentionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAttentionModel.h; sourceTree = "<group>"; };
 		2DF2A9401C9FCD44002C3A2A /* WBAttentionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAttentionModel.m; sourceTree = "<group>"; };
+		2DF4C3241CEF13630060B676 /* WBMapIntroduceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMapIntroduceViewController.h; sourceTree = "<group>"; };
+		2DF4C3251CEF13630060B676 /* WBMapIntroduceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMapIntroduceViewController.m; sourceTree = "<group>"; };
+		2DF4C3261CEF13630060B676 /* WBMapIntroduceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBMapIntroduceViewController.xib; sourceTree = "<group>"; };
 		2DF532B21CAFCE660000E8CB /* CatZanButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatZanButton.h; sourceTree = "<group>"; };
 		2DF532B31CAFCE660000E8CB /* CatZanButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatZanButton.m; sourceTree = "<group>"; };
 		2DF532B41CAFCE660000E8CB /* EffectImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EffectImage.png; sourceTree = "<group>"; };
@@ -842,6 +847,9 @@
 				05A087B91CED86AE005EFAE1 /* WBMapBubble.m */,
 				05A087BB1CED8B39005EFAE1 /* CustomAnnotationView.h */,
 				05A087BC1CED8B39005EFAE1 /* CustomAnnotationView.m */,
+				2DF4C3241CEF13630060B676 /* WBMapIntroduceViewController.h */,
+				2DF4C3251CEF13630060B676 /* WBMapIntroduceViewController.m */,
+				2DF4C3261CEF13630060B676 /* WBMapIntroduceViewController.xib */,
 			);
 			name = groupMap;
 			sourceTree = "<group>";
@@ -1654,6 +1662,7 @@
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
 				2D62D6621C89346200E4D05E /* ShareSDKUI.bundle in Resources */,
 				2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */,
+				2DF4C3281CEF13630060B676 /* WBMapIntroduceViewController.xib in Resources */,
 				2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
@@ -1836,6 +1845,7 @@
 				0543038A1CB688570041902D /* WBChatImageViewer.m in Sources */,
 				2D5D73021C926CB700F8C2AE /* WBAllocateScoreModel.m in Sources */,
 				05DB3F681C8587A900CBCC54 /* WBQuestionTableViewCell.m in Sources */,
+				2DF4C3271CEF13630060B676 /* WBMapIntroduceViewController.m in Sources */,
 				2D29B9271CA63AB3002D779C /* WBFindAndHelpViewController.m in Sources */,
 				05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */,
 				054550531C90165100A6F0E8 /* WBGroupSettingViewController.m in Sources */,

@@ -8,9 +8,13 @@
 
 #import "WBMapViewController.h"
 #import "CustomAnnotationView.h"
+#import "WBMapIntroduceViewController.h"
 
 @interface WBMapViewController ()
+{
 
+
+}
 @end
 
 @implementation WBMapViewController
@@ -68,6 +72,16 @@ updatingLocation:(BOOL)updatingLocation
         return annotationView;
     }
     return nil;
+}
+
+
+- (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view{
+    
+    
+    WBMapIntroduceViewController *MVC = [[WBMapIntroduceViewController alloc]init];
+    
+    
+    [self.navigationController pushViewController:MVC animated:YES];
 }
 
 #pragma mark - NSKeyValueObservering
