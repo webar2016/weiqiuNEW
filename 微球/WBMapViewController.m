@@ -8,43 +8,20 @@
 
 #import "WBMapViewController.h"
 #import "CustomAnnotationView.h"
+#import "WBMapIntroduceViewController.h"
 
 @interface WBMapViewController ()
+{
 
+
+}
+@property (nonatomic, strong) NSMutableArray *annotations;
 @end
 
 @implementation WBMapViewController
 
 #pragma mark - MAMapViewDelegate
 
--(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
-updatingLocation:(BOOL)updatingLocation
-{
-    if(updatingLocation)
-    {
-        [self customAnnotationWithTitle:@"头像" latitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
-    }
-}
-
-- (void)mapViewWillStartLoadingMap:(MAMapView *)mapView {
-    
-    //夫子庙 32.02255 118.78362
-    //总统府 32.04434 118.79731
-    //中山陵 32.06351 118.84819
-    
-    [self customAnnotationWithTitle:@"夫子庙" latitude:32.02255 longitude:118.78362];
-    [self customAnnotationWithTitle:@"总统府" latitude:32.04434 longitude:118.79731];
-    [self customAnnotationWithTitle:@"中山陵" latitude:32.06351 longitude:118.84819];
-}
-
-- (void)customAnnotationWithTitle:(NSString *)title latitude:(CGFloat)latitude longitude:(CGFloat)longitude {
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-    NSLog(@"latitude : %f,longitude: %f",location.coordinate.latitude,location.coordinate.longitude);
-    MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
-    pointAnnotation.coordinate = location.coordinate;
-    pointAnnotation.title = title;
-    [self.mapView addAnnotation:pointAnnotation];
-}
 
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation
 {
@@ -57,7 +34,7 @@ updatingLocation:(BOOL)updatingLocation
             annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
-        
+
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,40,40)];
         imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]];
         imageView.layer.masksToBounds = YES;
@@ -67,66 +44,76 @@ updatingLocation:(BOOL)updatingLocation
         annotationView.canShowCallout= NO;
         annotationView.draggable = NO;
         annotationView.delegate = self;
+   
         [annotationView addSubview:imageView];
-        
         return annotationView;
     }
     return nil;
 }
 
-#pragma mark - NSKeyValueObservering
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    
-    if ([keyPath isEqualToString:@"showsUserLocation"])
-    {
-//        NSNumber *showsNum = [change objectForKey:NSKeyValueChangeNewKey];
-    }
+- (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view{
+    WBMapIntroduceViewController *MVC = [[WBMapIntroduceViewController alloc]init];
+    [self.navigationController pushViewController:MVC animated:YES];
 }
+
+
+
+
 
 #pragma mark - Initialization
 
-
-- (void)initObservers
+- (void)initAnnotations
 {
-    /* Add observer for showsUserLocation. */
-    [self.mapView addObserver:self forKeyPath:@"showsUserLocation" options:NSKeyValueObservingOptionNew context:nil];
+    self.annotations = [NSMutableArray array];
     
+    CLLocationCoordinate2D coordinates[3] = {
+        {32.02255 ,118.78362},
+        {32.04434, 118.79731},
+        {32.06351, 118.84819},
+    };
+    
+    NSArray *tempArray = @[@"夫子庙",@"总统府",@"中山陵"];
+    for (int i = 0; i < 3; ++i)
+    {
+        MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+        a1.coordinate = coordinates[i];
+        a1.title      = tempArray[i];
+        [self.annotations addObject:a1];
+    }
 }
 
-- (void)returnAction
-{
-    [super returnAction];
-    
-    self.mapView.userTrackingMode  = MAUserTrackingModeNone;
-    
-    [self.mapView removeObserver:self forKeyPath:@"showsUserLocation"];
-}
 
 #pragma mark - Life Cycle
+
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self initAnnotations];
+    }
+    
+    return self;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.mapView addAnnotations:self.annotations];
+    [self.mapView showAnnotations:self.annotations edgePadding:UIEdgeInsetsMake(20, 20, 20, 80) animated:YES];
+    
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self initObservers];
-}
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    self.mapView.showsUserLocation = YES;
-    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
     self.mapView.showsBuildings = NO;
     self.mapView.showTraffic = NO;
-    self.mapView.rotateEnabled = NO;
+    self.mapView.rotateEnabled = YES;
+    self.mapView.showsLabels = NO;
+    
 }
 
 - (void)clickBubbleHandle {

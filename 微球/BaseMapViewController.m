@@ -71,12 +71,12 @@
     
     [self.mapView setZoomLevel:9];
     
-    self.mapView.showsCompass = NO;
-//    self.mapView.compassOrigin= CGPointMake(0, 100);
+    self.mapView.showsCompass = YES;
+    self.mapView.compassOrigin= CGPointMake(0, 100);
     
-    self.mapView.showsScale= NO;  //设置成NO表示不显示比例尺；YES表示显示比例尺
+    self.mapView.showsScale= YES;  //设置成NO表示不显示比例尺；YES表示显示比例尺
     
-//    self.mapView.scaleOrigin= CGPointMake(0, 22);  //设置比例尺位置
+    self.mapView.scaleOrigin= CGPointMake(0, 22);  //设置比例尺位置
 }
 
 - (void)initSearch
@@ -150,7 +150,7 @@
     
     
     _mapView = [[MAMapView alloc]init];
-    //self.mapView.visibleMapRect = MAMapRectMake(220880104, 101476980, 272496, 466656);
+    self.mapView.visibleMapRect = MAMapRectMake(110880104, 101476980, 272496, 466656);
     _mapView.showsScale = YES;
     
     [AMapSearchServices sharedServices].apiKey = (NSString *)APIKey;
