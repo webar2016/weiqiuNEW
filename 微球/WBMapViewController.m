@@ -41,9 +41,10 @@
         imageView.layer.cornerRadius = 20;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
         annotationView.bubbleImage = imageView.image;
-        annotationView.canShowCallout= YES;
+        annotationView.canShowCallout= NO;
         annotationView.draggable = NO;
         annotationView.delegate = self;
+   
         [annotationView addSubview:imageView];
         return annotationView;
     }
@@ -111,6 +112,8 @@
     self.mapView.showsBuildings = NO;
     self.mapView.showTraffic = NO;
     self.mapView.rotateEnabled = YES;
+    self.mapView.showsLabels = NO;
+    
 }
 
 - (void)clickBubbleHandle {
