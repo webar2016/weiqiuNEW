@@ -30,7 +30,7 @@
 -(instancetype)initWithDir:(NSString *)dir{
     if (self = [super init]) {
         _viewerType = 2;
-        self.dir = dir;
+        self.dir = dir;NSLog(@"%@",dir);
     }
     return self;
 }
@@ -38,7 +38,7 @@
 -(instancetype)initWithDir:(NSString *)dir andContent:(NSString *)content{
     if (self = [super init]) {
         _viewerType = 3;
-        self.dir = dir;
+        self.dir = dir;NSLog(@"%@",dir);
         self.content = content;
     }
     return self;
@@ -54,44 +54,35 @@
     _tap.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:_tap];
     
-    __weak WBImageViewer *weakSelf = self;
+    _imageView = [[UIImageView alloc] init];
     
     switch (_viewerType) {
         case 1:
-            [self setUpImageWithImage:self.image];
+            _imageView.image = self.image;
+            [self setUpImageView];
             [self setUpSaveButtonForImage];
             break;
         
         case 2:
         {
-            dispatch_queue_t queue = dispatch_queue_create("loadImage", nil);
-            dispatch_async(queue, ^{
-                UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:weakSelf.dir]]];
-                
-                if (image) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf setUpImageWithImage:image];
-                        [self setUpSaveButtonForImage];
-                    });
+            [_imageView sd_setImageWithURL:[NSURL URLWithString:self.dir] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                if (!image || error) {
+                    [self showHUDText:@"网络状态不佳，请稍后再试"];
+                    return;
                 }
-            });
+                [self setUpImageView];
+                [self setUpSaveButtonForImage];
+            }];
         }
             break;
             
         case 3:
         {
-            dispatch_queue_t queue = dispatch_queue_create("loadImage", nil);
-            dispatch_async(queue, ^{
-                UIImage *image = [UIImage sd_imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:weakSelf.dir]]];
-                
-                if (image) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf setUpImageWithImage:image];
-                        [weakSelf setUpContentWithContent:weakSelf.content];
-                        [self setUpSaveButtonForImage];
-                    });
-                }
-            });
+            [_imageView sd_setImageWithURL:[NSURL URLWithString:self.dir] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                [self setUpImageView];
+                [self setUpContentWithContent:self.content];
+                [self setUpSaveButtonForImage];
+            }];
         }
             break;
     }
@@ -101,24 +92,14 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)setUpImageWithImage:(UIImage *)image{
-    [self hideHUD];
+-(void)setUpImageView{
+    UIImage *image = _imageView.image;
     
     _scrollView = [[UIScrollView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     _scrollView.backgroundColor = [UIColor blackColor];
     _scrollView.contentSize = CGSizeMake(SCREENWIDTH, SCREENHEIGHT);
     _scrollView.userInteractionEnabled = YES;
     [self.view addSubview:_scrollView];
-    
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeViewer)];
-//    tap.numberOfTapsRequired = 1;
-//    tap.numberOfTouchesRequired = 1;
-//    [_scrollView addGestureRecognizer:tap];
-    
-    if (!image) {
-        [self showHUDText:@"网络状态不佳，请稍后再试"];
-        return;
-    }
     
     CGFloat width = image.size.width;
     CGFloat height = image.size.height;
@@ -128,9 +109,6 @@
     CGFloat showHeight;
     CGFloat maximumZoomScale;
     _scale = 1;
-    
-    
-    _imageView = [[UIImageView alloc] initWithImage:image];
     
     if (rate <= 1.78) {
         showWidth = SCREENWIDTH;
@@ -177,19 +155,9 @@
     wraperView.frame = CGRectMake(0, SCREENHEIGHT - labelSize.height - 20, SCREENWIDTH, labelSize.height + 20);
     [self.view addSubview:wraperView];
     
-//    UITapGestureRecognizer *tapImgViewTwice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImgViewHandleTwice:)];
-//    tapImgViewTwice.numberOfTapsRequired = 2;
-//    tapImgViewTwice.numberOfTouchesRequired = 1;
-//    [self.view addGestureRecognizer:tapImgViewTwice];
-    
-//    [tap requireGestureRecognizerToFail:tapImgViewTwice];
-    
-    
     UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageView:)];
     
     [self.view addGestureRecognizer:pinch];
-    
-    
 }
 
 

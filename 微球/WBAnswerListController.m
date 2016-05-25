@@ -191,13 +191,15 @@
         return;
     }
     
-    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
-    WBPositionList *positionList = [[WBPositionList alloc]init];
-    NSArray *tempArray =  [[positionList searchCityWithCithName:self.cityStr] objectAtIndex:0];
-    if (![manager  isAddedItemsID:[NSString stringWithFormat:@"%@",tempArray[1]]]){
-        [self showHUDText:@"你还没有解锁这个城市，请先解锁"];
-        return;
-    }
+//    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Tbl_unlock_city];
+//    WBPositionList *positionList = [[WBPositionList alloc]init];
+//    NSArray *tempArray =  [[positionList searchCityWithCithName:self.cityStr] objectAtIndex:0];
+//    if (![manager  isAddedItemsID:[NSString stringWithFormat:@"%@",tempArray[1]]]){
+//        [manager closeFBDM];
+//        [self showHUDText:@"你还没有解锁这个城市，请先解锁"];
+//        return;
+//    }
+//    [manager closeFBDM];
     
     [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/hg/checkIn?userId=%@&groupId=%@",WEBAR_IP,[WBUserDefaults userId],self.groupId] whenSuccess:^(id representData) {
         NSString *result = [[NSString alloc]initWithData:representData encoding:NSUTF8StringEncoding];

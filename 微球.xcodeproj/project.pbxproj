@@ -21,6 +21,7 @@
 		052048CD1C897AA700175D14 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052048CC1C897AA700175D14 /* MediaPlayer.framework */; };
 		052048CF1C897AB000175D14 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052048CE1C897AB000175D14 /* AssetsLibrary.framework */; };
 		052048D11C897ABB00175D14 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052048D01C897ABB00175D14 /* AddressBook.framework */; };
+		0526FF651CF58BB800708F9B /* WBIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0526FF641CF58BB800708F9B /* WBIntroView.m */; };
 		052944DA1C7FF2AF0098159F /* BROptionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 052944D61C7FF2AF0098159F /* BROptionItem.m */; };
 		052944DB1C7FF2AF0098159F /* BROptionsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 052944D81C7FF2AF0098159F /* BROptionsButton.m */; };
 		052E95D11CABA04700152FC8 /* WBDraftSave.m in Sources */ = {isa = PBXBuildFile; fileRef = 052E95D01CABA04700152FC8 /* WBDraftSave.m */; };
@@ -249,6 +250,8 @@
 		052048CC1C897AA700175D14 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		052048CE1C897AB000175D14 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		052048D01C897ABB00175D14 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		0526FF631CF58BB800708F9B /* WBIntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIntroView.h; sourceTree = "<group>"; };
+		0526FF641CF58BB800708F9B /* WBIntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBIntroView.m; sourceTree = "<group>"; };
 		052944D51C7FF2AF0098159F /* BROptionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BROptionItem.h; sourceTree = "<group>"; };
 		052944D61C7FF2AF0098159F /* BROptionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BROptionItem.m; sourceTree = "<group>"; };
 		052944D71C7FF2AF0098159F /* BROptionsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BROptionsButton.h; sourceTree = "<group>"; };
@@ -855,6 +858,8 @@
 				2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */,
 				2D299CC31CE1D42C00DC8028 /* WBMapViewController.h */,
 				2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */,
+				0526FF631CF58BB800708F9B /* WBIntroView.h */,
+				0526FF641CF58BB800708F9B /* WBIntroView.m */,
 				05A087B81CED86AE005EFAE1 /* WBMapBubble.h */,
 				05A087B91CED86AE005EFAE1 /* WBMapBubble.m */,
 				05A087BB1CED8B39005EFAE1 /* CustomAnnotationView.h */,
@@ -1762,6 +1767,7 @@
 				05BE5DCC1CAE090100D2DBF1 /* WBPostVideoViewController.m in Sources */,
 				2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */,
 				2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */,
+				0526FF651CF58BB800708F9B /* WBIntroView.m in Sources */,
 				052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */,
 				0559F95A1CC1F631001CF2A8 /* WBArticalBaseViewController.m in Sources */,
 				05DB3F791C87F33E00CBCC54 /* WBNavigationController.m in Sources */,

@@ -11,12 +11,14 @@
 #import <RongIMKit/RongIMKit.h>
 #import "MyDBmanager.h"
 #import "MyDownLoadManager.h"
+#import "SDImageCache.h"
 
 @interface WBSettingViewController () <UITableViewDelegate,UITableViewDataSource> {
     UITableView     *_tableView;
     UISwitch        *_disturbSwitch;
     UISwitch        *_weiqiuSwitch;
     UIButton        *_logout;
+    NSString        *_clearDiskCache;
 }
 
 @end
@@ -28,11 +30,14 @@
     
     self.view.backgroundColor = [UIColor initWithBackgroundGray];
     
+    NSInteger cacheSize = [[SDImageCache sharedImageCache] getSize] / 1024 / 1024;
+    _clearDiskCache = [NSString stringWithFormat:@"清除缓存：%ldMB",cacheSize];
+    
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
     self.navigationItem.title = @"设置";
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 8, SCREENWIDTH, 176)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 8, SCREENWIDTH, 220)];
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.separatorColor = [UIColor initWithBackgroundGray];
     _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 0);
@@ -147,7 +152,7 @@
 #pragma mark - table view delegate datasource
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return 5;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -156,9 +161,17 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 2) {
+        [self showHUDIndicator];
+        [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+            NSInteger cacheSize = [[SDImageCache sharedImageCache] getSize] / 1024 / 1024;
+            _clearDiskCache = [NSString stringWithFormat:@"清除缓存：%ldMB",cacheSize];
+            [_tableView reloadData];
+            [self hideHUD];
+        }];
+    } else if (indexPath.row == 3) {
         NSString *evaluateString = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id1095625702"];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:evaluateString]];
-    } else if (indexPath.row == 3) {
+    } else if (indexPath.row == 4) {
         WBAboutWBViewController *aboutVC = [[WBAboutWBViewController alloc] init];
         [self.navigationController pushViewController:aboutVC animated:YES];
     }
@@ -166,7 +179,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"屏蔽微球小助手",@"去App Store评分",@"关于微球"];
+    NSArray *title = @[@"夜间免打扰（22:00 - 7:00）",@"屏蔽微球小助手",_clearDiskCache,@"去App Store评分",@"关于微球"];
     cell.textLabel.text = title[indexPath.row];
     cell.textLabel.textColor = [UIColor initWithNormalGray];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
