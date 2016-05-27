@@ -82,6 +82,7 @@
 
 - (void)enterUnlockVC {
     if (self.delegate && [self.delegate respondsToSelector:@selector(clickBubbleHandle)]) {
+        [self closeView];
         [self.delegate clickBubbleHandle];
     }
 }

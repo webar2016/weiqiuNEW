@@ -10,6 +10,7 @@
 
 @interface WBWebViewController : UIViewController
 
+@property (nonatomic, assign) BOOL mapView;
 -(instancetype)initWithUrl:(NSURL *)url andTitle:(NSString *)title;
 
 @end

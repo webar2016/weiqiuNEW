@@ -7,6 +7,7 @@
 //
 
 #import "WBWebViewController.h"
+#import "WBMyUnlockViewController.h"
 
 @interface WBWebViewController ()
 
@@ -25,8 +26,17 @@
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    if (self.mapView) {
+        UIBarButtonItem *unlockDetail = [[UIBarButtonItem alloc] initWithTitle:@"详细" style:UIBarButtonItemStylePlain target:self action:@selector(unlockDetails)];
+        self.navigationItem.rightBarButtonItem = unlockDetail;
+    }
+}
+
+- (void)unlockDetails {
+    WBMyUnlockViewController *MVC = [[WBMyUnlockViewController alloc]init];
+    [self.navigationController pushViewController:MVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

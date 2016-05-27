@@ -9,7 +9,7 @@
 #import "WBHomepageViewController.h"
 #import "MyDownLoadManager.h"
 #import "WBDataModifiedViewController.h"
-#import "WBWebViewController.h"
+//#import "WBWebViewController.h"
 #import "WBPrivateViewController.h"
 #import "WBAnswerListController.h"
 #import "WBAnswerDetailController.h"
@@ -63,7 +63,7 @@
     
     NSDictionary        *_userInfo;
     
-    WBWebViewController *_mapVC;
+//    WBWebViewController *_mapVC;
     
     UIImagePickerController *_imagePicker;
     
@@ -95,7 +95,7 @@
         _defaultUserId = @"0";
     }
     
-    _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@/map/m?userId=%@",WEBAR_IP,self.userId]] andTitle:@"征服地球"];
+//    _mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@/map/m?userId=%@",WEBAR_IP,self.userId]] andTitle:@"征服地球"];
     
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, 19, 19);
@@ -215,7 +215,7 @@
     [_attentionRightButton setTitleColor:[UIColor initWithLightGray] forState:UIControlStateNormal];
     [_attentionRightButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     
-    CGSize buttonSize = CGSizeMake(SCREENWIDTH / 3, 44);
+    CGSize buttonSize = CGSizeMake(SCREENWIDTH / 2, 44);
     CGPoint point;
     
     if (![self.userId isEqual:_defaultUserId]) {
@@ -237,23 +237,23 @@
     [_topicButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     [_topicButton addTarget:self action:@selector(changeSelectedPage:) forControlEvents:UIControlEventTouchUpInside];
     _topicButton.tag = 111;
-    _answerButton = [[UIButton alloc] initWithFrame:(CGRect){{SCREENWIDTH / 3,point.y},buttonSize}];
+    _answerButton = [[UIButton alloc] initWithFrame:(CGRect){{SCREENWIDTH / 2,point.y},buttonSize}];
     [_answerButton setTitle:@"问题" forState:UIControlStateNormal];
     [_answerButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
     [_answerButton addTarget:self action:@selector(changeSelectedPage:) forControlEvents:UIControlEventTouchUpInside];
     _answerButton.tag = 222;
-    _mapButton = [[UIButton alloc] initWithFrame:(CGRect){{SCREENWIDTH / 3 * 2,point.y},buttonSize}];
-    [_mapButton setTitle:@"地图" forState:UIControlStateNormal];
-    [_mapButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
-    [_mapButton addTarget:self action:@selector(changeSelectedPage:) forControlEvents:UIControlEventTouchUpInside];
-    _mapButton.tag = 333;
+//    _mapButton = [[UIButton alloc] initWithFrame:(CGRect){{SCREENWIDTH / 3 * 2,point.y},buttonSize}];
+//    [_mapButton setTitle:@"地图" forState:UIControlStateNormal];
+//    [_mapButton setTitleColor:[UIColor initWithNormalGray] forState:UIControlStateNormal];
+//    [_mapButton addTarget:self action:@selector(changeSelectedPage:) forControlEvents:UIControlEventTouchUpInside];
+//    _mapButton.tag = 333;
     [_headView addSubview:_topicButton];
     [_headView addSubview:_answerButton];
-    [_headView addSubview:_mapButton];
+//    [_headView addSubview:_mapButton];
     
     _headHeight = CGRectGetMaxY(_topicButton.frame);
     
-    _underLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH / 3, 2)];
+    _underLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH / 2, 2)];
     _underLine.center = CGPointMake(SCREENWIDTH / 6, _headHeight - 1);
     _underLine.backgroundColor = [UIColor initWithGreen];
     [_headView addSubview:_underLine];
@@ -669,7 +669,7 @@
             _topicTableView.tableHeaderView = _headView;
             [_topicTableView setContentOffset:CGPointMake(0,0) animated:YES];
             [UIView animateWithDuration:0.3 animations:^{
-                _underLine.center = CGPointMake(SCREENWIDTH / 6, _headHeight - 1);
+                _underLine.center = CGPointMake(SCREENWIDTH / 4, _headHeight - 1);
             }];
         }
             
@@ -681,16 +681,16 @@
             _answerTableView.tableHeaderView = _headView;
             [_answerTableView setContentOffset:CGPointMake(0,0) animated:NO];
             [UIView animateWithDuration:0.3 animations:^{
-                _underLine.center = CGPointMake(SCREENWIDTH / 2, _headHeight - 1);
+                _underLine.center = CGPointMake(SCREENWIDTH / 4 * 3, _headHeight - 1);
             }];
         }
             
             break;
-        case 333:{
-            [self.navigationController pushViewController:_mapVC animated:YES];
-        }
-            
-            break;
+//        case 333:{
+//            [self.navigationController pushViewController:_mapVC animated:YES];
+//        }
+//            
+//            break;
     }
 }
 
