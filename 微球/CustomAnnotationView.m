@@ -10,7 +10,7 @@
 
 @interface CustomAnnotationView ()
 
-@property (nonatomic, strong, readwrite) WBMapBubble *calloutView;
+//@property (nonatomic, strong, readwrite) WBMapBubble *calloutView;
 
 @end
 
@@ -19,33 +19,30 @@
 #define kCalloutWidth       200.0
 #define kCalloutHeight      70.0
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    if (self.selected == selected)
-    {
-        return;
-    }
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+//{
+//    if (self.selected == selected)
+//    {
+//        return;
+//    }
+//    
+//    if (selected)
+//    {
+//        if (self.calloutView == nil)
+//        {
+//            self.calloutView = [[WBMapBubble alloc] initWithFrame:CGRectMake(0, 0, kCalloutWidth, kCalloutHeight)];
+//            self.calloutView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2.f + self.calloutOffset.x,
+//                                                  -CGRectGetHeight(self.calloutView.bounds) / 2.f + self.calloutOffset.y);
+//        }
+//        self.calloutView.image = self.bubbleImage;
+//        self.calloutView.title = self.annotation.title;
+//        self.name = self.annotation.title;
+//        [self addSubview:self.calloutView];
+//    } else {
+//        [self.calloutView removeFromSuperview];
+//    }
     
-    if (selected)
-    {
-        if (self.calloutView == nil)
-        {
-            self.calloutView = [[WBMapBubble alloc] initWithFrame:CGRectMake(0, 0, kCalloutWidth, kCalloutHeight)];
-            self.calloutView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2.f + self.calloutOffset.x,
-                                                  -CGRectGetHeight(self.calloutView.bounds) / 2.f + self.calloutOffset.y);
-        }
-        self.calloutView.delegate = self.delegate;
-        self.calloutView.image = self.bubbleImage;
-        self.calloutView.title = self.annotation.title;
-        
-        [self addSubview:self.calloutView];
-    }
-    else
-    {
-        [self.calloutView removeFromSuperview];
-    }
-    
-    [super setSelected:selected animated:animated];
-}
+//    [super setSelected:selected animated:animated];
+//}
 
 @end

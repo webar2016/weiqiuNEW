@@ -10,7 +10,6 @@
 
 @interface WBMapBubble ()
 
-@property (nonatomic, strong) UIButton *handleBtn;
 @property (nonatomic, strong) UIImageView *portraitView;
 @property (nonatomic, strong) UILabel *subtitleLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -73,7 +72,7 @@
     if (self)
     {
         self.backgroundColor = [UIColor clearColor];
-        
+        self.userInteractionEnabled = YES;
         [self initSubViews];
     }
     return self;
@@ -81,29 +80,16 @@
 
 - (void)initSubViews
 {
-    self.handleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    self.handleBtn.backgroundColor = [UIColor clearColor];
-    [self.handleBtn addTarget:self action:@selector(enterDetailsView) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.handleBtn];
-    
     self.portraitView = [[UIImageView alloc] initWithFrame:CGRectMake(kPortraitMargin * 2, kPortraitMargin * 2, kPortraitHeight, kPortraitHeight)];
     
     self.portraitView.backgroundColor = [UIColor blackColor];
-    [self.handleBtn addSubview:self.portraitView];
+    [self addSubview:self.portraitView];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin * 4 + kPortraitHeight, kPortraitMargin * 4, kTitleWidth, kTitleHeight)];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:16];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.text = @"titletitletitletitle";
-    [self.handleBtn addSubview:self.titleLabel];
-}
-
-- (void)enterDetailsView
-{
-    NSLog(@"sss");
-    if (self.delegate && [self.delegate respondsToSelector:@selector(clickBubbleHandle)]) {
-        [self.delegate clickBubbleHandle];
-    }
+    [self addSubview:self.titleLabel];
 }
 
 - (void)setTitle:(NSString *)title

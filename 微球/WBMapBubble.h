@@ -8,16 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol MapBubbleDelegate <NSObject>
-
-- (void)clickBubbleHandle;
-
-@end
-
 @interface WBMapBubble : UIView
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, weak) id <MapBubbleDelegate> delegate;
 
 @end

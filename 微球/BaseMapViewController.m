@@ -72,9 +72,10 @@
     [self.mapView setZoomLevel:9];
     
     self.mapView.showsCompass = YES;
-    self.mapView.compassOrigin= CGPointMake(0, 100);
     
-    self.mapView.showsScale= YES;  //设置成NO表示不显示比例尺；YES表示显示比例尺
+    self.mapView.compassOrigin= CGPointMake(SCREENWIDTH - 40, SCREENHEIGHT - 40);
+    
+    self.mapView.showsScale= NO;  //设置成NO表示不显示比例尺；YES表示显示比例尺
     
     self.mapView.scaleOrigin= CGPointMake(0, 22);  //设置比例尺位置
 }

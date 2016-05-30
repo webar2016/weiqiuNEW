@@ -16,7 +16,7 @@
 #import "WBIndividualIncomeViewController.h"
 #import "WBMyUnlockViewController.h"
 #import "WBUnlockViewController.h"
-
+#import "WBWebViewController.h"
 #import "MyDownLoadManager.h"
 
 
@@ -210,9 +210,12 @@
         }
             
         case 3:{
-            WBMyUnlockViewController *MVC = [[WBMyUnlockViewController alloc]init];
-            MVC.hidesBottomBarWhenPushed = YES;
-            [self pushViewControllerWithController:MVC];
+            
+            WBWebViewController *mapVC = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@/map/m?userId=%@",WEBAR_IP,[WBUserDefaults userId]]] andTitle:@"征服地球"];
+            mapVC.mapView = YES;
+//            WBMyUnlockViewController *MVC = [[WBMyUnlockViewController alloc]init];
+            mapVC.hidesBottomBarWhenPushed = YES;
+            [self pushViewControllerWithController:mapVC];
             break;
            
         }

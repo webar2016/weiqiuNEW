@@ -7,8 +7,8 @@
 //
 
 #import "WBMapViewController.h"
-#import "CustomAnnotationView.h"
 #import "WBMapIntroduceViewController.h"
+#import "CustomAnnotationView.h"
 
 @interface WBMapViewController ()
 {
@@ -40,11 +40,11 @@
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 20;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
-        annotationView.bubbleImage = imageView.image;
         annotationView.canShowCallout= NO;
         annotationView.draggable = NO;
-        annotationView.delegate = self;
-   
+        annotationView.bubbleImage = imageView.image;
+        annotationView.name = annotation.title;
+        annotationView.introduction = annotation.subtitle;
         [annotationView addSubview:imageView];
         return annotationView;
     }
@@ -53,11 +53,18 @@
 
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view{
+    CustomAnnotationView *annotationView = (CustomAnnotationView *)view;
+    WBIntroView *introView = [[WBIntroView alloc] initWithImage:annotationView.bubbleImage name:annotationView.name introduction:annotationView.introduction];
+    introView.delegate = self;
+    introView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 2 - 35);
+    [self.view addSubview:introView];
+//    [view setSelected:NO animated:NO];
+}
+
+- (void)clickBubbleHandle{
     WBMapIntroduceViewController *MVC = [[WBMapIntroduceViewController alloc]init];
     [self.navigationController pushViewController:MVC animated:YES];
 }
-
-
 
 
 
@@ -74,11 +81,13 @@
     };
     
     NSArray *tempArray = @[@"夫子庙",@"总统府",@"中山陵"];
+    NSString *introduction = @"景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍";
     for (int i = 0; i < 3; ++i)
     {
         MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
         a1.coordinate = coordinates[i];
         a1.title      = tempArray[i];
+        a1.subtitle   = introduction;
         [self.annotations addObject:a1];
     }
 }
@@ -114,12 +123,6 @@
     self.mapView.rotateEnabled = YES;
     self.mapView.showsLabels = NO;
     
-}
-
-- (void)clickBubbleHandle {
-    UIViewController *emptyVC = [[UIViewController alloc] init];
-    emptyVC.view.backgroundColor = [UIColor grayColor];
-    [self.navigationController pushViewController:emptyVC animated:YES];
 }
 
 @end

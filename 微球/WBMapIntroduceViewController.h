@@ -12,9 +12,7 @@
 
 @interface WBMapIntroduceViewController : UIViewController
 
-
 @property (weak, nonatomic) IBOutlet UILabel *datePick;
-
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 

@@ -11,8 +11,9 @@
 
 @interface CustomAnnotationView : MAAnnotationView
 
-@property (nonatomic, readonly) WBMapBubble *calloutView;
+//@property (nonatomic, readonly) WBMapBubble *calloutView;
 @property (nonatomic, strong) UIImage *bubbleImage;
-@property (nonatomic, weak) id delegate;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *introduction;
 
 @end
