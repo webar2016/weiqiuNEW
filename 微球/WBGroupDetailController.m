@@ -377,7 +377,7 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
 
-    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     _imageScale = image.size.height / image.size.width;
     _fileData = UIImageJPEGRepresentation(image, 1.0);
     if (_fileData.length>1024*500) {
