@@ -87,7 +87,7 @@
 -(void)loadDataCell
 {
     NSString *url = [NSString stringWithFormat:CellURL,WEBAR_IP,(long)_page,PAGESIZE];
-
+    NSLog(@"%@",url);
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         

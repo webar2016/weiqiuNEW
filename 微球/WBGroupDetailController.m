@@ -15,6 +15,9 @@
 
 #import "NSString+string.h"
 #import "WBIndividualIncomeViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+
 
 #define SCORE_STEP 50
 #define ALL_TIME  15*24*60*60
@@ -370,18 +373,16 @@
 
 #pragma mark - UIImagePickerControllerDelegate
 
+
+
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    UIImage *image = [info objectForKey:@"UIIimagePickerControllerOriginalImage"];
+
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     _imageScale = image.size.height / image.size.width;
-    
-   
     _fileData = UIImageJPEGRepresentation(image, 1.0);
     if (_fileData.length>1024*500) {
         _fileData = UIImageJPEGRepresentation(image, 1024*500.0/_fileData.length);
     }
-    
-    
-    
     if (!_imageFromAlbum) {
         UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
         _imageName = [[NSString ret32bitString] stringByAppendingString:@".JPG"];
