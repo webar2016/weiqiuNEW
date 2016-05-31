@@ -162,11 +162,12 @@
     if (section == 0) {
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, 30)];
 
-        _totalMembers = [[UILabel alloc] initWithFrame:CGRectMake(22, 0, SCREENWIDTH, 30)];
+        _totalMembers = [[UILabel alloc] initWithFrame:CGRectMake(22, 0, SCREENWIDTH - 44, 30)];
         _totalMembers.font = MAINFONTSIZE;
         _totalMembers.textColor = [UIColor initWithNormalGray];
+        _totalMembers.textAlignment = NSTextAlignmentRight;
         _totalMembers.text = [NSString stringWithFormat:@"%lu个团员",(unsigned long)self.headIconArray.count];
-
+        
         [footerView addSubview:_totalMembers];
         return footerView;
     }
@@ -175,26 +176,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSString *cellID = [[NSString alloc] init];
-    switch (indexPath.section) {
-        case 0:
-            cellID = @"cell1";
-            break;
-        case 1:
-            cellID = @"cell2";
-            break;
-        case 2:
-            cellID = @"cell3";
-            break;
-        case 3:
-            cellID = @"cell4";
-            break;
-    }
+//    static NSString *cellID = @"cell";
     
-    WBGroupSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil){
-        cell = [[WBGroupSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID withSection:indexPath.section isMaster:self.isMaster withGroupDetail:self.groupDetail messageIsPush:_isPush];
-    }
+//    WBGroupSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
+//    if (cell == nil){
+    WBGroupSettingTableViewCell *cell = [[WBGroupSettingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil withSection:indexPath.section isMaster:self.isMaster withGroupDetail:self.groupDetail messageIsPush:_isPush];
+//    }
     if (indexPath.section == 0) {
         WBUserInfosModel *infos = self.headIconArray[indexPath.row];
         [cell setUserInfos:infos];
