@@ -12,13 +12,11 @@
 #import "WBHomepageViewController.h"
 
 #import "WBUserInfosModel.h"
-#import "WBCollectionViewModel.h"
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
 #import <RongIMLib/RCIMClient.h>
 
 #define MEMBER_ICON @"%@/hg/hgUsers?groupId=%@"
-#define GROUP_DETAIL @"%@/hg/oneHG?groupId=%@"
 
 @interface WBGroupSettingViewController () <WBGroupSettingTableViewCellDelegate> {
     UILabel     *_totalMembers;
@@ -26,7 +24,6 @@
 }
 
 @property (nonatomic, strong) NSMutableArray *headIconArray;
-@property (nonatomic, strong) WBCollectionViewModel *groupDetail;
 
 @end
 
@@ -50,9 +47,13 @@
     UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(popBack)];
     self.navigationItem.backBarButtonItem = back;
     
-    [self loadHeadIcon];
+    [[RCIMClient sharedRCIMClient] getConversationNotificationStatus:ConversationType_GROUP targetId:self.groupId success:^(RCConversationNotificationStatus nStatus) {
+        _isPush = (nStatus == 1) ? YES : NO;
+    } error:^(RCErrorCode status) {
+        NSLog(@"查询免打扰失败---%ld",(long)status);
+    }];
     
-    [self loadData];
+    [self loadHeadIcon];
 }
 
 -(void)popBack{
@@ -78,29 +79,6 @@
     
         [self.tableView reloadSections:[[NSIndexSet alloc]initWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         
-        
-    } andFailure:^(NSString *error) {
-        [self showHUDText:@"网络状态不佳，请稍后重试"];
-        NSLog(@"%@------",error);
-    }];
-}
-
--(void)loadData{
-    [[RCIMClient sharedRCIMClient] getConversationNotificationStatus:ConversationType_GROUP targetId:self.groupId success:^(RCConversationNotificationStatus nStatus) {
-        _isPush = (nStatus == 1) ? YES : NO;
-    } error:^(RCErrorCode status) {
-        NSLog(@"查询免打扰失败---%ld",(long)status);
-    }];
-    
-    NSString *url = [NSString stringWithFormat:GROUP_DETAIL,WEBAR_IP,self.groupId];
-    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
-        
-        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
-        
-        if ([result isKindOfClass:[NSDictionary class]]){
-            self.groupDetail = [WBCollectionViewModel mj_objectWithKeyValues:result[@"helpGroup"]];
-        }
-        [self.tableView reloadSections:[[NSIndexSet alloc]initWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     } andFailure:^(NSString *error) {
         [self showHUDText:@"网络状态不佳，请稍后重试"];
