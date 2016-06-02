@@ -116,9 +116,7 @@
     if (!_fileData) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你还没有上传照片" message:@"快点上传照片\n吸引更多的小伙伴加入你的帮帮团！" preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:({
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                [self dismissViewControllerAnimated:alert completion:nil];
-            }];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil];
             action;
         })];
         [self presentViewController:alert animated:YES completion:nil];
@@ -352,9 +350,7 @@
         action;
     })];
     [alert addAction:({
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self dismissViewControllerAnimated:alert completion:nil];
-        }];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         action;
     })];
     
