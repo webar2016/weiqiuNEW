@@ -19,6 +19,7 @@
 #import "MyDownLoadManager.h"
 #import "MJExtension.h"
 #import "WBQuestionsListModel.h"
+#import "WBCollectionViewModel.h"
 #import "WBMyGroupModel.h"
 #import "AFHTTPSessionManager.h"
 
@@ -26,6 +27,7 @@
 
 #define QUESTION_NUMBER @"%@/hg/noSolveNum?groupId=%@"
 #define QUESTION_IN_GROUP @"%@/tq/getHGQuestion?groupId=%@&p=1&ps=1"
+#define GROUP_DETAIL @"%@/hg/oneHG?groupId=%@"
 
 @interface WBTalkViewController () {
     UIView      *_questionView;
@@ -41,6 +43,7 @@
 @property (nonatomic, assign) int questionNumber;
 @property (nonatomic, strong) NSMutableArray *model;
 @property (nonatomic, assign) NSUInteger firstLoadQuestion;
+@property (nonatomic, strong) WBCollectionViewModel *groupDetail;
 
 @end
 
@@ -71,11 +74,7 @@
 //    [self showHUDIndicator];
     [self getQuestionTotalNumber];
     
-    UIBarButtonItem *setting = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_groupsetting"] style:UIBarButtonItemStylePlain target:self action:@selector(groupSetting)];
-    
-    UIBarButtonItem *groupMap = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(enterGroupMap)];
-    
-    self.navigationItem.rightBarButtonItems = @[setting,groupMap];
+    [self loadGroupDetail];
     
     self.chatSessionInputBarControl.inputTextView.textColor = [UIColor initWithNormalGray];
 }
@@ -100,6 +99,7 @@
             NSString *questionBody = [textMsg substringFromIndex:2];
             RCTextMessage *content  = [RCTextMessage messageWithContent:[NSString stringWithFormat:@"我提了一个问题，快来帮我吧！"]];
             [self createWithQuestion:questionBody];
+            //获取提问题时的位置，并上传到数据库
             return content;
         }
     }
@@ -143,6 +143,32 @@
 }
 
 #pragma mark - 数据加载
+
+-(void)loadGroupDetail{
+    
+    UIBarButtonItem *setting = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_groupsetting"] style:UIBarButtonItemStylePlain target:self action:@selector(groupSetting)];
+    
+    UIBarButtonItem *groupMap = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(enterGroupMap)];
+    
+    NSString *url = [NSString stringWithFormat:GROUP_DETAIL,WEBAR_IP,self.groupId];
+    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+        
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        
+        if ([result isKindOfClass:[NSDictionary class]]){
+            self.groupDetail = [WBCollectionViewModel mj_objectWithKeyValues:result[@"helpGroup"]];
+            if ([self.groupDetail.destination isEqualToString:@"南京市"]) {
+                self.navigationItem.rightBarButtonItems = @[setting,groupMap];
+            } else {
+                self.navigationItem.rightBarButtonItems = @[setting,groupMap];
+            }
+        }
+        
+    } andFailure:^(NSString *error) {
+        self.navigationItem.rightBarButtonItems = @[setting,groupMap];
+        NSLog(@"%@------",error);
+    }];
+}
 
 -(void)getQuestionTotalNumber{
 //    NSLog(@"%@",self.groupId);
@@ -252,6 +278,7 @@
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
     MVC.userNameTitle = [WBUserDefaults nickname];
     MVC.titleImage = [WBUserDefaults headIcon];
+    MVC.question = _question.text;
     [self.navigationController pushViewController:MVC animated:YES];
 }
 
@@ -259,6 +286,7 @@
     WBGroupSettingViewController *groupSettingVC = [[WBGroupSettingViewController alloc] init];
     groupSettingVC.isMaster = self.isMaster;
     groupSettingVC.groupId = self.groupId;
+    groupSettingVC.groupDetail = self.groupDetail;
     [self.navigationController pushViewController:groupSettingVC animated:YES];
     
 }

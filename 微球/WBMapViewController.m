@@ -83,7 +83,7 @@
     self.annotations = [NSMutableArray array];
     
     CLLocationCoordinate2D coordinates[3] = {
-        {32.02255 ,118.78362},
+        {32.02255, 118.78362},
         {32.04434, 118.79731},
         {32.06351, 118.84819},
     };

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBCollectionViewModel.h"
 #import "MBProgressHUD.h"
 
 @interface WBGroupSettingViewController : UITableViewController
@@ -14,6 +15,8 @@
 @property (nonatomic, assign) BOOL isMaster;
 
 @property (nonatomic, copy) NSString *groupId;
+
+@property (nonatomic, strong) WBCollectionViewModel *groupDetail;
 
 @property (nonatomic,strong)MBProgressHUD *hud;
 
