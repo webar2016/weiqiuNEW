@@ -202,9 +202,9 @@
 		2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B41CAFCE660000E8CB /* EffectImage.png */; };
 		2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B51CAFCE660000E8CB /* UnZan.png */; };
 		2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B61CAFCE660000E8CB /* Zan.png */; };
+		2DF58F691D00297600A9216D /* 中山陵.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DF58F681D00297600A9216D /* 中山陵.jpg */; };
 		2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */; };
 		2DFCB0EA1CF2DB9000200A50 /* 总统府.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB0E71CF2DB9000200A50 /* 总统府.jpg */; };
-		2DFCB0EB1CF2DB9000200A50 /* 中山陵.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB0E81CF2DB9000200A50 /* 中山陵.jpg */; };
 		2DFCB0EC1CF2DB9000200A50 /* 夫子庙.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB0E91CF2DB9000200A50 /* 夫子庙.jpg */; };
 		2DFCB5561CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFCB5541CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m */; };
 		2DFCB5571CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB5551CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib */; };
@@ -579,9 +579,9 @@
 		2DF532B41CAFCE660000E8CB /* EffectImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EffectImage.png; sourceTree = "<group>"; };
 		2DF532B51CAFCE660000E8CB /* UnZan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnZan.png; sourceTree = "<group>"; };
 		2DF532B61CAFCE660000E8CB /* Zan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Zan.png; sourceTree = "<group>"; };
+		2DF58F681D00297600A9216D /* 中山陵.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "中山陵.jpg"; sourceTree = "<group>"; };
 		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDownLoadManager.m; sourceTree = "<group>"; };
 		2DFCB0E71CF2DB9000200A50 /* 总统府.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "总统府.jpg"; sourceTree = "<group>"; };
-		2DFCB0E81CF2DB9000200A50 /* 中山陵.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "中山陵.jpg"; sourceTree = "<group>"; };
 		2DFCB0E91CF2DB9000200A50 /* 夫子庙.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "夫子庙.jpg"; sourceTree = "<group>"; };
 		2DFCB5531CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyUnlockTableViewCell.h; sourceTree = "<group>"; };
 		2DFCB5541CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyUnlockTableViewCell.m; sourceTree = "<group>"; };
@@ -852,7 +852,7 @@
 			children = (
 				054749BE1CF0410200E6DCA9 /* 头像.jpg */,
 				2DFCB0E71CF2DB9000200A50 /* 总统府.jpg */,
-				2DFCB0E81CF2DB9000200A50 /* 中山陵.jpg */,
+				2DF58F681D00297600A9216D /* 中山陵.jpg */,
 				2DFCB0E91CF2DB9000200A50 /* 夫子庙.jpg */,
 				2D299CC01CE1D36B00DC8028 /* BaseMapViewController.h */,
 				2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */,
@@ -1667,11 +1667,11 @@
 				2DFCB5571CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib in Resources */,
 				2D28CC941CCB1130006AB0C3 /* Localtion_select.plist in Resources */,
 				05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */,
+				2DF58F691D00297600A9216D /* 中山陵.jpg in Resources */,
 				054749BF1CF0410200E6DCA9 /* 头像.jpg in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
 				2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */,
-				2DFCB0EB1CF2DB9000200A50 /* 中山陵.jpg in Resources */,
 				2DFCB0EC1CF2DB9000200A50 /* 夫子庙.jpg in Resources */,
 				2D4B83481CD99EA2002FE13F /* WBHelpGroupMenu.xib in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
