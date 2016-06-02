@@ -34,11 +34,19 @@
             annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
 
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,40,40)];
-        imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]];
+        if ([annotation.title isEqualToString:@"中山陵"]) {
+            UIImage *myImage = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:1];
+            imageView.image = myImage;
+        }else{
+            UIImage *myImage = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:0];
+            imageView.image = myImage;
+
+        
+        }
         imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = 20;
+        imageView.layer.cornerRadius = 10;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
         annotationView.canShowCallout= NO;
         annotationView.draggable = NO;
@@ -122,6 +130,97 @@
     self.mapView.showTraffic = NO;
     self.mapView.rotateEnabled = YES;
     self.mapView.showsLabels = NO;
+    
+}
+
+
+- (UIImage*)grayscale:(UIImage*)anImage type:(int)type {
+    
+    CGImageRef imageRef = anImage.CGImage;
+    
+    size_t width  = CGImageGetWidth(imageRef);
+    size_t height = CGImageGetHeight(imageRef);
+    
+    size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
+    size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
+    
+    size_t bytesPerRow = CGImageGetBytesPerRow(imageRef);
+    
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(imageRef);
+    
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+    
+    
+    bool shouldInterpolate = CGImageGetShouldInterpolate(imageRef);
+    
+    CGColorRenderingIntent intent = CGImageGetRenderingIntent(imageRef);
+    
+    CGDataProviderRef dataProvider = CGImageGetDataProvider(imageRef);
+    
+    CFDataRef data = CGDataProviderCopyData(dataProvider);
+    
+    UInt8 *buffer = (UInt8*)CFDataGetBytePtr(data);
+    
+    NSUInteger  x, y;
+    for (y = 0; y < height; y++) {
+        for (x = 0; x < width; x++) {
+            UInt8 *tmp;
+            tmp = buffer + y * bytesPerRow + x * 4;
+            
+            UInt8 red,green,blue;
+            red = *(tmp + 0);
+            green = *(tmp + 1);
+            blue = *(tmp + 2);
+            
+            UInt8 brightness;
+            switch (type) {
+                case 1:
+                    brightness = (77 * red + 28 * green + 151 * blue) / 256;
+                    *(tmp + 0) = brightness;
+                    *(tmp + 1) = brightness;
+                    *(tmp + 2) = brightness;
+                    break;
+                case 2:
+                    *(tmp + 0) = red;
+                    *(tmp + 1) = green * 0.7;
+                    *(tmp + 2) = blue * 0.4;
+                    break;
+                case 3:
+                    *(tmp + 0) = 255 - red;
+                    *(tmp + 1) = 255 - green;
+                    *(tmp + 2) = 255 - blue;
+                    break;
+                default:
+                    *(tmp + 0) = red;
+                    *(tmp + 1) = green;
+                    *(tmp + 2) = blue;
+                    break;
+            }
+        }
+    }
+    
+    
+    CFDataRef effectedData = CFDataCreate(NULL, buffer, CFDataGetLength(data));
+    
+    CGDataProviderRef effectedDataProvider = CGDataProviderCreateWithCFData(effectedData);
+    
+    CGImageRef effectedCgImage = CGImageCreate(
+                                               width, height,
+                                               bitsPerComponent, bitsPerPixel, bytesPerRow,
+                                               colorSpace, bitmapInfo, effectedDataProvider,
+                                               NULL, shouldInterpolate, intent);
+    
+    UIImage *effectedImage = [[UIImage alloc] initWithCGImage:effectedCgImage];
+    
+    CGImageRelease(effectedCgImage);
+    
+    CFRelease(effectedDataProvider);
+    
+    CFRelease(effectedData);
+    
+    CFRelease(data);
+    
+    return effectedImage;
     
 }
 
