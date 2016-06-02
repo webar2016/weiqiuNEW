@@ -99,6 +99,7 @@
             NSString *questionBody = [textMsg substringFromIndex:2];
             RCTextMessage *content  = [RCTextMessage messageWithContent:[NSString stringWithFormat:@"我提了一个问题，快来帮我吧！"]];
             [self createWithQuestion:questionBody];
+            //获取提问题时的位置，并上传到数据库
             return content;
         }
     }
@@ -159,12 +160,12 @@
             if ([self.groupDetail.destination isEqualToString:@"南京市"]) {
                 self.navigationItem.rightBarButtonItems = @[setting,groupMap];
             } else {
-                self.navigationItem.rightBarButtonItems = @[setting];
+                self.navigationItem.rightBarButtonItems = @[setting,groupMap];
             }
         }
         
     } andFailure:^(NSString *error) {
-        self.navigationItem.rightBarButtonItems = @[setting];
+        self.navigationItem.rightBarButtonItems = @[setting,groupMap];
         NSLog(@"%@------",error);
     }];
 }
@@ -277,6 +278,7 @@
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
     MVC.userNameTitle = [WBUserDefaults nickname];
     MVC.titleImage = [WBUserDefaults headIcon];
+    MVC.question = _question.text;
     [self.navigationController pushViewController:MVC animated:YES];
 }
 

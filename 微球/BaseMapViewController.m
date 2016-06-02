@@ -87,8 +87,8 @@
 
 - (void)initBaseNavigationBar
 {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnAction)];
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnAction)];
+    self.navigationItem.title = @"南京市";
 }
 
 - (void)initTitle:(NSString *)title
@@ -160,7 +160,7 @@
     
     _isFirstAppear = YES;
     
-    [self initTitle:self.title];
+//    [self initTitle:self.title];
     
     [self initBaseNavigationBar];
     
