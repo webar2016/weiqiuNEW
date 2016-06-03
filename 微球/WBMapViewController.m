@@ -9,6 +9,7 @@
 #import "WBMapViewController.h"
 #import "WBMapIntroduceViewController.h"
 #import "CustomAnnotationView.h"
+#define kCalloutViewMargin          -8
 
 @interface WBMapViewController ()
 {
@@ -48,12 +49,19 @@
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 10;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
+        
+        
         annotationView.canShowCallout= NO;
-        annotationView.draggable = NO;
+        annotationView.draggable = YES;
         annotationView.bubbleImage = imageView.image;
         annotationView.name = annotation.title;
         annotationView.introduction = annotation.subtitle;
         [annotationView addSubview:imageView];
+        [annotationView goUnlockView:^(NSString *name) {
+            WBMapIntroduceViewController *VC = [[WBMapIntroduceViewController alloc]init];
+            [self.navigationController pushViewController:VC animated:YES];
+            
+        }];
         return annotationView;
     }
     return nil;
@@ -61,21 +69,53 @@
 
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view{
-    
-    
-    NSLog(@"success");
-    
-    CustomAnnotationView *annotationView = (CustomAnnotationView *)view;
-    
+    /* Adjust the map center in order to show the callout view completely. */
+    if ([view isKindOfClass:[CustomAnnotationView class]]) {
+        CustomAnnotationView *cusView = (CustomAnnotationView *)view;
+        CGRect frame = [cusView convertRect:cusView.calloutView.frame toView:self.mapView];
+        
+        frame = UIEdgeInsetsInsetRect(frame, UIEdgeInsetsMake(kCalloutViewMargin, kCalloutViewMargin, kCalloutViewMargin, kCalloutViewMargin));
+        
+        if (!CGRectContainsRect(self.mapView.frame, frame))
+        {
+            /* Calculate the offset to make the callout view show up. */
+            CGSize offset = [self offsetToContainRect:frame inRect:self.mapView.frame];
+            
+            CGPoint screenAnchor = [self.mapView getMapStatus].screenAnchor;
+            CGPoint theCenter = CGPointMake(self.mapView.bounds.size.width * screenAnchor.x, self.mapView.bounds.size.height * screenAnchor.y);
+            theCenter = CGPointMake(theCenter.x - offset.width, theCenter.y - offset.height);
+            
+            CLLocationCoordinate2D coordinate = [self.mapView convertPoint:theCenter toCoordinateFromView:self.mapView];
+            
+            [self.mapView setCenterCoordinate:coordinate animated:YES];
+        }
+        
+    }
 
-        WBIntroView *introView = [[WBIntroView alloc] initWithImage:annotationView.bubbleImage name:annotationView.name introduction:annotationView.introduction];
-        introView.delegate = self;
-        introView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 2 - 35);
-        [self.view addSubview:introView];
+    
+//    NSLog(@"success");
+//    
+//    CustomAnnotationView *annotationView = (CustomAnnotationView *)view;
+//    
+//
+//        WBIntroView *introView = [[WBIntroView alloc] initWithImage:annotationView.bubbleImage name:annotationView.name introduction:annotationView.introduction];
+//        introView.delegate = self;
+//        introView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 2 - 35);
+//        [self.view addSubview:introView];
     
     
 //    [view setSelected:NO animated:NO];
 }
+
+- (CGSize)offsetToContainRect:(CGRect)innerRect inRect:(CGRect)outerRect
+{
+    CGFloat nudgeRight = fmaxf(0, CGRectGetMinX(outerRect) - (CGRectGetMinX(innerRect)));
+    CGFloat nudgeLeft = fminf(0, CGRectGetMaxX(outerRect) - (CGRectGetMaxX(innerRect)));
+    CGFloat nudgeTop = fmaxf(0, CGRectGetMinY(outerRect) - (CGRectGetMinY(innerRect)));
+    CGFloat nudgeBottom = fminf(0, CGRectGetMaxY(outerRect) - (CGRectGetMaxY(innerRect)));
+    return CGSizeMake(nudgeLeft ?: nudgeRight, nudgeTop ?: nudgeBottom);
+}
+
 
 - (void)clickBubbleHandle{
     WBMapIntroduceViewController *MVC = [[WBMapIntroduceViewController alloc]init];

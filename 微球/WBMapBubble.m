@@ -90,6 +90,11 @@
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.text = @"titletitletitletitle";
     [self addSubview:self.titleLabel];
+    
+    
+    
+    
+    
 }
 
 - (void)setTitle:(NSString *)title
