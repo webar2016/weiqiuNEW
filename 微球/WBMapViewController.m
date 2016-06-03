@@ -42,9 +42,9 @@
         }else{
             UIImage *myImage = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:0];
             imageView.image = myImage;
-
-        
         }
+        
+        
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 10;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
@@ -61,11 +61,19 @@
 
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view{
+    
+    
+    NSLog(@"success");
+    
     CustomAnnotationView *annotationView = (CustomAnnotationView *)view;
-    WBIntroView *introView = [[WBIntroView alloc] initWithImage:annotationView.bubbleImage name:annotationView.name introduction:annotationView.introduction];
-    introView.delegate = self;
-    introView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 2 - 35);
-    [self.view addSubview:introView];
+    
+
+        WBIntroView *introView = [[WBIntroView alloc] initWithImage:annotationView.bubbleImage name:annotationView.name introduction:annotationView.introduction];
+        introView.delegate = self;
+        introView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 2 - 35);
+        [self.view addSubview:introView];
+    
+    
 //    [view setSelected:NO animated:NO];
 }
 
@@ -117,6 +125,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+    a1.coordinate = CLLocationCoordinate2DMake(_location.coordinate.latitude, _location.coordinate.longitude);
+    a1.title      = @"头像";
+    a1.subtitle   = @"问题：南京有什么好吃的？";
+    [self.annotations addObject:a1];
+    
     [self.mapView addAnnotations:self.annotations];
     [self.mapView showAnnotations:self.annotations edgePadding:UIEdgeInsetsMake(20, 20, 20, 80) animated:YES];
     

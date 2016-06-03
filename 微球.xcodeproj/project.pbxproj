@@ -203,6 +203,7 @@
 		2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B51CAFCE660000E8CB /* UnZan.png */; };
 		2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B61CAFCE660000E8CB /* Zan.png */; };
 		2DF58F6B1D002CEE00A9216D /* 中山陵.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DF58F6A1D002CEE00A9216D /* 中山陵.jpg */; };
+		2DF58F701D0034A100A9216D /* WBLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF58F6F1D0034A100A9216D /* WBLocationManager.m */; };
 		2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */; };
 		2DFCB0EA1CF2DB9000200A50 /* 总统府.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB0E71CF2DB9000200A50 /* 总统府.jpg */; };
 		2DFCB0EC1CF2DB9000200A50 /* 夫子庙.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB0E91CF2DB9000200A50 /* 夫子庙.jpg */; };
@@ -580,6 +581,8 @@
 		2DF532B51CAFCE660000E8CB /* UnZan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnZan.png; sourceTree = "<group>"; };
 		2DF532B61CAFCE660000E8CB /* Zan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Zan.png; sourceTree = "<group>"; };
 		2DF58F6A1D002CEE00A9216D /* 中山陵.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "中山陵.jpg"; sourceTree = "<group>"; };
+		2DF58F6E1D0034A100A9216D /* WBLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLocationManager.h; sourceTree = "<group>"; };
+		2DF58F6F1D0034A100A9216D /* WBLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBLocationManager.m; sourceTree = "<group>"; };
 		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDownLoadManager.m; sourceTree = "<group>"; };
 		2DFCB0E71CF2DB9000200A50 /* 总统府.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "总统府.jpg"; sourceTree = "<group>"; };
 		2DFCB0E91CF2DB9000200A50 /* 夫子庙.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "夫子庙.jpg"; sourceTree = "<group>"; };
@@ -1225,6 +1228,7 @@
 				054452BA1C9ADFCC00F8969E /* 个人信息 */,
 				2D4BEF6A1C967F9C00F2B881 /* FMDB调用 */,
 				052F30CD1C93EB1900D15322 /* 省份城市 */,
+				2DF58F6D1D00347100A9216D /* 定位 */,
 				05D1F9331C8E78670049D3EC /* 积分更新 */,
 				05D1F9321C8E78410049D3EC /* 上传下载 */,
 				05D1F9311C8E78380049D3EC /* 长图文 */,
@@ -1532,6 +1536,15 @@
 			name = zanBtn;
 			sourceTree = "<group>";
 		};
+		2DF58F6D1D00347100A9216D /* 定位 */ = {
+			isa = PBXGroup;
+			children = (
+				2DF58F6E1D0034A100A9216D /* WBLocationManager.h */,
+				2DF58F6F1D0034A100A9216D /* WBLocationManager.m */,
+			);
+			name = "定位";
+			sourceTree = "<group>";
+		};
 		83E9131E4C3C0B892DAA5A4B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1808,6 +1821,7 @@
 				05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */,
 				05427CA11CC4710600C79F61 /* WBAnswerQuestionViewController.m in Sources */,
 				05DB3F701C87E18800CBCC54 /* WBAnswerListController.m in Sources */,
+				2DF58F701D0034A100A9216D /* WBLocationManager.m in Sources */,
 				2D6047EC1C93F7D200A88BAA /* WBTbl_Unlock_City.m in Sources */,
 				05D1F94F1C8FC9C60049D3EC /* WBGroupTableViewCell.m in Sources */,
 				052944DA1C7FF2AF0098159F /* BROptionItem.m in Sources */,

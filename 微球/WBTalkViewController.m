@@ -29,7 +29,7 @@
 #define QUESTION_IN_GROUP @"%@/tq/getHGQuestion?groupId=%@&p=1&ps=1"
 #define GROUP_DETAIL @"%@/hg/oneHG?groupId=%@"
 
-@interface WBTalkViewController () {
+@interface WBTalkViewController () <CLLocationManagerDelegate>{
     UIView      *_questionView;
     UILabel     *_question;
     UIButton    *_questionButton;
@@ -37,6 +37,8 @@
     
     BOOL        _isGettingQues;
     NSString    *_currentQuestionId;
+    CLLocationManager *_locationManager;
+    CLLocation *_location;
 }
 
 @property (nonatomic, assign) NSString *groupId;
@@ -99,7 +101,9 @@
             NSString *questionBody = [textMsg substringFromIndex:2];
             RCTextMessage *content  = [RCTextMessage messageWithContent:[NSString stringWithFormat:@"我提了一个问题，快来帮我吧！"]];
             [self createWithQuestion:questionBody];
-            //获取提问题时的位置，并上传到数据库
+            //开始定位
+            [self startLocation];
+            
             return content;
         }
     }
@@ -273,12 +277,13 @@
 }
 
 #pragma mark - 页面跳转
-
+//进入地图页面
 -(void)enterGroupMap{
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
     MVC.userNameTitle = [WBUserDefaults nickname];
     MVC.titleImage = [WBUserDefaults headIcon];
     MVC.question = _question.text;
+    MVC.location = _location;
     [self.navigationController pushViewController:MVC animated:YES];
 }
 
@@ -340,6 +345,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+
 #pragma mark - MBprogress
 
 -(void)showHUDIndicator{
@@ -351,5 +359,28 @@
 -(void)hideHUD{
     [self.hud hide:YES afterDelay:0];
 }
+
+
+#pragma mark  location
+
+//开始定位
+-(void)startLocation{
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    _locationManager.distanceFilter = 10.0f;
+    [_locationManager startUpdatingLocation];
+}
+
+//定位代理经纬度回调
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    [_locationManager stopUpdatingLocation];
+     NSLog(@"location ok");
+     NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
+    _location = newLocation;
+}
+
+
+
 
 @end
