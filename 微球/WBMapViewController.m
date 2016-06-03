@@ -34,7 +34,6 @@
             annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
-
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
         UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]];
         if ([annotation.title isEqualToString:@"中山陵"]) {
@@ -46,7 +45,7 @@
         }
         
         imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = 30;
+        imageView.layer.cornerRadius = 10;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
         annotationView.canShowCallout= NO;
         annotationView.draggable = NO;
