@@ -278,7 +278,9 @@
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
     MVC.userNameTitle = [WBUserDefaults nickname];
     MVC.titleImage = [WBUserDefaults headIcon];
-    MVC.question = _question.text;
+    if (_question) {
+        MVC.question = _question.text;
+    }
     [self.navigationController pushViewController:MVC animated:YES];
 }
 

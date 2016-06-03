@@ -36,7 +36,15 @@
         }
 
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
-        imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]];
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]];
+        if ([annotation.title isEqualToString:@"中山陵"]) {
+            UIImage *myImage = [self grayscale:image type:1];
+            imageView.image = myImage;
+        }else{
+            UIImage *myImage = [self grayscale:image type:0];
+            imageView.image = myImage;
+        }
+        
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 30;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
