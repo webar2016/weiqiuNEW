@@ -73,10 +73,18 @@
     
     if (selected){
         if (self.calloutView == nil){
-            self.calloutView = [[WBMapBubble alloc] initWithFrame:CGRectMake(0, 0, kCalloutWidth, kCalloutHeight)];
+            NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
+            CGSize  actualsize=[self.annotation.subtitle boundingRectWithSize:CGSizeMake(SCREENWIDTH-100, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
+            if (actualsize.height>200) {
+                actualsize.height =200;
+            }
+            self.calloutView = [[WBMapBubble alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH-100, actualsize.height)];
             self.calloutView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2.f + self.calloutOffset.x,
                                                   -CGRectGetHeight(self.calloutView.bounds) / 2.f + self.calloutOffset.y);
         }
+        
+        
+        
         self.calloutView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick)];
         [self.calloutView addGestureRecognizer:tap];
@@ -130,24 +138,9 @@
     
     if (self)
     {
-        //self.bounds = CGRectMake(0.f, 0.f, kWidth, kHeight);
-        
-       // self.backgroundColor = [UIColor grayColor];
-        
-        /* Create portrait image view and add to view hierarchy. */
         self.portraitImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kHoriMargin, kVertMargin, kPortraitWidth, kPortraitHeight)];
         [self addSubview:self.portraitImageView];
         
-        /* Create name label. */
-        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitWidth + kHoriMargin,
-                                                                   kVertMargin,
-                                                                   kWidth - kPortraitWidth - kHoriMargin,
-                                                                   kHeight - 2 * kVertMargin)];
-        self.nameLabel.backgroundColor  = [UIColor clearColor];
-        self.nameLabel.textAlignment    = NSTextAlignmentCenter;
-        self.nameLabel.textColor        = [UIColor whiteColor];
-        self.nameLabel.font             = [UIFont systemFontOfSize:15.f];
-       // [self addSubview:self.nameLabel];
     }
     
     return self;

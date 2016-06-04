@@ -9,6 +9,9 @@
 #import <MAMapKit/MAMapKit.h>
 #import "WBMapBubble.h"
 
+
+
+
 typedef void(^GoUnlockBlock)(NSString *name);
 
 @interface CustomAnnotationView : MAAnnotationView
@@ -21,7 +24,6 @@ typedef void(^GoUnlockBlock)(NSString *name);
 @property (nonatomic, strong) UIImage *bubbleImage;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *introduction;
-
-
+@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
 @end

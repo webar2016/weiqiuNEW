@@ -10,6 +10,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "MyDownLoadManager.h"
 
 @interface WBMapIntroduceViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -58,7 +59,34 @@
 
 //解锁
 -(void)unlock{
+    
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:@"320100" forKey:@"cityId"];
+    [dic setObject:_datePick.text forKey:@"unlockDate"];
+    [dic setObject:[WBUserDefaults userId] forKey:@"userId"];
+    [dic setObject:_textView.text forKey:@"content"];
+    [dic setObject:@"1" forKey:@"sceneryId"];
 
+
+    NSData *imageDate =UIImageJPEGRepresentation(_imageView.image, 1);
+    
+    [self showHUD:@"uploading" isDim:YES];
+    
+    
+    [MyDownLoadManager postUserInfoUrl:@"http://192.168.1.138/mbapp/scenery/setUnlock" withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageDate name:@"dddddddd" fileName:@"dsadad.jpg" mimeType:@"image/jpeg"];
+
+    } whenProgress:^(NSProgress *FieldDataBlock) {
+        
+    } andSuccess:^(id representData) {
+        NSLog(@"success");
+        [self showHUDComplete:@"success"];
+        
+    } andFailure:^(NSString *error) {
+         NSLog(@"failure");
+        [self showHUDComplete:@"failure"];
+    }];
 
 
 }

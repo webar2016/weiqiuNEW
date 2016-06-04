@@ -9,6 +9,7 @@
 #import "MAShape.h"
 #import <CoreLocation/CLLocation.h>
 
+
 /*!
  @brief 点标注数据
  */
@@ -18,5 +19,7 @@
  @brief 经纬度
  */
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+
+
 
 @end

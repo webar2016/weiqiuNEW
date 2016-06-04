@@ -45,22 +45,20 @@
             imageView.image = myImage;
         }
         
-        
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 10;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
-        
-        
         annotationView.canShowCallout= NO;
         annotationView.draggable = YES;
+        
         annotationView.bubbleImage = imageView.image;
         annotationView.name = annotation.title;
         annotationView.introduction = annotation.subtitle;
         [annotationView addSubview:imageView];
+        
         [annotationView goUnlockView:^(NSString *name) {
             WBMapIntroduceViewController *VC = [[WBMapIntroduceViewController alloc]init];
             [self.navigationController pushViewController:VC animated:YES];
-            
         }];
         return annotationView;
     }
@@ -166,15 +164,22 @@
 {
     [super viewDidLoad];
     
-    MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
-    a1.coordinate = CLLocationCoordinate2DMake(_location.coordinate.latitude, _location.coordinate.longitude);
-    a1.title      = @"头像";
-    a1.subtitle   = @"问题：南京有什么好吃的？";
-    [self.annotations addObject:a1];
+    [self addQuestionAnnotation];
     
     [self.mapView addAnnotations:self.annotations];
     [self.mapView showAnnotations:self.annotations edgePadding:UIEdgeInsetsMake(20, 20, 20, 80) animated:YES];
     
+}
+
+
+-(void)addQuestionAnnotation{
+
+    MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+    a1.coordinate = CLLocationCoordinate2DMake(_location.coordinate.latitude, _location.coordinate.longitude);
+    a1.title      = @"问题";
+    a1.subtitle   = @"问题：南京有什么好吃的？";
+    [self.annotations addObject:a1];
+
 }
 
 
