@@ -9,6 +9,7 @@
 #import "WBMapViewController.h"
 #import "WBMapIntroduceViewController.h"
 #import "CustomAnnotationView.h"
+#define kCalloutViewMargin          -8
 
 @interface WBMapViewController ()
 {
@@ -42,18 +43,23 @@
         }else{
             UIImage *myImage = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:0];
             imageView.image = myImage;
-
-        
         }
+        
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 10;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
         annotationView.canShowCallout= NO;
-        annotationView.draggable = NO;
+        annotationView.draggable = YES;
+        
         annotationView.bubbleImage = imageView.image;
         annotationView.name = annotation.title;
         annotationView.introduction = annotation.subtitle;
         [annotationView addSubview:imageView];
+        
+        [annotationView goUnlockView:^(NSString *name) {
+            WBMapIntroduceViewController *VC = [[WBMapIntroduceViewController alloc]init];
+            [self.navigationController pushViewController:VC animated:YES];
+        }];
         return annotationView;
     }
     return nil;
@@ -61,11 +67,41 @@
 
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view{
-    CustomAnnotationView *annotationView = (CustomAnnotationView *)view;
-    WBIntroView *introView = [[WBIntroView alloc] initWithImage:annotationView.bubbleImage name:annotationView.name introduction:annotationView.introduction];
-    introView.delegate = self;
-    introView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 2 - 35);
-    [self.view addSubview:introView];
+    /* Adjust the map center in order to show the callout view completely. */
+    if ([view isKindOfClass:[CustomAnnotationView class]]) {
+        CustomAnnotationView *cusView = (CustomAnnotationView *)view;
+        CGRect frame = [cusView convertRect:cusView.calloutView.frame toView:self.mapView];
+        
+        frame = UIEdgeInsetsInsetRect(frame, UIEdgeInsetsMake(kCalloutViewMargin, kCalloutViewMargin, kCalloutViewMargin, kCalloutViewMargin));
+        
+        if (!CGRectContainsRect(self.mapView.frame, frame))
+        {
+            /* Calculate the offset to make the callout view show up. */
+            CGSize offset = [self offsetToContainRect:frame inRect:self.mapView.frame];
+            
+            CGPoint screenAnchor = [self.mapView getMapStatus].screenAnchor;
+            CGPoint theCenter = CGPointMake(self.mapView.bounds.size.width * screenAnchor.x, self.mapView.bounds.size.height * screenAnchor.y);
+            theCenter = CGPointMake(theCenter.x - offset.width, theCenter.y - offset.height);
+            
+            CLLocationCoordinate2D coordinate = [self.mapView convertPoint:theCenter toCoordinateFromView:self.mapView];
+            
+            [self.mapView setCenterCoordinate:coordinate animated:YES];
+        }
+        
+    }
+
+    
+//    NSLog(@"success");
+//    
+//    CustomAnnotationView *annotationView = (CustomAnnotationView *)view;
+//    
+//
+//        WBIntroView *introView = [[WBIntroView alloc] initWithImage:annotationView.bubbleImage name:annotationView.name introduction:annotationView.introduction];
+//        introView.delegate = self;
+//        introView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 2 - 35);
+//        [self.view addSubview:introView];
+    
+    
 //    [view setSelected:NO animated:NO];
 }
 
@@ -120,9 +156,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self addQuestionAnnotation];
+    
     [self.mapView addAnnotations:self.annotations];
     [self.mapView showAnnotations:self.annotations edgePadding:UIEdgeInsetsMake(20, 20, 20, 80) animated:YES];
     
+}
+
+
+-(void)addQuestionAnnotation{
+
+    MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+    a1.coordinate = CLLocationCoordinate2DMake(_location.coordinate.latitude, _location.coordinate.longitude);
+    a1.title      = @"问题";
+    a1.subtitle   = @"问题：南京有什么好吃的？";
+    [self.annotations addObject:a1];
+
 }
 
 

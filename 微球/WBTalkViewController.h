@@ -8,6 +8,8 @@
 
 #import <RongIMKit/RongIMKit.h>
 #import "MBProgressHUD.h"
+#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
 @interface WBTalkViewController : RCConversationViewController
 

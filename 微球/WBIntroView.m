@@ -67,19 +67,28 @@
     self.layer.cornerRadius = 10;
     [self addSubview:scrollView];
     
-    UIButton *unlock = [[UIButton alloc] initWithFrame:CGRectMake(20, height - 30, 100, 20)];
-    [unlock setTitle:@"解锁这个景点" forState:UIControlStateNormal];
-    [unlock setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
-    unlock.titleLabel.font = MAINFONTSIZE;
-    [unlock addTarget:self action:@selector(enterUnlockVC) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:unlock];
-    
     UIButton *closeView = [[UIButton alloc] initWithFrame:CGRectMake(width - 80, height - 30, 60, 20)];
     [closeView setTitle:@"关闭介绍" forState:UIControlStateNormal];
     [closeView setTitleColor:[UIColor initWithDarkGray] forState:UIControlStateNormal];
     closeView.titleLabel.font = MAINFONTSIZE;
     [closeView addTarget:self action:@selector(closeView) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:closeView];
+    
+    
+    if (![name isEqualToString:@"头像"]) {
+        UIButton *unlock = [[UIButton alloc] initWithFrame:CGRectMake(20, height - 30, 100, 20)];
+        [unlock setTitle:@"解锁这个景点" forState:UIControlStateNormal];
+        [unlock setTitleColor:[UIColor initWithGreen] forState:UIControlStateNormal];
+        unlock.titleLabel.font = MAINFONTSIZE;
+        [unlock addTarget:self action:@selector(enterUnlockVC) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:unlock];
+    }else{
+        nameLabel.text = @"问题";
+        [closeView setTitle:@"关闭" forState:UIControlStateNormal];
+    }
+    
+    
+    
 }
 
 - (void)enterUnlockVC {

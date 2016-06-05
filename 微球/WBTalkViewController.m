@@ -299,7 +299,7 @@
 }
 
 #pragma mark - 页面跳转
-
+//进入地图页面
 -(void)enterGroupMap{
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
     MVC.userNameTitle = [WBUserDefaults nickname];
@@ -370,6 +370,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+
 #pragma mark - MBprogress
 
 -(void)showHUDIndicator{
@@ -381,5 +384,28 @@
 -(void)hideHUD{
     [self.hud hide:YES afterDelay:0];
 }
+
+
+#pragma mark  location
+
+//开始定位
+-(void)startLocation{
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    _locationManager.distanceFilter = 10.0f;
+    [_locationManager startUpdatingLocation];
+}
+
+//定位代理经纬度回调
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    [_locationManager stopUpdatingLocation];
+     NSLog(@"location ok");
+     NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
+    _location = newLocation;
+}
+
+
+
 
 @end

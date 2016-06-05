@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
+#import "WBRefreshViewController.h"
 
-@interface WBMapIntroduceViewController : UIViewController
+@interface WBMapIntroduceViewController : WBRefreshViewController
 
 @property (nonatomic, copy) NSString *name;
 @property (weak, nonatomic) IBOutlet UILabel *datePick;

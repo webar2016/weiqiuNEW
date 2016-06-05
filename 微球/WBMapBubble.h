@@ -12,5 +12,7 @@
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *introduction;
+@property (nonatomic, assign) BOOL isUnlock;
 
 @end
