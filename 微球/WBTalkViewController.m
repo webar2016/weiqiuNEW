@@ -113,7 +113,7 @@
             //开始定位
             [self startLocation];
             
-            //获取提问题时的位置，并上传到数据库
+//            获取提问题时的位置，并上传到数据库
             if ([CLLocationManager locationServicesEnabled] &&
                 ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse
                  || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)) {

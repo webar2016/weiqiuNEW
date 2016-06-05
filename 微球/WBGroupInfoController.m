@@ -9,7 +9,7 @@
 #import "WBGroupInfoController.h"
 #import "CreateHelpGroupViewController.h"
 #import "WBGroupDetailController.h"
-
+#import "LoadViewController.h"
 #import "WBPositionList.h"
 
 @interface WBGroupInfoController () {
@@ -50,6 +50,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    if (![WBUserDefaults userId]) {
+        LoadViewController *loadView = [[LoadViewController alloc]init];
+        [self presentViewController:loadView animated:YES completion:nil];
+    }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(changeStartPlace:)
                                                  name:@"choosePlace"
@@ -81,6 +86,11 @@
 }
 
 -(void)nextStep{
+    if (![WBUserDefaults userId]) {
+        [self showHUDText:@"请先登陆"];
+        return;
+    }
+    
     if ([_destinationButton.titleLabel.text isEqualToString:@"请选择"]) {
         [self showHUDText:@"请选择你的目的地点"];
         return;
