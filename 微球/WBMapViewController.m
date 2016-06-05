@@ -105,6 +105,16 @@
 //    [view setSelected:NO animated:NO];
 }
 
+- (CGSize)offsetToContainRect:(CGRect)innerRect inRect:(CGRect)outerRect
+{
+    CGFloat nudgeRight = fmaxf(0, CGRectGetMinX(outerRect) - (CGRectGetMinX(innerRect)));
+    CGFloat nudgeLeft = fminf(0, CGRectGetMaxX(outerRect) - (CGRectGetMaxX(innerRect)));
+    CGFloat nudgeTop = fmaxf(0, CGRectGetMinY(outerRect) - (CGRectGetMinY(innerRect)));
+    CGFloat nudgeBottom = fminf(0, CGRectGetMaxY(outerRect) - (CGRectGetMaxY(innerRect)));
+    return CGSizeMake(nudgeLeft ?: nudgeRight, nudgeTop ?: nudgeBottom);
+}
+
+
 - (void)clickBubbleHandleWithName:(NSString *)name{
     WBMapIntroduceViewController *MVC = [[WBMapIntroduceViewController alloc]init];
     MVC.name = name;
@@ -118,13 +128,11 @@
 - (void)initAnnotations
 {
     self.annotations = [NSMutableArray array];
-    NSArray *locateArr = [self.locate componentsSeparatedByString:@","];
     
     CLLocationCoordinate2D coordinates[4] = {
         {32.02255, 118.78362},
         {32.04434, 118.79731},
-        {32.06351, 118.84819},
-        {[locateArr[0] floatValue], [locateArr[1] floatValue]}
+        {32.06351, 118.84819}
     };
     
     NSArray *tempArray = @[@"夫子庙",@"总统府",@"中山陵"];

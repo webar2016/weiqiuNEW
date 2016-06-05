@@ -38,9 +38,9 @@
     
     BOOL        _isGettingQues;
     NSString    *_currentQuestionId;
-    
-    NSString    *_locate;
     NSString    *_questionBody;
+    CLLocationManager *_locationManager;
+    CLLocation *_location;
 }
 
 @property (nonatomic, assign) NSString *groupId;
@@ -109,6 +109,9 @@
         if ([questionSign isEqualToString:@"?:"] || [questionSign isEqualToString:@"？："] || [questionSign isEqualToString:@"?："] || [questionSign isEqualToString:@"？:"]) {
             _questionBody = [textMsg substringFromIndex:2];
             RCTextMessage *content  = [RCTextMessage messageWithContent:[NSString stringWithFormat:@"我提了一个问题，快来帮我吧！"]];
+            [self createWithQuestion:_questionBody];
+            //开始定位
+            [self startLocation];
             
             //获取提问题时的位置，并上传到数据库
             if ([CLLocationManager locationServicesEnabled] &&
@@ -125,16 +128,10 @@
     return messageCotent;
 }
 
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    [self.locationManager stopUpdatingLocation];
-    _locate = [NSString stringWithFormat:@"%.5f,%.5f", newLocation.coordinate.latitude, newLocation.coordinate.longitude];
-    [self createWithQuestion:_questionBody];
-}
-
 -(void)createWithQuestion:(NSString *)question{
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     data[@"userId"] = [WBUserDefaults userId];
-    data[@"locat"] = _locate;
+    data[@"locat"] = _location;
     data[@"groupId"] = self.targetId;
     data[@"questionText"] = question;
     NSLog(@"%@", data);
@@ -304,11 +301,8 @@
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
     MVC.userNameTitle = [WBUserDefaults nickname];
     MVC.titleImage = [WBUserDefaults headIcon];
-    if (self.model.count > 0) {
-        MVC.question = _question.text;
-        MVC.locate = ((WBQuestionsListModel *)self.model[0]).locat;
-    }
-    
+    MVC.question = _question.text;
+    MVC.location = _location;
     [self.navigationController pushViewController:MVC animated:YES];
 }
 
@@ -400,8 +394,6 @@
 //定位代理经纬度回调
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     [_locationManager stopUpdatingLocation];
-     NSLog(@"location ok");
-     NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
     _location = newLocation;
 }
 
