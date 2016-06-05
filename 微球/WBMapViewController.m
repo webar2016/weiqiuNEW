@@ -35,15 +35,16 @@
                                                           reuseIdentifier:reuseIndetifier];
         }
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]];
+
         if ([annotation.title isEqualToString:@"中山陵"]) {
-            UIImage *myImage = [self grayscale:image type:1];
+            UIImage *myImage = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:1];
             imageView.image = myImage;
         }else{
-            UIImage *myImage = [self grayscale:image type:0];
+            UIImage *myImage = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:0];
             imageView.image = myImage;
-        }
+
         
+        }
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 10;
         annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
@@ -68,8 +69,9 @@
 //    [view setSelected:NO animated:NO];
 }
 
-- (void)clickBubbleHandle{
+- (void)clickBubbleHandleWithName:(NSString *)name{
     WBMapIntroduceViewController *MVC = [[WBMapIntroduceViewController alloc]init];
+    MVC.name = name;
     [self.navigationController pushViewController:MVC animated:YES];
 }
 
@@ -80,11 +82,13 @@
 - (void)initAnnotations
 {
     self.annotations = [NSMutableArray array];
+    NSArray *locateArr = [self.locate componentsSeparatedByString:@","];
     
-    CLLocationCoordinate2D coordinates[3] = {
+    CLLocationCoordinate2D coordinates[4] = {
         {32.02255, 118.78362},
         {32.04434, 118.79731},
         {32.06351, 118.84819},
+        {[locateArr[0] floatValue], [locateArr[1] floatValue]}
     };
     
     NSArray *tempArray = @[@"夫子庙",@"总统府",@"中山陵"];

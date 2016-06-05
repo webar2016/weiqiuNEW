@@ -12,6 +12,7 @@
 
 @interface WBMapIntroduceViewController : UIViewController
 
+@property (nonatomic, copy) NSString *name;
 @property (weak, nonatomic) IBOutlet UILabel *datePick;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;

@@ -22,6 +22,7 @@
 #import "WBCollectionViewModel.h"
 #import "WBMyGroupModel.h"
 #import "AFHTTPSessionManager.h"
+#import <CoreLocation/CoreLocation.h>
 
 #import "UILabel+label.h"
 
@@ -29,7 +30,7 @@
 #define QUESTION_IN_GROUP @"%@/tq/getHGQuestion?groupId=%@&p=1&ps=1"
 #define GROUP_DETAIL @"%@/hg/oneHG?groupId=%@"
 
-@interface WBTalkViewController () {
+@interface WBTalkViewController () <CLLocationManagerDelegate> {
     UIView      *_questionView;
     UILabel     *_question;
     UIButton    *_questionButton;
@@ -37,6 +38,9 @@
     
     BOOL        _isGettingQues;
     NSString    *_currentQuestionId;
+    
+    NSString    *_locate;
+    NSString    *_questionBody;
 }
 
 @property (nonatomic, assign) NSString *groupId;
@@ -44,6 +48,7 @@
 @property (nonatomic, strong) NSMutableArray *model;
 @property (nonatomic, assign) NSUInteger firstLoadQuestion;
 @property (nonatomic, strong) WBCollectionViewModel *groupDetail;
+@property (strong, nonatomic) CLLocationManager* locationManager;
 
 @end
 
@@ -70,6 +75,12 @@
     self.enableContinuousReadUnreadVoice = YES;
     self.enableSaveNewPhotoToLocalSystem = YES;
     self.groupId = self.targetId;
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.distanceFilter = 10.0f;
+    
     [self setMessageAvatarStyle:RC_USER_AVATAR_CYCLE];
 //    [self showHUDIndicator];
     [self getQuestionTotalNumber];
@@ -96,22 +107,37 @@
         }
         NSString *questionSign = [textMsg substringToIndex:2];
         if ([questionSign isEqualToString:@"?:"] || [questionSign isEqualToString:@"？："] || [questionSign isEqualToString:@"?："] || [questionSign isEqualToString:@"？:"]) {
-            NSString *questionBody = [textMsg substringFromIndex:2];
+            _questionBody = [textMsg substringFromIndex:2];
             RCTextMessage *content  = [RCTextMessage messageWithContent:[NSString stringWithFormat:@"我提了一个问题，快来帮我吧！"]];
-            [self createWithQuestion:questionBody];
+            
             //获取提问题时的位置，并上传到数据库
+            if ([CLLocationManager locationServicesEnabled] &&
+                ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse
+                 || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)) {
+                    [self.locationManager startUpdatingLocation];
+                } else {
+                    [self createWithQuestion:_questionBody];
+                }
+            
             return content;
         }
     }
     return messageCotent;
 }
 
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    [self.locationManager stopUpdatingLocation];
+    _locate = [NSString stringWithFormat:@"%.5f,%.5f", newLocation.coordinate.latitude, newLocation.coordinate.longitude];
+    [self createWithQuestion:_questionBody];
+}
+
 -(void)createWithQuestion:(NSString *)question{
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     data[@"userId"] = [WBUserDefaults userId];
+    data[@"locat"] = _locate;
     data[@"groupId"] = self.targetId;
     data[@"questionText"] = question;
-    
+    NSLog(@"%@", data);
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSString *url = [NSString stringWithFormat:@"%@/hg/ask",WEBAR_IP];
@@ -278,9 +304,11 @@
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
     MVC.userNameTitle = [WBUserDefaults nickname];
     MVC.titleImage = [WBUserDefaults headIcon];
-    if (_question) {
+    if (self.model.count > 0) {
         MVC.question = _question.text;
+        MVC.locate = ((WBQuestionsListModel *)self.model[0]).locat;
     }
+    
     [self.navigationController pushViewController:MVC animated:YES];
 }
 
