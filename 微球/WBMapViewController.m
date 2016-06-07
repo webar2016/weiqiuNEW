@@ -129,11 +129,6 @@
 }
 
 
-- (void)clickBubbleHandleWithName:(NSString *)name{
-    WBMapIntroduceViewController *MVC = [[WBMapIntroduceViewController alloc]init];
-    MVC.name = name;
-    [self.navigationController pushViewController:MVC animated:YES];
-}
 
 #pragma mark  --download-
 
