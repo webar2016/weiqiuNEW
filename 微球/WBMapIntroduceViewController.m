@@ -12,7 +12,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "MyDownLoadManager.h"
 
-
+typedef void(^DoSomething)(void);
 
 @interface WBMapIntroduceViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -68,19 +68,30 @@
     _sceneryName = sceneryName;
 }
 
+
+
+
+
+
+
+
 //解锁
 -(void)unlock{
-    if (!_textView.text) {
-        [self showHUDComplete:@"请选择拍摄时间"];
-        return;
+    if ([_datePick.text isEqualToString:@"请选择"]) {
+        [self showHUDText:@"请选择拍摄时间"];
+    }else{
+        if (!_imageView.image) {
+            [self showHUDText:@"请选择解锁照片"];
+        }else{
+            [self uploadData];
+        }
     }
-    
-    if (!_imageView.image) {
-        [self showHUDComplete:@"请选择解锁照片"];
-        return;
-    }
-    
-    
+}
+
+
+
+-(void)uploadData{
+
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:_cityId forKey:@"cityId"];
     [dic setObject:_datePick.text forKey:@"unlockDate"];
@@ -89,23 +100,26 @@
     [dic setObject:_sceneryId forKey:@"sceneryId"];
     NSData *imageDate =UIImageJPEGRepresentation(_imageView.image, 1);
     [self showHUD:@"uploading" isDim:YES];
-    [MyDownLoadManager postUserInfoUrl:@"http://192.168.1.138/mbapp/scenery/setUnlock" withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
+    
+    [MyDownLoadManager postUserInfoUrl:[NSString stringWithFormat:@"%@/scenery/setUnlock",WEBAR_IP] withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageDate name:@"dddddddd" fileName:@"dsadad.jpg" mimeType:@"image/jpeg"];
-
+        
     } whenProgress:^(NSProgress *FieldDataBlock) {
         
     } andSuccess:^(id representData) {
         NSLog(@"success");
-        [self showHUDComplete:@"success"];
+        [self showHUDComplete:@"正在火速审核中"];
+        [self.navigationController popViewControllerAnimated:YES];
         
     } andFailure:^(NSString *error) {
-         NSLog(@"failure");
-        [self showHUDComplete:@"failure"];
+        NSLog(@"failure");
+        [self showHUDComplete:@"上传失败"];
     }];
 
 
-}
 
+
+}
 
 //选择时间
 -(void)PickDate{
@@ -244,7 +258,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)showHUDComplete:(NSString *)title
+-(void)showHUDComplete:(NSString *)title withComplite:(DoSomething)doSomething
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
@@ -252,7 +266,11 @@
         self.hud.labelText = title;
         self.hud.opacity = 0.7;
         [self hideHUDDelay:1.0];
+        doSomething();
+        
     });
+    
+    
 }
 
 @end

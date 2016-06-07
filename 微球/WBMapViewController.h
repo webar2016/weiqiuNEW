@@ -10,7 +10,7 @@
 #import "BaseMapViewController.h"
 #import "WBIntroView.h"
 
-@interface WBMapViewController : BaseMapViewController <CalloutViewDelegate>
+@interface WBMapViewController : BaseMapViewController 
 
 @property (nonatomic, copy) NSString *userNameTitle;
 @property (nonatomic, strong) UIImage *titleImage;
