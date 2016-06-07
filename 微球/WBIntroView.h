@@ -11,7 +11,7 @@
 
 @protocol CalloutViewDelegate <NSObject>
 
-- (void)clickBubbleHandle;
+- (void)clickBubbleHandleWithName:(NSString *)name;
 
 @end
 

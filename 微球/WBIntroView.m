@@ -10,6 +10,7 @@
 #import "NSString+string.h"
 
 @interface WBIntroView () {
+    NSString *_name;
 }
 
 @end
@@ -27,6 +28,7 @@
 }
 
 - (void)setUpWithImage:(UIImage *)image name:(NSString *)name introduction:(NSString *)introduction {
+    _name = name;
     CGFloat width = SCREENWIDTH  - 60;
     CGFloat maxHeight = SCREENHEIGHT - 60 - 70;
     
@@ -90,9 +92,9 @@
 }
 
 - (void)enterUnlockVC {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(clickBubbleHandle)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickBubbleHandleWithName:)]) {
         [self closeView];
-        [self.delegate clickBubbleHandle];
+        [self.delegate clickBubbleHandleWithName:_name];
     }
 }
 

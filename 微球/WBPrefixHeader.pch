@@ -22,9 +22,9 @@
 #define IPType 1
 
 #if IPType
-#define WEBAR_IP @"http://app.weiqiu.me"//@"http://192.168.1.132/mbapp"//
+#define WEBAR_IP @"http://app.weiqiu.me"//@"http://192.168.1.138/mbapp"//
 #else
-#define WEBAR_IP @"http://192.168.1.132/mbapp"
+#define WEBAR_IP @"http://192.168.1.138/mbapp"
 #endif
 
 //import files

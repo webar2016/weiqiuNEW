@@ -25,6 +25,8 @@
 
 @property (nonatomic, copy) NSString *cityStr;
 
+@property (nonatomic, strong) NSString *locat;
+
 @property (nonatomic, strong) WBSingleAnswerModel *hga;
 
 @end
