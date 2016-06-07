@@ -282,8 +282,11 @@
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
     MVC.userNameTitle = [WBUserDefaults nickname];
     MVC.titleImage = [WBUserDefaults headIcon];
-    MVC.question = _question.text;
-    MVC.location = _location;
+    //MVC.question = _question.text;
+    //MVC.location = _location;
+    MVC.question = @"wo shi yi zhi tian cai aa hh  ddddd  ";
+    MVC.location = CLLocationCoordinate2DMake(32.07351, 118.94819);
+    
     [self.navigationController pushViewController:MVC animated:YES];
 }
 

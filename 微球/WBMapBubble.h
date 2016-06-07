@@ -15,4 +15,5 @@
 @property (nonatomic, copy) NSString *introduction;
 @property (nonatomic, assign) BOOL isUnlock;
 
+
 @end

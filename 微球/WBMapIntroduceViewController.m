@@ -12,6 +12,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "MyDownLoadManager.h"
 
+
+
 @interface WBMapIntroduceViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     //时间选择器
@@ -36,9 +38,18 @@
 
 -(void)createNav{
     self.title = @"景点解锁";
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithTitle:@"解锁" style:UIBarButtonItemStylePlain target:self action:@selector(unlock)];
-    self.navigationItem.rightBarButtonItem = item;
     
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, 48, 20);
+    [button setTitle:@"解锁" forState:UIControlStateNormal];
+    button.titleLabel.font = MAINFONTSIZE;
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(unlock) forControlEvents:UIControlEventTouchUpInside];
+    [button setBackgroundColor:[UIColor initWithGreen]];
+    button.layer.masksToBounds = YES;
+    button.layer.cornerRadius = 3;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = item;
 }
 
 
@@ -46,34 +57,38 @@
     self.datePick.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(PickDate)];
     [self.datePick addGestureRecognizer:tap];
-    
     _textView.delegate = self;
-    
     _imageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headImagePick)];
     [_imageView addGestureRecognizer:imageTap];
-    
-    
-    
+    _sceneryNameLabel.text = _sceneryName;
+}
+
+-(void)setSceneryName:(NSString *)sceneryName{
+    _sceneryName = sceneryName;
 }
 
 //解锁
 -(void)unlock{
+    if (!_textView.text) {
+        [self showHUDComplete:@"请选择拍摄时间"];
+        return;
+    }
+    
+    if (!_imageView.image) {
+        [self showHUDComplete:@"请选择解锁照片"];
+        return;
+    }
     
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"320100" forKey:@"cityId"];
+    [dic setObject:_cityId forKey:@"cityId"];
     [dic setObject:_datePick.text forKey:@"unlockDate"];
     [dic setObject:[WBUserDefaults userId] forKey:@"userId"];
     [dic setObject:_textView.text forKey:@"content"];
-    [dic setObject:@"1" forKey:@"sceneryId"];
-
-
+    [dic setObject:_sceneryId forKey:@"sceneryId"];
     NSData *imageDate =UIImageJPEGRepresentation(_imageView.image, 1);
-    
     [self showHUD:@"uploading" isDim:YES];
-    
-    
     [MyDownLoadManager postUserInfoUrl:@"http://192.168.1.138/mbapp/scenery/setUnlock" withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageDate name:@"dddddddd" fileName:@"dsadad.jpg" mimeType:@"image/jpeg"];
 
@@ -229,6 +244,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+-(void)showHUDComplete:(NSString *)title
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+        self.hud.mode = MBProgressHUDModeCustomView;
+        self.hud.labelText = title;
+        self.hud.opacity = 0.7;
+        [self hideHUDDelay:1.0];
+    });
+}
 
 @end
