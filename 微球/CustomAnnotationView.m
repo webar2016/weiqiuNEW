@@ -34,7 +34,7 @@
 {
     CLLocationCoordinate2D coorinate = [self.annotation coordinate];
     
-    NSLog(@"coordinate = {%f, %f}", coorinate.latitude, coorinate.longitude);
+   // NSLog(@"coordinate = {%f, %f}", coorinate.latitude, coorinate.longitude);
 }
 
 #pragma mark - Override
@@ -70,63 +70,52 @@
     if (self.selected == selected){
         return;
     }
-    
     if (selected){
         if (self.calloutView == nil){
-            NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:MAINFONTSIZE,NSFontAttributeName,nil];
-            CGSize  actualsize=[self.annotation.subtitle boundingRectWithSize:CGSizeMake(SCREENWIDTH-100, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
-            if (actualsize.height>200) {
-                actualsize.height =200;
+            UITextView *detailTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH-120, 0)];
+            detailTextView.font = MAINFONTSIZE;
+            detailTextView.text = self.annotation.subtitle;
+            CGSize deSize = [detailTextView sizeThatFits:CGSizeMake(SCREENWIDTH-120,CGFLOAT_MAX)];
+            NSLog(@"%@",NSStringFromCGSize(deSize));
+            if (deSize.height>200) {
+                deSize.height =200;
             }
-            self.calloutView = [[WBMapBubble alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH-100, actualsize.height)];
+            self.calloutView = [[WBMapBubble alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH-100, deSize.height+100)];
             self.calloutView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2.f + self.calloutOffset.x,
                                                   -CGRectGetHeight(self.calloutView.bounds) / 2.f + self.calloutOffset.y);
         }
-        
-        
-        
         self.calloutView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick)];
         [self.calloutView addGestureRecognizer:tap];
-        
-        
-        
-        
         self.calloutView.image = self.bubbleImage;
         self.calloutView.title = self.annotation.title;
+        self.calloutView.introduction = self.annotation.subtitle;
+        self.calloutView.isUnlock = self.isUnlock;
         self.name = self.annotation.title;
         [self addSubview:self.calloutView];
     } else {
         [self.calloutView removeFromSuperview];
     }
-    
     [super setSelected:selected animated:animated];
 }
 
-
-
 -(void)tapClick{
-    self.goUnlockBlock(@"name");
-    
+    if (self.isUnlock ==NO) {
+        self.goUnlockBlock(self.sceneryName, self.sceneryId,self.cityId);
+    }
 }
 
 -(void)goUnlockView:(GoUnlockBlock)block{
     self.goUnlockBlock = block;
-    
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
     BOOL inside = [super pointInside:point withEvent:event];
-    /* Points that lie outside the receiver’s bounds are never reported as hits,
-     even if they actually lie within one of the receiver’s subviews.
-     This can occur if the current view’s clipsToBounds property is set to NO and the affected subview extends beyond the view’s bounds.
-     */
     if (!inside && self.selected)
     {
         inside = [self.calloutView pointInside:[self convertPoint:point toView:self.calloutView] withEvent:event];
     }
-    
     return inside;
 }
 
@@ -135,18 +124,11 @@
 - (id)initWithAnnotation:(id<MAAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
-    
-    if (self)
-    {
+    if (self){
         self.portraitImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kHoriMargin, kVertMargin, kPortraitWidth, kPortraitHeight)];
         [self addSubview:self.portraitImageView];
-        
     }
-    
     return self;
 }
-
-
-
 
 @end

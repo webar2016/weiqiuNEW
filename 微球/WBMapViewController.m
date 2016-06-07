@@ -9,10 +9,14 @@
 #import "WBMapViewController.h"
 #import "WBMapIntroduceViewController.h"
 #import "CustomAnnotationView.h"
+#import "MyDownLoadManager.h"
+#import "MJExtension.h"
+#import "WBMapModel.h"
 #define kCalloutViewMargin          -8
 
 @interface WBMapViewController ()
 {
+    NSMutableArray *_dataList;
 
 
 }
@@ -30,36 +34,60 @@
     {
         static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         CustomAnnotationView *annotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
-        if (annotationView == nil)
-        {
+        if (annotationView == nil){
             annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
-
-        if ([annotation.title isEqualToString:@"中山陵"]) {
-            UIImage *myImage = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:1];
-            imageView.image = myImage;
-        }else{
-            UIImage *myImage = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:0];
-            imageView.image = myImage;
+        for (WBMapModel *model in _dataList) {
+            if ([model.sceneryName isEqualToString:annotation.title]) {
+                
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
+                if (model.unlock) {
+                    imageView.image = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:0];
+                    annotationView.isUnlock = YES;
+                }else{
+                    imageView.image = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:1];
+                    annotationView.isUnlock = NO;
+                }
+                imageView.layer.masksToBounds = YES;
+                imageView.layer.cornerRadius = 10;
+                annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
+                annotationView.canShowCallout= NO;
+                annotationView.draggable = YES;
+                annotationView.bubbleImage = imageView.image;
+                annotationView.name = annotation.title;
+                annotationView.introduction = annotation.subtitle;
+                annotationView.sceneryId = model.sceneryId;
+                annotationView.cityId = model.cityId;
+                annotationView.sceneryName = model.sceneryName;
+                [annotationView addSubview:imageView];
+                [annotationView goUnlockView:^(NSString *sceneryName,NSString *sceneryId,NSString *cityId) {
+                    WBMapIntroduceViewController *VC = [[WBMapIntroduceViewController alloc]init];
+                    VC.sceneryId = sceneryId;
+                    VC.cityId = cityId;
+                    VC.sceneryName = sceneryName;
+                    
+                    [self.navigationController pushViewController:VC animated:YES];
+                }];
+            }
         }
         
-        imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = 10;
-        annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
-        annotationView.canShowCallout= NO;
-        annotationView.draggable = YES;
+        if ([annotation.title isEqualToString:@"问题"]) {
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
+            imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]];
+            annotationView.isUnlock = YES;
+            imageView.layer.masksToBounds = YES;
+            imageView.layer.cornerRadius = 10;
+            annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
+            annotationView.canShowCallout= NO;
+            annotationView.draggable = YES;
+            annotationView.bubbleImage = imageView.image;
+            annotationView.name = annotation.title;
+            annotationView.introduction = annotation.subtitle;
+            [annotationView addSubview:imageView];
+            
+        }
         
-        annotationView.bubbleImage = imageView.image;
-        annotationView.name = annotation.title;
-        annotationView.introduction = annotation.subtitle;
-        [annotationView addSubview:imageView];
-        
-        [annotationView goUnlockView:^(NSString *name) {
-            WBMapIntroduceViewController *VC = [[WBMapIntroduceViewController alloc]init];
-            [self.navigationController pushViewController:VC animated:YES];
-        }];
         return annotationView;
     }
     return nil;
@@ -90,23 +118,9 @@
         
     }
 
-    
-//    NSLog(@"success");
-//    
-//    CustomAnnotationView *annotationView = (CustomAnnotationView *)view;
-//    
-//
-//        WBIntroView *introView = [[WBIntroView alloc] initWithImage:annotationView.bubbleImage name:annotationView.name introduction:annotationView.introduction];
-//        introView.delegate = self;
-//        introView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 2 - 35);
-//        [self.view addSubview:introView];
-    
-    
-//    [view setSelected:NO animated:NO];
 }
 
-- (CGSize)offsetToContainRect:(CGRect)innerRect inRect:(CGRect)outerRect
-{
+- (CGSize)offsetToContainRect:(CGRect)innerRect inRect:(CGRect)outerRect{
     CGFloat nudgeRight = fmaxf(0, CGRectGetMinX(outerRect) - (CGRectGetMinX(innerRect)));
     CGFloat nudgeLeft = fminf(0, CGRectGetMaxX(outerRect) - (CGRectGetMaxX(innerRect)));
     CGFloat nudgeTop = fmaxf(0, CGRectGetMinY(outerRect) - (CGRectGetMinY(innerRect)));
@@ -115,77 +129,67 @@
 }
 
 
-- (void)clickBubbleHandleWithName:(NSString *)name{
-    WBMapIntroduceViewController *MVC = [[WBMapIntroduceViewController alloc]init];
-    MVC.name = name;
-    [self.navigationController pushViewController:MVC animated:YES];
+
+#pragma mark  --download-
+
+-(void)loadData{
+    NSString *url =[NSString stringWithFormat:@"http://192.168.1.138/mbapp/scenery/city?cityId=320100&userId=%@",[WBUserDefaults userId]];
+    [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        _dataList = [WBMapModel mj_objectArrayWithKeyValuesArray:result[@"sceneryList"]];
+        [self initAnnotations];
+    } andFailure:^(NSString *error) {
+    }];
 }
-
-
 
 #pragma mark - Initialization
 
 - (void)initAnnotations
 {
     self.annotations = [NSMutableArray array];
-    
-    CLLocationCoordinate2D coordinates[4] = {
-        {32.02255, 118.78362},
-        {32.04434, 118.79731},
-        {32.06351, 118.84819}
-    };
-    
-    NSArray *tempArray = @[@"夫子庙",@"总统府",@"中山陵"];
-    NSString *introduction = @"景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍";
-    for (int i = 0; i < 3; ++i)
-    {
+    for (NSInteger i =0; i<_dataList.count; i++) {
         MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
-        a1.coordinate = coordinates[i];
-        a1.title      = tempArray[i];
-        a1.subtitle   = introduction;
+        WBMapModel *tempModel = _dataList[i];
+        NSArray *array =[tempModel.locat componentsSeparatedByString:@","];
+        a1.coordinate = CLLocationCoordinate2DMake(((NSString *)array[0]).floatValue, ((NSString *)array[1]).floatValue);
+        a1.title      = tempModel.sceneryName;
+        a1.subtitle   = tempModel.content;
         [self.annotations addObject:a1];
     }
+    
+    [self addQuestionAnnotation];
+    [self.mapView addAnnotations:self.annotations];
+    [self.mapView showAnnotations:self.annotations edgePadding:UIEdgeInsetsMake(20, 20, 20, 80) animated:YES];
+
 }
 
 
 #pragma mark - Life Cycle
 
-- (id)init
-{
+- (id)init{
     self = [super init];
-    if (self)
-    {
+    if (self){
         [self initAnnotations];
     }
-    
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
-    
-    [self addQuestionAnnotation];
-    
-    [self.mapView addAnnotations:self.annotations];
-    [self.mapView showAnnotations:self.annotations edgePadding:UIEdgeInsetsMake(20, 20, 20, 80) animated:YES];
-    
+    _dataList = [NSMutableArray array];
+    [self loadData];
 }
 
-
 -(void)addQuestionAnnotation{
-
     MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
-    a1.coordinate = CLLocationCoordinate2DMake(_location.coordinate.latitude, _location.coordinate.longitude);
+    a1.coordinate = _location;
     a1.title      = @"问题";
     a1.subtitle   = @"问题：南京有什么好吃的？";
     [self.annotations addObject:a1];
-
 }
 
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.mapView.showsBuildings = NO;
     self.mapView.showTraffic = NO;
@@ -196,9 +200,8 @@
 
 
 - (UIImage*)grayscale:(UIImage*)anImage type:(int)type {
-    
     CGImageRef imageRef = anImage.CGImage;
-    
+
     size_t width  = CGImageGetWidth(imageRef);
     size_t height = CGImageGetHeight(imageRef);
     

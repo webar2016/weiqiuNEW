@@ -8,6 +8,8 @@
 
 #import "WBRefreshViewController.h"
 
+typedef void(^DoSomething)(void);
+
 @interface WBRefreshViewController ()
 
 @end
@@ -23,6 +25,20 @@
         self.hud.labelText = title;
         [self hideHUDDelay:1.0];
     });
+    
+}
+
+-(void)showHUDText:(NSString *)title withComplite:(DoSomething)dosomething{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.hud.mode = MBProgressHUDModeText;
+        self.hud.opacity = 0.7;
+        self.hud.dimBackground = NO;
+        self.hud.labelText = title;
+        [self hideHUDDelay:1.0];
+    });
+    
+    
     
 }
 

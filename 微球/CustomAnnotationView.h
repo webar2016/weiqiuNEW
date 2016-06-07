@@ -12,7 +12,7 @@
 
 
 
-typedef void(^GoUnlockBlock)(NSString *name);
+typedef void(^GoUnlockBlock)(NSString *sceneryName,NSString *sceneryId,NSString *cityId);
 
 @interface CustomAnnotationView : MAAnnotationView
 
@@ -24,6 +24,12 @@ typedef void(^GoUnlockBlock)(NSString *name);
 @property (nonatomic, strong) UIImage *bubbleImage;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *introduction;
+
+@property (nonatomic, copy) NSString *sceneryName;
+@property (nonatomic, copy) NSString *sceneryId;
+@property (nonatomic, copy) NSString *cityId;
+
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+@property (nonatomic, assign) BOOL isUnlock;
 
 @end

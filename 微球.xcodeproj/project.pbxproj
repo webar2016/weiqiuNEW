@@ -125,6 +125,9 @@
 		2D16EF5D1C8416AF002D5F90 /* TopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF561C8416AF002D5F90 /* TopCell.m */; };
 		2D16EF631C842443002D5F90 /* NSString+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF621C842443002D5F90 /* NSString+Frame.m */; };
 		2D16EF661C844DFB002D5F90 /* MyCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF651C844DFB002D5F90 /* MyCollectionViewFlowLayout.m */; };
+		2D1865C61D054E2C00159CC1 /* WBMapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1865C51D054E2C00159CC1 /* WBMapModel.m */; };
+		2D1865C81D05549500159CC1 /* 南京大屠杀遇难同胞纪念馆.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2D1865C71D05549500159CC1 /* 南京大屠杀遇难同胞纪念馆.jpg */; };
+		2D1865CA1D05551400159CC1 /* 明孝陵.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2D1865C91D05551400159CC1 /* 明孝陵.jpg */; };
 		2D1DE0041C92D03F0059CD89 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1DE0031C92D03F0059CD89 /* DBManager.m */; };
 		2D1DE0081C92D10D0059CD89 /* WBBig_AreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1DE0071C92D10D0059CD89 /* WBBig_AreaModel.m */; };
 		2D1DE00B1C92D2BE0059CD89 /* WBTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1DE00A1C92D2BE0059CD89 /* WBTestViewController.m */; };
@@ -440,6 +443,10 @@
 		2D16EF621C842443002D5F90 /* NSString+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Frame.m"; sourceTree = "<group>"; };
 		2D16EF641C844DFB002D5F90 /* MyCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		2D16EF651C844DFB002D5F90 /* MyCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		2D1865C41D054E2C00159CC1 /* WBMapModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMapModel.h; sourceTree = "<group>"; };
+		2D1865C51D054E2C00159CC1 /* WBMapModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMapModel.m; sourceTree = "<group>"; };
+		2D1865C71D05549500159CC1 /* 南京大屠杀遇难同胞纪念馆.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "南京大屠杀遇难同胞纪念馆.jpg"; sourceTree = "<group>"; };
+		2D1865C91D05551400159CC1 /* 明孝陵.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "明孝陵.jpg"; sourceTree = "<group>"; };
 		2D1DE0021C92D03F0059CD89 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		2D1DE0031C92D03F0059CD89 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		2D1DE0061C92D10D0059CD89 /* WBBig_AreaModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBig_AreaModel.h; sourceTree = "<group>"; };
@@ -857,12 +864,16 @@
 				2DFCB0E71CF2DB9000200A50 /* 总统府.jpg */,
 				2DF58F6A1D002CEE00A9216D /* 中山陵.jpg */,
 				2DFCB0E91CF2DB9000200A50 /* 夫子庙.jpg */,
+				2D1865C71D05549500159CC1 /* 南京大屠杀遇难同胞纪念馆.jpg */,
+				2D1865C91D05551400159CC1 /* 明孝陵.jpg */,
 				2D299CC01CE1D36B00DC8028 /* BaseMapViewController.h */,
 				2D299CC11CE1D36B00DC8028 /* BaseMapViewController.m */,
 				2D299CC31CE1D42C00DC8028 /* WBMapViewController.h */,
 				2D299CC41CE1D42C00DC8028 /* WBMapViewController.m */,
 				0526FF631CF58BB800708F9B /* WBIntroView.h */,
 				0526FF641CF58BB800708F9B /* WBIntroView.m */,
+				2D1865C41D054E2C00159CC1 /* WBMapModel.h */,
+				2D1865C51D054E2C00159CC1 /* WBMapModel.m */,
 				05A087B81CED86AE005EFAE1 /* WBMapBubble.h */,
 				05A087B91CED86AE005EFAE1 /* WBMapBubble.m */,
 				05A087BB1CED8B39005EFAE1 /* CustomAnnotationView.h */,
@@ -1687,9 +1698,11 @@
 				2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */,
 				2DFCB0EC1CF2DB9000200A50 /* 夫子庙.jpg in Resources */,
 				2D4B83481CD99EA2002FE13F /* WBHelpGroupMenu.xib in Resources */,
+				2D1865CA1D05551400159CC1 /* 明孝陵.jpg in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
 				05D6EB8B1C7D414F002D48FF /* LaunchScreen.storyboard in Resources */,
 				2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */,
+				2D1865C81D05549500159CC1 /* 南京大屠杀遇难同胞纪念馆.jpg in Resources */,
 				2DFECB241CC623DE008BE938 /* BigAreas.plist in Resources */,
 				2D62D6691C89346200E4D05E /* read_me.txt in Resources */,
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
@@ -1853,6 +1866,7 @@
 				2D62D6821C8967ED00E4D05E /* WBTopicCommentTableViewCell.m in Sources */,
 				056CA5E41CBF6D4500E45018 /* WBDraftManager.m in Sources */,
 				05427CA41CC475F000C79F61 /* WBMyDraftViewController.m in Sources */,
+				2D1865C61D054E2C00159CC1 /* WBMapModel.m in Sources */,
 				05DB3F6B1C87196900CBCC54 /* UILabel+label.m in Sources */,
 				2D3775871CB4EE85003E6FE4 /* WBMenuBtnViewController.m in Sources */,
 				2D3ADCB51CC47A970075E6A0 /* AddressChoicePickerView.m in Sources */,

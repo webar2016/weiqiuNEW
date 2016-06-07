@@ -13,9 +13,14 @@
 
 @interface WBMapIntroduceViewController : WBRefreshViewController
 
-@property (nonatomic, copy) NSString *name;
+@property (weak, nonatomic) IBOutlet UILabel *sceneryNameLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *datePick;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+@property (nonatomic, copy) NSString *sceneryName;
+@property (nonatomic, copy) NSString *sceneryId;
+@property (nonatomic, copy) NSString *cityId;
 
 @end

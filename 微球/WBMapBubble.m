@@ -11,8 +11,9 @@
 @interface WBMapBubble ()
 
 @property (nonatomic, strong) UIImageView *portraitView;
-@property (nonatomic, strong) UILabel *subtitleLabel;
+@property (nonatomic, strong) UITextView *subtitleLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *unlockLabel;
 
 @end
 
@@ -22,7 +23,7 @@
 #define kPortraitMargin     5
 #define kPortraitHeight     40
 
-#define kTitleWidth         120
+#define kTitleWidth         200
 #define kTitleHeight        20
 
 - (void)drawRect:(CGRect)rect
@@ -82,7 +83,7 @@
 {
     self.portraitView = [[UIImageView alloc] initWithFrame:CGRectMake(kPortraitMargin * 2, kPortraitMargin * 2, kPortraitHeight, kPortraitHeight)];
     
-    self.portraitView.backgroundColor = [UIColor blackColor];
+    self.portraitView.backgroundColor = [UIColor grayColor];
     [self addSubview:self.portraitView];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin * 4 + kPortraitHeight, kPortraitMargin * 4, kTitleWidth, kTitleHeight)];
@@ -92,8 +93,23 @@
     [self addSubview:self.titleLabel];
     
     
+    self.subtitleLabel = [[UITextView alloc]initWithFrame:CGRectMake(10, 60, self.frame.size.width-20, self.frame.size.height-100)];
+    self.subtitleLabel.allowsEditingTextAttributes = NO;
+    self.subtitleLabel.editable = NO;
     
+    self.subtitleLabel.backgroundColor = [UIColor clearColor];
+    self.subtitleLabel.textColor = [UIColor whiteColor];
+    self.subtitleLabel.font = MAINFONTSIZE;
+    self.subtitleLabel.text = @"titletitletitletitle";
+    [self addSubview:self.subtitleLabel];
     
+    self.unlockLabel = [[UILabel alloc]init];
+    self.unlockLabel.frame = CGRectMake(self.frame.size.width-170, self.frame.size.height-40, 150, 30);
+    self.unlockLabel.text = @"解锁这个景点";
+    self.unlockLabel.textAlignment = NSTextAlignmentRight;
+    self.unlockLabel.textColor = [UIColor initWithGreen];
+    self.unlockLabel.font = MAINFONTSIZE;
+    [self addSubview:self.unlockLabel];
     
 }
 
@@ -105,6 +121,18 @@
 - (void)setImage:(UIImage *)image
 {
     self.portraitView.image = image;
+}
+
+-(void)setIntroduction:(NSString *)introduction{
+    self.subtitleLabel.text = introduction;
+}
+
+-(void)setIsUnlock:(BOOL)isUnlock{
+    if (!isUnlock) {
+        self.unlockLabel.alpha =1;
+    }else{
+        self.unlockLabel.alpha = 0;
+    }
 }
 
 @end
