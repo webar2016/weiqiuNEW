@@ -74,6 +74,7 @@
 		05794C911CA2641300F32837 /* WBCommentMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C901CA2641300F32837 /* WBCommentMessage.m */; };
 		05794C941CA27B0400F32837 /* WBFollowMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C931CA27B0400F32837 /* WBFollowMsgCell.m */; };
 		05794C971CA27B1600F32837 /* WBCommentMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05794C961CA27B1600F32837 /* WBCommentMsgCell.m */; };
+		057B08941D07F92F00C71C64 /* 雷锋塔.png in Resources */ = {isa = PBXBuildFile; fileRef = 057B08931D07F92F00C71C64 /* 雷锋塔.png */; };
 		05A087BA1CED86AE005EFAE1 /* WBMapBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 05A087B91CED86AE005EFAE1 /* WBMapBubble.m */; };
 		05A087BD1CED8B39005EFAE1 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05A087BC1CED8B39005EFAE1 /* CustomAnnotationView.m */; };
 		05BE278C1C8038AA00B916FB /* WBTopicsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE278B1C8038AA00B916FB /* WBTopicsTableViewController.m */; };
@@ -360,6 +361,7 @@
 		05794C931CA27B0400F32837 /* WBFollowMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFollowMsgCell.m; sourceTree = "<group>"; };
 		05794C951CA27B1600F32837 /* WBCommentMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCommentMsgCell.h; sourceTree = "<group>"; };
 		05794C961CA27B1600F32837 /* WBCommentMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBCommentMsgCell.m; sourceTree = "<group>"; };
+		057B08931D07F92F00C71C64 /* 雷锋塔.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "雷锋塔.png"; sourceTree = "<group>"; };
 		05A087B81CED86AE005EFAE1 /* WBMapBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMapBubble.h; sourceTree = "<group>"; };
 		05A087B91CED86AE005EFAE1 /* WBMapBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMapBubble.m; sourceTree = "<group>"; };
 		05A087BB1CED8B39005EFAE1 /* CustomAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotationView.h; sourceTree = "<group>"; };
@@ -1517,6 +1519,7 @@
 				2D65CCC71D07C6190035F8C4 /* 西湖.png */,
 				2D65CCC81D07C6190035F8C4 /* 西溪湿地.png */,
 				2D65CCC91D07C6190035F8C4 /* 颐和园.png */,
+				057B08931D07F92F00C71C64 /* 雷锋塔.png */,
 				2D65CCCA1D07C6190035F8C4 /* 圆明园.png */,
 				2D65CCCB1D07C6190035F8C4 /* 长城.png */,
 				2D65CCCC1D07C61A0035F8C4 /* 中华艺术宫.png */,
@@ -1769,6 +1772,7 @@
 				2D65CCCF1D07C61A0035F8C4 /* 城隍庙旅游区.png in Resources */,
 				2D4B83481CD99EA2002FE13F /* WBHelpGroupMenu.xib in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
+				057B08941D07F92F00C71C64 /* 雷锋塔.png in Resources */,
 				05D6EB8B1C7D414F002D48FF /* LaunchScreen.storyboard in Resources */,
 				2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */,
 				2DFECB241CC623DE008BE938 /* BigAreas.plist in Resources */,

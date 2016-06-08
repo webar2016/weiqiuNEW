@@ -14,7 +14,7 @@
 
 typedef void(^DoSomething)(void);
 
-@interface WBMapIntroduceViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface WBMapIntroduceViewController ()<UITextViewDelegate,UITextInputTraits,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     //时间选择器
     UIView *_datePickerView;
@@ -58,10 +58,20 @@ typedef void(^DoSomething)(void);
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(PickDate)];
     [self.datePick addGestureRecognizer:tap];
     _textView.delegate = self;
+    
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(self.imagePickerLabel.frame) + 8, SCREENWIDTH - 30, 100)];
     _imageView.userInteractionEnabled = YES;
+    _imageView.layer.masksToBounds = YES;
+    _imageView.layer.cornerRadius = 5;
+    _imageView.backgroundColor = [UIColor whiteColor];
     UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headImagePick)];
     [_imageView addGestureRecognizer:imageTap];
+    [_scrollView addSubview: _imageView];
+    
     _sceneryNameLabel.text = _sceneryName;
+    
+//    _scrollView.frame = CGRectMake(0, 64, SCREENWIDTH, SCREENHEIGHT);
+//    _scrollView.contentSize = CGSizeMake(SCREENWIDTH, CGRectGetMaxY(_imageView.frame) + 64 + 28);
 }
 
 -(void)setSceneryName:(NSString *)sceneryName{
@@ -176,10 +186,27 @@ typedef void(^DoSomething)(void);
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     [_textView becomeFirstResponder];
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.2f];
+    self.view.frame = CGRectMake(0.0f, - 120.0,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
 }
 
--(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [_textView resignFirstResponder];
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    [UIView beginAnimations:@"ResizeForKeyBoard" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:0.2f];
+    self.view.frame = CGRectMake(0.0f, 64,SCREENWIDTH,self.view.frame.size.height);
+    [UIView commitAnimations];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    return YES;
 }
 
 
@@ -232,17 +259,16 @@ typedef void(^DoSomething)(void);
     NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
     //判断资源类型
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]){
+        UIImage *image = info[UIImagePickerControllerEditedImage];
+        CGFloat scale = image.size.height / image.size.width;
+        CGRect frame = _imageView.frame;
+        CGFloat height = frame.size.width * scale;
+        _imageView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, height);
+        _scrollView.contentSize = CGSizeMake(SCREENWIDTH, CGRectGetMaxY(_imageView.frame) + 28);
         [_imageView setImage:info[UIImagePickerControllerEditedImage]];
-    }else{
-        
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -71,14 +71,22 @@
     self.userInfosView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.size.width, 110)];
     self.userInfosView.backgroundColor = [UIColor initWithDarkGray];
     
-    _userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30, 30, 50, 50)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(26, 26, 54, 54)];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 27;
+    view.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.16];
+    
+    _userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(2, 2, 50, 50)];
     _userIcon.layer.masksToBounds = YES;
     _userIcon.layer.cornerRadius = 25.0;
     _userIcon.contentMode = UIViewContentModeScaleAspectFill;
     _userIcon.userInteractionEnabled = YES;
     UITapGestureRecognizer *tapIcon = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(enterHomepage)];
     [_userIcon addGestureRecognizer:tapIcon];
-    [self.userInfosView addSubview:_userIcon];
+    [view addSubview:_userIcon];
+    
+    
+    [self.userInfosView addSubview:view];
     
     _nickName = [[UILabel alloc] initWithFrame:CGRectMake(95, 30, (self.size.width*0.7-100), 15)];
     _nickName.textColor = [UIColor whiteColor];
