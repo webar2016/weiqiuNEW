@@ -88,7 +88,6 @@
 - (void)initBaseNavigationBar
 {
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnAction)];
-    self.navigationItem.title = @"南京市";
 }
 
 - (void)initTitle:(NSString *)title

@@ -182,11 +182,13 @@
 }
 
 -(void)addQuestionAnnotation{
-    MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
-    a1.coordinate = _location;
-    a1.title      = @"问题";
-    a1.subtitle   = @"问题：南京有什么好吃的？";
-    [self.annotations addObject:a1];
+    if (self.hasLocation) {
+        MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+        a1.coordinate = self.location;
+        a1.title      = @"问题";
+        a1.subtitle   = self.question;
+        [self.annotations addObject:a1];
+    }
 }
 
 
