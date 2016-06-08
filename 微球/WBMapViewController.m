@@ -32,6 +32,32 @@
 {
     if ([annotation isKindOfClass:[MAPointAnnotation class]])
     {
+        
+        if ([annotation.title isEqualToString:@"问题"]) {
+            
+            static NSString *reuseIndetifier = @"questionReuseIndetifier";
+            CustomAnnotationView *annotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+            if (annotationView == nil){
+                annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation
+                                                                  reuseIdentifier:reuseIndetifier];
+            }
+
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
+            imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",annotation.title]];
+            annotationView.isUnlock = YES;
+            imageView.layer.masksToBounds = YES;
+            imageView.layer.cornerRadius = 10;
+            annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
+            annotationView.canShowCallout= NO;
+            annotationView.draggable = YES;
+            annotationView.bubbleImage = imageView.image;
+            annotationView.name = annotation.title;
+            annotationView.introduction = annotation.subtitle;
+            [annotationView addSubview:imageView];
+            return annotationView;
+            
+        }else{
+
         static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         CustomAnnotationView *annotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
         if (annotationView == nil){
@@ -71,24 +97,8 @@
                 }];
             }
         }
-        
-        if ([annotation.title isEqualToString:@"问题"]) {
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
-            imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",annotation.title]];
-            annotationView.isUnlock = YES;
-            imageView.layer.masksToBounds = YES;
-            imageView.layer.cornerRadius = 10;
-            annotationView.image = [UIImage imageNamed:@"mapPointerBg"];
-            annotationView.canShowCallout= NO;
-            annotationView.draggable = YES;
-            annotationView.bubbleImage = imageView.image;
-            annotationView.name = annotation.title;
-            annotationView.introduction = annotation.subtitle;
-            [annotationView addSubview:imageView];
-            
-        }
-        
         return annotationView;
+        }
     }
     return nil;
 }
