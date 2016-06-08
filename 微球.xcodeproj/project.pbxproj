@@ -182,6 +182,30 @@
 		2D62D67C1C89357D00E4D05E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D62D67B1C89357D00E4D05E /* MessageUI.framework */; };
 		2D62D67F1C89632700E4D05E /* WBtopicCommentDetilListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D62D67E1C89632700E4D05E /* WBtopicCommentDetilListModel.m */; };
 		2D62D6821C8967ED00E4D05E /* WBTopicCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D62D6811C8967ED00E4D05E /* WBTopicCommentTableViewCell.m */; };
+		2D65CCCF1D07C61A0035F8C4 /* 城隍庙旅游区.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCB81D07C6190035F8C4 /* 城隍庙旅游区.png */; };
+		2D65CCD01D07C61A0035F8C4 /* 东方明珠.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCB91D07C6190035F8C4 /* 东方明珠.png */; };
+		2D65CCD11D07C61A0035F8C4 /* 夫子庙.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCBA1D07C6190035F8C4 /* 夫子庙.png */; };
+		2D65CCD21D07C61A0035F8C4 /* 故宫.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCBB1D07C6190035F8C4 /* 故宫.png */; };
+		2D65CCD31D07C61A0035F8C4 /* 雷峰塔.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCBC1D07C6190035F8C4 /* 雷峰塔.png */; };
+		2D65CCD41D07C61A0035F8C4 /* 灵隐寺.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCBD1D07C6190035F8C4 /* 灵隐寺.png */; };
+		2D65CCD51D07C61A0035F8C4 /* 明孝陵.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCBE1D07C6190035F8C4 /* 明孝陵.png */; };
+		2D65CCD61D07C61A0035F8C4 /* 南京大屠杀遇难同胞纪念馆.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCBF1D07C6190035F8C4 /* 南京大屠杀遇难同胞纪念馆.png */; };
+		2D65CCD71D07C61A0035F8C4 /* 南京路步行街.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC01D07C6190035F8C4 /* 南京路步行街.png */; };
+		2D65CCD81D07C61A0035F8C4 /* 鸟巢.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC11D07C6190035F8C4 /* 鸟巢.png */; };
+		2D65CCD91D07C61A0035F8C4 /* 上海迪士尼度假区.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC21D07C6190035F8C4 /* 上海迪士尼度假区.png */; };
+		2D65CCDA1D07C61A0035F8C4 /* 上海杜莎夫人蜡像馆.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC31D07C6190035F8C4 /* 上海杜莎夫人蜡像馆.png */; };
+		2D65CCDB1D07C61A0035F8C4 /* 宋城.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC41D07C6190035F8C4 /* 宋城.png */; };
+		2D65CCDC1D07C61A0035F8C4 /* 田子坊.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC51D07C6190035F8C4 /* 田子坊.png */; };
+		2D65CCDD1D07C61A0035F8C4 /* 外滩.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC61D07C6190035F8C4 /* 外滩.png */; };
+		2D65CCDE1D07C61A0035F8C4 /* 西湖.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC71D07C6190035F8C4 /* 西湖.png */; };
+		2D65CCDF1D07C61A0035F8C4 /* 西溪湿地.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC81D07C6190035F8C4 /* 西溪湿地.png */; };
+		2D65CCE01D07C61A0035F8C4 /* 颐和园.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCC91D07C6190035F8C4 /* 颐和园.png */; };
+		2D65CCE11D07C61A0035F8C4 /* 圆明园.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCCA1D07C6190035F8C4 /* 圆明园.png */; };
+		2D65CCE21D07C61A0035F8C4 /* 长城.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCCB1D07C6190035F8C4 /* 长城.png */; };
+		2D65CCE31D07C61A0035F8C4 /* 中华艺术宫.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCCC1D07C61A0035F8C4 /* 中华艺术宫.png */; };
+		2D65CCE41D07C61A0035F8C4 /* 中山陵.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCCD1D07C61A0035F8C4 /* 中山陵.png */; };
+		2D65CCE51D07C61A0035F8C4 /* 总统府.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCCE1D07C61A0035F8C4 /* 总统府.png */; };
+		2D65CCE71D07C6BC0035F8C4 /* 问题.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D65CCE61D07C6BC0035F8C4 /* 问题.png */; };
 		2D6958641C98EB1F009DBAB3 /* WBDataModifiedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6958631C98EB1F009DBAB3 /* WBDataModifiedViewController.m */; };
 		2D69586B1C99389E009DBAB3 /* WBPlaceChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D69586A1C99389E009DBAB3 /* WBPlaceChooseViewController.m */; };
 		2D6B53D01C8E6D6300E3009C /* WBPostIamgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B53CF1C8E6D6300E3009C /* WBPostIamgeViewController.m */; };
@@ -542,6 +566,30 @@
 		2D62D67E1C89632700E4D05E /* WBtopicCommentDetilListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBtopicCommentDetilListModel.m; sourceTree = "<group>"; };
 		2D62D6801C8967ED00E4D05E /* WBTopicCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTopicCommentTableViewCell.h; sourceTree = "<group>"; };
 		2D62D6811C8967ED00E4D05E /* WBTopicCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTopicCommentTableViewCell.m; sourceTree = "<group>"; };
+		2D65CCB81D07C6190035F8C4 /* 城隍庙旅游区.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "城隍庙旅游区.png"; sourceTree = "<group>"; };
+		2D65CCB91D07C6190035F8C4 /* 东方明珠.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "东方明珠.png"; sourceTree = "<group>"; };
+		2D65CCBA1D07C6190035F8C4 /* 夫子庙.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "夫子庙.png"; sourceTree = "<group>"; };
+		2D65CCBB1D07C6190035F8C4 /* 故宫.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "故宫.png"; sourceTree = "<group>"; };
+		2D65CCBC1D07C6190035F8C4 /* 雷峰塔.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "雷峰塔.png"; sourceTree = "<group>"; };
+		2D65CCBD1D07C6190035F8C4 /* 灵隐寺.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "灵隐寺.png"; sourceTree = "<group>"; };
+		2D65CCBE1D07C6190035F8C4 /* 明孝陵.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "明孝陵.png"; sourceTree = "<group>"; };
+		2D65CCBF1D07C6190035F8C4 /* 南京大屠杀遇难同胞纪念馆.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "南京大屠杀遇难同胞纪念馆.png"; sourceTree = "<group>"; };
+		2D65CCC01D07C6190035F8C4 /* 南京路步行街.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "南京路步行街.png"; sourceTree = "<group>"; };
+		2D65CCC11D07C6190035F8C4 /* 鸟巢.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "鸟巢.png"; sourceTree = "<group>"; };
+		2D65CCC21D07C6190035F8C4 /* 上海迪士尼度假区.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "上海迪士尼度假区.png"; sourceTree = "<group>"; };
+		2D65CCC31D07C6190035F8C4 /* 上海杜莎夫人蜡像馆.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "上海杜莎夫人蜡像馆.png"; sourceTree = "<group>"; };
+		2D65CCC41D07C6190035F8C4 /* 宋城.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "宋城.png"; sourceTree = "<group>"; };
+		2D65CCC51D07C6190035F8C4 /* 田子坊.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "田子坊.png"; sourceTree = "<group>"; };
+		2D65CCC61D07C6190035F8C4 /* 外滩.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "外滩.png"; sourceTree = "<group>"; };
+		2D65CCC71D07C6190035F8C4 /* 西湖.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "西湖.png"; sourceTree = "<group>"; };
+		2D65CCC81D07C6190035F8C4 /* 西溪湿地.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "西溪湿地.png"; sourceTree = "<group>"; };
+		2D65CCC91D07C6190035F8C4 /* 颐和园.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "颐和园.png"; sourceTree = "<group>"; };
+		2D65CCCA1D07C6190035F8C4 /* 圆明园.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "圆明园.png"; sourceTree = "<group>"; };
+		2D65CCCB1D07C6190035F8C4 /* 长城.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "长城.png"; sourceTree = "<group>"; };
+		2D65CCCC1D07C61A0035F8C4 /* 中华艺术宫.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "中华艺术宫.png"; sourceTree = "<group>"; };
+		2D65CCCD1D07C61A0035F8C4 /* 中山陵.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "中山陵.png"; sourceTree = "<group>"; };
+		2D65CCCE1D07C61A0035F8C4 /* 总统府.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "总统府.png"; sourceTree = "<group>"; };
+		2D65CCE61D07C6BC0035F8C4 /* 问题.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "问题.png"; sourceTree = "<group>"; };
 		2D6958621C98EB1F009DBAB3 /* WBDataModifiedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDataModifiedViewController.h; sourceTree = "<group>"; };
 		2D6958631C98EB1F009DBAB3 /* WBDataModifiedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBDataModifiedViewController.m; sourceTree = "<group>"; };
 		2D6958691C99389E009DBAB3 /* WBPlaceChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPlaceChooseViewController.h; sourceTree = "<group>"; };
@@ -1025,6 +1073,7 @@
 		05D6EB7B1C7D414F002D48FF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2D65CCB71D07C6090035F8C4 /* images */,
 				05D6EB841C7D414F002D48FF /* Main.storyboard */,
 				05D6EB891C7D414F002D48FF /* LaunchScreen.storyboard */,
 				05CCAAE41CB791A20036A600 /* shareIcon.png */,
@@ -1447,6 +1496,37 @@
 			path = Required;
 			sourceTree = "<group>";
 		};
+		2D65CCB71D07C6090035F8C4 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				2D65CCB81D07C6190035F8C4 /* 城隍庙旅游区.png */,
+				2D65CCB91D07C6190035F8C4 /* 东方明珠.png */,
+				2D65CCBA1D07C6190035F8C4 /* 夫子庙.png */,
+				2D65CCBB1D07C6190035F8C4 /* 故宫.png */,
+				2D65CCBC1D07C6190035F8C4 /* 雷峰塔.png */,
+				2D65CCBD1D07C6190035F8C4 /* 灵隐寺.png */,
+				2D65CCBE1D07C6190035F8C4 /* 明孝陵.png */,
+				2D65CCBF1D07C6190035F8C4 /* 南京大屠杀遇难同胞纪念馆.png */,
+				2D65CCC01D07C6190035F8C4 /* 南京路步行街.png */,
+				2D65CCC11D07C6190035F8C4 /* 鸟巢.png */,
+				2D65CCC21D07C6190035F8C4 /* 上海迪士尼度假区.png */,
+				2D65CCC31D07C6190035F8C4 /* 上海杜莎夫人蜡像馆.png */,
+				2D65CCC41D07C6190035F8C4 /* 宋城.png */,
+				2D65CCC51D07C6190035F8C4 /* 田子坊.png */,
+				2D65CCC61D07C6190035F8C4 /* 外滩.png */,
+				2D65CCC71D07C6190035F8C4 /* 西湖.png */,
+				2D65CCC81D07C6190035F8C4 /* 西溪湿地.png */,
+				2D65CCC91D07C6190035F8C4 /* 颐和园.png */,
+				2D65CCCA1D07C6190035F8C4 /* 圆明园.png */,
+				2D65CCCB1D07C6190035F8C4 /* 长城.png */,
+				2D65CCCC1D07C61A0035F8C4 /* 中华艺术宫.png */,
+				2D65CCCD1D07C61A0035F8C4 /* 中山陵.png */,
+				2D65CCCE1D07C61A0035F8C4 /* 总统府.png */,
+				2D65CCE61D07C6BC0035F8C4 /* 问题.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		2D6958651C991ADE009DBAB3 /* 资料修改 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1668,31 +1748,55 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D65CCE51D07C61A0035F8C4 /* 总统府.png in Resources */,
+				2D65CCE01D07C61A0035F8C4 /* 颐和园.png in Resources */,
+				2D65CCDD1D07C61A0035F8C4 /* 外滩.png in Resources */,
+				2D65CCD21D07C61A0035F8C4 /* 故宫.png in Resources */,
+				2D65CCD71D07C61A0035F8C4 /* 南京路步行街.png in Resources */,
 				052F30D71C93F9FA00D15322 /* province.plist in Resources */,
 				2D62D6651C89346200E4D05E /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				2D65CCD41D07C61A0035F8C4 /* 灵隐寺.png in Resources */,
+				2D65CCD31D07C61A0035F8C4 /* 雷峰塔.png in Resources */,
+				2D65CCDC1D07C61A0035F8C4 /* 田子坊.png in Resources */,
+				2D65CCE31D07C61A0035F8C4 /* 中华艺术宫.png in Resources */,
+				2D65CCD01D07C61A0035F8C4 /* 东方明珠.png in Resources */,
 				2DFCB5571CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib in Resources */,
 				2D28CC941CCB1130006AB0C3 /* Localtion_select.plist in Resources */,
 				05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
 				2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */,
+				2D65CCCF1D07C61A0035F8C4 /* 城隍庙旅游区.png in Resources */,
 				2D4B83481CD99EA2002FE13F /* WBHelpGroupMenu.xib in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
 				05D6EB8B1C7D414F002D48FF /* LaunchScreen.storyboard in Resources */,
 				2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */,
 				2DFECB241CC623DE008BE938 /* BigAreas.plist in Resources */,
 				2D62D6691C89346200E4D05E /* read_me.txt in Resources */,
+				2D65CCD81D07C61A0035F8C4 /* 鸟巢.png in Resources */,
 				2D62D6671C89346200E4D05E /* WeiboSDK.bundle in Resources */,
 				2D62D6621C89346200E4D05E /* ShareSDKUI.bundle in Resources */,
 				2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */,
+				2D65CCDB1D07C61A0035F8C4 /* 宋城.png in Resources */,
 				2DF4C3281CEF13630060B676 /* WBMapIntroduceViewController.xib in Resources */,
 				2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */,
+				2D65CCE71D07C6BC0035F8C4 /* 问题.png in Resources */,
+				2D65CCE21D07C61A0035F8C4 /* 长城.png in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
+				2D65CCD61D07C61A0035F8C4 /* 南京大屠杀遇难同胞纪念馆.png in Resources */,
+				2D65CCD91D07C61A0035F8C4 /* 上海迪士尼度假区.png in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
+				2D65CCDE1D07C61A0035F8C4 /* 西湖.png in Resources */,
+				2D65CCE41D07C61A0035F8C4 /* 中山陵.png in Resources */,
+				2D65CCD51D07C61A0035F8C4 /* 明孝陵.png in Resources */,
+				2D65CCDF1D07C61A0035F8C4 /* 西溪湿地.png in Resources */,
+				2D65CCDA1D07C61A0035F8C4 /* 上海杜莎夫人蜡像馆.png in Resources */,
 				05D6EB881C7D414F002D48FF /* Assets.xcassets in Resources */,
 				05D6EB861C7D414F002D48FF /* Main.storyboard in Resources */,
 				2D3ADCBA1CC47A9F0075E6A0 /* Localtion.plist in Resources */,
+				2D65CCD11D07C61A0035F8C4 /* 夫子庙.png in Resources */,
 				05665F261CB4D94600FFAA21 /* ALBBQuPaiPlugin.bundle in Resources */,
+				2D65CCE11D07C61A0035F8C4 /* 圆明园.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

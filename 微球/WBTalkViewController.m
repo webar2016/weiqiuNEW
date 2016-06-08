@@ -330,9 +330,11 @@
 
 -(void)groupSetting{
     WBGroupSettingViewController *groupSettingVC = [[WBGroupSettingViewController alloc] init];
+    
     groupSettingVC.isMaster = self.isMaster;
     groupSettingVC.groupId = self.groupId;
     groupSettingVC.groupDetail = self.groupDetail;
+    
     [self.navigationController pushViewController:groupSettingVC animated:YES];
     
 }

@@ -43,10 +43,10 @@
                 
                 UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
                 if (model.unlock) {
-                    imageView.image = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:0];
+                    imageView.image = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.png",annotation.title]] type:0];
                     annotationView.isUnlock = YES;
                 }else{
-                    imageView.image = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]] type:1];
+                    imageView.image = [self grayscale:[UIImage imageNamed:[NSString stringWithFormat:@"%@.png",annotation.title]] type:1];
                     annotationView.isUnlock = NO;
                 }
                 imageView.layer.masksToBounds = YES;
@@ -74,7 +74,7 @@
         
         if ([annotation.title isEqualToString:@"问题"]) {
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
-            imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.jpg",annotation.title]];
+            imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",annotation.title]];
             annotationView.isUnlock = YES;
             imageView.layer.masksToBounds = YES;
             imageView.layer.cornerRadius = 10;
@@ -133,8 +133,7 @@
 #pragma mark  --download-
 
 -(void)loadData{
-    NSString *url =[NSString stringWithFormat:@"%@/scenery/city?cityId=320100&userId=%@",WEBAR_IP,[WBUserDefaults userId]];
-    
+    NSString *url =[NSString stringWithFormat:@"%@/scenery/city?cityId=%@&userId=%@", WEBAR_IP, self.cityId, [WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _dataList = [WBMapModel mj_objectArrayWithKeyValuesArray:result[@"sceneryList"]];
@@ -183,10 +182,13 @@
 
 -(void)addQuestionAnnotation{
     if (self.hasLocation) {
+        
         MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+        
         a1.coordinate = self.location;
         a1.title      = @"问题";
         a1.subtitle   = self.question;
+        
         [self.annotations addObject:a1];
     }
 }
