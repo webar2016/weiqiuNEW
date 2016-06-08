@@ -133,7 +133,7 @@
 #pragma mark  --download-
 
 -(void)loadData{
-    NSString *url =[NSString stringWithFormat:@"%@/scenery/city?cityId=320100&userId=%@",WEBAR_IP,[WBUserDefaults userId]];
+    NSString *url =[NSString stringWithFormat:@"%@/scenery/city?cityId=%@&userId=%@", WEBAR_IP, self.cityId, [WBUserDefaults userId]];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _dataList = [WBMapModel mj_objectArrayWithKeyValuesArray:result[@"sceneryList"]];
@@ -181,11 +181,13 @@
 }
 
 -(void)addQuestionAnnotation{
-    MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
-    a1.coordinate = _location;
-    a1.title      = @"问题";
-    a1.subtitle   = @"问题：南京有什么好吃的？";
-    [self.annotations addObject:a1];
+    if (self.hasLocation) {
+        MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+        a1.coordinate = self.location;
+        a1.title      = @"问题";
+        a1.subtitle   = self.question;
+        [self.annotations addObject:a1];
+    }
 }
 
 

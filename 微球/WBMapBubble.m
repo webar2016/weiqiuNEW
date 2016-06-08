@@ -83,7 +83,7 @@
 {
     self.portraitView = [[UIImageView alloc] initWithFrame:CGRectMake(kPortraitMargin * 2, kPortraitMargin * 2, kPortraitHeight, kPortraitHeight)];
     
-    self.portraitView.backgroundColor = [UIColor grayColor];
+    self.portraitView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.portraitView];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin * 4 + kPortraitHeight, kPortraitMargin * 4, kTitleWidth, kTitleHeight)];

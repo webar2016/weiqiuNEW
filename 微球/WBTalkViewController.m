@@ -22,6 +22,7 @@
 #import "WBCollectionViewModel.h"
 #import "WBMyGroupModel.h"
 #import "AFHTTPSessionManager.h"
+#import "WBPositionList.h"
 #import <CoreLocation/CoreLocation.h>
 
 #import "UILabel+label.h"
@@ -41,6 +42,10 @@
     NSString    *_questionBody;
     CLLocationManager *_locationManager;
     CLLocation *_location;
+    BOOL _hasLocation;
+    CLLocationCoordinate2D _lastLocation;
+    WBPositionList *_positionList;
+    NSNumber *_cityId;
 }
 
 @property (nonatomic, assign) NSString *groupId;
@@ -70,6 +75,8 @@
     
     NSNumber *unReadGroup = [NSNumber numberWithInt: [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_GROUP)]]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTipGroup" object:self userInfo:@{@"unReadGroup":[NSString stringWithFormat:@"%@",unReadGroup]}];
+    
+    _positionList = [[WBPositionList alloc] init];
     
     self.displayUserNameInCell = YES;
     self.enableContinuousReadUnreadVoice = YES;
@@ -109,7 +116,7 @@
         if ([questionSign isEqualToString:@"?:"] || [questionSign isEqualToString:@"？："] || [questionSign isEqualToString:@"?："] || [questionSign isEqualToString:@"？:"]) {
             _questionBody = [textMsg substringFromIndex:2];
             RCTextMessage *content  = [RCTextMessage messageWithContent:[NSString stringWithFormat:@"我提了一个问题，快来帮我吧！"]];
-            [self createWithQuestion:_questionBody];
+            
             //开始定位
             [self startLocation];
             
@@ -131,7 +138,7 @@
 -(void)createWithQuestion:(NSString *)question{
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     data[@"userId"] = [WBUserDefaults userId];
-    data[@"locat"] = _location;
+    data[@"locat"] = [NSString stringWithFormat:@"%f,%f", _location.coordinate.latitude, _location.coordinate.longitude];
     data[@"groupId"] = self.targetId;
     data[@"questionText"] = question;
     NSLog(@"%@", data);
@@ -171,7 +178,7 @@
     
     UIBarButtonItem *setting = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_groupsetting"] style:UIBarButtonItemStylePlain target:self action:@selector(groupSetting)];
     
-    UIBarButtonItem *groupMap = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(enterGroupMap)];
+    UIBarButtonItem *groupMap = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_ditu"] style:UIBarButtonItemStylePlain target:self action:@selector(enterGroupMap)];
     
     NSString *url = [NSString stringWithFormat:GROUP_DETAIL,WEBAR_IP,self.groupId];
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
@@ -180,15 +187,17 @@
         
         if ([result isKindOfClass:[NSDictionary class]]){
             self.groupDetail = [WBCollectionViewModel mj_objectWithKeyValues:result[@"helpGroup"]];
-            if ([self.groupDetail.destination isEqualToString:@"南京市"]) {
+            NSString *city = self.groupDetail.destination;
+            _cityId = [_positionList searchCityWithCithName:city][0][1];
+            if ([city isEqualToString:@"南京市"] || [city isEqualToString:@"上海市"] || [city isEqualToString:@"北京市"] || [city isEqualToString:@"杭州市"]) {
                 self.navigationItem.rightBarButtonItems = @[setting,groupMap];
             } else {
-                self.navigationItem.rightBarButtonItems = @[setting,groupMap];
+                self.navigationItem.rightBarButtonItems = @[setting];
             }
         }
         
     } andFailure:^(NSString *error) {
-        self.navigationItem.rightBarButtonItems = @[setting,groupMap];
+        self.navigationItem.rightBarButtonItems = @[setting];
         NSLog(@"%@------",error);
     }];
 }
@@ -208,8 +217,6 @@
         if (self.questionNumber > 0) {
             self.firstLoadQuestion += 1;
             [self loadData];
-        }else{
-//            [self hideHUD];
         }
         _isGettingQues = NO;
         
@@ -280,6 +287,14 @@
         _question.text = string;
     }
     
+    if (question.locat) {
+        _hasLocation = YES;
+        NSArray *temp = [question.locat componentsSeparatedByString:@","];
+        _lastLocation = CLLocationCoordinate2DMake([temp[0] floatValue], [temp[1] floatValue]);
+    } else {
+        _hasLocation = NO;
+    }
+    
     if ([((WBQuestionsListModel *)self.model[0]).isSolve isEqualToString:@"Y"]) {
         _questionButton.hidden = YES;
     }else if (self.isMaster) {
@@ -299,12 +314,16 @@
 //进入地图页面
 -(void)enterGroupMap{
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
-    //MVC.userNameTitle = [WBUserDefaults nickname];
-    //MVC.titleImage = [WBUserDefaults headIcon];
-    //MVC.question = _question.text;
-    //MVC.location = _location;
-    MVC.question = @"wo shi yi zhi tian cai aa hh  ddddd  ";
-    MVC.location = CLLocationCoordinate2DMake(32.07351, 118.94819);
+    MVC.title = self.groupDetail.destination;
+    MVC.cityId = _cityId;
+    
+    if (_question) {
+        MVC.question = _question.text;
+    }
+    if (_hasLocation) {
+        MVC.hasLocation = YES;
+        MVC.location = _lastLocation;
+    }
     
     [self.navigationController pushViewController:MVC animated:YES];
 }
@@ -398,6 +417,9 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     [_locationManager stopUpdatingLocation];
     _location = newLocation;
+    _hasLocation = YES;
+    _lastLocation = newLocation.coordinate;
+    [self createWithQuestion:_questionBody];
 }
 
 

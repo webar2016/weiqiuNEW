@@ -15,6 +15,8 @@
 @property (nonatomic, copy) NSString *userNameTitle;
 @property (nonatomic, strong) UIImage *titleImage;
 @property (nonatomic, copy) NSString *question;
+@property (nonatomic, assign) BOOL hasLocation;
 @property (nonatomic, assign) CLLocationCoordinate2D location;
+@property (nonatomic, strong) NSNumber *cityId;
 
 @end
