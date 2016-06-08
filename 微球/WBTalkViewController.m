@@ -299,8 +299,8 @@
 //进入地图页面
 -(void)enterGroupMap{
     WBMapViewController *MVC = [[WBMapViewController alloc]init];
-    MVC.userNameTitle = [WBUserDefaults nickname];
-    MVC.titleImage = [WBUserDefaults headIcon];
+    //MVC.userNameTitle = [WBUserDefaults nickname];
+    //MVC.titleImage = [WBUserDefaults headIcon];
     //MVC.question = _question.text;
     //MVC.location = _location;
     MVC.question = @"wo shi yi zhi tian cai aa hh  ddddd  ";

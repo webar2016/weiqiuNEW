@@ -69,14 +69,10 @@ typedef void(^DoSomething)(void);
 }
 
 
-
-
-
-
-
-
 //解锁
 -(void)unlock{
+    
+    
     if ([_datePick.text isEqualToString:@"请选择"]) {
         [self showHUDText:@"请选择拍摄时间"];
     }else{
@@ -99,13 +95,20 @@ typedef void(^DoSomething)(void);
     [dic setObject:_textView.text forKey:@"content"];
     [dic setObject:_sceneryId forKey:@"sceneryId"];
     NSData *imageDate =UIImageJPEGRepresentation(_imageView.image, 1);
-    [self showHUD:@"uploading" isDim:YES];
+    [self showHUD:@"正在火速上传" isDim:YES];
+    
+    
+    NSDate *  senddate=[NSDate date];
+    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+    [dateformatter setDateFormat:@"YYYYMMddHHmmss"];
+    NSString *  timeString=[dateformatter stringFromDate:senddate];
+    
     
     [MyDownLoadManager postUserInfoUrl:[NSString stringWithFormat:@"%@/scenery/setUnlock",WEBAR_IP] withParameters:dic fieldData:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:imageDate name:@"dddddddd" fileName:@"dsadad.jpg" mimeType:@"image/jpeg"];
-        
+        [formData appendPartWithFileData:imageDate name:timeString fileName:[NSString stringWithFormat:@"%@.jpg",timeString] mimeType:@"image/jpeg"];
     } whenProgress:^(NSProgress *FieldDataBlock) {
         
+        //[self showHUD:[NSString stringWithFormat:@"%.2f%%",100*(float)FieldDataBlock.completedUnitCount/(float)FieldDataBlock.totalUnitCount] isDim:YES];
     } andSuccess:^(id representData) {
         NSLog(@"success");
         [self showHUDComplete:@"正在火速审核中"];
@@ -115,18 +118,11 @@ typedef void(^DoSomething)(void);
         NSLog(@"failure");
         [self showHUDComplete:@"上传失败"];
     }];
-
-
-
-
 }
 
 //选择时间
 -(void)PickDate{
-
     [self showDatePicker];
-
-
 }
 
 -(void)setUpDatePicker{
@@ -167,13 +163,9 @@ typedef void(^DoSomething)(void);
 }
 
 -(void)showDatePicker{
-    NSDateFormatter*df = [[NSDateFormatter alloc]init];//格式化
-    [df setDateFormat:@"yyyy-MM-dd"];
-    //   [df setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"]];
-    //  NSLog(@"%@",[df dateFromString:((UILabel *)[self.view viewWithTag:202]).text]);
-    if ([WBUserDefaults birthday]) {
-        _datePicker.date =[df dateFromString:[WBUserDefaults birthday]];
-    }
+    NSDate *  senddate=[NSDate date];
+   
+    _datePicker.date =senddate;
     
     [UIView animateWithDuration:0.3 animations:^{
         _datePickerView.center = CGPointMake(SCREENWIDTH / 2, SCREENHEIGHT / 6 * 4 + 60);
@@ -221,7 +213,6 @@ typedef void(^DoSomething)(void);
             
         }];
     }];
-    
     UIAlertController * aleVC = [UIAlertController alertControllerWithTitle:@"提示" message:@"选择图片" preferredStyle:UIAlertControllerStyleActionSheet];
     [aleVC addAction:act1];
     [aleVC addAction:act2];
@@ -258,19 +249,6 @@ typedef void(^DoSomething)(void);
     // Dispose of any resources that can be recreated.
 }
 
--(void)showHUDComplete:(NSString *)title withComplite:(DoSomething)doSomething
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-        self.hud.mode = MBProgressHUDModeCustomView;
-        self.hud.labelText = title;
-        self.hud.opacity = 0.7;
-        [self hideHUDDelay:1.0];
-        doSomething();
-        
-    });
-    
-    
-}
+
 
 @end
