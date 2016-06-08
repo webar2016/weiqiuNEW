@@ -134,6 +134,7 @@
 
 -(void)loadData{
     NSString *url =[NSString stringWithFormat:@"%@/scenery/city?cityId=320100&userId=%@",WEBAR_IP,[WBUserDefaults userId]];
+    
     [MyDownLoadManager getNsurl:url whenSuccess:^(id representData) {
         id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
         _dataList = [WBMapModel mj_objectArrayWithKeyValuesArray:result[@"sceneryList"]];
