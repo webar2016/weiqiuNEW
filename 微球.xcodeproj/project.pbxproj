@@ -57,7 +57,6 @@
 		054550501C8FEF6F00A6F0E8 /* WBTalkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0545504F1C8FEF6F00A6F0E8 /* WBTalkViewController.m */; };
 		054550531C90165100A6F0E8 /* WBGroupSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 054550521C90165100A6F0E8 /* WBGroupSettingViewController.m */; };
 		0545505D1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0545505C1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m */; };
-		054749BF1CF0410200E6DCA9 /* 问题.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 054749BE1CF0410200E6DCA9 /* 问题.jpg */; };
 		0559DD0A1C9287D00062D1BE /* WBMyGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD091C9287D00062D1BE /* WBMyGroupModel.m */; };
 		0559DD0D1C92BFD80062D1BE /* NSAttributedString + attributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559DD0C1C92BFD80062D1BE /* NSAttributedString + attributedString.m */; };
 		0559F95A1CC1F631001CF2A8 /* WBArticalBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0559F9591CC1F631001CF2A8 /* WBArticalBaseViewController.m */; };
@@ -205,11 +204,8 @@
 		2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B41CAFCE660000E8CB /* EffectImage.png */; };
 		2DF532B91CAFCE660000E8CB /* UnZan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B51CAFCE660000E8CB /* UnZan.png */; };
 		2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DF532B61CAFCE660000E8CB /* Zan.png */; };
-		2DF58F6B1D002CEE00A9216D /* 中山陵.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DF58F6A1D002CEE00A9216D /* 中山陵.jpg */; };
 		2DF58F701D0034A100A9216D /* WBLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF58F6F1D0034A100A9216D /* WBLocationManager.m */; };
 		2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */; };
-		2DFCB0EA1CF2DB9000200A50 /* 总统府.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB0E71CF2DB9000200A50 /* 总统府.jpg */; };
-		2DFCB0EC1CF2DB9000200A50 /* 夫子庙.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB0E91CF2DB9000200A50 /* 夫子庙.jpg */; };
 		2DFCB5561CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFCB5541CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m */; };
 		2DFCB5571CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DFCB5551CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib */; };
 		2DFECB241CC623DE008BE938 /* BigAreas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DFECB231CC623DE008BE938 /* BigAreas.plist */; };
@@ -310,7 +306,6 @@
 		054550521C90165100A6F0E8 /* WBGroupSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGroupSettingViewController.m; sourceTree = "<group>"; };
 		0545505B1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGroupSettingTableViewCell.h; sourceTree = "<group>"; };
 		0545505C1C9109FB00A6F0E8 /* WBGroupSettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGroupSettingTableViewCell.m; sourceTree = "<group>"; };
-		054749BE1CF0410200E6DCA9 /* 问题.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "问题.jpg"; sourceTree = "<group>"; };
 		0559DD081C9287D00062D1BE /* WBMyGroupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyGroupModel.h; sourceTree = "<group>"; };
 		0559DD091C9287D00062D1BE /* WBMyGroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyGroupModel.m; sourceTree = "<group>"; };
 		0559DD0B1C92BFD80062D1BE /* NSAttributedString + attributedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString + attributedString.h"; sourceTree = "<group>"; };
@@ -587,12 +582,9 @@
 		2DF532B41CAFCE660000E8CB /* EffectImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EffectImage.png; sourceTree = "<group>"; };
 		2DF532B51CAFCE660000E8CB /* UnZan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnZan.png; sourceTree = "<group>"; };
 		2DF532B61CAFCE660000E8CB /* Zan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Zan.png; sourceTree = "<group>"; };
-		2DF58F6A1D002CEE00A9216D /* 中山陵.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "中山陵.jpg"; sourceTree = "<group>"; };
 		2DF58F6E1D0034A100A9216D /* WBLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLocationManager.h; sourceTree = "<group>"; };
 		2DF58F6F1D0034A100A9216D /* WBLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBLocationManager.m; sourceTree = "<group>"; };
 		2DF791AE1CAD1A3A00C14E79 /* MyDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDownLoadManager.m; sourceTree = "<group>"; };
-		2DFCB0E71CF2DB9000200A50 /* 总统府.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "总统府.jpg"; sourceTree = "<group>"; };
-		2DFCB0E91CF2DB9000200A50 /* 夫子庙.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "夫子庙.jpg"; sourceTree = "<group>"; };
 		2DFCB5531CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyUnlockTableViewCell.h; sourceTree = "<group>"; };
 		2DFCB5541CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMyUnlockTableViewCell.m; sourceTree = "<group>"; };
 		2DFCB5551CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBMyUnlockTableViewCell.xib; sourceTree = "<group>"; };
@@ -860,10 +852,6 @@
 		0581F1F21CE563FD00D5812E /* groupMap */ = {
 			isa = PBXGroup;
 			children = (
-				054749BE1CF0410200E6DCA9 /* 问题.jpg */,
-				2DFCB0E71CF2DB9000200A50 /* 总统府.jpg */,
-				2DF58F6A1D002CEE00A9216D /* 中山陵.jpg */,
-				2DFCB0E91CF2DB9000200A50 /* 夫子庙.jpg */,
 				2D1865C71D05549500159CC1 /* 南京大屠杀遇难同胞纪念馆.jpg */,
 				2D1865C91D05551400159CC1 /* 明孝陵.jpg */,
 				2D299CC01CE1D36B00DC8028 /* BaseMapViewController.h */,
@@ -1691,12 +1679,9 @@
 				2DFCB5571CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib in Resources */,
 				2D28CC941CCB1130006AB0C3 /* Localtion_select.plist in Resources */,
 				05CCAAE51CB791A20036A600 /* shareIcon.png in Resources */,
-				2DF58F6B1D002CEE00A9216D /* 中山陵.jpg in Resources */,
-				054749BF1CF0410200E6DCA9 /* 问题.jpg in Resources */,
 				2DF532B81CAFCE660000E8CB /* EffectImage.png in Resources */,
 				2DF532BA1CAFCE660000E8CB /* Zan.png in Resources */,
 				2DFECB261CC623EF008BE938 /* Countrys.plist in Resources */,
-				2DFCB0EC1CF2DB9000200A50 /* 夫子庙.jpg in Resources */,
 				2D4B83481CD99EA2002FE13F /* WBHelpGroupMenu.xib in Resources */,
 				2D1865CA1D05551400159CC1 /* 明孝陵.jpg in Resources */,
 				2D62D66B1C89346200E4D05E /* ShareSDK.bundle in Resources */,
@@ -1712,7 +1697,6 @@
 				2D3ADCB61CC47A970075E6A0 /* AddressChoicePickerView.xib in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
-				2DFCB0EA1CF2DB9000200A50 /* 总统府.jpg in Resources */,
 				05D6EB881C7D414F002D48FF /* Assets.xcassets in Resources */,
 				05D6EB861C7D414F002D48FF /* Main.storyboard in Resources */,
 				2D3ADCBA1CC47A9F0075E6A0 /* Localtion.plist in Resources */,
