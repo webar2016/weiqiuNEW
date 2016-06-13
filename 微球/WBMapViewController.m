@@ -35,11 +35,11 @@
         
         if ([annotation.title isEqualToString:@"问题"]) {
             
-            static NSString *reuseIndetifier = @"questionReuseIndetifier";
-            CustomAnnotationView *annotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+            static NSString *RIndetifier = @"questionReuseIndetifier";
+            CustomAnnotationView *annotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:RIndetifier];
             if (annotationView == nil){
                 annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation
-                                                                  reuseIdentifier:reuseIndetifier];
+                                                                  reuseIdentifier:RIndetifier];
             }
 
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,60,60)];
