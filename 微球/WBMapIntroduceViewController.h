@@ -10,6 +10,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 #import "WBRefreshViewController.h"
+#import "MyDBmanager.h"
 
 @interface WBMapIntroduceViewController : WBRefreshViewController
 
