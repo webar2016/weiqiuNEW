@@ -18,21 +18,21 @@
 /*!
  活动标题
  */
-@property(nonatomic, strong) NSString *title;
+@property(nonatomic, copy) NSString *title;
 
 /*!
  活动封面图片
  */
-@property(nonatomic, strong) NSString *imageURL;
+@property(nonatomic, copy) NSString *imageURL;
 
 /*!
  活动内容
  */
-@property(nonatomic, strong) NSString *content;
+@property(nonatomic, copy) NSString *content;
 
 /*!
  活动页面的url
  */
-@property(nonatomic, strong) NSString *extra;
+@property(nonatomic, copy) NSString *extra;
 
 @end

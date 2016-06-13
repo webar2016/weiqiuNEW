@@ -18,28 +18,40 @@
 /*!
  解锁通知内容
  成功为 “您成功解锁了XX省XX市，占领全国XX%的土地，世界排名XXX名”
+       “您成功解锁了XX市XX景点”
  失败为 “很遗憾，您未能解锁XX省XX市，点击即刻重新解锁！”
+       “很遗憾，您未能解锁XX市XX景点，点击即刻重新解锁！”
  */
-@property(nonatomic, strong) NSString *content;
+@property(nonatomic, copy) NSString *content;
 
 /*!
  解锁使用的图片
  */
-@property(nonatomic, strong) NSString *imageURL;
+@property(nonatomic, copy) NSString *imageURL;
 
 /*!
  解锁是否通过，返回YES/NO
  */
-@property(nonatomic, strong) NSString *isUnlock;
+@property(nonatomic, copy) NSString *isUnlock;
 
 /*!
  解锁城市cityId
  */
-@property(nonatomic, strong) NSString *cityId;
+@property(nonatomic, copy) NSString *cityId;
 
 /*!
-图片比例
+ 解锁景点sceneryId，没有则不传
  */
-@property(nonatomic, strong) NSString *extra;
+@property (nonatomic, copy) NSString *sceneryId;
+
+/*!
+ 解锁景点名称sceneryName，没有则不传
+ */
+@property (nonatomic, copy) NSString *sceneryName;
+
+/*!
+ 图片比例
+ */
+@property(nonatomic, copy) NSString *extra;
 
 @end
