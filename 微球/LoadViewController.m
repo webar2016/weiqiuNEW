@@ -29,6 +29,8 @@
 #import "WBHelp_Group_Sign.h"
 #import "WBTbl_Unlock_City.h"
 #import "WBTbl_Unlocking_City.h"
+#import "WB_Unlock_Scenery.h"
+#import "WB_Unlocking_Scenery.h"
 #import "MyDBmanager.h"
 
 
@@ -62,9 +64,8 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if ([WBUserDefaults userId]) {
-        NSLog(@"-----12345----");
-        [self saveToUserDefault];
-        [self saveToDataBase];
+      //  NSLog(@"-----12345----");
+        [self saveToSelf];
     }
 }
 
@@ -206,8 +207,7 @@
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"getRCToken" object:self];
                 
-                [self saveToDataBase];
-                [self saveToUserDefault];
+                [self saveToSelf];
             }else{
                  [self hideHUD];
                 //初始化提示框；
@@ -249,14 +249,50 @@
 
 #pragma mark   ----存本地数据----
 
+-(void)saveToSelf{
+//    NSArray *urls = @[[NSString stringWithFormat:@"%@/user/myInfo?userId=%@",WEBAR_IP,[WBUserDefaults userId]],
+//                      [NSString stringWithFormat:@"%@/lr/unlockCity?userId=%@",WEBAR_IP,[WBUserDefaults userId]],
+//                      [NSString stringWithFormat:@"%@/map/getChecking?userId=%@",WEBAR_IP,[WBUserDefaults userId]],
+//                      [NSString stringWithFormat:@"%@/scenery/unlock?userId=%@",WEBAR_IP,[WBUserDefaults userId]],
+//                      [NSString stringWithFormat:@"%@/scenery/checking?userId=%@",WEBAR_IP,[WBUserDefaults userId]]];
+    dispatch_group_t group = dispatch_group_create();
+    for (NSInteger i = 0; i<4; i++) {
+        dispatch_group_enter(group);
+        
+        if (i==0) {
+            [self saveToUserDefault:group];
+        }else if (i==1){
+            [self saveToDataBase:group];
+        }else if (i==2){
+            [self saveToDataUnlockScenery:group];
+        }else{
+            [self saveToDataUnlockingScenery:group];
+        }
+    }
 
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        NSLog(@"下载完成!");
+        [self saveData];
+    });
+
+
+}
 
 //本地沙盘
--(void)saveToUserDefault{
-        NSLog(@"userInfo = %@",[WBUserDefaults userId]);
+-(void)saveToUserDefault:(dispatch_group_t)group{
         [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/user/myInfo?userId=%@",WEBAR_IP,[WBUserDefaults userId]] whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
             NSDictionary *userInfo = [result objectForKey:@"userInfo"];
+            if ([userInfo objectForKey:@"homeCityId"]) {
+                NSNumber  *cityId =[userInfo objectForKey:@"homeCityId"];
+                [WBUserDefaults setCity:[WBLocateList myGetPositionNameById:[cityId integerValue]]];
+               
+            }
+            if ([userInfo objectForKey:@"provinceId"]) {
+                NSNumber  *provinceId =[userInfo objectForKey:@"provinceId"];
+               [WBUserDefaults setProvince:[WBLocateList myGetPositionNameById:[provinceId integerValue]]];
+            }
+            
             if ([[userInfo objectForKey:@"dir"] rangeOfString:@"http://"].location != NSNotFound&&![WBUserDefaults headIcon]) {
                 SDWebImageManager *manager = [SDWebImageManager sharedManager];
                 [manager downloadImageWithURL:[userInfo objectForKey:@"dir"] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -267,7 +303,7 @@
                     //  NSLog(@"userInfo = %@",userInfo);
                     [WBUserDefaults addUserDefaultsWithDictionary:userInfo];
                     //存储数据库
-                    [self saveData];
+                    dispatch_group_leave(group);
                 }];
             }
             
@@ -279,24 +315,11 @@
                     NSLog(@"下载完成");
                     [WBUserDefaults setCoverImage:image];
                     //存储数据库
-                    [self saveData];
+                    
                 }];
             }
+
             
-            
-            
-            
-            if ([userInfo objectForKey:@"homeCityId"]) {
-                NSNumber  *cityId =[userInfo objectForKey:@"homeCityId"];
-                [WBUserDefaults setCity:[WBLocateList myGetPositionNameById:[cityId integerValue]]];
-               
-            }
-            if ([userInfo objectForKey:@"provinceId"]) {
-                NSNumber  *provinceId =[userInfo objectForKey:@"provinceId"];
-               [WBUserDefaults setProvince:[WBLocateList myGetPositionNameById:[provinceId integerValue]]];
-            }
-            
-            [self saveData];
             
         } andFailure:^(NSString *error) {
         }];
@@ -306,7 +329,7 @@
 
 
 //数据库
--(void)saveToDataBase{
+-(void)saveToDataBase:(dispatch_group_t)group{
     NSString *unlockCityUrl = [NSString stringWithFormat:@"%@/lr/unlockCity?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
         [MyDownLoadManager getNsurl:unlockCityUrl whenSuccess:^(id representData) {
             id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
@@ -322,7 +345,7 @@
             }
             //NSLog(@"1 -------%@",[manager searchAllItems]);
             [manager closeFBDM];
-            [self saveData];
+            
             
             NSString *unlockingCityUrl = [NSString stringWithFormat:@"%@/map/getChecking?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
             [MyDownLoadManager getNsurl:unlockingCityUrl whenSuccess:^(id representData) {
@@ -337,23 +360,56 @@
                 }
               //  NSLog(@"2 ------%@",[manager searchAllItems]);
                 [manager closeFBDM];
-                [self saveData];
+                dispatch_group_leave(group);
             } andFailure:^(NSString *error) {
             }];
 
-            
-            
             } andFailure:^(NSString *error) {
             }];
+}
 
-    
+
+-(void)saveToDataUnlockScenery:(dispatch_group_t)group{
+    NSString *unlockSceneryUrl = [NSString stringWithFormat:@"%@/scenery/unlock?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
+    [MyDownLoadManager getNsurl:unlockSceneryUrl whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+         NSArray *unlockScenery = [WB_Unlock_Scenery mj_objectArrayWithKeyValuesArray:[result objectForKey:@"unlockSceneryList"]];
+        MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Unlock_Scenery];
+        for (WB_Unlock_Scenery *model in unlockScenery) {
+            [manager  addItem:model];
+        }
+        //NSLog(@"1 -------%@",[manager searchAllItems]);
+        [manager closeFBDM];
+        dispatch_group_leave(group);
+        
+    } andFailure:^(NSString *error) {
+        
+    }];
+}
+
+-(void)saveToDataUnlockingScenery:(dispatch_group_t)group{
+    NSString *unlockingSceneryUrl = [NSString stringWithFormat:@"%@/scenery/checking?userId=%@",WEBAR_IP,[WBUserDefaults userId]];
+    [MyDownLoadManager getNsurl:unlockingSceneryUrl whenSuccess:^(id representData) {
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        NSArray *unlockScenery = [WB_Unlocking_Scenery mj_objectArrayWithKeyValuesArray:[result objectForKey:@"checkingSceneryList"]];
+        MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Unlocking_Scenery];
+        for (WB_Unlocking_Scenery *model in unlockScenery) {
+            [manager  addItem:model];
+        }
+        //NSLog(@"1 -------%@",[manager searchAllItems]);
+        [manager closeFBDM];
+         dispatch_group_leave(group);
+        
+    } andFailure:^(NSString *error) {
+        
+    }];
+
 
 }
 
 
 -(void)saveData{
-    _number++;
-    if (_number == 4) {
+
         [self hideHUD];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"changeNavIcon" object:self];
@@ -367,7 +423,7 @@
         } andFailure:^(NSString *error) {
             
         }];
-    }
+
 }
 
 

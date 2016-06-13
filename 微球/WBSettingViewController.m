@@ -84,6 +84,15 @@
             [manager2 deleteAllData];
             [manager2 closeFBDM];
             
+            
+            MyDBmanager *manager3 = [[MyDBmanager alloc]initWithStyle:Unlock_Scenery];
+            [manager3 deleteAllData];
+            [manager3 closeFBDM];
+            
+            MyDBmanager *manager4 = [[MyDBmanager alloc]initWithStyle:Unlocking_Scenery];
+            [manager4 deleteAllData];
+            [manager4 closeFBDM];
+            
             [self.navigationController popToRootViewControllerAnimated:NO];
             
             self.tabBarController.selectedIndex = 0;
