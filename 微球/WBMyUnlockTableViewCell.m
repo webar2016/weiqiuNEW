@@ -17,6 +17,11 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    _headImageView.backgroundColor = [UIColor initWithBackgroundGray];
+    _headImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _headImageView.layer.masksToBounds = YES;
+    _headImageView.layer.cornerRadius = 0;
 }
 
 
@@ -29,26 +34,30 @@
 
 
 -(void)setModel:(WBTbl_Unlock_City *)model{
-    _headImageView.backgroundColor = [UIColor initWithBackgroundGray];
-    _headImageView.contentMode = UIViewContentModeScaleAspectFill;
-    _headImageView.layer.masksToBounds = YES;
-    _headImageView.layer.cornerRadius = 0;
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:model.dir]];
-    
     _nameLabel.text = [WBLocateList myGetPositionNameById:model.cityId];
 
 }
 
-
 -(void)setUnlockingModel:(WBTbl_Unlocking_City *)model{
-    _headImageView.backgroundColor = [UIColor initWithBackgroundGray];
-    _headImageView.contentMode = UIViewContentModeScaleAspectFill;
-    _headImageView.layer.masksToBounds = YES;
-    _headImageView.layer.cornerRadius = 0;
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:model.photoPath]];
-    
     _nameLabel.text = [WBLocateList myGetPositionNameById:[model.cityId integerValue]];
+}
+
+
+-(void)setUnlockSceneryModel:(WB_Unlock_Scenery *)UnlockSceneryModel{
+    [_headImageView sd_setImageWithURL:[NSURL URLWithString:UnlockSceneryModel.unlockDir]];
+    _nameLabel.text = UnlockSceneryModel.sceneryId;
     
 }
+
+-(void)setUnlockingSceneryModel:(WB_Unlocking_Scenery *)UnlockingSceneryModel{
+    [_headImageView sd_setImageWithURL:[NSURL URLWithString:UnlockingSceneryModel.unlockDir]];
+    _nameLabel.text = UnlockingSceneryModel.sceneryId;
+}
+
+
+
+
 
 @end

@@ -10,6 +10,8 @@
 #import "WBBig_AreaModel.h"
 #import "WBTbl_Unlock_City.h"
 #import "WBTbl_Unlocking_City.h"
+#import "WB_Unlock_Scenery.h"
+#import "WB_Unlocking_Scenery.h"
 #import "WBHelp_Group_Sign.h"
 #import <sqlite3.h>
 
@@ -19,8 +21,9 @@ typedef NS_ENUM(NSInteger, TableName) {
     Big_area = 0,
     Tbl_unlock_city = 1,
     Help_group_sign = 2,
-    Tbl_unlocking_city = 3
-    
+    Tbl_unlocking_city = 3,
+    Unlock_Scenery = 4,
+    Unlocking_Scenery = 5
 };
 
 
@@ -34,6 +37,7 @@ typedef NS_ENUM(NSInteger, TableName) {
 -(void)addItem:(id)model;
 //是否添加数据
 -(BOOL)isAddedItemsID:(NSString *)cityId;
+-(BOOL)isAddedItemsWithKey:(NSString *)key andValue:(NSString *)value;
 //搜索所有的数据
 -(NSArray *)searchAllItems;
 //修改数据

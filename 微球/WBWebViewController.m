@@ -8,6 +8,7 @@
 
 #import "WBWebViewController.h"
 #import "WBMyUnlockViewController.h"
+#import "WBUnlockSceneryViewController.h"
 
 @interface WBWebViewController ()
 
@@ -29,14 +30,23 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
     if (self.mapView) {
-        UIBarButtonItem *unlockDetail = [[UIBarButtonItem alloc] initWithTitle:@"详细" style:UIBarButtonItemStylePlain target:self action:@selector(unlockDetails)];
-        self.navigationItem.rightBarButtonItem = unlockDetail;
+        UIBarButtonItem *unlockDetail = [[UIBarButtonItem alloc] initWithTitle:@"城市" style:UIBarButtonItemStylePlain target:self action:@selector(unlockDetails)];
+        UIBarButtonItem *unlockSceneryDetail = [[UIBarButtonItem alloc] initWithTitle:@"景点" style:UIBarButtonItemStylePlain target:self action:@selector(unlockSceneryDetails)];
+        
+      //  self.navigationItem.rightBarButtonItem = unlockDetail;
+        self.navigationItem.rightBarButtonItems = @[unlockSceneryDetail,unlockDetail];
     }
 }
 
 - (void)unlockDetails {
     WBMyUnlockViewController *MVC = [[WBMyUnlockViewController alloc]init];
     [self.navigationController pushViewController:MVC animated:YES];
+}
+
+-(void)unlockSceneryDetails{
+    WBUnlockSceneryViewController *VC = [[WBUnlockSceneryViewController alloc]init];
+    [self.navigationController pushViewController:VC animated:YES];
+
 }
 
 - (void)didReceiveMemoryWarning {

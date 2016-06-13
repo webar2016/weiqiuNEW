@@ -119,6 +119,10 @@
 		2D02B6A01C8198C300FADFFB /* RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D02B69C1C8198C300FADFFB /* RESideMenu.m */; };
 		2D02B6A11C8198C300FADFFB /* UIViewController+RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D02B69E1C8198C300FADFFB /* UIViewController+RESideMenu.m */; };
 		2D02B6A31C8198CB00FADFFB /* RESideMenuExample-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D02B6A21C8198CB00FADFFB /* RESideMenuExample-Info.plist */; };
+		2D038A311D0E530300370076 /* WBUnlockSceneryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D038A2F1D0E530300370076 /* WBUnlockSceneryViewController.m */; };
+		2D038A321D0E530300370076 /* WBUnlockSceneryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D038A301D0E530300370076 /* WBUnlockSceneryViewController.xib */; };
+		2D077B4C1D0E44150048F108 /* WB_Unlock_Scenery.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D077B4B1D0E44150048F108 /* WB_Unlock_Scenery.m */; };
+		2D077B4F1D0E44310048F108 /* WB_Unlocking_Scenery.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D077B4E1D0E44310048F108 /* WB_Unlocking_Scenery.m */; };
 		2D16EF471C840780002D5F90 /* WBAllListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF461C840780002D5F90 /* WBAllListViewController.m */; };
 		2D16EF4B1C8407B4002D5F90 /* WBMyJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF4A1C8407B4002D5F90 /* WBMyJoinViewController.m */; };
 		2D16EF4F1C8407E4002D5F90 /* WBAllGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D16EF4E1C8407E4002D5F90 /* WBAllGroupViewController.m */; };
@@ -449,6 +453,13 @@
 		2D02B69E1C8198C300FADFFB /* UIViewController+RESideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RESideMenu.m"; sourceTree = "<group>"; };
 		2D02B6A21C8198CB00FADFFB /* RESideMenuExample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RESideMenuExample-Info.plist"; sourceTree = "<group>"; };
 		2D02B6A41C8198D100FADFFB /* RESideMenuExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RESideMenuExample-Prefix.pch"; sourceTree = "<group>"; };
+		2D038A2E1D0E530300370076 /* WBUnlockSceneryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUnlockSceneryViewController.h; sourceTree = "<group>"; };
+		2D038A2F1D0E530300370076 /* WBUnlockSceneryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUnlockSceneryViewController.m; sourceTree = "<group>"; };
+		2D038A301D0E530300370076 /* WBUnlockSceneryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBUnlockSceneryViewController.xib; sourceTree = "<group>"; };
+		2D077B4A1D0E44150048F108 /* WB_Unlock_Scenery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WB_Unlock_Scenery.h; sourceTree = "<group>"; };
+		2D077B4B1D0E44150048F108 /* WB_Unlock_Scenery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WB_Unlock_Scenery.m; sourceTree = "<group>"; };
+		2D077B4D1D0E44310048F108 /* WB_Unlocking_Scenery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WB_Unlocking_Scenery.h; sourceTree = "<group>"; };
+		2D077B4E1D0E44310048F108 /* WB_Unlocking_Scenery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WB_Unlocking_Scenery.m; sourceTree = "<group>"; };
 		2D16EF451C840780002D5F90 /* WBAllListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAllListViewController.h; sourceTree = "<group>"; };
 		2D16EF461C840780002D5F90 /* WBAllListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAllListViewController.m; sourceTree = "<group>"; };
 		2D16EF491C8407B4002D5F90 /* WBMyJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMyJoinViewController.h; sourceTree = "<group>"; };
@@ -1011,6 +1022,9 @@
 				2DFCB5531CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.h */,
 				2DFCB5541CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.m */,
 				2DFCB5551CD0BEAD00AB19BC /* WBMyUnlockTableViewCell.xib */,
+				2D038A2E1D0E530300370076 /* WBUnlockSceneryViewController.h */,
+				2D038A2F1D0E530300370076 /* WBUnlockSceneryViewController.m */,
+				2D038A301D0E530300370076 /* WBUnlockSceneryViewController.xib */,
 			);
 			name = unlock;
 			sourceTree = "<group>";
@@ -1304,6 +1318,10 @@
 				2D2568C91CB74F9C006AEE5A /* WBTbl_Unlocking_City.m */,
 				2D6047ED1C93F86000A88BAA /* WBHelp_Group_Sign.h */,
 				2D6047EE1C93F86000A88BAA /* WBHelp_Group_Sign.m */,
+				2D077B4A1D0E44150048F108 /* WB_Unlock_Scenery.h */,
+				2D077B4B1D0E44150048F108 /* WB_Unlock_Scenery.m */,
+				2D077B4D1D0E44310048F108 /* WB_Unlocking_Scenery.h */,
+				2D077B4E1D0E44310048F108 /* WB_Unlocking_Scenery.m */,
 			);
 			name = DB_model;
 			sourceTree = "<group>";
@@ -1788,6 +1806,7 @@
 				2D65CCE21D07C61A0035F8C4 /* 长城.png in Resources */,
 				052F30D61C93F9FA00D15322 /* city.plist in Resources */,
 				2D65CCD61D07C61A0035F8C4 /* 南京大屠杀遇难同胞纪念馆.png in Resources */,
+				2D038A321D0E530300370076 /* WBUnlockSceneryViewController.xib in Resources */,
 				2D65CCD91D07C61A0035F8C4 /* 上海迪士尼度假区.png in Resources */,
 				2DED80611CA906FE000BB7EB /* WBSetInformationViewController.xib in Resources */,
 				2D65CCDE1D07C61A0035F8C4 /* 西湖.png in Resources */,
@@ -1876,6 +1895,7 @@
 				05BE5DD01CAE095B00D2DBF1 /* WBAttentionTableViewCell.m in Sources */,
 				05BE5DCC1CAE090100D2DBF1 /* WBPostVideoViewController.m in Sources */,
 				2D38A2EB1CB6666800F4AEC8 /* WBMyUnlockViewController.m in Sources */,
+				2D077B4F1D0E44310048F108 /* WB_Unlocking_Scenery.m in Sources */,
 				2DF791B01CAD1B2500C14E79 /* MyDownLoadManager.m in Sources */,
 				0526FF651CF58BB800708F9B /* WBIntroView.m in Sources */,
 				052F30DB1C94244800D15322 /* WBHelp_Group_Sign.m in Sources */,
@@ -1893,6 +1913,7 @@
 				054303871CB5FC8C0041902D /* WBImageViewer.m in Sources */,
 				2D1DE00B1C92D2BE0059CD89 /* WBTestViewController.m in Sources */,
 				2D49D61D1C86C1E0008EE96B /* WBTopicDetailViewController.m in Sources */,
+				2D038A311D0E530300370076 /* WBUnlockSceneryViewController.m in Sources */,
 				05D1F9361C8E78960049D3EC /* WBUpdateIntegral.m in Sources */,
 				2D69586B1C99389E009DBAB3 /* WBPlaceChooseViewController.m in Sources */,
 				052F30D01C93EB5B00D15322 /* WBPositionModel.m in Sources */,
@@ -1911,6 +1932,7 @@
 				05DB3F5F1C857E9D00CBCC54 /* WBQuestionsListModel.m in Sources */,
 				2DEE8B981CB34278004CD0C4 /* WBRefreshViewController.m in Sources */,
 				2D02B6941C81987F00FADFFB /* WBLeftViewController.m in Sources */,
+				2D077B4C1D0E44150048F108 /* WB_Unlock_Scenery.m in Sources */,
 				05D1F94C1C8FBE9E0049D3EC /* WBSettingViewController.m in Sources */,
 				2D299CC51CE1D42C00DC8028 /* WBMapViewController.m in Sources */,
 				2DED80601CA906FE000BB7EB /* WBSetInformationViewController.m in Sources */,

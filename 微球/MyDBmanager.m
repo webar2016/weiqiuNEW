@@ -41,11 +41,15 @@
     if (_style == 0) {
         _tableName = @"big_area";
     }else if(_style == 1){
-    _tableName = @"tbl_unlock_city";
+        _tableName = @"tbl_unlock_city";
     }else if(_style == 2){
-    _tableName = @"help_group_sign";
+        _tableName = @"help_group_sign";
     }else if (_style == 3){
-    _tableName = @"tbl_unlocking_city";
+        _tableName = @"tbl_unlocking_city";
+    }else if (_style == 4){
+        _tableName = @"Unlock_Scenery";
+    }else if (_style == 5){
+        _tableName = @"Unlocking_Scenery";
     }
     NSArray *doucumentDirectory=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *file=[doucumentDirectory objectAtIndex:0];
@@ -92,7 +96,7 @@
                     }else{
                       //  NSLog(@"表格创建失败");
                     }
-                }else{
+                }else if(_style == 3){
                     //创建数据库tbl_unlocking_city
                     NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId text,provinceId text,cityId text,photoPath text,provinceName text,cityName text)",_tableName];
                     BOOL flag = [_myDataBase executeUpdate:createSql];
@@ -100,6 +104,24 @@
                        // NSLog(@"表格创建成功");
                     }else{
                       //  NSLog(@"表格创建失败");
+                    }
+                }else if (_style == 4){
+                    //创建数据库Unlock_Scenery
+                    NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId text,sceneryId text,cityId text,unlockDir text,content text)",_tableName];
+                    BOOL flag = [_myDataBase executeUpdate:createSql];
+                    if (flag) {
+                        // NSLog(@"表格创建成功");
+                    }else{
+                        //  NSLog(@"表格创建失败");
+                    }
+                }else if (_style == 5){
+                    //创建数据库Unlocking_Scenery
+                    NSString *createSql =[NSString stringWithFormat:@"create table if not exists '%@'(id integer primary key autoincrement, userId text,sceneryId text,cityId text,unlockDir text,content text)",_tableName];
+                    BOOL flag = [_myDataBase executeUpdate:createSql];
+                    if (flag) {
+                        // NSLog(@"表格创建成功");
+                    }else{
+                        //  NSLog(@"表格创建失败");
                     }
                 }
             }else{
@@ -126,6 +148,12 @@
     }else if(_style == 3){
         WBTbl_Unlocking_City *cItem =model;
         insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, provinceId, cityId, photoPath, provinceName, cityName) values ('%@', '%@','%@','%@', '%@', '%@')", _tableName, cItem.userId,cItem.provinceId ,cItem.cityId,cItem.photoPath,cItem.provinceName,cItem.cityName];
+    }else if (_style == 4){
+        WB_Unlock_Scenery *cItem =model;
+        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, sceneryId, cityId, unlockDir, content) values ('%@', '%@','%@','%@', '%@')", _tableName, cItem.userId,cItem.sceneryId ,cItem.cityId,cItem.unlockDir,cItem.content];
+    }else{
+        WB_Unlocking_Scenery *cItem =model;
+        insertSql = [NSString stringWithFormat:@"insert into '%@' (userId, sceneryId, cityId, unlockDir, content) values ('%@', '%@','%@','%@', '%@')", _tableName, cItem.userId,cItem.sceneryId ,cItem.cityId,cItem.unlockDir,cItem.content];
     }
     
    // NSLog(@"----");
@@ -145,6 +173,22 @@
 }
 
 //判断是否已收藏
+-(BOOL)isAddedItemsWithKey:(NSString *)key andValue:(NSString *)value{
+    NSString *selectSql = [NSString string];
+    //获取记录的个数
+    if (_style == 1 || _style == 3) {
+        selectSql = [NSString stringWithFormat:@"select count(*) as cnt from '%@' where ? = ?",_tableName];
+    }
+    FMResultSet *rs = [_myDataBase executeQuery:selectSql,key,value];
+    int count = 0;
+    if ([rs next]) {
+        count = [rs intForColumn:@"cnt"];
+    }
+    if (count > 0) {
+        return YES;
+    }
+    return NO;
+}
 -(BOOL)isAddedItemsID:(NSString *)cityId
 {
     //查询
@@ -229,6 +273,41 @@
             //添加到数组中
             [resultArray addObject:cItem];
         }
+    }else if (_style == 4){
+    
+        FMResultSet *rs = [_myDataBase executeQuery:selectSql];
+        while ([rs next]) {
+            //创建一个对象
+            WB_Unlock_Scenery *cItem = [[WB_Unlock_Scenery alloc] init];
+            cItem.Id = [rs intForColumn:@"id"];
+            cItem.userId = [rs stringForColumn:@"userId"];
+            cItem.sceneryId = [rs stringForColumn:@"sceneryId"];
+            cItem.cityId = [rs stringForColumn:@"cityId"];
+            cItem.unlockDir = [rs stringForColumn:@"unlockDir"];
+            cItem.content = [rs stringForColumn:@"content"];
+            //添加到数组中
+            [resultArray addObject:cItem];
+        }
+
+    
+    }else if (_style == 5){
+    
+        FMResultSet *rs = [_myDataBase executeQuery:selectSql];
+        while ([rs next]) {
+            //创建一个对象
+            WB_Unlocking_Scenery *cItem = [[WB_Unlocking_Scenery alloc] init];
+            cItem.Id = [rs intForColumn:@"id"];
+            cItem.userId = [rs stringForColumn:@"userId"];
+            cItem.sceneryId = [rs stringForColumn:@"sceneryId"];
+            cItem.cityId = [rs stringForColumn:@"cityId"];
+            cItem.unlockDir = [rs stringForColumn:@"unlockDir"];
+            cItem.content = [rs stringForColumn:@"content"];
+            //添加到数组中
+            [resultArray addObject:cItem];
+        }
+
+    
+    
     }
     //cItem.areaId,cItem.areaName,cItem.isCountry
     //存储查询结果
@@ -249,17 +328,14 @@
             WBTbl_Unlock_City *model = Item;
             modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET userId='%ld',cityId='%ld',unlockDate='%@',areaId='%ld',marked='%ld' WHERE id='%d'",_tableName,(long)model.userId,(long)model.cityId,model.unlockDate,(long)model.areaId,(long)model.marked,model.Id];
             [_myDataBase executeUpdate:modifiedSql];
-        
         }else if (_style == 2){
             WBHelp_Group_Sign *model = Item;
             modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET sign_id='%ld',sign='%@',sign_describe='%@',type_flag='%@' WHERE id='%d'",_tableName,(long)model.sign_id,model.sign,model.sign_describe,model.type_flag,model.Id];
             [_myDataBase executeUpdate:modifiedSql];
-            
         }else if (_style == 3){
             WBTbl_Unlocking_City *model = Item;
             modifiedSql = [NSString stringWithFormat:@"UPDATE '%@' SET userId='%@',provinceId='%@',cityId='%@',provinceName='%@',cityName='%@' WHERE id='%d'",_tableName,model.userId,model.provinceId,model.cityId,model.provinceName,model.cityName,model.Id];
             [_myDataBase executeUpdate:modifiedSql];
-            
         }
     }
 }
