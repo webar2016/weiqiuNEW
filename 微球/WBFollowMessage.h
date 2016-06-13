@@ -18,21 +18,21 @@
 /*!
  订阅用户提醒信息，内容固定为 "又有球友关注你啦！快来看看吧！"
  */
-//@property(nonatomic, strong) NSString *content;
+//@property(nonatomic, copy) NSString *content;
 
 /*!
  订阅用户头像
  */
-@property(nonatomic, strong) NSString *imageURL;
+@property(nonatomic, copy) NSString *imageURL;
 
 /*!
  订阅用户昵称
  */
-@property(nonatomic, strong) NSString *nickname;
+@property(nonatomic, copy) NSString *nickname;
 
 /*!
  订阅用户userId
  */
-@property(nonatomic, strong) NSString *extra;
+@property(nonatomic, copy) NSString *extra;
 
 @end

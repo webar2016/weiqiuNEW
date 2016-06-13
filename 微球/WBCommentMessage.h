@@ -18,26 +18,26 @@
 /*!
  评论用户昵称  “@ nickname 评论了你，点击查看详情！”
  */
-@property(nonatomic, strong) NSString *nickname;
+@property(nonatomic, copy) NSString *nickname;
 
 /*!
  评论用户头像
  */
-@property(nonatomic, strong) NSString *imageURL;
+@property(nonatomic, copy) NSString *imageURL;
 
 /*!
  评论内容
  */
-@property(nonatomic, strong) NSString *content;
+@property(nonatomic, copy) NSString *content;
 
 /*!
  评论内容
  */
-@property(nonatomic, strong) NSString *userId;
+@property(nonatomic, copy) NSString *userId;
 
 /*!
  被评论状态id
  */
-@property(nonatomic, strong) NSString *extra;
+@property(nonatomic, copy) NSString *extra;
 
 @end

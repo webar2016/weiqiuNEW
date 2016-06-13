@@ -54,6 +54,7 @@
 @property (nonatomic, assign) NSUInteger firstLoadQuestion;
 @property (nonatomic, strong) WBCollectionViewModel *groupDetail;
 @property (strong, nonatomic) CLLocationManager* locationManager;
+@property (nonatomic, strong) NSMutableArray *mapCities;
 
 @end
 
@@ -65,6 +66,14 @@
     }
     _model = [[NSMutableArray alloc] init];
     return _model;
+}
+
+-(NSMutableArray *)mapCities{
+    if (_mapCities) {
+        return _mapCities;
+    }
+    _mapCities = [[NSMutableArray alloc] init];
+    return _mapCities;
 }
 
 - (void)viewDidLoad {
@@ -187,13 +196,24 @@
         
         if ([result isKindOfClass:[NSDictionary class]]){
             self.groupDetail = [WBCollectionViewModel mj_objectWithKeyValues:result[@"helpGroup"]];
-            NSString *city = self.groupDetail.destination;
-            _cityId = [_positionList searchCityWithCithName:city][0][1];
-            if ([city isEqualToString:@"南京市"] || [city isEqualToString:@"上海市"] || [city isEqualToString:@"北京市"] || [city isEqualToString:@"杭州市"]) {
-                self.navigationItem.rightBarButtonItems = @[setting,groupMap];
-            } else {
+            _cityId = @(self.groupDetail.destinationId);
+            
+            [MyDownLoadManager getNsurl:[NSString stringWithFormat:@"%@/scenery/cities",WEBAR_IP] whenSuccess:^(id representData) {
+                id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+                
+                if ([result isKindOfClass:[NSDictionary class]]) {
+                    self.mapCities = result[@"cities"];
+                    
+                    if ([self.mapCities containsObject:_cityId]) {
+                        self.navigationItem.rightBarButtonItems = @[setting,groupMap];
+                    } else {
+                        self.navigationItem.rightBarButtonItems = @[setting];
+                    }
+                }
+            } andFailure:^(NSString *error) {
                 self.navigationItem.rightBarButtonItems = @[setting];
-            }
+                NSLog(@"%@",error);
+            }];
         }
         
     } andFailure:^(NSString *error) {
@@ -203,7 +223,6 @@
 }
 
 -(void)getQuestionTotalNumber{
-//    NSLog(@"%@",self.groupId);
     if (_isGettingQues) {
         return;
     }

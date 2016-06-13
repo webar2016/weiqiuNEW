@@ -20,6 +20,7 @@
 #import "WBCommentMsgCell.h"
 #import "WBUnlockMsgCell.h"
 #import "WBTopicCommentTableViewController.h"
+#import "WBMapIntroduceViewController.h"
 #import "WBChatImageViewer.h"
 
 #import "MyDownLoadManager.h"
@@ -208,32 +209,47 @@
 #pragma mark - cell点击后的回调
 
 - (void)didTapMessageCell:(RCMessageModel *)model {
+    
     if ([model.content isKindOfClass:[WBUnlockMessage class]]) {
         WBUnlockMessage *message = (WBUnlockMessage *)model.content;
         if ([message.isUnlock isEqualToString:@"NO"]) {
-            WBUnlockViewController *unlockVC = [[WBUnlockViewController alloc] init];
-//            unlockVC.fromSlidePage = YES;
-            unlockVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:unlockVC animated:YES];
+//            NSLog(@"%@",message.sceneryName);
+            if (message.sceneryId) {
+                WBMapIntroduceViewController *unlockVC = [[WBMapIntroduceViewController alloc] init];
+                unlockVC.sceneryName = message.sceneryName;
+                unlockVC.sceneryId = message.sceneryId;
+                unlockVC.cityId = message.cityId;
+                [self.navigationController pushViewController:unlockVC animated:YES];
+                
+            } else {
+                WBUnlockViewController *unlockVC = [[WBUnlockViewController alloc] init];
+                unlockVC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:unlockVC animated:YES];
+            }
         }
+        
     } else if ([model.content isKindOfClass:[WBSystemMessage class]]) {
         WBSystemMessage *message = (WBSystemMessage *)model.content;
         WBWebViewController *webView = [[WBWebViewController alloc] initWithUrl:[NSURL URLWithString:message.extra] andTitle:message.title];
         [self.navigationController pushViewController:webView animated:YES];
+        
     } else if ([model.content isKindOfClass:[WBFollowMessage class]]) {
         WBFollowMessage *message = (WBFollowMessage *)model.content;
         WBHomepageViewController *homepage = [[WBHomepageViewController alloc] init];
         homepage.userId = message.extra;
         [self.navigationController pushViewController:homepage animated:YES];
+        
     } else if ([model.content isKindOfClass:[WBCommentMessage class]]) {
         WBCommentMessage *message = (WBCommentMessage *)model.content;
         WBTopicCommentTableViewController *TVC = [[WBTopicCommentTableViewController alloc]init];
         TVC.userId = [NSString stringWithFormat:@"%@",[WBUserDefaults userId]];
         TVC.commentId = [message.extra integerValue];
         [self.navigationController pushViewController:TVC animated:YES];
+        
     } else if ([model.content isKindOfClass:[RCImageMessage class]]) {
         WBChatImageViewer *imageViewer = [[WBChatImageViewer alloc] initWithChatModel:model];
         [self presentViewController:imageViewer animated:YES completion:nil];
+        
     } else if ([model.content isKindOfClass:[RCLocationMessage class]]) {
         [self presentLocationViewController:(RCLocationMessage *)model.content];
     }

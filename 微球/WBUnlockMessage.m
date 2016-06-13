@@ -23,6 +23,8 @@
         self.imageURL = [aDecoder decodeObjectForKey:@"imageURL"];
         self.isUnlock = [aDecoder decodeObjectForKey:@"isUnlock"];
         self.cityId = [aDecoder decodeObjectForKey:@"cityId"];
+        self.sceneryId = [aDecoder decodeObjectForKey:@"sceneryId"];
+        self.sceneryName = [aDecoder decodeObjectForKey:@"sceneryName"];
         self.extra = [aDecoder decodeObjectForKey:@"extra"];
     }
     return self;
@@ -34,6 +36,8 @@
     [aCoder encodeObject:self.imageURL forKey:@"imageURL"];
     [aCoder encodeObject:self.isUnlock forKey:@"isUnlock"];
     [aCoder encodeObject:self.cityId forKey:@"cityId"];
+    [aCoder encodeObject:self.sceneryId forKey:@"sceneryId"];
+    [aCoder encodeObject:self.sceneryName forKey:@"sceneryName"];
     [aCoder encodeObject:self.extra forKey:@"extra"];
 }
 
@@ -44,6 +48,10 @@
     [dataDict setObject:self.imageURL forKey:@"imageURL"];
     [dataDict setObject:self.isUnlock forKey:@"isUnlock"];
     [dataDict setObject:self.cityId forKey:@"cityId"];
+    if (self.sceneryId) {
+        [dataDict setObject:self.sceneryId forKey:@"sceneryId"];
+        [dataDict setObject:self.sceneryName forKey:@"sceneryName"];
+    }
     if (self.extra) {
         [dataDict setObject:self.extra forKey:@"extra"];
     }
@@ -77,6 +85,8 @@
             self.imageURL = dictionary[@"imageURL"];
             self.isUnlock = dictionary[@"isUnlock"];
             self.cityId = dictionary[@"cityId"];
+            self.sceneryId = dictionary[@"sceneryId"];
+            self.sceneryName = dictionary[@"sceneryName"];
             self.extra = dictionary[@"extra"];
             
             NSDictionary *userinfoDic = dictionary[@"user"];
