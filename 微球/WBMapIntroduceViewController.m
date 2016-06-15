@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "MyDownLoadManager.h"
+#import "WB_Unlocking_Scenery.h"
 
 typedef void(^DoSomething)(void);
 
@@ -82,6 +83,19 @@ typedef void(^DoSomething)(void);
 //解锁
 -(void)unlock{
     
+    MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Unlocking_Scenery];
+    NSArray *tempArray = [manager searchAllItems];
+    [manager closeFBDM];
+    for (WB_Unlocking_Scenery *model in tempArray) {
+        //NSLog(@"%@",_sceneryId);
+        // NSLog(@"%@",model.sceneryId);
+        if ([model.sceneryId isEqualToString:_sceneryId]) {
+            [self showHUDText:@"该景点正在解锁中"];
+            return;
+        }
+    }
+    
+    
     
     if ([_datePick.text isEqualToString:@"请选择"]) {
         [self showHUDText:@"请选择拍摄时间"];
@@ -121,9 +135,24 @@ typedef void(^DoSomething)(void);
         //[self showHUD:[NSString stringWithFormat:@"%.2f%%",100*(float)FieldDataBlock.completedUnitCount/(float)FieldDataBlock.totalUnitCount] isDim:YES];
     } andSuccess:^(id representData) {
         NSLog(@"success");
+        id result = [NSJSONSerialization JSONObjectWithData:representData options:NSJSONReadingMutableContainers error:nil];
+        //NSLog(@"%@",result);
         [self showHUDComplete:@"正在火速审核中"];
-        [self.navigationController popViewControllerAnimated:YES];
         
+        
+        MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Unlocking_Scenery];
+        WB_Unlocking_Scenery *model = [[WB_Unlocking_Scenery alloc]init];
+        model.userId = [WBUserDefaults userId];
+        model.sceneryId =_sceneryId;
+        model.cityId =_cityId;
+        model.unlockDir = result[@"msg"];
+        model.content =_textView.text;
+        
+        [manager addItem:model];
+        [manager closeFBDM];
+        
+        
+        [self.navigationController popViewControllerAnimated:YES];
     } andFailure:^(NSString *error) {
         NSLog(@"failure");
         [self showHUDComplete:@"上传失败"];

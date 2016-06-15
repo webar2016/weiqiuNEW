@@ -25,7 +25,6 @@
         self.hud.labelText = title;
         [self hideHUDDelay:1.0];
     });
-    
 }
 
 

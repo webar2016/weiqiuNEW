@@ -17,6 +17,8 @@
 #import "MyDBmanager.h"
 #import "WBTbl_Unlock_City.h"
 #import "WBTbl_Unlocking_City.h"
+#import "WB_Unlocking_Scenery.h"
+#import "WB_Unlock_Scenery.h"
 #import "UIColor+color.h"
 
 #define NAVIGATION_CONTROLLERS self.parentViewController.childViewControllers.lastObject.childViewControllers
@@ -55,6 +57,9 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unReadTip" object:self userInfo:@{@"unRead":[NSString stringWithFormat:@"%@",unRead]}];
     
     NSArray *unlockArray = [[RCIMClient sharedRCIMClient] getLatestMessages:ConversationType_PRIVATE targetId:@"unlock_notice" count:10];
+    
+    
+    
     [self checkUnlockCity:unlockArray];
 }
 
@@ -104,9 +109,39 @@
 }
 
 -(void)checkUnlockCity:(NSArray *)unlockArray{
+    
+    
+    
     for (RCMessage *msg in unlockArray) {
         
         WBUnlockMessage *unlockMsg = (WBUnlockMessage *)msg.content;
+        
+        if (unlockMsg.sceneryId) {
+            
+            MyDBmanager *manager = [[MyDBmanager alloc]initWithStyle:Unlocking_Scenery];
+            
+            WB_Unlocking_Scenery *model = [[WB_Unlocking_Scenery alloc]init];
+            model = [[manager searchItemForKey:@"sceneryId" andValue:unlockMsg.sceneryId] firstObject];
+            [manager deletedataWithKey:@"sceneryId" andValue:unlockMsg.sceneryId];
+            [manager closeFBDM];
+            if (model) {
+                WB_Unlock_Scenery *tempModel = [[WB_Unlock_Scenery alloc]init];
+                tempModel.userId = model.userId;
+                tempModel.sceneryId = model.sceneryId;
+                tempModel.cityId = model.cityId;
+                tempModel.unlockDir = model.unlockDir;
+                tempModel.content = model.content;
+                
+                MyDBmanager *manager2 = [[MyDBmanager alloc]initWithStyle:Unlock_Scenery];
+                [manager2 addItem:tempModel];
+                [manager2 closeFBDM];
+            }
+            
+
+            
+            
+            
+        }else{
         
         if ([unlockMsg.isUnlock isEqual:@"YES"]) {
             //保存到已经解锁
@@ -135,6 +170,7 @@
         [manager2 deletedataWithKey:@"cityId" andValue:unlockMsg.cityId];
         
         [manager2 closeFBDM];
+        }
     }
 }
 

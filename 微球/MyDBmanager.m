@@ -189,6 +189,9 @@
     }
     return NO;
 }
+
+
+
 -(BOOL)isAddedItemsID:(NSString *)cityId
 {
     //查询
@@ -210,6 +213,47 @@
         return YES;
     }
     return NO;
+}
+
+
+-(NSMutableArray *)searchItemForKey:(NSString *)key andValue:(NSString *)value{
+    NSString *selectSql = [NSString string];
+    selectSql = [NSString stringWithFormat:@"select * from '%@' where %@ = ?",_tableName,key];
+
+    NSMutableArray *resultArray = [NSMutableArray array];
+    FMResultSet *rs = [_myDataBase executeQuery:selectSql,value];
+    
+    if (_style == 4){
+        while ([rs next]) {
+            //创建一个对象
+            WB_Unlock_Scenery *cItem = [[WB_Unlock_Scenery alloc] init];
+            cItem.Id = [rs intForColumn:@"id"];
+            cItem.userId = [rs stringForColumn:@"userId"];
+            cItem.sceneryId = [rs stringForColumn:@"sceneryId"];
+            cItem.cityId = [rs stringForColumn:@"cityId"];
+            cItem.unlockDir = [rs stringForColumn:@"unlockDir"];
+            cItem.content = [rs stringForColumn:@"content"];
+            //添加到数组中
+            [resultArray addObject:cItem];
+        }
+    }else if (_style == 5){
+        
+        while ([rs next]) {
+            //创建一个对象
+            WB_Unlocking_Scenery *cItem = [[WB_Unlocking_Scenery alloc] init];
+            cItem.Id = [rs intForColumn:@"id"];
+            cItem.userId = [rs stringForColumn:@"userId"];
+            cItem.sceneryId = [rs stringForColumn:@"sceneryId"];
+            cItem.cityId = [rs stringForColumn:@"cityId"];
+            cItem.unlockDir = [rs stringForColumn:@"unlockDir"];
+            cItem.content = [rs stringForColumn:@"content"];
+            //添加到数组中
+            [resultArray addObject:cItem];
+        }
+    }
+
+    return resultArray;
+
 }
 
 -(NSArray *)searchAllItems

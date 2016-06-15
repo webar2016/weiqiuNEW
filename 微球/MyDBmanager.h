@@ -40,6 +40,7 @@ typedef NS_ENUM(NSInteger, TableName) {
 -(BOOL)isAddedItemsWithKey:(NSString *)key andValue:(NSString *)value;
 //搜索所有的数据
 -(NSArray *)searchAllItems;
+-(NSMutableArray *)searchItemForKey:(NSString *)key andValue:(NSString *)value;
 //修改数据
 -(void)modifiedWithItem:(id)Item;
 //删除摸个数据
